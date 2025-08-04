@@ -32,7 +32,7 @@ def handler(event, context):
         if not bcrypt.verify(password, user_item['passwordHash']):
             return {'statusCode': 401, 'body': json.dumps({'error': 'Invalid username or password'})}
         user = User(**user_item)
-        user_dict = user.model_dump()
+        user_dict = user.dict()
         user_dict.pop('passwordHash')
         return {'statusCode': 200, 'body': json.dumps({'user': user_dict})}
     except ClientError as e:

@@ -1,4 +1,4 @@
 boto3
-pydantic
-pytest
-passlib 
+pydantic==1.10.13
+passlib
+typing_extensions 

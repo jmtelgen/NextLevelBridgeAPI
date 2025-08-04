@@ -35,8 +35,8 @@ def handler(event, context):
         )
         if existing['Count'] > 0:
             return {'statusCode': 409, 'body': json.dumps({'error': 'Username already exists'})}
-        table.put_item(Item=user.model_dump())
-        user_dict = user.model_dump()
+        table.put_item(Item=user.dict())
+        user_dict = user.dict()
         user_dict.pop('passwordHash')
         return {'statusCode': 201, 'body': json.dumps({'user': user_dict})}
     except ClientError as e:
