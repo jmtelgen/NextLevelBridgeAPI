@@ -55,7 +55,16 @@ def handler(event, context):
         dynamodb = boto3.resource('dynamodb')
         room_table = dynamodb.Table(room_table_name)
         room_table.put_item(Item=room.dict())
-        return {'statusCode': 201, 'body': json.dumps({'room': room.dict()})}
+        
+        # Return success response with room and game state
+        response_data = {
+            'action': 'createRoom',
+            'success': True,
+            'room': room.dict(),
+            'gameState': game_data.dict()
+        }
+        
+        return {'statusCode': 201, 'body': json.dumps(response_data)}
     except ClientError as e:
         return {'statusCode': 500, 'body': json.dumps({'error': e.response['Error']['Message']})}
     except Exception as e:

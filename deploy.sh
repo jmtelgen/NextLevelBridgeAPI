@@ -21,6 +21,15 @@ if [ -z "$FUNCTION_NAME" ]; then
     echo "  ai-bid"
     echo "  ai-play"
     echo "  ai-double-dummy"
+    echo ""
+    echo "WebSocket functions:"
+    echo "  websocket-connect"
+    echo "  websocket-disconnect"
+    echo "  websocket-create-room"
+    echo "  websocket-join-room"
+    echo "  websocket-start-room"
+    echo "  websocket-make-bid"
+    echo "  websocket-play-card"
     exit 1
 fi
 
