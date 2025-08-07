@@ -11,19 +11,14 @@ def test_room_start_success(mock_boto3):
     # Mock user exists
     mock_user_table = MagicMock()
     mock_user_table.scan.return_value = {'Count': 1, 'Items': [{'userId': 'owner-1'}]}
-    # Mock room exists with some empty seats
+    # Mock room exists with all seats filled (humans and robots)
     room_item = {
         'roomId': 'room-abc',
         'ownerId': 'owner-1',
-        'seats': {'N': 'owner-1', 'E': '', 'S': '', 'W': 'user-2'},
+        'seats': {'N': 'owner-1', 'E': 'robot-E', 'S': 'robot-S', 'W': 'user-2'},
         'state': 'waiting',
         'gameData': {}
     }
-    expected_seats = room_item['seats'].copy()
-    for seat in ['E', 'S']:
-        expected_seats[seat] = f'robot-{seat}'
-    expected_seats['N'] = 'owner-1'
-    expected_seats['W'] = 'user-2'
     mock_room_table = MagicMock()
     mock_room_table.scan.return_value = {'Count': 1, 'Items': [room_item.copy()]}
     mock_room_table.put_item.return_value = {}
@@ -34,7 +29,8 @@ def test_room_start_success(mock_boto3):
     body = json.loads(response['body'])
     room = body['room']
     assert room['state'] == 'bidding'
-    assert room['seats'] == expected_seats
+    # Seats should remain the same, only state should change
+    assert room['seats'] == room_item['seats']
 
 @patch('lambdas.room_start.boto3')
 def test_room_start_not_owner(mock_boto3):
@@ -45,7 +41,7 @@ def test_room_start_not_owner(mock_boto3):
     room_item = {
         'roomId': 'room-abc',
         'ownerId': 'owner-1',
-        'seats': {'N': 'owner-1', 'E': '', 'S': '', 'W': 'user-2'},
+        'seats': {'N': 'owner-1', 'E': 'robot-E', 'S': 'robot-S', 'W': 'user-2'},
         'state': 'waiting',
         'gameData': {}
     }
@@ -68,7 +64,7 @@ def test_room_start_not_waiting(mock_boto3):
     room_item = {
         'roomId': 'room-abc',
         'ownerId': 'owner-1',
-        'seats': {'N': 'owner-1', 'E': '', 'S': '', 'W': 'user-2'},
+        'seats': {'N': 'owner-1', 'E': 'robot-E', 'S': 'robot-S', 'W': 'user-2'},
         'state': 'bidding',
         'gameData': {}
     }

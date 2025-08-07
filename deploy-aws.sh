@@ -18,6 +18,7 @@ if [ -z "$FUNCTION_NAME" ] || [ -z "$ACTION" ]; then
     echo "  account-create → CreateAccountAPILambda"
     echo "  account-login → LoginAPILambda"
     echo "  ai-double-dummy → GetDoubleDummyLambda"
+    echo "  connection-count → ConnectionCountAPILambda"
     echo ""
     echo "WebSocket functions:"
     echo "  websocket-connect → WebSocketConnectLambda"
@@ -57,6 +58,9 @@ case $FUNCTION_NAME in
         ;;
     "ai-double-dummy")
         LAMBDA_FUNCTION_NAME="GetDoubleDummyLambda"
+        ;;
+    "connection-count")
+        LAMBDA_FUNCTION_NAME="ConnectionCountAPILambda"
         ;;
     "websocket-connect")
         LAMBDA_FUNCTION_NAME="WebSocketConnectLambda"
@@ -104,13 +108,15 @@ if [ "$ACTION" = "create" ]; then
         else
             ENV_VARS="Variables={ROOM_TABLE=GameRooms}"
         fi
+    elif [[ $FUNCTION_NAME == connection-count ]]; then
+        ENV_VARS="Variables={WEBSOCKET_CONNECTIONS_TABLE=WebSocketConnections}"
     fi
     
     aws lambda create-function \
         --function-name $LAMBDA_FUNCTION_NAME \
         --runtime $RUNTIME \
         --role $ROLE_ARN \
-        --handler lambda_function.handler \
+        --handler lambda_function.lambda_handler \
         --zip-file fileb://${FUNCTION_NAME}-deployment.zip \
         --timeout $TIMEOUT \
         --memory-size $MEMORY_SIZE \

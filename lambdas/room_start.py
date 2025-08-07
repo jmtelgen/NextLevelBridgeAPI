@@ -47,10 +47,9 @@ def handler(event, context):
         # Check state
         if room_item['state'] != 'waiting':
             return {'statusCode': 400, 'body': json.dumps({'error': 'Room is not in waiting state'})}
-        # Fill empty seats with robots
-        for seat in SEATS:
-            if not room_item['seats'][seat]:
-                room_item['seats'][seat] = f'robot-{seat}'
+        
+        # All seats should already be filled (either with humans or robots)
+        # Just change the state to start the game
         room_item['state'] = 'bidding'
         room_table.put_item(Item=room_item)
         return {'statusCode': 200, 'body': json.dumps({'room': room_item})}

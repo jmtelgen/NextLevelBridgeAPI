@@ -35,20 +35,30 @@ def handler(event, context):
         # Check if user is already in the room
         if user_id in room_item['seats'].values():
             return {'statusCode': 400, 'body': json.dumps({'error': 'User already in room'})}
-        # Determine seat
-        available_seats = [seat for seat, occupant in room_item['seats'].items() if not occupant]
+        
+        # Determine seat assignment
         if requested_seat:
             if requested_seat not in SEATS:
                 return {'statusCode': 400, 'body': json.dumps({'error': 'Invalid seat'})}
-            if room_item['seats'][requested_seat]:
+            # Check if requested seat is available (empty or occupied by robot)
+            current_occupant = room_item['seats'][requested_seat]
+            if current_occupant and not current_occupant.startswith('robot-'):
                 return {'statusCode': 400, 'body': json.dumps({'error': 'Seat not available'})}
             seat_to_assign = requested_seat
         else:
+            # Find available seats (empty or occupied by robots)
+            available_seats = []
+            for seat, occupant in room_item['seats'].items():
+                if not occupant or occupant.startswith('robot-'):
+                    available_seats.append(seat)
+            
             if not available_seats:
                 return {'statusCode': 400, 'body': json.dumps({'error': 'No seats available'})}
             seat_to_assign = random.choice(available_seats)
-        # Assign user to seat
+        
+        # Assign user to seat (replacing robot if necessary)
         room_item['seats'][seat_to_assign] = user_id
+        
         # Save updated room
         room_table.put_item(Item=room_item)
         return {'statusCode': 200, 'body': json.dumps({'room': room_item})}

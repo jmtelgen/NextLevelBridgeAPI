@@ -2,17 +2,18 @@ import json
 import boto3
 import os
 from botocore.exceptions import ClientError
+from typing import Dict, Any, List, Optional
 
-def send_websocket_message(connection_id, message):
+def send_websocket_message(connection_id: str, message: Dict[str, Any]) -> bool:
     """
     Send a message to a specific WebSocket connection using the Management API
     
     Args:
-        connection_id (str): The WebSocket connection ID
-        message (dict): The message to send (will be JSON serialized)
+        connection_id: The WebSocket connection ID
+        message: The message to send (will be JSON serialized)
     
     Returns:
-        bool: True if message sent successfully, False otherwise
+        True if message sent successfully, False otherwise
     """
     try:
         # Get the WebSocket endpoint from environment
@@ -43,28 +44,29 @@ def send_websocket_message(connection_id, message):
         print(f"Unexpected error sending message: {str(e)}")
         return False
 
-def broadcast_to_connections(connection_ids, message):
+def broadcast_to_connections(connection_ids: List[str], message: Dict[str, Any]) -> Dict[str, bool]:
     """
     Send a message to multiple WebSocket connections
     
     Args:
-        connection_ids (list): List of connection IDs
-        message (dict): The message to send
+        connection_ids: List of connection IDs
+        message: The message to send
     
     Returns:
-        dict: Results for each connection
+        Results for each connection (connection_id -> success)
     """
     results = {}
+    print(f"Broadcasting to {connection_ids}")
     for connection_id in connection_ids:
         results[connection_id] = send_websocket_message(connection_id, message)
     return results
 
-def get_active_connections():
+def get_active_connections() -> List[str]:
     """
     Get all active WebSocket connections from DynamoDB
     
     Returns:
-        list: List of active connection IDs
+        List of active connection IDs
     """
     try:
         connections_table_name = os.environ.get('WEBSOCKET_CONNECTIONS_TABLE')

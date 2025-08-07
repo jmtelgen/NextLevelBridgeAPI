@@ -113,11 +113,7 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': 'Room is not in waiting state'})
             }
         
-        # Fill empty seats with robots
-        for seat in SEATS:
-            if not room_item['seats'][seat]:
-                room_item['seats'][seat] = f'robot-{seat}'
-        
+        # All seats should already be filled (either with humans or robots)
         # Update room state to bidding
         room_item['state'] = 'bidding'
         

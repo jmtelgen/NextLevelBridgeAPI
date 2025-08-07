@@ -39,20 +39,41 @@ def lambda_handler(event, context):
         dynamodb = boto3.resource('dynamodb')
         connections_table = dynamodb.Table(connections_table_name)
         
-        # Remove connection from DynamoDB
-        connections_table.delete_item(
-            Key={
-                'connectionId': connection_id
+        # First, find all connection records for this connection ID
+        # Since currentRoomId is the sort key, we need to find all items with this connectionId
+        response = connections_table.query(
+            KeyConditionExpression='connectionId = :connectionId',
+            ExpressionAttributeValues={
+                ':connectionId': connection_id
             }
         )
         
-        print(f"Connection {connection_id} removed successfully")
+        deleted_count = 0
+        for item in response.get('Items', []):
+            current_room_id = item.get('currentRoomId', 'not-joined')
+            
+            try:
+                # Delete each connection record with its specific sort key
+                connections_table.delete_item(
+                    Key={
+                        'connectionId': connection_id,
+                        'currentRoomId': current_room_id
+                    }
+                )
+                deleted_count += 1
+                print(f"Deleted connection record: {connection_id} with room: {current_room_id}")
+                
+            except ClientError as e:
+                if e.response['Error']['Code'] == 'ResourceNotFoundException':
+                    # Item was already deleted
+                    print(f"Connection record {connection_id} with room {current_room_id} was already deleted")
+                else:
+                    print(f"Error deleting connection record {connection_id} with room {current_room_id}: {e.response['Error']['Message']}")
+        
+        print(f"Connection {connection_id} cleanup completed. Deleted {deleted_count} records.")
         
         # For $disconnect, we don't need to return a response to the client
         # The connection is already closed by API Gateway
-        print(f"Connection {connection_id} removed successfully")
-        
-        # Return success without body (API Gateway will handle the disconnection)
         return {
             'statusCode': 200
         }

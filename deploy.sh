@@ -21,6 +21,7 @@ if [ -z "$FUNCTION_NAME" ]; then
     echo "  ai-bid"
     echo "  ai-play"
     echo "  ai-double-dummy"
+    echo "  connection-count"
     echo ""
     echo "WebSocket functions:"
     echo "  websocket-connect"
@@ -46,8 +47,18 @@ cp -r lambdas $BUILD_DIR/
 
 # Copy specific handler and rename function to lambda_handler
 cp lambdas/${FUNCTION_NAME//-/_}.py $BUILD_DIR/lambda_function.py
-# Rename the handler function to lambda_handler
-sed -i 's/def handler(/def lambda_handler(/g' $BUILD_DIR/lambda_function.py
+# Rename the handler function to lambda_handler (only if it exists)
+if grep -q "def handler(" $BUILD_DIR/lambda_function.py; then
+    sed -i 's/def handler(/def lambda_handler(/g' $BUILD_DIR/lambda_function.py
+fi
+
+# Fix imports for refactored files that use base classes
+if grep -q "from base_handler import" $BUILD_DIR/lambda_function.py; then
+    # Update imports to work in the build directory structure
+    sed -i 's/from base_handler import/from lambdas.base_handler import/g' $BUILD_DIR/lambda_function.py
+    sed -i 's/from db_utils import/from lambdas.db_utils import/g' $BUILD_DIR/lambda_function.py
+    sed -i 's/from websocket_utils import/from lambdas.websocket_utils import/g' $BUILD_DIR/lambda_function.py
+fi
 
 # Copy function-specific requirements
 cp requirements-function.txt $BUILD_DIR/requirements.txt

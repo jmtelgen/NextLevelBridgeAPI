@@ -5,6 +5,78 @@ import random
 import boto3
 from botocore.exceptions import ClientError
 
+def update_user_room(user_id, room_id):
+    """
+    Update the user's current room in the connections table
+    """
+    try:
+        connections_table_name = os.environ.get('WEBSOCKET_CONNECTIONS_TABLE')
+        if not connections_table_name:
+            return
+        
+        dynamodb = boto3.resource('dynamodb')
+        connections_table = dynamodb.Table(connections_table_name)
+        
+        # Find the user's connection and update their current room
+        print(f"Attempting to scan connections table for user {user_id}")
+        try:
+            response = connections_table.scan(
+                FilterExpression='#userId = :userId AND #status = :status',
+                ExpressionAttributeNames={
+                    '#userId': 'userId',
+                    '#status': 'status'
+                },
+                ExpressionAttributeValues={
+                    ':userId': user_id,
+                    ':status': 'connected'
+                }
+            )
+            print(f"Scan completed successfully")
+        except ClientError as e:
+            print(f"Scan failed with ClientError: {e.response['Error']['Message']}")
+            return
+        except Exception as e:
+            print(f"Scan failed with unexpected error: {str(e)}")
+            return
+        
+        print(f"Found {response.get('Count', 0)} connections for user {user_id}")
+        if response.get('Items'):
+            print(f"Connection items: {response.get('Items')}")
+        
+        for item in response.get('Items', []):
+            connection_id = item.get('connectionId')
+            if not connection_id:
+                print(f"Warning: connectionId is missing or empty for user {user_id}")
+                continue
+            
+            # Ensure connectionId is a string and not empty
+            if not isinstance(connection_id, str) or not connection_id.strip():
+                print(f"Warning: connectionId is not a valid string for user {user_id}: {connection_id}")
+                continue
+                
+            try:
+                # Since currentRoomId is the sort key, we need to delete the old item and create a new one
+                old_key = {'connectionId': connection_id, 'currentRoomId': item.get('currentRoomId', 'not-joined')}
+                print(f"Attempting to delete old connection with key: {old_key}")
+                
+                # Delete the old item
+                connections_table.delete_item(Key=old_key)
+                
+                # Create new item with updated currentRoomId
+                new_item = item.copy()
+                new_item['currentRoomId'] = room_id
+                print(f"Creating new connection item with currentRoomId: {room_id}")
+                
+                connections_table.put_item(Item=new_item)
+                print(f"Updated user {user_id} current room to {room_id}")
+            except ClientError as e:
+                print(f"Error updating connection {connection_id}: {e.response['Error']['Message']}")
+                # Continue with other connections even if one fails
+                continue
+            
+    except Exception as e:
+        print(f"Error updating user room: {str(e)}")
+
 def lambda_handler(event, context):
     """
     WebSocket handler for creating a room
@@ -118,6 +190,9 @@ def lambda_handler(event, context):
         dynamodb = boto3.resource('dynamodb')
         room_table = dynamodb.Table(room_table_name)
         room_table.put_item(Item=room)
+        
+        # Update the user's connection record to reflect they're now in the room
+        update_user_room(owner_id, room_id)
         
         # Return success response with game state
         response_data = {

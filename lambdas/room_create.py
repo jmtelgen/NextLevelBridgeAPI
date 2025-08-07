@@ -27,10 +27,19 @@ def handler(event, context):
             return {'statusCode': 400, 'body': json.dumps({'error': 'playerName required'})}
         if not room_name:
             return {'statusCode': 400, 'body': json.dumps({'error': 'roomName required'})}
+        
         room_id = str(uuid.uuid4())
         seats = {seat: '' for seat in ['N', 'E', 'S', 'W']}
+        
+        # Assign owner to a random seat
         owner_seat = random.choice(['N', 'E', 'S', 'W'])
         seats[owner_seat] = owner_id
+        
+        # Fill remaining empty seats with robots
+        for seat in ['N', 'E', 'S', 'W']:
+            if not seats[seat]:
+                seats[seat] = f'robot-{seat}'
+        
         state = 'waiting'
         game_data = GameState(
             currentPhase='bidding',

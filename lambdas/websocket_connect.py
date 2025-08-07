@@ -1,95 +1,65 @@
-import json
-import os
-import boto3
-from botocore.exceptions import ClientError
-from datetime import datetime
+from base_handler import WebSocketBaseHandler
+from db_utils import db_utils
 
-def lambda_handler(event, context):
+class WebSocketConnectHandler(WebSocketBaseHandler):
     """
     WebSocket $connect handler
     Stores connection information in DynamoDB table
-    
-    Expected event structure:
-    {
-        "requestContext": {
-            "connectionId": "connection-uuid",
-            "routeKey": "$connect",
-            "requestTimeEpoch": 1234567890,
-            "identity": {
-                "sourceIp": "192.168.1.1",
-                "userAgent": "Mozilla/5.0..."
-            }
-        },
-        "queryStringParameters": {
-            "userId": "user-id",
-            "userName": "User Name"
-        }
-    }
     """
-    try:
+    
+    def process_websocket_request(self, event, context):
+        """
+        Process WebSocket connect request
+        """
+        print(f"Processing WebSocket connect request: {event}")
+        
         # Extract connection information
-        connection_id = event.get('requestContext', {}).get('connectionId')
+        connection_id = self.get_connection_id(event)
         request_time = event.get('requestContext', {}).get('requestTimeEpoch')
-        source_ip = event.get('requestContext', {}).get('identity', {}).get('sourceIp')
-        user_agent = event.get('requestContext', {}).get('identity', {}).get('userAgent')
+        user_info = self.get_user_info_from_query(event)
         
-        # Extract user information from query parameters
-        query_params = event.get('queryStringParameters', {}) or {}
-        user_id = query_params.get('userId')
-        user_name = query_params.get('userName')
-        
-        print(f"Connection {connection_id} received for user {user_id}")
+        print(f"Connection ID: {connection_id}")
+        print(f"Request time: {request_time}")
+        print(f"User info: {user_info}")
         
         if not connection_id:
-            return {
-                'statusCode': 400
-            }
+            return self.error_response(400, 'Missing connection ID')
         
-        # Get DynamoDB table name from environment
-        connections_table_name = os.environ.get('WEBSOCKET_CONNECTIONS_TABLE')
-        if not connections_table_name:
-            return {
-                'statusCode': 500
-            }
+        # Create connection record using database utilities
+        success = db_utils.create_connection_record(
+            connection_id=connection_id,
+            user_id=user_info.get('userId'),
+            user_name=user_info.get('userName'),
+            request_time=request_time
+        )
         
-        # Create DynamoDB client
-        dynamodb = boto3.resource('dynamodb')
-        connections_table = dynamodb.Table(connections_table_name)
+        print(f"Connection record creation success: {success}")
         
-        # Prepare connection record
-        connection_record = {
-            'connectionId': connection_id,
-            'connectedAt': request_time or int(datetime.now().timestamp() * 1000),
-            'sourceIp': source_ip or 'unknown',
-            'userAgent': user_agent or 'unknown',
-            'status': 'connected',
-            'lastActivity': request_time or int(datetime.now().timestamp() * 1000),
-            'userId': user_id,
-            'userName': user_name,
-            'currentRoomId': None  # Will be set when user joins a room
-        }
-        
-        # Store connection in DynamoDB
-        connections_table.put_item(Item=connection_record)
-        
-        print(f"Connection {connection_id} stored successfully")
+        if not success:
+            return self.error_response(500, 'Failed to create connection record')
         
         # For $connect, we don't need to return a response to the client
         # The connection is established automatically by API Gateway
-        print(f"Connection {connection_id} stored successfully")
-        
-        # Return success without body (API Gateway will handle the connection)
-        return {
-            'statusCode': 200
-        }
-        
-    except ClientError as e:
-        print(f"DynamoDB error: {e.response['Error']['Message']}")
-        return {
-            'statusCode': 500
-        }
+        return {'statusCode': 200}
+
+# Create handler instance
+handler = WebSocketConnectHandler()
+
+# Lambda handler function
+def lambda_handler(event, context):
+    print(f"LAMBDA HANDLER CALLED with event: {event}")
+    print(f"Event type: {type(event)}")
+    print(f"Event keys: {list(event.keys()) if isinstance(event, dict) else 'Not a dict'}")
+    
+    try:
+        result = handler.handle_websocket_request(event, context)
+        print(f"Handler result: {result}")
+        return result
     except Exception as e:
-        print(f"Unexpected error: {str(e)}")
+        print(f"Exception in lambda_handler: {str(e)}")
+        import traceback
+        print(f"Traceback: {traceback.format_exc()}")
         return {
-            'statusCode': 500
+            'statusCode': 500,
+            'body': f'Internal server error: {str(e)}'
         } 
