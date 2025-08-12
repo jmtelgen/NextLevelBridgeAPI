@@ -16,7 +16,6 @@ def handler(event, context):
             body = json.loads(body)
         user_id = body.get('userId')
         room_id = body.get('roomId')
-        requested_seat = body.get('seat')
         if not user_id or not room_id:
             return {'statusCode': 400, 'body': json.dumps({'error': 'userId and roomId required'})}
         # Fetch room
@@ -36,25 +35,16 @@ def handler(event, context):
         if user_id in room_item['seats'].values():
             return {'statusCode': 400, 'body': json.dumps({'error': 'User already in room'})}
         
-        # Determine seat assignment
-        if requested_seat:
-            if requested_seat not in SEATS:
-                return {'statusCode': 400, 'body': json.dumps({'error': 'Invalid seat'})}
-            # Check if requested seat is available (empty or occupied by robot)
-            current_occupant = room_item['seats'][requested_seat]
-            if current_occupant and not current_occupant.startswith('robot-'):
-                return {'statusCode': 400, 'body': json.dumps({'error': 'Seat not available'})}
-            seat_to_assign = requested_seat
-        else:
-            # Find available seats (empty or occupied by robots)
-            available_seats = []
-            for seat, occupant in room_item['seats'].items():
-                if not occupant or occupant.startswith('robot-'):
-                    available_seats.append(seat)
-            
-            if not available_seats:
-                return {'statusCode': 400, 'body': json.dumps({'error': 'No seats available'})}
-            seat_to_assign = random.choice(available_seats)
+        # Automatically assign an available seat
+        available_seats = []
+        for seat, occupant in room_item['seats'].items():
+            if not occupant or occupant.startswith('robot-'):
+                available_seats.append(seat)
+        
+        if not available_seats:
+            return {'statusCode': 400, 'body': json.dumps({'error': 'No seats available'})}
+        
+        seat_to_assign = random.choice(available_seats)
         
         # Assign user to seat (replacing robot if necessary)
         room_item['seats'][seat_to_assign] = user_id

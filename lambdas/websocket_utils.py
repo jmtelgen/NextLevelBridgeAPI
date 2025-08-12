@@ -22,6 +22,21 @@ def send_websocket_message(connection_id: str, message: Dict[str, Any]) -> bool:
             print("WEBSOCKET_ENDPOINT environment variable not set")
             return False
         
+        # Validate endpoint URL format
+        if not (endpoint_url.startswith('wss://') or endpoint_url.startswith('ws://') or 
+                endpoint_url.startswith('https://') or endpoint_url.startswith('http://')):
+            print(f"Invalid WebSocket endpoint format: {endpoint_url}")
+            return False
+        
+        # Convert WebSocket endpoint to HTTP endpoint for Management API
+        # WebSocket endpoints are wss:// or ws://, Management API needs https:// or http://
+        if endpoint_url.startswith('wss://'):
+            endpoint_url = endpoint_url.replace('wss://', 'https://')
+        elif endpoint_url.startswith('ws://'):
+            endpoint_url = endpoint_url.replace('ws://', 'http://')
+        
+        print(f"Using Management API endpoint: {endpoint_url}")
+        
         # Create API Gateway Management API client
         apigateway = boto3.client('apigatewaymanagementapi', endpoint_url=endpoint_url)
         
@@ -42,6 +57,9 @@ def send_websocket_message(connection_id: str, message: Dict[str, Any]) -> bool:
         return False
     except Exception as e:
         print(f"Unexpected error sending message: {str(e)}")
+        print(f"Connection ID: {connection_id}")
+        print(f"Message: {message}")
+        print(f"Endpoint URL: {endpoint_url}")
         return False
 
 def broadcast_to_connections(connection_ids: List[str], message: Dict[str, Any]) -> Dict[str, bool]:
@@ -57,8 +75,18 @@ def broadcast_to_connections(connection_ids: List[str], message: Dict[str, Any])
     """
     results = {}
     print(f"Broadcasting to {connection_ids}")
+    
+    if not connection_ids:
+        print("No connection IDs provided for broadcast")
+        return results
+    
     for connection_id in connection_ids:
-        results[connection_id] = send_websocket_message(connection_id, message)
+        try:
+            results[connection_id] = send_websocket_message(connection_id, message)
+        except Exception as e:
+            print(f"Error broadcasting to connection {connection_id}: {str(e)}")
+            results[connection_id] = False
+    
     return results
 
 def get_active_connections() -> List[str]:

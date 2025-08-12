@@ -2,220 +2,260 @@ import json
 import uuid
 import os
 import random
-import boto3
-from botocore.exceptions import ClientError
+import logging
+import time
+from base_handler import WebSocketBaseHandler
+from db_utils import db_utils
 
-def update_user_room(user_id, room_id):
-    """
-    Update the user's current room in the connections table
-    """
-    try:
-        connections_table_name = os.environ.get('WEBSOCKET_CONNECTIONS_TABLE')
-        if not connections_table_name:
-            return
-        
-        dynamodb = boto3.resource('dynamodb')
-        connections_table = dynamodb.Table(connections_table_name)
-        
-        # Find the user's connection and update their current room
-        print(f"Attempting to scan connections table for user {user_id}")
-        try:
-            response = connections_table.scan(
-                FilterExpression='#userId = :userId AND #status = :status',
-                ExpressionAttributeNames={
-                    '#userId': 'userId',
-                    '#status': 'status'
-                },
-                ExpressionAttributeValues={
-                    ':userId': user_id,
-                    ':status': 'connected'
-                }
-            )
-            print(f"Scan completed successfully")
-        except ClientError as e:
-            print(f"Scan failed with ClientError: {e.response['Error']['Message']}")
-            return
-        except Exception as e:
-            print(f"Scan failed with unexpected error: {str(e)}")
-            return
-        
-        print(f"Found {response.get('Count', 0)} connections for user {user_id}")
-        if response.get('Items'):
-            print(f"Connection items: {response.get('Items')}")
-        
-        for item in response.get('Items', []):
-            connection_id = item.get('connectionId')
-            if not connection_id:
-                print(f"Warning: connectionId is missing or empty for user {user_id}")
-                continue
-            
-            # Ensure connectionId is a string and not empty
-            if not isinstance(connection_id, str) or not connection_id.strip():
-                print(f"Warning: connectionId is not a valid string for user {user_id}: {connection_id}")
-                continue
-                
-            try:
-                # Since currentRoomId is the sort key, we need to delete the old item and create a new one
-                old_key = {'connectionId': connection_id, 'currentRoomId': item.get('currentRoomId', 'not-joined')}
-                print(f"Attempting to delete old connection with key: {old_key}")
-                
-                # Delete the old item
-                connections_table.delete_item(Key=old_key)
-                
-                # Create new item with updated currentRoomId
-                new_item = item.copy()
-                new_item['currentRoomId'] = room_id
-                print(f"Creating new connection item with currentRoomId: {room_id}")
-                
-                connections_table.put_item(Item=new_item)
-                print(f"Updated user {user_id} current room to {room_id}")
-            except ClientError as e:
-                print(f"Error updating connection {connection_id}: {e.response['Error']['Message']}")
-                # Continue with other connections even if one fails
-                continue
-            
-    except Exception as e:
-        print(f"Error updating user room: {str(e)}")
+# Configure logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
-def lambda_handler(event, context):
+class WebSocketCreateRoomHandler(WebSocketBaseHandler):
     """
     WebSocket handler for creating a room
-    Expected event structure:
-    {
-        "requestContext": {
-            "connectionId": "connection-id",
-            "routeKey": "$connect" | "$disconnect" | "createRoom"
-        },
-        "body": "{\"ownerId\": \"user-id\", \"playerName\": \"Player Name\", \"roomName\": \"Room Name\", \"isPrivate\": false}"
-    }
     """
+    
+    def process_websocket_request(self, event, context):
+        """
+        Process WebSocket create room request
+        """
+        start_time = time.time()
+        request_id = self._log_request_info(event, context)
+        
+        try:
+            # Validate route key
+            self.validate_route_key(event, 'createRoom')
+            
+            # Parse request body
+            body = self.parse_body(event)
+            data = self.extract_data_from_body(body)
+            
+            logger.debug(f"[{request_id}] Extracted data object", extra={
+                'request_id': request_id,
+                'data_keys': list(data.keys()) if data else [],
+                'has_data': bool(data)
+            })
+            
+            # Extract and validate parameters
+            owner_id = data.get('ownerId')
+            player_name = data.get('playerName')
+            room_name = data.get('roomName')
+            is_private = data.get('isPrivate', False)
+            
+            logger.info(f"[{request_id}] Validating required fields", extra={
+                'request_id': request_id,
+                'owner_id_present': bool(owner_id),
+                'player_name_present': bool(player_name),
+                'room_name_present': bool(room_name),
+                'is_private': is_private
+            })
+            
+            # Validate required fields
+            error = self.validate_required_fields(data, ['ownerId', 'playerName', 'roomName'])
+            if error:
+                logger.error(f"[{request_id}] Missing required field: {error}", extra={
+                    'request_id': request_id,
+                    'data': data
+                })
+                return self.error_response(400, error)
+            
+            # Generate room ID
+            room_id = str(uuid.uuid4())
+            logger.info(f"[{request_id}] Generated room ID: {room_id}", extra={
+                'request_id': request_id,
+                'room_id': room_id
+            })
+            
+            # Initialize seats
+            seats = {seat: '' for seat in ['N', 'E', 'S', 'W']}
+            owner_seat = random.choice(['N', 'E', 'S', 'W'])
+            seats[owner_seat] = owner_id
+            
+            logger.info(f"[{request_id}] Assigned owner to seat {owner_seat}", extra={
+                'request_id': request_id,
+                'owner_id': owner_id,
+                'owner_seat': owner_seat,
+                'seats': seats
+            })
+            
+            # Set initial state
+            state = 'waiting'
+            
+            # Initialize game data
+            game_data = {
+                'currentPhase': 'waiting',
+                'turn': owner_id,
+                'bids': [],
+                'hands': {seat: [] for seat in ['N', 'E', 'S', 'W']},
+                'tricks': []
+            }
+            
+            # Create room object
+            room = {
+                'roomId': room_id,
+                'ownerId': owner_id,
+                'playerName': player_name,
+                'roomName': room_name,
+                'isPrivate': is_private,
+                'seats': seats,
+                'state': state,
+                'gameData': game_data
+            }
+            
+            logger.info(f"[{request_id}] Created room object", extra={
+                'request_id': request_id,
+                'room_id': room_id,
+                'room_name': room_name,
+                'owner_id': owner_id,
+                'is_private': is_private
+            })
+            
+            # Save to DynamoDB
+            room_table = self.get_table('ROOM_TABLE')
+            
+            logger.info(f"[{request_id}] Saving room to DynamoDB", extra={
+                'request_id': request_id,
+                'room_id': room_id,
+                'table_name': os.environ.get('ROOM_TABLE')
+            })
+            
+            room_table.put_item(Item=room)
+            
+            logger.info(f"[{request_id}] Successfully saved room to DynamoDB", extra={
+                'request_id': request_id,
+                'room_id': room_id
+            })
+            
+            # Update the user's connection record to reflect they're now in the room
+            logger.info(f"[{request_id}] Updating user's current room", extra={
+                'request_id': request_id,
+                'user_id': owner_id,
+                'room_id': room_id
+            })
+            
+            self._update_user_room(owner_id, room_id, request_id)
+            
+            # Return success response with game state
+            response_data = {
+                'action': 'createRoom',
+                'success': True,
+                'room': room,
+                'assignedSeat': owner_seat,
+                'gameState': game_data,
+                'message': 'Room created successfully'
+            }
+            
+            duration = time.time() - start_time
+            logger.info(f"[{request_id}] Room creation completed successfully", extra={
+                'request_id': request_id,
+                'room_id': room_id,
+                'owner_id': owner_id,
+                'duration_seconds': round(duration, 3)
+            })
+            
+            return self.success_response(response_data, 201)
+            
+        except Exception as e:
+            duration = time.time() - start_time
+            logger.error(f"[{request_id}] Unexpected error in process_websocket_request", extra={
+                'request_id': request_id,
+                'error_type': type(e).__name__,
+                'error_message': str(e),
+                'duration_seconds': round(duration, 3),
+                'traceback': str(e.__traceback__) if hasattr(e, '__traceback__') else 'No traceback'
+            })
+            return self.error_response(500, f"Unexpected error: {str(e)}")
+    
+    def _log_request_info(self, event, context, request_id=None):
+        """Log request information for debugging"""
+        if not request_id:
+            request_id = str(uuid.uuid4())
+        
+        logger.info(f"[{request_id}] WebSocket Create Room Request", extra={
+            'request_id': request_id,
+            'connection_id': event.get('requestContext', {}).get('connectionId'),
+            'route_key': event.get('requestContext', {}).get('routeKey'),
+            'request_time': event.get('requestContext', {}).get('requestTime'),
+            'function_name': context.function_name if context else 'unknown',
+            'function_version': context.function_version if context else 'unknown',
+            'memory_limit': context.memory_limit_in_mb if context else 'unknown',
+            'remaining_time': context.get_remaining_time_in_millis() if context else 'unknown'
+        })
+        return request_id
+    
+    def _update_user_room(self, user_id, room_id, request_id=None):
+        """
+        Update the user's current room in the connections table using db_utils
+        """
+        start_time = time.time()
+        logger.info(f"[{request_id}] Starting update_user_room using db_utils", extra={
+            'request_id': request_id,
+            'user_id': user_id,
+            'room_id': room_id,
+            'operation': 'update_user_room'
+        })
+        
+        try:
+            # Use the existing db_utils method which is more robust
+            success = db_utils.update_user_room(user_id, room_id)
+            
+            duration = time.time() - start_time
+            logger.info(f"[{request_id}] update_user_room completed", extra={
+                'request_id': request_id,
+                'user_id': user_id,
+                'room_id': room_id,
+                'success': success,
+                'duration_seconds': round(duration, 3)
+            })
+            
+            if not success:
+                logger.warning(f"[{request_id}] Failed to update user room using db_utils", extra={
+                    'request_id': request_id,
+                    'user_id': user_id,
+                    'room_id': room_id
+                })
+                
+        except Exception as e:
+            duration = time.time() - start_time
+            logger.error(f"[{request_id}] Error updating user room", extra={
+                'request_id': request_id,
+                'user_id': user_id,
+                'room_id': room_id,
+                'error_type': type(e).__name__,
+                'error_message': str(e),
+                'duration_seconds': round(duration, 3),
+                'traceback': str(e.__traceback__) if hasattr(e, '__traceback__') else 'No traceback'
+            })
+            
+            # Don't let connection update failures break room creation
+            logger.info(f"[{request_id}] Continuing with room creation despite connection update failure", extra={
+                'request_id': request_id,
+                'user_id': user_id,
+                'room_id': room_id
+            })
+
+# Create handler instance
+handler = WebSocketCreateRoomHandler()
+
+# Lambda handler function
+def lambda_handler(event, context):
+    """
+    Lambda handler function that delegates to the WebSocket handler
+    """
+    logger.info(f"LAMBDA HANDLER CALLED with event: {event}")
+    logger.info(f"Event type: {type(event)}")
+    logger.info(f"Event keys: {list(event.keys()) if isinstance(event, dict) else 'Not a dict'}")
+    
     try:
-        # Extract connection ID for potential future use
-        connection_id = event.get('requestContext', {}).get('connectionId')
-        route_key = event.get('requestContext', {}).get('routeKey')
-        
-        # Handle different route keys
-        if route_key == '$connect':
-            return {
-                'statusCode': 200,
-                'body': json.dumps({'message': 'Connected'})
-            }
-        elif route_key == '$disconnect':
-            return {
-                'statusCode': 200,
-                'body': json.dumps({'message': 'Disconnected'})
-            }
-        elif route_key != 'createRoom':
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Invalid route key'})
-            }
-        
-        # Parse the message body
-        body = event.get('body')
-        if not body:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Missing request body'})
-            }
-        
-        if isinstance(body, str):
-            body = json.loads(body)
-        
-        # Extract data from the nested data object
-        data = body.get('data', {})
-        
-        # Validate required fields
-        owner_id = data.get('ownerId')
-        player_name = data.get('playerName')
-        room_name = data.get('roomName')
-        is_private = data.get('isPrivate', False)  # Default to public if not specified
-        
-        if not owner_id:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'ownerId required'})
-            }
-        if not player_name:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'playerName required'})
-            }
-        if not room_name:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'roomName required'})
-            }
-        
-        # Generate room ID
-        room_id = str(uuid.uuid4())
-        
-        # Initialize seats
-        seats = {seat: '' for seat in ['N', 'E', 'S', 'W']}
-        owner_seat = random.choice(['N', 'E', 'S', 'W'])
-        seats[owner_seat] = owner_id
-        
-        # Set initial state
-        state = 'waiting'
-        
-        # Initialize game data
-        game_data = {
-            'currentPhase': 'waiting',
-            'turn': owner_id,
-            'bids': [],
-            'hands': {seat: [] for seat in ['N', 'E', 'S', 'W']},
-            'tricks': []
-        }
-        
-        # Create room object
-        room = {
-            'roomId': room_id,
-            'ownerId': owner_id,
-            'playerName': player_name,
-            'roomName': room_name,
-            'isPrivate': is_private,
-            'seats': seats,
-            'state': state,
-            'gameData': game_data
-        }
-        
-        # Save to DynamoDB
-        room_table_name = os.environ.get('ROOM_TABLE')
-        if not room_table_name:
-            return {
-                'statusCode': 500,
-                'body': json.dumps({'error': 'ROOM_TABLE environment variable not set'})
-            }
-        
-        dynamodb = boto3.resource('dynamodb')
-        room_table = dynamodb.Table(room_table_name)
-        room_table.put_item(Item=room)
-        
-        # Update the user's connection record to reflect they're now in the room
-        update_user_room(owner_id, room_id)
-        
-        # Return success response with game state
-        response_data = {
-            'action': 'createRoom',
-            'success': True,
-            'room': room,
-            'assignedSeat': owner_seat,
-            'gameState': game_data,
-            'message': 'Room created successfully'
-        }
-        
-        return {
-            'statusCode': 201,
-            'body': json.dumps(response_data)
-        }
-        
-    except ClientError as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': e.response['Error']['Message']})
-        }
+        result = handler.handle_websocket_request(event, context)
+        logger.info(f"Handler result: {result}")
+        return result
     except Exception as e:
+        logger.error(f"Exception in lambda_handler: {str(e)}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': str(e)})
+            'body': f'Internal server error: {str(e)}'
         } 

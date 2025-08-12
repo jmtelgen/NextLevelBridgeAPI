@@ -24,7 +24,6 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         # Extract and validate parameters
         user_id = data.get('userId')
         room_id = data.get('roomId')
-        requested_seat = data.get('seat')
         
         error = self.validate_required_fields(data, ['userId', 'roomId'])
         if error:
@@ -39,8 +38,8 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         if user_id in room_item['seats'].values():
             return self.error_response(400, 'User already in room')
         
-        # Determine seat assignment
-        seat_to_assign = self._determine_seat(room_item, requested_seat)
+        # Automatically assign an available seat
+        seat_to_assign = self._find_available_seat(room_item)
         if not seat_to_assign:
             return self.error_response(400, 'No seats available')
         
@@ -76,22 +75,16 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
             'gameState': room_item.get('gameData', {})
         })
     
-    def _determine_seat(self, room_item, requested_seat):
+    def _find_available_seat(self, room_item):
         """
-        Determine which seat to assign to the user
+        Find an available seat and assign it to the user
         """
         available_seats = [seat for seat, occupant in room_item['seats'].items() if not occupant]
         
-        if requested_seat:
-            if requested_seat not in SEATS:
-                return None
-            if room_item['seats'][requested_seat]:
-                return None
-            return requested_seat
-        else:
-            if not available_seats:
-                return None
-            return random.choice(available_seats)
+        if not available_seats:
+            return None
+        
+        return random.choice(available_seats)
 
 # Create handler instance
 handler = WebSocketJoinRoomHandler()
