@@ -1,110 +1,62 @@
 import json
 import os
 import boto3
+import time
 from botocore.exceptions import ClientError
+from base_handler import WebSocketBaseHandler
+from db_utils import db_utils
+from websocket_utils import broadcast_to_connections
 
 SUITS = ['C', 'D', 'H', 'S']
-RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
 
-def lambda_handler(event, context):
+class WebSocketPlayCardHandler(WebSocketBaseHandler):
     """
     WebSocket handler for playing a card
-    Expected event structure:
-    {
-        "requestContext": {
-            "connectionId": "connection-id",
-            "routeKey": "$connect" | "$disconnect" | "playCard"
-        },
-        "body": "{\"roomId\": \"room-id\", \"userId\": \"user-id\", \"card\": \"AH\"}"
-    }
     """
-    try:
-        # Extract connection ID for potential future use
-        connection_id = event.get('requestContext', {}).get('connectionId')
-        route_key = event.get('requestContext', {}).get('routeKey')
+    
+    def process_websocket_request(self, event, context):
+        """
+        Process WebSocket play card request
+        """
+        # Validate route key
+        self.validate_route_key(event, 'playCard')
         
-        # Handle different route keys
-        if route_key == '$connect':
-            return {
-                'statusCode': 200,
-                'body': json.dumps({'message': 'Connected'})
-            }
-        elif route_key == '$disconnect':
-            return {
-                'statusCode': 200,
-                'body': json.dumps({'message': 'Disconnected'})
-            }
-        elif route_key != 'playCard':
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Invalid route key'})
-            }
+        # Parse request body
+        body = self.parse_body(event)
+        data = self.extract_data_from_body(body)
         
-        # Parse the message body
-        body = event.get('body')
-        if not body:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Missing request body'})
-            }
+        # Extract and validate parameters
+        user_id = data.get('userId')
+        room_id = data.get('roomId')
+        card = data.get('card')
         
-        if isinstance(body, str):
-            body = json.loads(body)
-        
-        # Extract parameters
-        user_id = body.get('userId')
-        room_id = body.get('roomId')
-        card = body.get('card')
-        
-        if not user_id or not room_id or not card:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'userId, roomId, and card required'})
-            }
+        error = self.validate_required_fields(data, ['userId', 'roomId', 'card'])
+        if error:
+            return self.error_response(400, error)
         
         # Validate card format (e.g., "AH" for Ace of Hearts)
         if len(card) != 2 or card[0] not in RANKS or card[1] not in SUITS:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': f'Invalid card format. Use format like "AH" (Ace of Hearts). Valid ranks: {", ".join(RANKS)}, Valid suits: {", ".join(SUITS)}'})
-            }
+            return self.error_response(400, f'Invalid card format. Use format like "AH" (Ace of Hearts). Valid ranks: {", ".join(RANKS)}, Valid suits: {", ".join(SUITS)}')
         
-        # Fetch room
-        room_table_name = os.environ.get('ROOM_TABLE')
-        if not room_table_name:
-            return {
-                'statusCode': 500,
-                'body': json.dumps({'error': 'ROOM_TABLE environment variable not set'})
-            }
+        # Get room table reference once
+        room_table = db_utils.get_table('ROOM_TABLE')
         
-        dynamodb = boto3.resource('dynamodb')
-        room_table = dynamodb.Table(room_table_name)
-        room_result = room_table.get_item(Key={'roomId': room_id})
-        
-        if 'Item' not in room_result:
-            return {
-                'statusCode': 404,
-                'body': json.dumps({'error': 'Room does not exist'})
-            }
-        
-        room_item = room_result['Item']
+        # Fetch room using db_utils (pass table reference to avoid duplicate logging)
+        room_item = db_utils.find_room_by_id(room_id, room_table)
+        if not room_item:
+            return self.error_response(404, 'Room does not exist')
         
         # Check if room is in playing phase
         if room_item['state'] != 'playing':
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Room is not in playing phase'})
-            }
+            return self.error_response(400, 'Room is not in playing phase')
         
         # Check if it's the user's turn
         game_data = room_item.get('gameData', {})
         current_turn = game_data.get('turn')
         
         if current_turn != user_id:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Not your turn to play'})
-            }
+            return self.error_response(400, 'Not your turn to play')
         
         # Find user's seat
         user_seat = None
@@ -114,20 +66,14 @@ def lambda_handler(event, context):
                 break
         
         if not user_seat:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'User not found in room'})
-            }
+            return self.error_response(400, 'User not found in room')
         
         # Check if user has the card in their hand
         hands = game_data.get('hands', {})
         user_hand = hands.get(user_seat, [])
         
         if card not in user_hand:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Card not in your hand'})
-            }
+            return self.error_response(400, 'Card not in your hand')
         
         # Check if card follows suit (if not leading)
         current_trick = game_data.get('currentTrick', [])
@@ -140,10 +86,7 @@ def lambda_handler(event, context):
                 # Check if player has cards of the led suit
                 has_led_suit = any(c[1] == lead_suit for c in user_hand)
                 if has_led_suit:
-                    return {
-                        'statusCode': 400,
-                        'body': json.dumps({'error': f'Must follow suit. Lead suit is {lead_suit}'})
-                    }
+                    return self.error_response(400, f'Must follow suit. Lead suit is {lead_suit}')
         
         # Remove card from hand
         user_hand.remove(card)
@@ -156,7 +99,7 @@ def lambda_handler(event, context):
         play_entry = {
             'seat': user_seat,
             'card': card,
-            'timestamp': int(boto3.client('sts').get_caller_identity()['Account'])  # Simple timestamp
+            'timestamp': int(time.time() * 1000)  # Unix timestamp in milliseconds
         }
         
         game_data['currentTrick'].append(play_entry)
@@ -171,9 +114,12 @@ def lambda_handler(event, context):
         game_data['turn'] = next_player
         
         # Check if trick is complete (4 cards played)
+        trick_completed = False
+        trick_winner = None
         if len(game_data['currentTrick']) == 4:
             # Determine winner of the trick
-            winner = determine_trick_winner(game_data['currentTrick'])
+            trick_winner = determine_trick_winner(game_data['currentTrick'])
+            trick_completed = True
             
             # Add trick to completed tricks
             if 'tricks' not in game_data:
@@ -181,14 +127,14 @@ def lambda_handler(event, context):
             
             game_data['tricks'].append({
                 'cards': game_data['currentTrick'],
-                'winner': winner
+                'winner': trick_winner
             })
             
             # Clear current trick
             game_data['currentTrick'] = []
             
             # Set next turn to winner
-            game_data['turn'] = room_item['seats'][winner]
+            game_data['turn'] = room_item['seats'][trick_winner]
             
             # Check if hand is complete (13 tricks)
             if len(game_data['tricks']) == 13:
@@ -199,29 +145,36 @@ def lambda_handler(event, context):
         # Save updated room
         room_table.put_item(Item=room_item)
         
-        # Return success response
-        return {
-            'statusCode': 200,
-            'body': json.dumps({
-                'action': 'playCard',
-                'success': True,
-                'play': play_entry,
-                'nextTurn': next_player,
-                'gameData': game_data,
-                'message': f'Card {card} played successfully'
-            })
+        # Get active connections and broadcast update (excluding the user who played the card)
+        active_connections = db_utils.get_room_connections_excluding_user(room_item['seats'].values(), room_id, user_id)
+        
+        broadcast_message = {
+            'action': 'cardPlayed',
+            'play': play_entry,
+            'nextTurn': next_player,
+            'gameData': game_data,
+            'roomState': room_item['state'],
+            'updateType': 'cardUpdate',
+            'trickCompleted': trick_completed
         }
         
-    except ClientError as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': e.response['Error']['Message']})
-        }
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': str(e)})
-        }
+        if trick_completed and trick_winner:
+            broadcast_message['trickWinner'] = trick_winner
+        
+        broadcast_to_connections(active_connections, broadcast_message)
+        
+        # Return success response (same as broadcast to avoid duplication)
+        return self.success_response({
+            'action': 'cardPlayed',
+            'success': True,
+            'play': play_entry,
+            'nextTurn': next_player,
+            'gameData': game_data,
+            'roomState': room_item['state'],
+            'updateType': 'cardUpdate',
+            'trickCompleted': trick_completed,
+            'message': f'Card {card} played successfully'
+        })
 
 def determine_trick_winner(trick):
     """
@@ -249,4 +202,11 @@ def determine_trick_winner(trick):
                 highest_rank_value = rank_value
                 highest_card = play
     
-    return highest_card['seat'] if highest_card else trick[0]['seat'] 
+    return highest_card['seat'] if highest_card else trick[0]['seat']
+
+# Create handler instance
+handler = WebSocketPlayCardHandler()
+
+# Lambda handler function
+def lambda_handler(event, context):
+    return handler.handle_websocket_request(event, context) 

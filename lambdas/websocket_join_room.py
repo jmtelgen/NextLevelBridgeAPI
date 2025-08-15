@@ -29,8 +29,11 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         if error:
             return self.error_response(400, error)
         
-        # Find room using database utilities
-        room_item = db_utils.find_room_by_id(room_id)
+        # Get room table reference once
+        room_table = db_utils.get_table('ROOM_TABLE')
+        
+        # Find room using database utilities (pass table reference to avoid duplicate logging)
+        room_item = db_utils.find_room_by_id(room_id, room_table)
         if not room_item:
             return self.error_response(404, 'Room does not exist')
         
@@ -47,30 +50,33 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         room_item['seats'][seat_to_assign] = user_id
         
         # Update room in database
-        room_table = db_utils.get_table('ROOM_TABLE')
         room_table.put_item(Item=room_item)
         
         # Update user's connection record
         db_utils.update_user_room(user_id, room_id)
         
-        # Get active connections and broadcast update
-        active_connections = db_utils.get_room_connections(room_item['seats'].values(), room_id)
+        # Get active connections and broadcast update (excluding the user who joined the room)
+        active_connections = db_utils.get_room_connections_excluding_user(room_item['seats'].values(), room_id, user_id)
         
         broadcast_message = {
             'action': 'roomUpdated',
+            'success': True,
             'room': room_item,
             'updateType': 'userJoined',
             'newUser': user_id,
-            'assignedSeat': seat_to_assign
+            'assignedSeat': seat_to_assign,
+            'gameState': room_item.get('gameData', {})
         }
         
         broadcast_to_connections(active_connections, broadcast_message)
         
-        # Return success response
+        # Return success response (same as broadcast to avoid duplication)
         return self.success_response({
-            'action': 'joinRoom',
+            'action': 'roomUpdated',
             'success': True,
             'room': room_item,
+            'updateType': 'userJoined',
+            'newUser': user_id,
             'assignedSeat': seat_to_assign,
             'gameState': room_item.get('gameData', {})
         })

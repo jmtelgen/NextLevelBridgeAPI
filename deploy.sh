@@ -52,8 +52,8 @@ if grep -q "def handler(" $BUILD_DIR/lambda_function.py; then
     sed -i 's/def handler(/def lambda_handler(/g' $BUILD_DIR/lambda_function.py
 fi
 
-# Fix imports for refactored files that use base classes
-if grep -q "from base_handler import" $BUILD_DIR/lambda_function.py; then
+# Fix imports for refactored files that use base classes or shared utilities
+if grep -q "from base_handler import\|from db_utils import\|from websocket_utils import" $BUILD_DIR/lambda_function.py; then
     # Update imports to work in the build directory structure
     sed -i 's/from base_handler import/from lambdas.base_handler import/g' $BUILD_DIR/lambda_function.py
     sed -i 's/from db_utils import/from lambdas.db_utils import/g' $BUILD_DIR/lambda_function.py

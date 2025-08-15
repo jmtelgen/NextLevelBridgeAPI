@@ -2,116 +2,52 @@ import json
 import os
 import boto3
 from botocore.exceptions import ClientError
+from base_handler import WebSocketBaseHandler
+from db_utils import db_utils
+from websocket_utils import broadcast_to_connections
+from typing import Dict, List
 
 SEATS = ['N', 'E', 'S', 'W']
 
-def lambda_handler(event, context):
+class WebSocketStartRoomHandler(WebSocketBaseHandler):
     """
     WebSocket handler for starting a room/game
-    Expected event structure:
-    {
-        "requestContext": {
-            "connectionId": "connection-id",
-            "routeKey": "$connect" | "$disconnect" | "startRoom"
-        },
-        "body": "{\"roomId\": \"room-id\", \"userId\": \"user-id\"}"
-    }
     """
-    try:
-        # Extract connection ID for potential future use
-        connection_id = event.get('requestContext', {}).get('connectionId')
-        route_key = event.get('requestContext', {}).get('routeKey')
+    
+    def process_websocket_request(self, event, context):
+        """
+        Process WebSocket start room request
+        """
+        # Validate route key
+        self.validate_route_key(event, 'startRoom')
         
-        # Handle different route keys
-        if route_key == '$connect':
-            return {
-                'statusCode': 200,
-                'body': json.dumps({'message': 'Connected'})
-            }
-        elif route_key == '$disconnect':
-            return {
-                'statusCode': 200,
-                'body': json.dumps({'message': 'Disconnected'})
-            }
-        elif route_key != 'startRoom':
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Invalid route key'})
-            }
+        # Parse request body
+        body = self.parse_body(event)
+        data = self.extract_data_from_body(body)
         
-        # Parse the message body
-        body = event.get('body')
-        if not body:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Missing request body'})
-            }
+        # Extract and validate parameters
+        user_id = data.get('userId')
+        room_id = data.get('roomId')
         
-        if isinstance(body, str):
-            body = json.loads(body)
+        error = self.validate_required_fields(data, ['userId', 'roomId'])
+        if error:
+            return self.error_response(400, error)
         
-        # Extract parameters
-        user_id = body.get('userId')
-        room_id = body.get('roomId')
+        # Get room table reference once
+        room_table = db_utils.get_table('ROOM_TABLE')
         
-        if not user_id or not room_id:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'userId and roomId required'})
-            }
-        
-        # Check user existence
-        user_table_name = os.environ.get('USER_TABLE')
-        if not user_table_name:
-            return {
-                'statusCode': 500,
-                'body': json.dumps({'error': 'USER_TABLE environment variable not set'})
-            }
-        
-        dynamodb = boto3.resource('dynamodb')
-        user_table = dynamodb.Table(user_table_name)
-        
-        # Use get_item instead of scan for better performance
-        user_result = user_table.get_item(Key={'username': user_id})
-        
-        if 'Item' not in user_result:
-            return {
-                'statusCode': 401,
-                'body': json.dumps({'error': 'User is not logged in or does not exist'})
-            }
-        
-        # Fetch room
-        room_table_name = os.environ.get('ROOM_TABLE')
-        if not room_table_name:
-            return {
-                'statusCode': 500,
-                'body': json.dumps({'error': 'ROOM_TABLE environment variable not set'})
-            }
-        
-        room_table = dynamodb.Table(room_table_name)
-        room_result = room_table.get_item(Key={'roomId': room_id})
-        
-        if 'Item' not in room_result:
-            return {
-                'statusCode': 404,
-                'body': json.dumps({'error': 'Room does not exist'})
-            }
-        
-        room_item = room_result['Item']
+        # Fetch room using db_utils (pass table reference to avoid duplicate logging)
+        room_item = db_utils.find_room_by_id(room_id, room_table)
+        if not room_item:
+            return self.error_response(404, 'Room does not exist')
         
         # Check owner
         if room_item['ownerId'] != user_id:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Only the room owner can start the game'})
-            }
+            return self.error_response(400, 'Only the room owner can start the game')
         
         # Check state
         if room_item['state'] != 'waiting':
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Room is not in waiting state'})
-            }
+            return self.error_response(400, 'Room is not in waiting state')
         
         # All seats should already be filled (either with humans or robots)
         # Update room state to bidding
@@ -120,34 +56,78 @@ def lambda_handler(event, context):
         # Initialize game data if not present
         if 'gameData' not in room_item:
             room_item['gameData'] = {
-                'currentPhase': 'bidding',
+                'currentPhase': 'waiting',
                 'turn': room_item['ownerId'],
                 'bids': [],
                 'hands': {seat: [] for seat in SEATS},
                 'tricks': []
             }
         
+        # Update game phase to bidding and deal cards
+        room_item['gameData']['currentPhase'] = 'bidding'
+        room_item['gameData']['hands'] = self._deal_cards()
+        
         # Save updated room
         room_table.put_item(Item=room_item)
         
-        # Return success response
-        return {
-            'statusCode': 200,
-            'body': json.dumps({
-                'action': 'startRoom',
-                'success': True,
-                'room': room_item,
-                'message': 'Game started successfully'
-            })
+        # Get active connections and broadcast update (excluding the user who started the room)
+        active_connections = db_utils.get_room_connections_excluding_user(room_item['seats'].values(), room_id, user_id)
+        
+        broadcast_message = {
+            'action': 'roomStarted',
+            'room': room_item,
+            'gameData': room_item['gameData'],
+            'updateType': 'gameStart',
+            'message': 'Game started successfully',
+            'hands': room_item['gameData']['hands']
         }
         
-    except ClientError as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': e.response['Error']['Message']})
+        broadcast_to_connections(active_connections, broadcast_message)
+        
+        # Return success response (same as broadcast to avoid duplication)
+        return self.success_response({
+            'action': 'roomStarted',
+            'success': True,
+            'room': room_item,
+            'gameData': room_item['gameData'],
+            'updateType': 'gameStart',
+            'message': 'Game started successfully',
+            'hands': room_item['gameData']['hands']
+        })
+    
+    def _deal_cards(self) -> Dict[str, List[str]]:
+        """
+        Deal 13 cards to each of the 4 players from a shuffled 52-card deck
+        Returns a dictionary mapping seat positions to lists of cards
+        """
+        import random
+        
+        # Standard 52-card deck
+        suits = ['C', 'D', 'H', 'S']  # Clubs, Diamonds, Hearts, Spades
+        ranks = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']  # T = 10
+        
+        # Create the deck
+        deck = []
+        for suit in suits:
+            for rank in ranks:
+                deck.append(f"{rank}{suit}")  # e.g., "AS" for Ace of Spades
+        
+        # Shuffle the deck
+        random.shuffle(deck)
+        
+        # Deal 13 cards to each player
+        hands = {
+            'N': deck[0:13],    # North gets cards 0-12
+            'E': deck[13:26],   # East gets cards 13-25
+            'S': deck[26:39],   # South gets cards 26-38
+            'W': deck[39:52]    # West gets cards 39-51
         }
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': str(e)})
-        } 
+        
+        return hands
+
+# Create handler instance
+handler = WebSocketStartRoomHandler()
+
+# Lambda handler function
+def lambda_handler(event, context):
+    return handler.handle_websocket_request(event, context) 

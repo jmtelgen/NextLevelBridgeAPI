@@ -99,6 +99,29 @@ class DatabaseUtils:
             print(f"Error getting room connections: {str(e)}")
             return []
     
+    def get_room_connections_excluding_user(self, user_ids: List[str], room_id: str, exclude_user_id: str) -> List[str]:
+        """
+        Get active WebSocket connections for users in a specific room, excluding a specific user
+        """
+        try:
+            connections_table = self.get_table('WEBSOCKET_CONNECTIONS_TABLE')
+            
+            connection_ids = []
+            for user_id in user_ids:
+                if user_id and not user_id.startswith('robot-') and user_id != exclude_user_id:  # Skip robot players and excluded user
+                    response = connections_table.scan(
+                        FilterExpression='#status = :status AND #userId = :userId',
+                        ExpressionAttributeNames={'#status': 'status', '#userId': 'userId'},
+                        ExpressionAttributeValues={':status': 'connected', ':userId': user_id}
+                    )
+                    connection_ids.extend([item['connectionId'] for item in response.get('Items', [])])
+            
+            return list(set(connection_ids))  # Remove duplicates
+            
+        except Exception as e:
+            print(f"Error getting room connections excluding user: {str(e)}")
+            return []
+    
     def get_active_room_count(self) -> int:
         """
         Get the count of unique active rooms
@@ -220,12 +243,13 @@ class DatabaseUtils:
                 'activeRoomCount': 0
             }
     
-    def find_room_by_id(self, room_id: str) -> Optional[Dict[str, Any]]:
+    def find_room_by_id(self, room_id: str, room_table=None) -> Optional[Dict[str, Any]]:
         """
         Find a room by its ID using scan (since we don't have the sort key)
         """
         try:
-            room_table = self.get_table('ROOM_TABLE')
+            if room_table is None:
+                room_table = self.get_table('ROOM_TABLE')
             
             response = room_table.scan(
                 FilterExpression='roomId = :roomId',
