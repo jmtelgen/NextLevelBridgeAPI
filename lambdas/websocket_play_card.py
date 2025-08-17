@@ -118,7 +118,8 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
         trick_winner = None
         if len(game_data['currentTrick']) == 4:
             # Determine winner of the trick
-            trick_winner = self._determine_trick_winner(game_data['currentTrick'])
+            contract = game_data.get('contract')
+            trick_winner = self._determine_trick_winner(game_data['currentTrick'], contract)
             trick_completed = True
             
             # Add trick to completed tricks
@@ -187,31 +188,80 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
             'message': f'Card {card} played successfully'
         })
     
-    def _determine_trick_winner(self, trick):
+    def _determine_trick_winner(self, trick, contract=None):
         """
         Determine the winner of a trick based on Bridge rules
+        
+        Args:
+            trick: List of plays in the current trick
+            contract: The contract bid (e.g., '3NT', '4H', '2C') - determines trump suit
+            
+        Returns:
+            str: Seat of the trick winner
         """
         if not trick:
             return None
         
+        # Validate trick has exactly 4 cards
+        if len(trick) != 4:
+            return None
+        
+        # Determine trump suit from contract
+        trump_suit = None
+        if contract and not contract.endswith('NT'):
+            # Extract suit from contract (e.g., '4H' -> 'H', '2C' -> 'C')
+            trump_suit = contract[1:]
+        
         # Get the lead suit
         lead_suit = trick[0]['card'][1]
         
-        # Find the highest card of the lead suit
+        # Find the highest card that can win the trick
         highest_card = None
         highest_rank_value = -1
+        highest_is_trump = False
         
         for play in trick:
             card = play['card']
             suit = card[1]
             rank = card[0]
             
-            # Only consider cards of the lead suit
-            if suit == lead_suit:
-                rank_value = RANKS.index(rank)
-                if rank_value > highest_rank_value:
-                    highest_rank_value = rank_value
-                    highest_card = play
+            # Validate card format
+            if len(card) != 2 or rank not in self.RANKS or suit not in self.SUITS:
+                continue  # Skip invalid cards
+                
+            rank_value = self.RANKS.index(rank)
+            
+            # Check if this card is trump
+            is_trump = (suit == trump_suit)
+            
+            # Determine if this card can win
+            can_win = False
+            
+            if highest_card is None:
+                # First card always can win
+                can_win = True
+            elif highest_is_trump and is_trump:
+                # Both are trump - higher rank wins
+                can_win = rank_value > highest_rank_value
+            elif highest_is_trump and not is_trump:
+                # Current highest is trump, this is not - trump wins
+                can_win = False
+            elif not highest_is_trump and is_trump:
+                # Current highest is not trump, this is trump - trump wins
+                can_win = True
+            else:
+                # Neither is trump - only lead suit can win
+                if suit == lead_suit and highest_card['card'][1] == lead_suit:
+                    can_win = rank_value > highest_rank_value
+                elif suit == lead_suit and highest_card['card'][1] != lead_suit:
+                    can_win = True
+                else:
+                    can_win = False
+            
+            if can_win:
+                highest_card = play
+                highest_rank_value = rank_value
+                highest_is_trump = is_trump
         
         return highest_card['seat'] if highest_card else trick[0]['seat']
 

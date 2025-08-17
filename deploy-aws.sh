@@ -17,6 +17,7 @@ if [ -z "$FUNCTION_NAME" ] || [ -z "$ACTION" ]; then
     echo "  room-start → StartRoomAPILambda"
     echo "  account-create → CreateAccountAPILambda"
     echo "  account-login → LoginAPILambda"
+    echo "  account-refresh-token → RefreshTokenAPILambda"
     echo "  ai-double-dummy → GetDoubleDummyLambda"
     echo "  connection-count → ConnectionCountAPILambda"
     echo ""
@@ -37,7 +38,7 @@ RUNTIME="python3.12"
 # Update this with your account ID and role name
 ROLE_ARN="arn:aws:iam::851725597758:role/lambda-execution-role"
 TIMEOUT=30
-MEMORY_SIZE=256
+MEMORY_SIZE=512
 
 # Map function names to actual Lambda function names
 case $FUNCTION_NAME in
@@ -55,6 +56,9 @@ case $FUNCTION_NAME in
         ;;
     "account-login")
         LAMBDA_FUNCTION_NAME="LoginAPILambda"
+        ;;
+    "account-refresh-token")
+        LAMBDA_FUNCTION_NAME="RefreshTokenAPILambda"
         ;;
     "ai-double-dummy")
         LAMBDA_FUNCTION_NAME="GetDoubleDummyLambda"
@@ -98,7 +102,7 @@ if [ "$ACTION" = "create" ]; then
     # Set environment variables based on function type
     ENV_VARS=""
     if [[ $FUNCTION_NAME == account-* ]]; then
-        ENV_VARS="Variables={USER_TABLE=UsersTable}"
+        ENV_VARS="Variables={USER_TABLE=UsersTable,JWT_SECRET_ID=Bridge/JWT}"
     elif [[ $FUNCTION_NAME == room-* ]] || [[ $FUNCTION_NAME == websocket-* ]]; then
         # WebSocket functions need different tables based on their purpose
         if [[ $FUNCTION_NAME == websocket-connect ]] || [[ $FUNCTION_NAME == websocket-disconnect ]]; then
@@ -112,14 +116,23 @@ if [ "$ACTION" = "create" ]; then
         ENV_VARS="Variables={WEBSOCKET_CONNECTIONS_TABLE=WebSocketConnections}"
     fi
     
+    # Set timeout and memory based on function type
+    FUNCTION_TIMEOUT=$TIMEOUT
+    FUNCTION_MEMORY=$MEMORY_SIZE
+    
+    if [[ $FUNCTION_NAME == account-* ]]; then
+        FUNCTION_TIMEOUT=15  # 15 seconds for account functions
+        FUNCTION_MEMORY=512  # 512 MB for account functions
+    fi
+    
     aws lambda create-function \
         --function-name $LAMBDA_FUNCTION_NAME \
         --runtime $RUNTIME \
         --role $ROLE_ARN \
         --handler lambda_function.lambda_handler \
         --zip-file fileb://${FUNCTION_NAME}-deployment.zip \
-        --timeout $TIMEOUT \
-        --memory-size $MEMORY_SIZE \
+        --timeout $FUNCTION_TIMEOUT \
+        --memory-size $FUNCTION_MEMORY \
         --environment $ENV_VARS \
         --region $REGION
         

@@ -13,6 +13,7 @@ if [ -z "$FUNCTION_NAME" ]; then
     echo "Available functions:"
     echo "  account-create"
     echo "  account-login"
+    echo "  account-refresh-token"
     echo "  room-create"
     echo "  room-join"
     echo "  room-start"
@@ -53,11 +54,16 @@ if grep -q "def handler(" $BUILD_DIR/lambda_function.py; then
 fi
 
 # Fix imports for refactored files that use base classes or shared utilities
-if grep -q "from base_handler import\|from db_utils import\|from websocket_utils import" $BUILD_DIR/lambda_function.py; then
+if grep -q "from base_handler import\|from db_utils import\|from websocket_utils import\|from utils.\|from \." $BUILD_DIR/lambda_function.py; then
     # Update imports to work in the build directory structure
     sed -i 's/from base_handler import/from lambdas.base_handler import/g' $BUILD_DIR/lambda_function.py
     sed -i 's/from db_utils import/from lambdas.db_utils import/g' $BUILD_DIR/lambda_function.py
     sed -i 's/from websocket_utils import/from lambdas.websocket_utils import/g' $BUILD_DIR/lambda_function.py
+    sed -i 's/from utils\./from lambdas.utils./g' $BUILD_DIR/lambda_function.py
+    sed -i 's/from models\./from lambdas.models./g' $BUILD_DIR/lambda_function.py
+    # Fix relative imports
+    sed -i 's/from \.utils\./from lambdas.utils./g' $BUILD_DIR/lambda_function.py
+    sed -i 's/from \.models\./from lambdas.models./g' $BUILD_DIR/lambda_function.py
 fi
 
 # Copy function-specific requirements
