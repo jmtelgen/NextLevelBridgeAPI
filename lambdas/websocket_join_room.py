@@ -55,17 +55,21 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         # Update user's connection record
         db_utils.update_user_room(user_id, room_id)
         
+        # Convert objects to JSON-serializable format
+        room_item_serializable = self._convert_for_json(room_item)
+        game_data_serializable = self._convert_for_json(room_item.get('gameData', {}))
+        
         # Get active connections and broadcast update (excluding the user who joined the room)
         active_connections = db_utils.get_room_connections_excluding_user(room_item['seats'].values(), room_id, user_id)
         
         broadcast_message = {
             'action': 'roomUpdated',
             'success': True,
-            'room': room_item,
+            'room': room_item_serializable,
             'updateType': 'userJoined',
             'newUser': user_id,
             'assignedSeat': seat_to_assign,
-            'gameState': room_item.get('gameData', {})
+            'gameData': game_data_serializable
         }
         
         broadcast_to_connections(active_connections, broadcast_message)
@@ -74,11 +78,11 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         return self.success_response({
             'action': 'roomUpdated',
             'success': True,
-            'room': room_item,
+            'room': room_item_serializable,
             'updateType': 'userJoined',
             'newUser': user_id,
             'assignedSeat': seat_to_assign,
-            'gameState': room_item.get('gameData', {})
+            'gameData': game_data_serializable
         })
     
     def _find_available_seat(self, room_item):

@@ -164,4 +164,33 @@ class WebSocketBaseHandler(BaseLambdaHandler):
         return {
             'userId': query_params.get('userId'),
             'userName': query_params.get('userName')
-        } 
+        }
+    
+    def _deserialize_dynamodb_types(self, obj):
+        """
+        Convert DynamoDB types to regular Python types using TypeDeserializer
+        """
+        from boto3.dynamodb.types import TypeDeserializer
+        deserializer = TypeDeserializer()
+        return deserializer.deserialize(obj)
+    
+    def _convert_for_json(self, obj):
+        """
+        Convert objects to JSON-serializable format, handling both DynamoDB types and regular Python objects
+        """
+        import json
+        from decimal import Decimal
+        
+        def _convert_item(item):
+            if isinstance(item, Decimal):
+                return int(item) if item % 1 == 0 else float(item)
+            elif isinstance(item, dict):
+                return {key: _convert_item(value) for key, value in item.items()}
+            elif isinstance(item, list):
+                return [_convert_item(i) for i in item]
+            elif isinstance(item, set):
+                return list(_convert_item(i) for i in item)
+            else:
+                return item
+        
+        return _convert_item(obj) 

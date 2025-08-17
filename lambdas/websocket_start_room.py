@@ -70,16 +70,20 @@ class WebSocketStartRoomHandler(WebSocketBaseHandler):
         # Save updated room
         room_table.put_item(Item=room_item)
         
+        # Convert objects to JSON-serializable format
+        room_item_serializable = self._convert_for_json(room_item)
+        game_data_serializable = self._convert_for_json(room_item['gameData'])
+        
         # Get active connections and broadcast update (excluding the user who started the room)
         active_connections = db_utils.get_room_connections_excluding_user(room_item['seats'].values(), room_id, user_id)
         
         broadcast_message = {
             'action': 'roomStarted',
-            'room': room_item,
-            'gameData': room_item['gameData'],
+            'room': room_item_serializable,
+            'gameData': game_data_serializable,
             'updateType': 'gameStart',
             'message': 'Game started successfully',
-            'hands': room_item['gameData']['hands']
+            'hands': game_data_serializable['hands']
         }
         
         broadcast_to_connections(active_connections, broadcast_message)
@@ -88,11 +92,11 @@ class WebSocketStartRoomHandler(WebSocketBaseHandler):
         return self.success_response({
             'action': 'roomStarted',
             'success': True,
-            'room': room_item,
-            'gameData': room_item['gameData'],
+            'room': room_item_serializable,
+            'gameData': game_data_serializable,
             'updateType': 'gameStart',
             'message': 'Game started successfully',
-            'hands': room_item['gameData']['hands']
+            'hands': game_data_serializable['hands']
         })
     
     def _deal_cards(self) -> Dict[str, List[str]]:

@@ -17,6 +17,82 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
     WebSocket handler for making a bid
     """
     
+    def _determine_declarer_and_leader(self, bids):
+        """
+        Determine the declarer and opening leader based on bidding history.
+        
+        The declarer is the person (on the same team as the one who bid last) 
+        who first bid the final contract suit. The opening leader is the player
+        to the left of the declarer.
+        
+        Args:
+            bids: List of bid dictionaries with 'seat', 'bid', 'timestamp' keys
+            
+        Returns:
+            tuple: (declarer_seat, opening_leader_seat)
+        """
+        if not bids:
+            return None, None
+            
+        # Find the final contract (last non-pass bid)
+        final_contract = None
+        for bid in reversed(bids):
+            if bid['bid'] not in ['pass', 'double', 'redouble']:
+                final_contract = bid
+                break
+                
+        if not final_contract:
+            return None, None
+            
+        # Extract suit and level from final contract
+        contract_bid = final_contract['bid']
+        if contract_bid == '1NT' or contract_bid.endswith('NT'):
+            suit = 'NT'
+        else:
+            suit = contract_bid[1:]  # Extract suit (C, D, H, S)
+            
+        # Find who first bid this suit
+        first_suit_bidder = None
+        for bid in bids:
+            if bid['bid'] not in ['pass', 'double', 'redouble']:
+                bid_suit = bid['bid'][1:] if not bid['bid'].endswith('NT') else 'NT'
+                if bid_suit == suit:
+                    first_suit_bidder = bid['seat']
+                    break
+                    
+        if not first_suit_bidder:
+            # This shouldn't happen in normal bidding, but handle gracefully
+            return None, None
+            
+        # Determine if the first suit bidder is on the same team as the final bidder
+        final_bidder = final_contract['seat']
+        if self._are_partners(first_suit_bidder, final_bidder):
+            declarer = first_suit_bidder
+        else:
+            # If not partners, the declarer is the final bidder
+            declarer = final_bidder
+            
+        # Calculate opening leader (player to the left of declarer)
+        seats = ['N', 'E', 'S', 'W']
+        declarer_index = seats.index(declarer)
+        opening_leader_index = (declarer_index + 1) % 4  # Next clockwise position
+        opening_leader = seats[opening_leader_index]
+        
+        return declarer, opening_leader
+    
+    def _are_partners(self, seat1, seat2):
+        """
+        Check if two seats are partners (N/S or E/W).
+        
+        Args:
+            seat1: First seat ('N', 'E', 'S', 'W')
+            seat2: Second seat ('N', 'E', 'S', 'W')
+            
+        Returns:
+            bool: True if partners, False otherwise
+        """
+        return (seat1 in ['N', 'S'] and seat2 in ['N', 'S']) or (seat1 in ['E', 'W'] and seat2 in ['E', 'W'])
+    
     def process_websocket_request(self, event, context):
         """
         Process WebSocket make bid request
@@ -96,9 +172,13 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
         if len(recent_bids) >= 4:
             last_four_bids = [b['bid'] for b in recent_bids]
             if last_four_bids == ['pass', 'pass', 'pass', 'pass']:
-                # Bidding ended with all passes
-                game_data['currentPhase'] = 'playing'
-                game_data['turn'] = room_item['seats']['N']  # North leads
+                # Bidding ended with all passes - game ends with no winner
+                game_data['currentPhase'] = 'completed'
+                game_data['gameResult'] = 'noWinner'
+                game_data['gameEndReason'] = 'allPass'
+                game_data['winner'] = None
+                # Set next_player to None since game is over
+                next_player = None
             elif len([b for b in last_four_bids if b != 'pass']) >= 1:
                 # Check if we have a valid contract (3 passes after a non-pass bid)
                 non_pass_bids = [b for b in last_four_bids if b != 'pass']
@@ -112,14 +192,39 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
                             break
                     if pass_count >= 3:
                         game_data['currentPhase'] = 'playing'
-                        game_data['turn'] = room_item['seats']['N']  # North leads
+                        # Find the declarer and set opening leader
+                        declarer_seat, opening_leader_seat = self._determine_declarer_and_leader(game_data['bids'])
+                        
+                        if declarer_seat and opening_leader_seat:
+                            game_data['turn'] = room_item['seats'][opening_leader_seat]
+                            # Update next_player to the opening leader for frontend
+                            next_player = room_item['seats'][opening_leader_seat]
+                            # Store declarer and contract information
+                            game_data['declarer'] = declarer_seat
+                            # Get the final contract bid
+                            final_contract_bid = None
+                            for bid in reversed(recent_bids):
+                                if bid['bid'] not in ['pass', 'double', 'redouble']:
+                                    final_contract_bid = bid['bid']
+                                    break
+                            game_data['contract'] = final_contract_bid
+                            game_data['openingLeader'] = opening_leader_seat
+                        else:
+                            # Fallback to North if something goes wrong
+                            game_data['turn'] = room_item['seats']['N']
+                            next_player = room_item['seats']['N']
         
         # Update room state if phase changed
         if game_data['currentPhase'] == 'playing':
             room_item['state'] = 'playing'
+        elif game_data['currentPhase'] == 'completed':
+            room_item['state'] = 'completed'
         
         # Save updated room
         room_table.put_item(Item=room_item)
+        
+        # Convert objects to JSON-serializable format
+        game_data_serializable = self._convert_for_json(game_data)
         
         # Get active connections and broadcast update (excluding the user who made the bid)
         active_connections = db_utils.get_room_connections_excluding_user(room_item['seats'].values(), room_id, user_id)
@@ -128,24 +233,64 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
             'action': 'bidMade',
             'bid': bid_entry,
             'nextTurn': next_player,
-            'gameData': game_data,
+            'gameData': game_data_serializable,
             'roomState': room_item['state'],
             'updateType': 'bidUpdate'
         }
         
+        # If bidding phase ended, include additional information
+        if game_data.get('currentPhase') == 'playing' and 'declarer' in game_data:
+            if game_data['declarer'] is None:
+                broadcast_message['biddingResult'] = 'allPass'
+                broadcast_message['message'] = 'Bidding ended with all passes'
+            else:
+                broadcast_message['biddingResult'] = 'contract'
+                broadcast_message['declarer'] = game_data['declarer']
+                broadcast_message['contract'] = game_data['contract']
+                broadcast_message['openingLeader'] = game_data['openingLeader']
+                broadcast_message['message'] = f'Contract: {game_data["contract"]} by {game_data["declarer"]}'
+        elif game_data.get('currentPhase') == 'completed':
+            broadcast_message['biddingResult'] = 'allPass'
+            broadcast_message['gameResult'] = 'noWinner'
+            broadcast_message['gameEndReason'] = 'allPass'
+            broadcast_message['message'] = 'Game ended - all players passed'
+            # When game is completed, nextTurn should be None
+            broadcast_message['nextTurn'] = None
+        
         broadcast_to_connections(active_connections, broadcast_message)
         
         # Return success response (same as broadcast to avoid duplication)
-        return self.success_response({
+        response_data = {
             'action': 'bidMade',
             'success': True,
             'bid': bid_entry,
             'nextTurn': next_player,
-            'gameData': game_data,
+            'gameData': game_data_serializable,
             'roomState': room_item['state'],
             'updateType': 'bidUpdate',
             'message': f'Bid {bid} recorded successfully'
-        })
+        }
+        
+        # If bidding phase ended, include additional information
+        if game_data.get('currentPhase') == 'playing' and 'declarer' in game_data:
+            if game_data['declarer'] is None:
+                response_data['biddingResult'] = 'allPass'
+                response_data['message'] = 'Bidding ended with all passes'
+            else:
+                response_data['biddingResult'] = 'contract'
+                response_data['declarer'] = game_data['declarer']
+                response_data['contract'] = game_data['contract']
+                response_data['openingLeader'] = game_data['openingLeader']
+                response_data['message'] = f'Contract: {game_data["contract"]} by {game_data["declarer"]}'
+        elif game_data.get('currentPhase') == 'completed':
+            response_data['biddingResult'] = 'allPass'
+            response_data['gameResult'] = 'noWinner'
+            response_data['gameEndReason'] = 'allPass'
+            response_data['message'] = 'Game ended - all players passed'
+            # When game is completed, nextTurn should be None
+            response_data['nextTurn'] = None
+        
+        return self.success_response(response_data)
 
 # Create handler instance
 handler = WebSocketMakeBidHandler()

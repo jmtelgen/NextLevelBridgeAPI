@@ -118,7 +118,7 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
         trick_winner = None
         if len(game_data['currentTrick']) == 4:
             # Determine winner of the trick
-            trick_winner = determine_trick_winner(game_data['currentTrick'])
+            trick_winner = self._determine_trick_winner(game_data['currentTrick'])
             trick_completed = True
             
             # Add trick to completed tricks
@@ -145,14 +145,25 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
         # Save updated room
         room_table.put_item(Item=room_item)
         
+        # Convert objects to JSON-serializable format
+        game_data_serializable = self._convert_for_json(game_data)
+        
+        # Determine the correct nextTurn value
+        # If trick was completed, nextTurn should be the trick winner
+        # If trick is not complete, nextTurn should be the next player in rotation
+        if trick_completed and trick_winner:
+            next_turn = room_item['seats'][trick_winner]
+        else:
+            next_turn = next_player
+        
         # Get active connections and broadcast update (excluding the user who played the card)
         active_connections = db_utils.get_room_connections_excluding_user(room_item['seats'].values(), room_id, user_id)
         
         broadcast_message = {
             'action': 'cardPlayed',
             'play': play_entry,
-            'nextTurn': next_player,
-            'gameData': game_data,
+            'nextTurn': next_turn,
+            'gameData': game_data_serializable,
             'roomState': room_item['state'],
             'updateType': 'cardUpdate',
             'trickCompleted': trick_completed
@@ -168,41 +179,41 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
             'action': 'cardPlayed',
             'success': True,
             'play': play_entry,
-            'nextTurn': next_player,
-            'gameData': game_data,
+            'nextTurn': next_turn,
+            'gameData': game_data_serializable,
             'roomState': room_item['state'],
             'updateType': 'cardUpdate',
             'trickCompleted': trick_completed,
             'message': f'Card {card} played successfully'
         })
-
-def determine_trick_winner(trick):
-    """
-    Determine the winner of a trick based on Bridge rules
-    """
-    if not trick:
-        return None
     
-    # Get the lead suit
-    lead_suit = trick[0]['card'][1]
-    
-    # Find the highest card of the lead suit
-    highest_card = None
-    highest_rank_value = -1
-    
-    for play in trick:
-        card = play['card']
-        suit = card[1]
-        rank = card[0]
+    def _determine_trick_winner(self, trick):
+        """
+        Determine the winner of a trick based on Bridge rules
+        """
+        if not trick:
+            return None
         
-        # Only consider cards of the lead suit
-        if suit == lead_suit:
-            rank_value = RANKS.index(rank)
-            if rank_value > highest_rank_value:
-                highest_rank_value = rank_value
-                highest_card = play
-    
-    return highest_card['seat'] if highest_card else trick[0]['seat']
+        # Get the lead suit
+        lead_suit = trick[0]['card'][1]
+        
+        # Find the highest card of the lead suit
+        highest_card = None
+        highest_rank_value = -1
+        
+        for play in trick:
+            card = play['card']
+            suit = card[1]
+            rank = card[0]
+            
+            # Only consider cards of the lead suit
+            if suit == lead_suit:
+                rank_value = RANKS.index(rank)
+                if rank_value > highest_rank_value:
+                    highest_rank_value = rank_value
+                    highest_card = play
+        
+        return highest_card['seat'] if highest_card else trick[0]['seat']
 
 # Create handler instance
 handler = WebSocketPlayCardHandler()
