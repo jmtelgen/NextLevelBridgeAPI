@@ -54,6 +54,72 @@ class BaseLambdaHandler(ABC):
             'body': json.dumps({'error': error_message})
         }
     
+    def redirect_response(self, redirect_url: str, status_code: int = 302) -> Dict[str, Any]:
+        """
+        Create a redirect response for unauthenticated users
+        
+        Args:
+            redirect_url: URL to redirect to (typically login page)
+            status_code: HTTP status code (default: 302 Found)
+        """
+        return {
+            'statusCode': status_code,
+            'headers': {
+                **self.get_cors_headers(),
+                'Location': redirect_url,
+                'Cache-Control': 'no-cache, no-store, must-revalidate'
+            },
+            'body': json.dumps({
+                'error': 'Authentication required',
+                'message': 'Please log in to access this resource',
+                'redirect_url': redirect_url
+            })
+        }
+    
+    def is_authenticated(self, event: Dict[str, Any]) -> bool:
+        """
+        Check if the request is authenticated by looking for a valid JWT token
+        
+        Args:
+            event: Lambda event object
+            
+        Returns:
+            True if authenticated, False otherwise
+        """
+        try:
+            headers = event.get('headers', {}) or {}
+            auth_header = headers.get('Authorization') or headers.get('authorization')
+            
+            if not auth_header or not auth_header.startswith('Bearer '):
+                return False
+            
+            token = auth_header[7:]  # Remove "Bearer " prefix
+            if not token:
+                return False
+            
+            # Basic token validation (just check if it exists and has proper format)
+            # Full validation should be done in the auth middleware
+            return True
+            
+        except Exception:
+            return False
+    
+    def require_auth_or_redirect(self, event: Dict[str, Any], login_url: str = None) -> Optional[Dict[str, Any]]:
+        """
+        Check if user is authenticated, return redirect response if not
+        
+        Args:
+            event: Lambda event object
+            login_url: URL to redirect to if not authenticated (defaults to environment variable)
+            
+        Returns:
+            Redirect response if not authenticated, None if authenticated
+        """
+        if not self.is_authenticated(event):
+            redirect_url = login_url or os.environ.get('LOGIN_URL', '/login')
+            return self.redirect_response(redirect_url)
+        return None
+    
     def get_cors_headers(self) -> Dict[str, str]:
         """
         Get CORS headers for API responses

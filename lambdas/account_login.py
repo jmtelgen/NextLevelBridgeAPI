@@ -185,8 +185,8 @@ def lambda_handler(event, context):
         
         # Generate JWT tokens
         try:
-            access_token = jwt_utils.generate_access_token(user_data, expires_in_hours=24)
-            refresh_token = jwt_utils.generate_refresh_token(user_data, expires_in_days=30)
+            access_token = jwt_utils.generate_access_token(user_data, expires_in_minutes=15)
+            refresh_token = jwt_utils.generate_refresh_token(user_data, expires_in_days=7)
         except Exception as e:
             return {
                 'statusCode': 500,
@@ -210,20 +210,33 @@ def lambda_handler(event, context):
             'createdAt': user_item.get('createdAt')
         }
         
+        # Create the Set-Cookie header value
+        set_cookie_value = f'refresh_token={refresh_token}; HttpOnly; Path=/; Max-Age=604800'
+        
+        # Add Secure flag only if using HTTPS (you can make this configurable)
+        if os.environ.get('ENVIRONMENT') == 'production':
+            set_cookie_value += '; Secure'
+        
+        # Add SameSite attribute
+        set_cookie_value += '; SameSite=Strict'
+        
         return {
             'statusCode': 200,
+            'multiValueHeaders': {
+                'Set-Cookie': [set_cookie_value]
+            },
             'headers': {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Origin': os.environ.get('FRONTEND_URL', '*'),
                 'Access-Control-Allow-Headers': 'Content-Type,Authorization',
                 'Access-Control-Allow-Methods': 'POST,OPTIONS',
-                'Set-Cookie': f'refresh_token={refresh_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=2592000'  # 30 days
+                'Access-Control-Allow-Credentials': 'true'
             },
             'body': json.dumps({
                 'message': 'Login successful',
                 'accessToken': access_token,
                 'user': response_user,
-                'expiresIn': 86400,  # 24 hours in seconds
+                'expiresIn': 900,  # 15 minutes in seconds
                 'tokenType': 'Bearer'
             })
         }

@@ -9,6 +9,8 @@ def lambda_handler(event, context):
     
     This demonstrates how to use the @require_auth decorator to protect
     your Lambda functions and access user information from the JWT token.
+    
+    For unauthenticated users, this will return a 401 error response.
     """
     try:
         # Get user information from the authenticated event
@@ -32,6 +34,56 @@ def lambda_handler(event, context):
                 'user_info': user_info,
                 'timestamp': '2024-01-01T00:00:00Z',
                 'resource': 'example_protected_api'
+            })
+        }
+        
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+                'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS'
+            },
+            'body': json.dumps({
+                'error': 'Internal server error',
+                'message': f'An unexpected error occurred: {str(e)}'
+            })
+        }
+
+
+@require_auth(redirect_on_failure=True, login_url="/login")
+def lambda_handler_with_redirect(event, context):
+    """
+    Example protected API endpoint that redirects unauthenticated users to login
+    
+    This demonstrates how to use the @require_auth decorator with redirect functionality.
+    For unauthenticated users, this will return a 302 redirect response to the login page.
+    """
+    try:
+        # Get user information from the authenticated event
+        user_id = get_user_id_from_event(event)
+        user_info = get_user_info_from_event(event)
+        
+        # Your protected API logic here
+        # For this example, we'll just return user information
+        
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+                'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS'
+            },
+            'body': json.dumps({
+                'message': 'Access granted to protected resource with redirect support',
+                'user_id': user_id,
+                'user_info': user_info,
+                'timestamp': '2024-01-01T00:00:00Z',
+                'resource': 'example_protected_api_with_redirect',
+                'note': 'This endpoint redirects unauthenticated users to /login'
             })
         }
         

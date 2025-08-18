@@ -4,8 +4,8 @@ import boto3
 import time
 from botocore.exceptions import ClientError
 from base_handler import WebSocketBaseHandler
-from db_utils import db_utils
-from websocket_utils import broadcast_to_connections
+from lambdas.utils.db_utils import db_utils
+from lambdas.utils.websocket_utils import broadcast_to_connections
 
 VALID_BIDS = ['pass', '1C', '1D', '1H', '1S', '1NT', '2C', '2D', '2H', '2S', '2NT', 
               '3C', '3D', '3H', '3S', '3NT', '4C', '4D', '4H', '4S', '4NT', 

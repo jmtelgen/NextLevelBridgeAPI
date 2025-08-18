@@ -1,8 +1,37 @@
 import jwt
 import json
+import logging
 from functools import wraps
 from typing import Dict, Any, Optional, Callable
 from .aws_secrets import get_jwt_secret
+
+# Configure logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+
+def log_auth_event(event_type: str, details: Dict[str, Any]):
+    """
+    Log authentication events in a structured format for monitoring and analysis
+    
+    Args:
+        event_type: Type of authentication event (attempt, success, failure, etc.)
+        details: Dictionary containing event details
+    """
+    log_data = {
+        'event_type': event_type,
+        'timestamp': '2024-01-01T00:00:00Z',  # You can use datetime.now().isoformat() for real timestamp
+        'details': details
+    }
+    
+    if event_type in ['success', 'info']:
+        logger.info(f"AUTH_EVENT: {json.dumps(log_data)}")
+    elif event_type == 'warning':
+        logger.warning(f"AUTH_EVENT: {json.dumps(log_data)}")
+    elif event_type == 'error':
+        logger.error(f"AUTH_EVENT: {json.dumps(log_data)}")
+    else:
+        logger.info(f"AUTH_EVENT: {json.dumps(log_data)}")
 
 
 def require_auth(secret_id: str = None, region_name: Optional[str] = None):
@@ -23,9 +52,39 @@ def require_auth(secret_id: str = None, region_name: Optional[str] = None):
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
+            # Log authentication attempt
+            request_id = event.get('requestContext', {}).get('requestId', 'unknown')
+            source_ip = event.get('requestContext', {}).get('identity', {}).get('sourceIp', 'unknown')
+            user_agent = event.get('headers', {}).get('User-Agent', 'unknown')
+            http_method = event.get('httpMethod', 'unknown')
+            path = event.get('path', 'unknown')
+            
+            # Log authentication attempt
+            log_auth_event('attempt', {
+                'request_id': request_id,
+                'source_ip': source_ip,
+                'user_agent': user_agent,
+                'http_method': http_method,
+                'path': path,
+                'timestamp': '2024-01-01T00:00:00Z'
+            })
+            
             try:
                 # Get user from the authenticated event
                 user = get_user_from_event(event, secret_id, region_name)
+                
+                # Log successful authentication
+                user_id = user.get('userId', 'unknown')
+                username = user.get('username', 'unknown')
+                log_auth_event('success', {
+                    'request_id': request_id,
+                    'user_id': user_id,
+                    'username': username,
+                    'source_ip': source_ip,
+                    'http_method': http_method,
+                    'path': path,
+                    'timestamp': '2024-01-01T00:00:00Z'
+                })
                 
                 # Add user to the event for the decorated function to use
                 event['user'] = user
@@ -34,6 +93,39 @@ def require_auth(secret_id: str = None, region_name: Optional[str] = None):
                 return func(event, context)
                 
             except Exception as e:
+                # Log authentication failure
+                error_message = str(e)
+                error_type = "authentication_error"
+                
+                # Determine specific error type for better client handling
+                if "Missing Authorization header" in error_message:
+                    error_type = "missing_auth_header"
+                elif "Invalid Authorization header format" in error_message:
+                    error_type = "invalid_auth_format"
+                elif "JWT token is missing" in error_message:
+                    error_type = "missing_token"
+                elif "expired" in error_message.lower():
+                    error_type = "token_expired"
+                elif "Invalid token type" in error_message:
+                    error_type = "wrong_token_type"
+                elif "Invalid JWT token" in error_message:
+                    error_type = "invalid_token"
+                elif "JWT secret key not found" in error_message:
+                    error_type = "server_config_error"
+                
+                # Log the authentication failure with details
+                log_auth_event('failure', {
+                    'request_id': request_id,
+                    'error_type': error_type,
+                    'error_message': error_message,
+                    'source_ip': source_ip,
+                    'user_agent': user_agent,
+                    'http_method': http_method,
+                    'path': path,
+                    'timestamp': '2024-01-01T00:00:00Z'
+                })
+                
+                # Return standard error response with detailed information
                 return {
                     'statusCode': 401,
                     'headers': {
@@ -44,7 +136,10 @@ def require_auth(secret_id: str = None, region_name: Optional[str] = None):
                     },
                     'body': json.dumps({
                         'error': 'Unauthorized',
-                        'message': str(e)
+                        'error_type': error_type,
+                        'message': error_message,
+                        'status_code': 401,
+                        'timestamp': '2024-01-01T00:00:00Z'
                     })
                 }
         return wrapper
@@ -73,16 +168,21 @@ def get_user_from_event(event: Dict[str, Any], secret_id: str = None,
     auth_header = headers.get('Authorization') or headers.get('authorization')
     
     if not auth_header:
-        raise Exception("Authorization header is required")
+        logger.warning("Missing Authorization header in request")
+        raise Exception("Missing Authorization header. Please include 'Authorization: Bearer <token>' in your request headers.")
     
     # Extract token from "Bearer <token>" format
     if not auth_header.startswith('Bearer '):
-        raise Exception("Authorization header must start with 'Bearer '")
+        logger.warning(f"Invalid Authorization header format: {auth_header[:50]}...")
+        raise Exception("Invalid Authorization header format. Must start with 'Bearer ' followed by your JWT token.")
     
     token = auth_header[7:]  # Remove "Bearer " prefix
     
     if not token:
-        raise Exception("JWT token is required")
+        logger.warning("Authorization header exists but contains no token")
+        raise Exception("JWT token is missing. Please provide a valid JWT token after 'Bearer '.")
+    
+    logger.info(f"Token extracted successfully, length: {len(token)} characters")
     
     # Validate the token
     return validate_token(token, secret_id, region_name)
@@ -106,23 +206,65 @@ def validate_token(token: str, secret_id: str = None,
         Exception: If token validation fails
     """
     try:
+        log_auth_event('info', {
+            'action': 'token_validation_start',
+            'secret_id': secret_id or 'default',
+            'token_length': len(token)
+        })
+        
         # Get the JWT secret from AWS Secrets Manager
         secret_key = get_jwt_secret(secret_id, region_name)
         
         if not secret_key:
-            raise Exception("JWT secret key not found")
+            log_auth_event('error', {
+                'action': 'secret_key_not_found',
+                'secret_id': secret_id or 'default'
+            })
+            raise Exception("JWT secret key not found. Please check your AWS Secrets Manager configuration.")
+        
+        log_auth_event('info', {
+            'action': 'secret_key_retrieved',
+            'secret_id': secret_id or 'default'
+        })
         
         # Decode and verify the token
         payload = jwt.decode(token, secret_key, algorithms=['HS256'])
+        log_auth_event('info', {
+            'action': 'token_decoded',
+            'payload_keys': list(payload.keys()),
+            'token_type': payload.get('type'),
+            'user_id': payload.get('userId')
+        })
         
         # Check if it's an access token
-        if payload.get('type') != 'access':
-            raise Exception("Invalid token type. Access token required.")
+        token_type = payload.get('type')
+        if token_type != 'access':
+            log_auth_event('warning', {
+                'action': 'wrong_token_type',
+                'expected_type': 'access',
+                'actual_type': token_type
+            })
+            raise Exception("Invalid token type. This endpoint requires an access token, but you provided a refresh token.")
         
         # Check required fields
         user_id = payload.get('userId')
         if not user_id:
-            raise Exception("Token missing required userId field")
+            log_auth_event('warning', {
+                'action': 'missing_user_id',
+                'payload_keys': list(payload.keys())
+            })
+            raise Exception("Token is missing required 'userId' field. Please log in again to get a valid token.")
+        
+        # Log token expiration info
+        exp_timestamp = payload.get('exp')
+        if exp_timestamp:
+            from datetime import datetime
+            exp_datetime = datetime.fromtimestamp(exp_timestamp)
+            log_auth_event('info', {
+                'action': 'token_expiration_info',
+                'expires_at': exp_datetime.isoformat(),
+                'user_id': user_id
+            })
         
         # Return user information
         user_info = {
@@ -131,14 +273,34 @@ def validate_token(token: str, secret_id: str = None,
             'email': payload.get('email')
         }
         
+        log_auth_event('success', {
+            'action': 'token_validation_complete',
+            'user_id': user_id,
+            'username': payload.get('username')
+        })
+        
         return user_info
         
     except jwt.ExpiredSignatureError:
-        raise Exception("Token has expired")
+        log_auth_event('warning', {
+            'action': 'token_expired',
+            'token_length': len(token)
+        })
+        raise Exception("Your access token has expired. Please refresh your token or log in again.")
     except jwt.InvalidTokenError as e:
-        raise Exception(f"Invalid token: {str(e)}")
+        log_auth_event('warning', {
+            'action': 'invalid_token',
+            'error': str(e),
+            'token_length': len(token)
+        })
+        raise Exception(f"Invalid JWT token: {str(e)}. Please check your token or log in again.")
     except Exception as e:
-        raise Exception(f"Token validation failed: {str(e)}")
+        log_auth_event('error', {
+            'action': 'unexpected_validation_error',
+            'error': str(e),
+            'token_length': len(token)
+        })
+        raise Exception(f"Token validation failed: {str(e)}. Please try logging in again.")
 
 
 def get_user_id_from_event(event: Dict[str, Any]) -> str:

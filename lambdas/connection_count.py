@@ -1,5 +1,6 @@
 from base_handler import BaseLambdaHandler
-from db_utils import db_utils
+from lambdas.utils.auth_middleware import require_auth
+from lambdas.utils.db_utils import db_utils
 
 class ConnectionCountHandler(BaseLambdaHandler):
     """
@@ -20,8 +21,9 @@ class ConnectionCountHandler(BaseLambdaHandler):
         return self.success_response(stats)
 
 # Create handler instance
-handler = ConnectionCountHandler()
+connection_handler = ConnectionCountHandler()
 
 # Lambda handler function
-def handler(event, context):
-    return handler.handle_request(event, context) 
+@require_auth()
+def lambda_handler(event, context):
+    return connection_handler.handle_request(event, context) 

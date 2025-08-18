@@ -4,8 +4,8 @@ import boto3
 import time
 from botocore.exceptions import ClientError
 from base_handler import WebSocketBaseHandler
-from db_utils import db_utils
-from websocket_utils import broadcast_to_connections
+from lambdas.utils.db_utils import db_utils
+from lambdas.utils.websocket_utils import broadcast_to_connections
 
 SUITS = ['C', 'D', 'H', 'S']
 RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']

@@ -3,8 +3,8 @@ import os
 import boto3
 from botocore.exceptions import ClientError
 from base_handler import WebSocketBaseHandler
-from db_utils import db_utils
-from websocket_utils import broadcast_to_connections
+from lambdas.utils.db_utils import db_utils
+from lambdas.utils.websocket_utils import broadcast_to_connections
 from typing import Dict, List
 
 SEATS = ['N', 'E', 'S', 'W']

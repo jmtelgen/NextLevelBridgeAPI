@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Debug Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+        input { padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 3px; width: 300px; }
+    </style>
+</head>
+<body>
+    <h1>🍪 Cookie Debug Tool</h1>
+    <p>Use this tool to debug refresh token cookie issues.</p>
+
+    <div class="section info">
+        <h3>1. Check Current Cookies</h3>
+        <button onclick="checkCookies()">Check All Cookies</button>
+        <button onclick="checkRefreshToken()">Check Refresh Token Cookie</button>
+        <div id="cookieInfo"></div>
+    </div>
+
+    <div class="section info">
+        <h3>2. Test Login (Set Cookie)</h3>
+        <p>This will simulate setting a refresh token cookie:</p>
+        <input type="text" id="testRefreshToken" placeholder="Enter a test refresh token" value="test_refresh_token_123">
+        <button onclick="setTestCookie()">Set Test Cookie</button>
+        <div id="loginResult"></div>
+    </div>
+
+    <div class="section info">
+        <h3>3. Test Refresh Token API</h3>
+        <p>Test calling the refresh token endpoint:</p>
+        <input type="text" id="apiUrl" placeholder="Enter your API URL" value="/api/auth/refresh-token">
+        <button onclick="testRefreshAPI()">Test Refresh API</button>
+        <div id="refreshResult"></div>
+    </div>
+
+    <div class="section info">
+        <h3>4. Manual Cookie Operations</h3>
+        <button onclick="clearAllCookies()">Clear All Cookies</button>
+        <button onclick="showCookieDetails()">Show Cookie Details</button>
+        <div id="manualResult"></div>
+    </div>
+
+    <script>
+        function checkCookies() {
+            const allCookies = document.cookie;
+            const cookieInfo = document.getElementById('cookieInfo');
+            
+            if (!allCookies) {
+                cookieInfo.innerHTML = '<div class="error">❌ No cookies found</div>';
+                return;
+            }
+            
+            const cookies = allCookies.split(';').map(c => c.trim());
+            let html = '<div class="success">✅ Cookies found:</div><pre>';
+            cookies.forEach(cookie => {
+                html += `${cookie}\n`;
+            });
+            html += '</pre>';
+            cookieInfo.innerHTML = html;
+        }
+
+        function checkRefreshToken() {
+            const cookies = document.cookie.split(';');
+            const refreshTokenCookie = cookies.find(cookie => 
+                cookie.trim().startsWith('refresh_token=')
+            );
+            
+            const cookieInfo = document.getElementById('cookieInfo');
+            
+            if (refreshTokenCookie) {
+                const token = refreshTokenCookie.split('=')[1];
+                cookieInfo.innerHTML = `
+                    <div class="success">✅ Refresh token cookie found:</div>
+                    <pre>Name: refresh_token
+Value: ${token}
+Length: ${token.length} characters</pre>
+                `;
+            } else {
+                cookieInfo.innerHTML = '<div class="error">❌ Refresh token cookie not found</div>';
+            }
+        }
+
+        function setTestCookie() {
+            const testToken = document.getElementById('testRefreshToken').value;
+            if (!testToken) {
+                alert('Please enter a test refresh token');
+                return;
+            }
+            
+            // Set a test cookie (for debugging only)
+            document.cookie = `refresh_token=${testToken}; Path=/; Max-Age=604800`;
+            
+            const loginResult = document.getElementById('loginResult');
+            loginResult.innerHTML = `
+                <div class="success">✅ Test cookie set successfully</div>
+                <p>Cookie: refresh_token=${testToken}</p>
+                <p>Now check the cookies again to verify it was set.</p>
+            `;
+        }
+
+        async function testRefreshAPI() {
+            const apiUrl = document.getElementById('apiUrl').value;
+            if (!apiUrl) {
+                alert('Please enter an API URL');
+                return;
+            }
+            
+            const refreshResult = document.getElementById('refreshResult');
+            refreshResult.innerHTML = '<div class="info">🔄 Testing refresh API...</div>';
+            
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    credentials: 'include', // Important: include cookies
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const responseText = await response.text();
+                let responseData;
+                try {
+                    responseData = JSON.parse(responseText);
+                } catch (e) {
+                    responseData = { raw: responseText };
+                }
+                
+                let resultHtml = `
+                    <div class="${response.ok ? 'success' : 'error'}">
+                        ${response.ok ? '✅' : '❌'} API Response (${response.status})
+                    </div>
+                    <pre>Status: ${response.status}
+Headers: ${JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2)}
+Body: ${JSON.stringify(responseData, null, 2)}</pre>
+                `;
+                
+                if (response.status === 400 && responseData.message?.includes('Refresh token not found')) {
+                    resultHtml += `
+                        <div class="error">
+                            <strong>Issue Identified:</strong> The API can't find the refresh token.
+                            <br>This usually means:
+                            <ul>
+                                <li>The cookie isn't being sent with the request</li>
+                                <li>The cookie name doesn't match what the API expects</li>
+                                <li>The cookie domain/path is incorrect</li>
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                refreshResult.innerHTML = resultHtml;
+                
+            } catch (error) {
+                refreshResult.innerHTML = `
+                    <div class="error">❌ Error calling API: ${error.message}</div>
+                    <p>This might indicate a network issue or incorrect URL.</p>
+                `;
+            }
+        }
+
+        function clearAllCookies() {
+            const cookies = document.cookie.split(';');
+            cookies.forEach(cookie => {
+                const name = cookie.split('=')[0].trim();
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            });
+            
+            const manualResult = document.getElementById('manualResult');
+            manualResult.innerHTML = '<div class="success">✅ All cookies cleared</div>';
+        }
+
+        function showCookieDetails() {
+            const cookies = document.cookie.split(';');
+            let html = '<div class="info">📋 Cookie Details:</div><pre>';
+            
+            if (cookies.length === 0 || (cookies.length === 1 && cookies[0] === '')) {
+                html += 'No cookies found\n';
+            } else {
+                cookies.forEach(cookie => {
+                    const [name, value] = cookie.trim().split('=');
+                    html += `Name: ${name}\nValue: ${value}\nLength: ${value?.length || 0}\n---\n`;
+                });
+            }
+            
+            html += '</pre>';
+            
+            const manualResult = document.getElementById('manualResult');
+            manualResult.innerHTML = html;
+        }
+
+        // Auto-check cookies on page load
+        window.onload = function() {
+            checkCookies();
+        };
+    </script>
+</body>
+</html>

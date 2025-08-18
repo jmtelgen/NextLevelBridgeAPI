@@ -5,7 +5,7 @@ import random
 import logging
 import time
 from base_handler import WebSocketBaseHandler
-from db_utils import db_utils
+from lambdas.utils.db_utils import db_utils
 
 # Configure logging
 logger = logging.getLogger()

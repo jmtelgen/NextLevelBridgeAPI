@@ -33,13 +33,13 @@ class JWTUtils:
                 raise Exception(f"Failed to retrieve JWT secret key: {str(e)}")
         return self._secret_key
     
-    def generate_access_token(self, user_data: Dict[str, Any], expires_in_hours: int = 24) -> str:
+    def generate_access_token(self, user_data: Dict[str, Any], expires_in_minutes: int = 15) -> str:
         """
         Generate a JWT access token
         
         Args:
             user_data: User data to include in the token payload
-            expires_in_hours: Token expiration time in hours (default: 24)
+            expires_in_minutes: Token expiration time in minutes (default: 15)
             
         Returns:
             JWT access token string
@@ -48,20 +48,20 @@ class JWTUtils:
             'userId': user_data.get('userId'),
             'username': user_data.get('username'),
             'email': user_data.get('email'),
-            'exp': datetime.now(timezone.utc) + timedelta(hours=expires_in_hours),
+            'exp': datetime.now(timezone.utc) + timedelta(minutes=expires_in_minutes),
             'iat': datetime.now(timezone.utc),
             'type': 'access'
         }
         
         return jwt.encode(payload, self.secret_key, algorithm='HS256')
     
-    def generate_refresh_token(self, user_data: Dict[str, Any], expires_in_days: int = 30) -> str:
+    def generate_refresh_token(self, user_data: Dict[str, Any], expires_in_days: int = 7) -> str:
         """
         Generate a JWT refresh token
         
         Args:
             user_data: User data to include in the token payload
-            expires_in_days: Token expiration time in days (default: 30)
+            expires_in_days: Token expiration time in days (default: 7)
             
         Returns:
             JWT refresh token string
@@ -98,13 +98,13 @@ class JWTUtils:
         except jwt.InvalidTokenError as e:
             raise jwt.InvalidTokenError(f"Invalid token: {str(e)}")
     
-    def refresh_access_token(self, refresh_token: str, expires_in_hours: int = 24) -> str:
+    def refresh_access_token(self, refresh_token: str, expires_in_minutes: int = 15) -> str:
         """
         Generate a new access token using a valid refresh token
         
         Args:
             refresh_token: Valid refresh token
-            expires_in_hours: New access token expiration time in hours
+            expires_in_minutes: New access token expiration time in minutes
             
         Returns:
             New JWT access token string
@@ -127,7 +127,7 @@ class JWTUtils:
                 'email': payload.get('email')
             }
             
-            return self.generate_access_token(user_data, expires_in_hours)
+            return self.generate_access_token(user_data, expires_in_minutes)
             
         except jwt.InvalidTokenError as e:
             raise jwt.InvalidTokenError(f"Invalid refresh token: {str(e)}")
@@ -179,14 +179,14 @@ class JWTUtils:
 
 
 # Convenience functions for backward compatibility
-def generate_access_token(user_data: Dict[str, Any], expires_in_hours: int = 24, 
+def generate_access_token(user_data: Dict[str, Any], expires_in_minutes: int = 15, 
                          secret_id: str = None, region_name: Optional[str] = None) -> str:
     """Generate a JWT access token"""
     jwt_utils = JWTUtils(secret_id, region_name)
-    return jwt_utils.generate_access_token(user_data, expires_in_hours)
+    return jwt_utils.generate_access_token(user_data, expires_in_minutes)
 
 
-def generate_refresh_token(user_data: Dict[str, Any], expires_in_days: int = 30,
+def generate_refresh_token(user_data: Dict[str, Any], expires_in_days: int = 7,
                           secret_id: str = None, region_name: Optional[str] = None) -> str:
     """Generate a JWT refresh token"""
     jwt_utils = JWTUtils(secret_id, region_name)
@@ -199,8 +199,8 @@ def verify_token(token: str, secret_id: str = None, region_name: Optional[str] =
     return jwt_utils.verify_token(token)
 
 
-def refresh_access_token(refresh_token: str, expires_in_hours: int = 24,
+def refresh_access_token(refresh_token: str, expires_in_minutes: int = 15,
                         secret_id: str = None, region_name: Optional[str] = None) -> str:
     """Generate a new access token using a valid refresh token"""
     jwt_utils = JWTUtils(secret_id, region_name)
-    return jwt_utils.refresh_access_token(refresh_token, expires_in_hours)
+    return jwt_utils.refresh_access_token(refresh_token, expires_in_minutes)
