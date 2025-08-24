@@ -1,15 +1,6 @@
-# Core dependencies
-boto3>=1.26.0
-botocore>=1.29.0
-
-# JWT handling
-PyJWT>=2.8.0
-
-# Password hashing
-bcrypt>=4.0.0
-
-# Data validation
-pydantic>=2.0.0
-
-# AWS Lambda runtime
-python-dateutil>=2.8.0 
+boto3
+pydantic==1.10.13
+passlib
+typing_extensions
+bcrypt
+PyJWT 

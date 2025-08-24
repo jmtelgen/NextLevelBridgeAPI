@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-"""
-Test script to verify the login API is properly setting the Set-Cookie header
-"""
-
 import requests
 import json
 

@@ -211,6 +211,7 @@ class WebSocketBaseHandler(BaseLambdaHandler):
     def validate_route_key(self, event: Dict[str, Any], expected_route: str) -> None:
         """
         Validate that the route key matches expected value
+        Raises ValueError if route key is invalid
         """
         route_key = event.get('requestContext', {}).get('routeKey')
         if route_key != expected_route:

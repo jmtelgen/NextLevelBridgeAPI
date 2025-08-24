@@ -5,7 +5,8 @@ import time
 from botocore.exceptions import ClientError
 from base_handler import WebSocketBaseHandler
 from lambdas.utils.db_utils import db_utils
-from lambdas.utils.websocket_utils import broadcast_to_connections
+from lambdas.utils.websocket_utils import broadcast_to_connection
+from lambdas.utils.seat_filtering import create_seat_based_response, broadcast_game_update
 
 SUITS = ['C', 'D', 'H', 'S']
 RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
@@ -20,7 +21,10 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
         Process WebSocket play card request
         """
         # Validate route key
-        self.validate_route_key(event, 'playCard')
+        try:
+            self.validate_route_key(event, 'playCard')
+        except ValueError as e:
+            return self.error_response(400, str(e))
         
         # Parse request body
         body = self.parse_body(event)
@@ -157,36 +161,45 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
         else:
             next_turn = next_player
         
-        # Get active connections and broadcast update (excluding the user who played the card)
-        active_connections = db_utils.get_room_connections_excluding_user(room_item['seats'].values(), room_id, user_id)
-        
-        broadcast_message = {
+        # Create last action for broadcast
+        last_action = {
             'action': 'cardPlayed',
             'play': play_entry,
             'nextTurn': next_turn,
-            'gameData': game_data_serializable,
-            'roomState': room_item['state'],
-            'updateType': 'cardUpdate',
             'trickCompleted': trick_completed
         }
         
         if trick_completed and trick_winner:
-            broadcast_message['trickWinner'] = trick_winner
+            last_action['trickWinner'] = trick_winner
         
-        broadcast_to_connections(active_connections, broadcast_message)
+        # Create personalized response for the original caller
+        personalized_response = create_seat_based_response(
+            game_data=game_data,
+            room_seats=room_item['seats'],
+            user_id=user_id,
+            action='cardPlayed',
+            message=f'Card {card} played successfully'
+        )
         
-        # Return success response (same as broadcast to avoid duplication)
-        return self.success_response({
-            'action': 'cardPlayed',
-            'success': True,
-            'play': play_entry,
-            'nextTurn': next_turn,
-            'gameData': game_data_serializable,
-            'roomState': room_item['state'],
-            'updateType': 'cardUpdate',
-            'trickCompleted': trick_completed,
-            'message': f'Card {card} played successfully'
-        })
+        # Broadcast personalized updates to all other players
+        def broadcast_to_user(target_user_id, response):
+            # Get connection for this user and send message
+            connection = db_utils.get_room_connection(target_user_id)
+            if connection:
+                broadcast_to_connection(connection, response.dict())
+        
+        broadcast_game_update(
+            room_id=room_id,
+            game_data=game_data,
+            room_seats=room_item['seats'],
+            action='cardPlayed',
+            message=f'Card {card} played by {user_seat}',
+            exclude_user_id=user_id,
+            broadcast_function=broadcast_to_user
+        )
+        
+        # Return personalized response to the original caller
+        return self.success_response(personalized_response.dict())
     
     def _determine_trick_winner(self, trick, contract=None):
         """

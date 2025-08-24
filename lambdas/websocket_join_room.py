@@ -1,7 +1,7 @@
 import random
 from base_handler import WebSocketBaseHandler
 from lambdas.utils.db_utils import db_utils
-from lambdas.utils.websocket_utils import broadcast_to_connections
+from lambdas.utils.websocket_utils import broadcast_to_connection
 
 SEATS = ['N', 'E', 'S', 'W']
 
@@ -15,7 +15,10 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         Process WebSocket join room request
         """
         # Validate route key
-        self.validate_route_key(event, 'joinRoom')
+        try:
+            self.validate_route_key(event, 'joinRoom')
+        except ValueError as e:
+            return self.error_response(400, str(e))
         
         # Parse request body
         body = self.parse_body(event)
@@ -50,7 +53,10 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         room_item['seats'][seat_to_assign] = user_id
         
         # Update room in database
-        room_table.put_item(Item=room_item)
+        try:
+            room_table.put_item(Item=room_item)
+        except Exception as e:
+            return self.error_response(500, f"Unexpected error: {str(e)}")
         
         # Update user's connection record
         db_utils.update_user_room(user_id, room_id)
@@ -60,7 +66,11 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         game_data_serializable = self._convert_for_json(room_item.get('gameData', {}))
         
         # Get active connections and broadcast update (excluding the user who joined the room)
-        active_connections = db_utils.get_room_connections_excluding_user(room_item['seats'].values(), room_id, user_id)
+        active_connections = []
+        for _, seat_user_id in room_item['seats'].items():
+            if seat_user_id:  # Only process occupied seats
+                active_connections.extend(db_utils.get_room_connection(seat_user_id))
+        active_connections = list(set(active_connections))
         
         broadcast_message = {
             'action': 'roomUpdated',
@@ -72,7 +82,8 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
             'gameData': game_data_serializable
         }
         
-        broadcast_to_connections(active_connections, broadcast_message)
+        for connection in active_connections:
+            broadcast_to_connection(connection, broadcast_message)
         
         # Return success response (same as broadcast to avoid duplication)
         return self.success_response({
@@ -101,4 +112,10 @@ handler = WebSocketJoinRoomHandler()
 
 # Lambda handler function
 def lambda_handler(event, context):
-    return handler.handle_websocket_request(event, context) 
+    try:
+        return handler.handle_websocket_request(event, context)
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': f'WebSocket error: {str(e)}'
+        } 

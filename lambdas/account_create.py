@@ -189,93 +189,97 @@ def lambda_handler(event, context):
         except ClientError as e:
             # Fallback to scan if GSI scan fails
             print(f"DEBUG: GSI scan failed, falling back to table scan: {e}")
-            response = table.scan(
-                FilterExpression='username = :username OR email = :email',
-                ExpressionAttributeValues={
-                    ':username': username,
-                    ':email': email
-                },
-                ProjectionExpression='username, email'
-            )
-            
-            if response['Count'] > 0:
-                for item in response['Items']:
-                    if item.get('username') == username:
-                        return {
-                            'statusCode': 409,
-                            'headers': {
-                                'Content-Type': 'application/json',
-                                'Access-Control-Allow-Origin': '*',
-                                'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-                                'Access-Control-Allow-Methods': 'POST,OPTIONS'
-                            },
-                            'body': json.dumps({
-                                'error': 'Username already exists',
-                                'message': 'An account with this username already exists'
-                            })
-                        }
-                    elif item.get('email') == email:
-                        return {
-                            'statusCode': 409,
-                            'headers': {
-                                'Content-Type': 'application/json',
-                                'Access-Control-Allow-Origin': '*',
-                                'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-                                'Access-Control-Allow-Methods': 'POST,OPTIONS'
-                            },
-                            'body': json.dumps({
-                                'error': 'Email already exists',
-                                'message': 'An account with this email already exists'
-                            })
-                        }
-            
-            print("DEBUG: Fallback scan completed - username and email are available")
-            error_code = e.response['Error']['Code']
-            error_message = e.response['Error']['Message']
-            print(f"DEBUG: DynamoDB ClientError - Code: {error_code}, Message: {error_message}")
-            
-            if error_code == 'ResourceNotFoundException':
-                return {
-                    'statusCode': 500,
-                    'headers': {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-                        'Access-Control-Allow-Methods': 'POST,OPTIONS'
+            try:
+                response = table.scan(
+                    FilterExpression='username = :username OR email = :email',
+                    ExpressionAttributeValues={
+                        ':username': username,
+                        ':email': email
                     },
-                    'body': json.dumps({
-                        'error': 'Table not found',
-                        'message': f'DynamoDB table "{table_name}" does not exist'
-                    })
-                }
-            elif error_code == 'AccessDeniedException':
-                return {
-                    'statusCode': 500,
-                    'headers': {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-                        'Access-Control-Allow-Methods': 'POST,OPTIONS'
-                    },
-                    'body': json.dumps({
-                        'error': 'Access denied',
-                        'message': f'Lambda does not have permission to access table "{table_name}"'
-                    })
-                }
-            else:
-                return {
-                    'statusCode': 500,
-                    'headers': {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-                        'Access-Control-Allow-Methods': 'POST,OPTIONS'
-                    },
-                    'body': json.dumps({
-                        'error': 'Database error',
-                        'message': f'DynamoDB error: {error_code} - {error_message}'
-                    })
-                }
+                    ProjectionExpression='username, email'
+                )
+                
+                if response['Count'] > 0:
+                    for item in response['Items']:
+                        if item.get('username') == username:
+                            return {
+                                'statusCode': 409,
+                                'headers': {
+                                    'Content-Type': 'application/json',
+                                    'Access-Control-Allow-Origin': '*',
+                                    'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+                                    'Access-Control-Allow-Methods': 'POST,OPTIONS'
+                                },
+                                'body': json.dumps({
+                                    'error': 'Username already exists',
+                                    'message': 'An account with this username already exists'
+                                })
+                            }
+                        elif item.get('email') == email:
+                            return {
+                                'statusCode': 409,
+                                'headers': {
+                                    'Content-Type': 'application/json',
+                                    'Access-Control-Allow-Origin': '*',
+                                    'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+                                    'Access-Control-Allow-Methods': 'POST,OPTIONS'
+                                },
+                                'body': json.dumps({
+                                    'error': 'Email already exists',
+                                    'message': 'An account with this email already exists'
+                                })
+                            }
+                
+                print("DEBUG: Fallback scan completed - username and email are available")
+                
+            except ClientError as fallback_error:
+                # If fallback scan also fails, handle the error
+                error_code = fallback_error.response['Error']['Code']
+                error_message = fallback_error.response['Error']['Message']
+                print(f"DEBUG: Fallback scan also failed - Code: {error_code}, Message: {error_message}")
+                
+                if error_code == 'ResourceNotFoundException':
+                    return {
+                        'statusCode': 500,
+                        'headers': {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+                            'Access-Control-Allow-Methods': 'POST,OPTIONS'
+                        },
+                        'body': json.dumps({
+                            'error': 'Table not found',
+                            'message': f'DynamoDB table "{table_name}" does not exist'
+                        })
+                    }
+                elif error_code == 'AccessDeniedException':
+                    return {
+                        'statusCode': 500,
+                        'headers': {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+                            'Access-Control-Allow-Methods': 'POST,OPTIONS'
+                        },
+                        'body': json.dumps({
+                            'error': 'Access denied',
+                            'message': f'Lambda does not have permission to access table "{table_name}"'
+                        })
+                    }
+                else:
+                    return {
+                        'statusCode': 500,
+                        'headers': {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+                            'Access-Control-Allow-Methods': 'POST,OPTIONS'
+                        },
+                        'body': json.dumps({
+                            'error': 'Database error',
+                            'message': f'DynamoDB error: {error_code} - {error_message}'
+                        })
+                    }
         
         # Generate user ID and timestamp
         user_id = str(uuid.uuid4())

@@ -25,7 +25,10 @@ class WebSocketCreateRoomHandler(WebSocketBaseHandler):
         
         try:
             # Validate route key
-            self.validate_route_key(event, 'createRoom')
+            try:
+                self.validate_route_key(event, 'createRoom')
+            except ValueError as e:
+                return self.error_response(400, str(e))
             
             # Parse request body
             body = self.parse_body(event)
@@ -58,7 +61,7 @@ class WebSocketCreateRoomHandler(WebSocketBaseHandler):
                     'request_id': request_id,
                     'data': data
                 })
-                return self.error_response(400, error)
+                return self.error_response(400, f"Missing required field: {error}")
             
             # Generate room ID
             room_id = str(uuid.uuid4())
@@ -215,6 +218,9 @@ class WebSocketCreateRoomHandler(WebSocketBaseHandler):
                     'user_id': user_id,
                     'room_id': room_id
                 })
+                return False
+            
+            return success
                 
         except Exception as e:
             duration = time.time() - start_time
@@ -234,6 +240,7 @@ class WebSocketCreateRoomHandler(WebSocketBaseHandler):
                 'user_id': user_id,
                 'room_id': room_id
             })
+            return False
 
 # Create handler instance
 handler = WebSocketCreateRoomHandler()

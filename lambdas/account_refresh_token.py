@@ -51,7 +51,21 @@ def lambda_handler(event, context):
                     try:
                         body = json.loads(body_raw)
                     except json.JSONDecodeError:
-                        body = {}
+                        logger.error(f"Invalid JSON in request body - RequestID: {request_id}")
+                        return {
+                            'statusCode': 400,
+                            'headers': {
+                                'Content-Type': 'application/json',
+                                'Access-Control-Allow-Origin': '*',
+                                'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+                                'Access-Control-Allow-Methods': 'POST,OPTIONS'
+                            },
+                            'body': json.dumps({
+                                'error': 'Invalid JSON',
+                                'message': 'Request body must be valid JSON',
+                                'request_id': request_id
+                            })
+                        }
                 elif isinstance(body_raw, dict):
                     body = body_raw
                 else:

@@ -11,6 +11,8 @@ class DatabaseUtils:
     
     def __init__(self):
         self.dynamodb = boto3.resource('dynamodb')
+        # Cache commonly used tables to avoid repeated lookups
+        self._websocket_connections_table = None
     
     def get_table(self, table_name_env: str):
         """
@@ -22,13 +24,22 @@ class DatabaseUtils:
             raise ValueError(f"{table_name_env} environment variable not set")
         return self.dynamodb.Table(table_name)
     
+    @property
+    def websocket_connections_table(self):
+        """
+        Get cached websocket connections table
+        """
+        if self._websocket_connections_table is None:
+            self._websocket_connections_table = self.get_table('WEBSOCKET_CONNECTIONS_TABLE')
+        return self._websocket_connections_table
+    
     def update_user_room(self, user_id: str, room_id: str) -> bool:
         """
         Update the user's current room in the connections table
         Returns True if successful, False otherwise
         """
         try:
-            connections_table = self.get_table('WEBSOCKET_CONNECTIONS_TABLE')
+            connections_table = self.websocket_connections_table
             
             # Find the user's connection
             response = connections_table.scan(
@@ -76,58 +87,45 @@ class DatabaseUtils:
             print(f"Error updating user room: {str(e)}")
             return False
     
-    def get_room_connections(self, user_ids: List[str], room_id: str) -> List[str]:
+    def get_room_connection(self, user_id: str) -> str:
         """
-        Get active WebSocket connections for users in a specific room
-        """
-        try:
-            connections_table = self.get_table('WEBSOCKET_CONNECTIONS_TABLE')
+        Get the first active WebSocket connection for a specific user
+        
+        Args:
+            user_id: The user ID to get connection for
             
-            connection_ids = []
-            for user_id in user_ids:
-                if user_id and not user_id.startswith('robot-'):  # Skip robot players
-                    response = connections_table.scan(
-                        FilterExpression='#status = :status AND #userId = :userId',
-                        ExpressionAttributeNames={'#status': 'status', '#userId': 'userId'},
-                        ExpressionAttributeValues={':status': 'connected', ':userId': user_id}
-                    )
-                    connection_ids.extend([item['connectionId'] for item in response.get('Items', [])])
-            
-            return list(set(connection_ids))  # Remove duplicates
-            
-        except Exception as e:
-            print(f"Error getting room connections: {str(e)}")
-            return []
-    
-    def get_room_connections_excluding_user(self, user_ids: List[str], room_id: str, exclude_user_id: str) -> List[str]:
-        """
-        Get active WebSocket connections for users in a specific room, excluding a specific user
+        Returns:
+            The first available connection ID, or None if no connections found
         """
         try:
-            connections_table = self.get_table('WEBSOCKET_CONNECTIONS_TABLE')
+            connections_table = self.websocket_connections_table
             
-            connection_ids = []
-            for user_id in user_ids:
-                if user_id and not user_id.startswith('robot-') and user_id != exclude_user_id:  # Skip robot players and excluded user
-                    response = connections_table.scan(
-                        FilterExpression='#status = :status AND #userId = :userId',
-                        ExpressionAttributeNames={'#status': 'status', '#userId': 'userId'},
-                        ExpressionAttributeValues={':status': 'connected', ':userId': user_id}
-                    )
-                    connection_ids.extend([item['connectionId'] for item in response.get('Items', [])])
+            if user_id:
+                response = connections_table.scan(
+                    FilterExpression='#status = :status AND #userId = :userId',
+                    ExpressionAttributeNames={'#status': 'status', '#userId': 'userId'},
+                    ExpressionAttributeValues={':status': 'connected', ':userId': user_id}
+                )
+                
+                # Return the first available connection
+                items = response.get('Items', [])
+                if items:
+                    print(f"Found {len(items)} connections for user {user_id}")
+                    return items[0]['connectionId']
             
-            return list(set(connection_ids))  # Remove duplicates
+            return None
             
         except Exception as e:
-            print(f"Error getting room connections excluding user: {str(e)}")
-            return []
+            print(f"Error getting room connection for user {user_id}: {str(e)}")
+            return None
+
     
     def get_active_room_count(self) -> int:
         """
         Get the count of unique active rooms
         """
         try:
-            connections_table = self.get_table('WEBSOCKET_CONNECTIONS_TABLE')
+            connections_table = self.websocket_connections_table
             
             active_rooms: Set[str] = set()
             
@@ -161,7 +159,7 @@ class DatabaseUtils:
         Get the count of unique active users
         """
         try:
-            connections_table = self.get_table('WEBSOCKET_CONNECTIONS_TABLE')
+            connections_table = self.websocket_connections_table
             
             active_users: Set[str] = set()
             
@@ -195,7 +193,7 @@ class DatabaseUtils:
         Get both active user count and active room count in a single scan
         """
         try:
-            connections_table = self.get_table('WEBSOCKET_CONNECTIONS_TABLE')
+            connections_table = self.websocket_connections_table
             
             active_rooms: Set[str] = set()
             active_users: Set[str] = set()
@@ -205,15 +203,14 @@ class DatabaseUtils:
             
             # Process first batch
             for item in response.get('Items', []):
-                # Count active rooms
-                room_id = item.get('currentRoomId')
-                if room_id and room_id != 'not-joined':
-                    active_rooms.add(room_id)
-                
-                # Count active users
+                # Count active users first
                 user_id = item.get('userId')
                 if user_id and item.get('status') == 'connected':
                     active_users.add(user_id)
+                    # Only count rooms that have connected users
+                    room_id = item.get('currentRoomId')
+                    if room_id and room_id != 'not-joined':
+                        active_rooms.add(room_id)
             
             # Continue scanning if there are more items
             while 'LastEvaluatedKey' in response:
@@ -221,15 +218,14 @@ class DatabaseUtils:
                     ExclusiveStartKey=response['LastEvaluatedKey']
                 )
                 for item in response.get('Items', []):
-                    # Count active rooms
-                    room_id = item.get('currentRoomId')
-                    if room_id and room_id != 'not-joined':
-                        active_rooms.add(room_id)
-                    
-                    # Count active users
+                    # Count active users first
                     user_id = item.get('userId')
                     if user_id and item.get('status') == 'connected':
                         active_users.add(user_id)
+                        # Only count rooms that have connected users
+                        room_id = item.get('currentRoomId')
+                        if room_id and room_id != 'not-joined':
+                            active_rooms.add(room_id)
             
             return {
                 'activeUserCount': len(active_users),
@@ -272,7 +268,7 @@ class DatabaseUtils:
         """
         try:
             print(f"Creating connection record for connection_id: {connection_id}, user_id: {user_id}")
-            connections_table = self.get_table('WEBSOCKET_CONNECTIONS_TABLE')
+            connections_table = self.websocket_connections_table
             
             if not request_time:
                 request_time = int(datetime.now().timestamp() * 1000)
@@ -304,7 +300,7 @@ class DatabaseUtils:
         Delete a connection record from the connections table
         """
         try:
-            connections_table = self.get_table('WEBSOCKET_CONNECTIONS_TABLE')
+            connections_table = self.websocket_connections_table
             
             key = {
                 'connectionId': connection_id,

@@ -2,10 +2,10 @@ import json
 import os
 import boto3
 import time
-from botocore.exceptions import ClientError
 from base_handler import WebSocketBaseHandler
 from lambdas.utils.db_utils import db_utils
-from lambdas.utils.websocket_utils import broadcast_to_connections
+from lambdas.utils.websocket_utils import broadcast_to_connection
+from lambdas.utils.seat_filtering import create_seat_based_response, broadcast_game_update
 
 VALID_BIDS = ['pass', '1C', '1D', '1H', '1S', '1NT', '2C', '2D', '2H', '2S', '2NT', 
               '3C', '3D', '3H', '3S', '3NT', '4C', '4D', '4H', '4S', '4NT', 
@@ -98,7 +98,10 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
         Process WebSocket make bid request
         """
         # Validate route key
-        self.validate_route_key(event, 'makeBid')
+        try:
+            self.validate_route_key(event, 'makeBid')
+        except ValueError as e:
+            return self.error_response(400, str(e))
         
         # Parse request body
         body = self.parse_body(event)
@@ -223,74 +226,60 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
         # Save updated room
         room_table.put_item(Item=room_item)
         
-        # Convert objects to JSON-serializable format
-        game_data_serializable = self._convert_for_json(game_data)
-        
-        # Get active connections and broadcast update (excluding the user who made the bid)
-        active_connections = db_utils.get_room_connections_excluding_user(room_item['seats'].values(), room_id, user_id)
-        
-        broadcast_message = {
+        # Create last action for broadcast
+        last_action = {
             'action': 'bidMade',
             'bid': bid_entry,
-            'nextTurn': next_player,
-            'gameData': game_data_serializable,
-            'roomState': room_item['state'],
-            'updateType': 'bidUpdate'
+            'nextTurn': next_player
         }
         
-        # If bidding phase ended, include additional information
+        # Add bidding result information if phase changed
         if game_data.get('currentPhase') == 'playing' and 'declarer' in game_data:
             if game_data['declarer'] is None:
-                broadcast_message['biddingResult'] = 'allPass'
-                broadcast_message['message'] = 'Bidding ended with all passes'
+                last_action['biddingResult'] = 'allPass'
+                message = 'Bidding ended with all passes'
             else:
-                broadcast_message['biddingResult'] = 'contract'
-                broadcast_message['declarer'] = game_data['declarer']
-                broadcast_message['contract'] = game_data['contract']
-                broadcast_message['openingLeader'] = game_data['openingLeader']
-                broadcast_message['message'] = f'Contract: {game_data["contract"]} by {game_data["declarer"]}'
+                last_action['biddingResult'] = 'contract'
+                last_action['declarer'] = game_data['declarer']
+                last_action['contract'] = game_data['contract']
+                last_action['openingLeader'] = game_data['openingLeader']
+                message = f'Contract: {game_data["contract"]} by {game_data["declarer"]}'
         elif game_data.get('currentPhase') == 'completed':
-            broadcast_message['biddingResult'] = 'allPass'
-            broadcast_message['gameResult'] = 'noWinner'
-            broadcast_message['gameEndReason'] = 'allPass'
-            broadcast_message['message'] = 'Game ended - all players passed'
-            # When game is completed, nextTurn should be None
-            broadcast_message['nextTurn'] = None
+            last_action['biddingResult'] = 'allPass'
+            last_action['gameResult'] = 'noWinner'
+            last_action['gameEndReason'] = 'allPass'
+            message = 'Game ended - all players passed'
+        else:
+            message = f'Bid {bid} recorded successfully'
         
-        broadcast_to_connections(active_connections, broadcast_message)
+        # Create personalized response for the original caller
+        personalized_response = create_seat_based_response(
+            game_data=game_data,
+            room_seats=room_item['seats'],
+            user_id=user_id,
+            action='bidMade',
+            message=message
+        )
         
-        # Return success response (same as broadcast to avoid duplication)
-        response_data = {
-            'action': 'bidMade',
-            'success': True,
-            'bid': bid_entry,
-            'nextTurn': next_player,
-            'gameData': game_data_serializable,
-            'roomState': room_item['state'],
-            'updateType': 'bidUpdate',
-            'message': f'Bid {bid} recorded successfully'
-        }
+        # Broadcast personalized updates to all other players
+        def broadcast_to_user(target_user_id, response):
+            # Get connection for this user and send message
+            connection = db_utils.get_room_connection(target_user_id)
+            if connection:
+                broadcast_to_connection(connection, response.dict())
         
-        # If bidding phase ended, include additional information
-        if game_data.get('currentPhase') == 'playing' and 'declarer' in game_data:
-            if game_data['declarer'] is None:
-                response_data['biddingResult'] = 'allPass'
-                response_data['message'] = 'Bidding ended with all passes'
-            else:
-                response_data['biddingResult'] = 'contract'
-                response_data['declarer'] = game_data['declarer']
-                response_data['contract'] = game_data['contract']
-                response_data['openingLeader'] = game_data['openingLeader']
-                response_data['message'] = f'Contract: {game_data["contract"]} by {game_data["declarer"]}'
-        elif game_data.get('currentPhase') == 'completed':
-            response_data['biddingResult'] = 'allPass'
-            response_data['gameResult'] = 'noWinner'
-            response_data['gameEndReason'] = 'allPass'
-            response_data['message'] = 'Game ended - all players passed'
-            # When game is completed, nextTurn should be None
-            response_data['nextTurn'] = None
+        broadcast_game_update(
+            room_id=room_id,
+            game_data=game_data,
+            room_seats=room_item['seats'],
+            action='bidMade',
+            message=f'Bid {bid} made by {user_seat}',
+            exclude_user_id=user_id,
+            broadcast_function=broadcast_to_user
+        )
         
-        return self.success_response(response_data)
+        # Return personalized response to the original caller
+        return self.success_response(personalized_response.dict())
 
 # Create handler instance
 handler = WebSocketMakeBidHandler()

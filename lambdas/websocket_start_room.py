@@ -4,7 +4,7 @@ import boto3
 from botocore.exceptions import ClientError
 from base_handler import WebSocketBaseHandler
 from lambdas.utils.db_utils import db_utils
-from lambdas.utils.websocket_utils import broadcast_to_connections
+from lambdas.utils.websocket_utils import broadcast_to_connection
 from typing import Dict, List
 
 SEATS = ['N', 'E', 'S', 'W']
@@ -19,7 +19,10 @@ class WebSocketStartRoomHandler(WebSocketBaseHandler):
         Process WebSocket start room request
         """
         # Validate route key
-        self.validate_route_key(event, 'startRoom')
+        try:
+            self.validate_route_key(event, 'startRoom')
+        except ValueError as e:
+            return self.error_response(400, str(e))
         
         # Parse request body
         body = self.parse_body(event)
@@ -74,8 +77,11 @@ class WebSocketStartRoomHandler(WebSocketBaseHandler):
         room_item_serializable = self._convert_for_json(room_item)
         game_data_serializable = self._convert_for_json(room_item['gameData'])
         
-        # Get active connections and broadcast update (excluding the user who started the room)
-        active_connections = db_utils.get_room_connections_excluding_user(room_item['seats'].values(), room_id, user_id)
+         # Get active connections and broadcast update (excluding the user who joined the room)
+        active_connections = []
+        for _, user_id in room_item['seats'].items():
+            active_connections.extend(db_utils.get_room_connection(user_id))
+        active_connections = list(set(active_connections))
         
         broadcast_message = {
             'action': 'roomStarted',
@@ -86,7 +92,8 @@ class WebSocketStartRoomHandler(WebSocketBaseHandler):
             'hands': game_data_serializable['hands']
         }
         
-        broadcast_to_connections(active_connections, broadcast_message)
+        for connection in active_connections:
+            broadcast_to_connection(connection, broadcast_message)
         
         # Return success response (same as broadcast to avoid duplication)
         return self.success_response({

@@ -62,7 +62,7 @@ def send_websocket_message(connection_id: str, message: Dict[str, Any]) -> bool:
         print(f"Endpoint URL: {endpoint_url}")
         return False
 
-def broadcast_to_connections(connection_ids: List[str], message: Dict[str, Any]) -> Dict[str, bool]:
+def broadcast_to_connection(connection_id: str, message: Dict[str, Any]) -> Dict[str, bool]:
     """
     Send a message to multiple WebSocket connections
     
@@ -74,18 +74,17 @@ def broadcast_to_connections(connection_ids: List[str], message: Dict[str, Any])
         Results for each connection (connection_id -> success)
     """
     results = {}
-    print(f"Broadcasting to {connection_ids}")
+    print(f"Broadcasting to {connection_id}")
     
-    if not connection_ids:
-        print("No connection IDs provided for broadcast")
+    if not connection_id:
+        print("No connection ID provided for broadcast")
         return results
     
-    for connection_id in connection_ids:
-        try:
-            results[connection_id] = send_websocket_message(connection_id, message)
-        except Exception as e:
-            print(f"Error broadcasting to connection {connection_id}: {str(e)}")
-            results[connection_id] = False
+    try:
+        results[connection_id] = send_websocket_message(connection_id, message)
+    except Exception as e:
+        print(f"Error broadcasting to connection {connection_id}: {str(e)}")
+        results[connection_id] = False
     
     return results
 
