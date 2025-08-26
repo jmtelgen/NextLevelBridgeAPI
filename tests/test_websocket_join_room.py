@@ -81,17 +81,17 @@ class TestWebSocketJoinRoomHandler:
             'roomName': 'Test Room',
             'isPrivate': False,
             'seats': {
-                'N': 'test-owner-123',
-                'E': '',
-                'S': '',
-                'W': ''
+                'North': 'test-owner-123',
+                'East': '',
+                'South': '',
+                'West': ''
             },
             'state': 'waiting',
             'gameData': {
                 'currentPhase': 'waiting',
                 'turn': 'test-owner-123',
                 'bids': [],
-                'hands': {'N': [], 'E': [], 'S': [], 'W': []},
+                'hands': {'North': [], 'East': [], 'South': [], 'West': []},
                 'tricks': []
             }
         }
@@ -108,7 +108,8 @@ class TestWebSocketJoinRoomHandler:
             mock_db_utils.get_table.return_value = MagicMock()
             mock_db_utils.find_room_by_id.return_value = mock_room_data
             mock_db_utils.update_user_room.return_value = True
-            mock_db_utils.get_room_connections.return_value = ['connection-1', 'connection-2']
+            # Mock get_room_connection for the existing user (North seat)
+            mock_db_utils.get_room_connection.return_value = 'connection-1'
             
             result = handler.process_websocket_request(sample_join_room_event, mock_context)
             
@@ -119,15 +120,15 @@ class TestWebSocketJoinRoomHandler:
             assert response_body['updateType'] == 'userJoined'
             assert response_body['newUser'] == 'test-user-123'
             assert 'assignedSeat' in response_body
-            assert response_body['assignedSeat'] in ['E', 'S', 'W']  # One of the empty seats
+            assert response_body['assignedSeat'] in ['East', 'South', 'West']  # One of the empty seats
             assert 'room' in response_body
             assert 'gameData' in response_body
             
             # Verify room was updated in database
             mock_db_utils.update_user_room.assert_called_once_with('test-user-123', 'test-room-123')
             
-            # Verify broadcast was sent
-            assert mock_broadcast.call_count == 2  # One for each connection
+            # Verify broadcast was sent (only 1 call since only 1 user was in the room initially)
+            assert mock_broadcast.call_count == 1
     
     def test_process_websocket_request_missing_required_fields(self, handler, mock_context, mock_environment):
         """Test room join with missing required fields."""
@@ -225,10 +226,10 @@ class TestWebSocketJoinRoomHandler:
         """Test room join when no seats are available."""
         # Modify room data to fill all seats
         mock_room_data['seats'] = {
-            'N': 'user-1',
-            'E': 'user-2',
-            'S': 'user-3',
-            'W': 'user-4'
+            'North': 'user-1',
+            'East': 'user-2',
+            'South': 'user-3',
+            'West': 'user-4'
         }
         
         with patch('lambdas.websocket_join_room.db_utils') as mock_db_utils:
@@ -281,14 +282,14 @@ class TestWebSocketJoinRoomHandler:
         """Test finding available seat functionality."""
         # Test with available seats
         available_seat = handler._find_available_seat(mock_room_data)
-        assert available_seat in ['E', 'S', 'W']
+        assert available_seat in ['East', 'South', 'West']
         
         # Test with no available seats
         mock_room_data['seats'] = {
-            'N': 'user-1',
-            'E': 'user-2',
-            'S': 'user-3',
-            'W': 'user-4'
+            'North': 'user-1',
+            'East': 'user-2',
+            'South': 'user-3',
+            'West': 'user-4'
         }
         available_seat = handler._find_available_seat(mock_room_data)
         assert available_seat is None
@@ -297,15 +298,15 @@ class TestWebSocketJoinRoomHandler:
         """Test finding available seat with partial room occupancy."""
         room_data = {
             'seats': {
-                'N': 'user-1',
-                'E': '',
-                'S': 'user-3',
-                'W': ''
+                'North': 'user-1',
+                'East': '',
+                'South': 'user-3',
+                'West': ''
             }
         }
         
         available_seat = handler._find_available_seat(room_data)
-        assert available_seat in ['E', 'W']
+        assert available_seat in ['East', 'West']
     
     def test_broadcast_message_structure(self, handler, sample_join_room_event, mock_context, mock_environment, mock_room_data):
         """Test that broadcast message has correct structure."""
@@ -315,7 +316,8 @@ class TestWebSocketJoinRoomHandler:
             mock_db_utils.get_table.return_value = MagicMock()
             mock_db_utils.find_room_by_id.return_value = mock_room_data
             mock_db_utils.update_user_room.return_value = True
-            mock_db_utils.get_room_connections.return_value = ['connection-1']
+            # Mock get_room_connection for the existing user (North seat)
+            mock_db_utils.get_room_connection.return_value = 'connection-1'
             
             handler.process_websocket_request(sample_join_room_event, mock_context)
             

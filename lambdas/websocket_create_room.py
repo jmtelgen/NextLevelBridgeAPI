@@ -71,8 +71,8 @@ class WebSocketCreateRoomHandler(WebSocketBaseHandler):
             })
             
             # Initialize seats
-            seats = {seat: '' for seat in ['N', 'E', 'S', 'W']}
-            owner_seat = random.choice(['N', 'E', 'S', 'W'])
+            seats = {seat: '' for seat in ['North', 'East', 'South', 'West']}
+            owner_seat = random.choice(['North', 'East', 'South', 'West'])
             seats[owner_seat] = owner_id
             
             logger.info(f"[{request_id}] Assigned owner to seat {owner_seat}", extra={
@@ -88,9 +88,9 @@ class WebSocketCreateRoomHandler(WebSocketBaseHandler):
             # Initialize game data
             game_data = {
                 'currentPhase': 'waiting',
-                'turn': owner_id,
+                'turn': owner_seat,  # Use position (North/South/East/West) instead of userId
                 'bids': [],
-                'hands': {seat: [] for seat in ['N', 'E', 'S', 'W']},
+                'hands': {seat: [] for seat in ['North', 'East', 'South', 'West']},
                 'tricks': []
             }
             

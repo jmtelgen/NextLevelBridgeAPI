@@ -3,7 +3,7 @@ from base_handler import WebSocketBaseHandler
 from lambdas.utils.db_utils import db_utils
 from lambdas.utils.websocket_utils import broadcast_to_connection
 
-SEATS = ['N', 'E', 'S', 'W']
+SEATS = ['North', 'East', 'South', 'West']
 
 class WebSocketJoinRoomHandler(WebSocketBaseHandler):
     """
@@ -69,7 +69,9 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         active_connections = []
         for _, seat_user_id in room_item['seats'].items():
             if seat_user_id:  # Only process occupied seats
-                active_connections.extend(db_utils.get_room_connection(seat_user_id))
+                connection = db_utils.get_room_connection(seat_user_id)
+                if connection:
+                    active_connections.append(connection)
         active_connections = list(set(active_connections))
         
         broadcast_message = {

@@ -36,7 +36,7 @@ def create_public_game_state(game_data: Dict[str, Any], room_seats: Dict[str, st
     return PublicGameState(
         currentPhase=game_data.get('currentPhase', 'waiting'),
         turn=game_data.get('turn', ''),
-        dealer=game_data.get('dealer', 'N'),
+        dealer=game_data.get('dealer', 'North'),
         vulnerability=game_data.get('vulnerability', 'None'),
         bids=game_data.get('bids', []),
         tricks=game_data.get('tricks', []),
@@ -74,7 +74,7 @@ def create_private_game_state(
     user_hand = hands.get(seat, [])
     
     # Calculate if it's this user's turn
-    is_my_turn = game_data.get('turn') == user_id
+    is_my_turn = game_data.get('turn') == seat  # turn now stores position (N/S/E/W), not userId
     
     # Determine if user is declarer or dummy
     declarer_seat = game_data.get('declarer')
@@ -83,12 +83,12 @@ def create_private_game_state(
     is_declarer = declarer_seat == seat
     is_dummy = dummy_seat == seat
     
-    # Calculate partner seat (Bridge partners: N-S, E-W)
+    # Calculate partner seat (Bridge partners: North-South, East-West)
     partner_seat = None
-    if seat in ['N', 'S']:
-        partner_seat = 'S' if seat == 'N' else 'N'
-    elif seat in ['E', 'W']:
-        partner_seat = 'W' if seat == 'E' else 'E'
+    if seat in ['North', 'South']:
+        partner_seat = 'South' if seat == 'North' else 'North'
+    elif seat in ['East', 'West']:
+        partner_seat = 'West' if seat == 'East' else 'East'
     
     # Calculate valid bids during bidding phase
     valid_bids = None
@@ -158,7 +158,6 @@ def create_seat_based_response(
         publicState=public_state,
         privateState=private_state,
         seat=seat,
-        playerId=user_id,
         action=action,
         message=message
     )

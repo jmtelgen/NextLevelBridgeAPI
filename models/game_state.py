@@ -24,7 +24,7 @@ class GameState(BaseModel):
 class PublicGameState(BaseModel):
     currentPhase: str
     turn: str
-    dealer: str  # Current dealer (N, E, S, W)
+    dealer: str  # Current dealer (North, East, South, West)
     vulnerability: str  # "None", "NS", "EW", "Both"
     bids: List[Bid]
     tricks: List[Trick]
@@ -33,7 +33,7 @@ class PublicGameState(BaseModel):
     openingLeader: Optional[str] = None
     currentTrick: Optional[List[Play]] = None
     trickWinner: Optional[str] = None
-    dummy: Optional[str] = None  # Dummy seat (N, E, S, W)
+    dummy: Optional[str] = None  # Dummy seat (North, East, South, West)
     dummyHand: Optional[List[str]] = None  # Dummy's hand (visible to all during play)
     previousTrick: Optional[Trick] = None  # Most recently completed trick
     gameResult: Optional[str] = None
@@ -51,7 +51,6 @@ class SeatBasedGameResponse(BaseModel):
     publicState: PublicGameState
     privateState: PrivateGameState
     seat: str
-    playerId: str
     action: Optional[str] = None
     message: Optional[str] = None
 

@@ -21,25 +21,25 @@ def demo_bidding_phase():
     # Sample game data during bidding
     game_data = {
         'currentPhase': 'bidding',
-        'turn': 'user-2',  # East's turn
-        'dealer': 'N',
-        'vulnerability': 'NS',
+        'turn': 'East',  # East's turn (position, not userId)
+        'dealer': 'North',
+        'vulnerability': 'None',
         'bids': [
-            {'seat': 'N', 'bid': '1H'},
-            {'seat': 'E', 'bid': 'pass'},
-            {'seat': 'S', 'bid': '2H'},
-            {'seat': 'W', 'bid': 'pass'}
+            {'seat': 'North', 'bid': '1H'},
+            {'seat': 'East', 'bid': 'pass'},
+            {'seat': 'South', 'bid': '2H'},
+            {'seat': 'West', 'bid': 'pass'}
         ],
         'tricks': [],
         'hands': {
-            'N': ['AH', 'KH', 'QH', 'JH', 'TH', '9H', '8H', '7H', '6H', '5H', '4H', '3H', '2H'],
-            'E': ['AS', 'KS', 'QS', 'JS', 'TS', '9S', '8S', '7S', '6S', '5S', '4S', '3S', '2S'],
-            'S': ['AD', 'KD', 'QD', 'JD', 'TD', '9D', '8D', '7D', '6D', '5D', '4D', '3D', '2D'],
-            'W': ['AC', 'KC', 'QC', 'JC', 'TC', '9C', '8C', '7C', '6C', '5C', '4C', '3C', '2C']
+            'North': ['AH', 'KH', 'QH', 'JH', 'TH', '9H', '8H', '7H', '6H', '5H', '4H', '3H', '2H'],
+            'East': ['AS', 'KS', 'QS', 'JS', 'TS', '9S', '8S', '7S', '6S', '5S', '4S', '3S', '2S'],
+            'South': ['AD', 'KD', 'QD', 'JD', 'TD', '9D', '8D', '7D', '6D', '5D', '4D', '3D', '2D'],
+            'West': ['AC', 'KC', 'QC', 'JC', 'TC', '9C', '8C', '7C', '6C', '5C', '4C', '3C', '2C']
         }
     }
     
-    room_seats = {'N': 'user-1', 'E': 'user-2', 'S': 'user-3', 'W': 'user-4'}
+    room_seats = {'North': 'user-1', 'East': 'user-2', 'South': 'user-3', 'West': 'user-4'}
     
     print("Game State:")
     print(f"  Dealer: {game_data['dealer']}")
@@ -58,7 +58,7 @@ def demo_bidding_phase():
                 game_data=game_data,
                 room_seats=room_seats,
                 user_id=user_id,
-                last_action={'action': 'bidMade', 'bid': 'pass'},
+                action='bidMade',
                 message='Bid recorded successfully'
             )
             
@@ -93,32 +93,32 @@ def demo_playing_phase():
     # Sample game data during playing
     game_data = {
         'currentPhase': 'playing',
-        'turn': 'user-1',  # North's turn (declarer)
-        'dealer': 'N',
+        'turn': 'North',  # North's turn (position, not userId)
+        'dealer': 'North',
         'vulnerability': 'NS',
         'bids': [
-            {'seat': 'N', 'bid': '1H'},
-            {'seat': 'E', 'bid': 'pass'},
-            {'seat': 'S', 'bid': '2H'},
-            {'seat': 'W', 'bid': 'pass'},
-            {'seat': 'N', 'bid': '4H'}
+            {'seat': 'North', 'bid': '1H'},
+            {'seat': 'East', 'bid': 'pass'},
+            {'seat': 'South', 'bid': '2H'},
+            {'seat': 'West', 'bid': 'pass'},
+            {'seat': 'North', 'bid': '4H'}
         ],
         'tricks': [],
         'contract': '4H',
-        'declarer': 'N',
-        'openingLeader': 'E',
-        'dummy': 'S',
+        'declarer': 'North',
+        'openingLeader': 'East',
+        'dummy': 'South',
         'dummyHand': ['AD', 'KD', 'QD', 'JD', 'TD', '9D', '8D', '7D', '6D', '5D', '4D', '3D', '2D'],
         'currentTrick': [],
         'hands': {
-            'N': ['AH', 'KH', 'QH', 'JH', 'TH', '9H', '8H', '7H', '6H', '5H', '4H', '3H', '2H'],
-            'E': ['AS', 'KS', 'QS', 'JS', 'TS', '9S', '8S', '7S', '6S', '5S', '4S', '3S', '2S'],
-            'S': ['AD', 'KD', 'QD', 'JD', 'TD', '9D', '8D', '7D', '6D', '5D', '4D', '3D', '2D'],
-            'W': ['AC', 'KC', 'QC', 'JC', 'TC', '9C', '8C', '7C', '6C', '5C', '4C', '3C', '2C']
+            'North': ['AH', 'KH', 'QH', 'JH', 'TH', '9H', '8H', '7H', '6H', '5H', '4H', '3H', '2H'],
+            'East': ['AS', 'KS', 'QS', 'JS', 'TS', '9S', '8S', '7S', '6S', '5S', '4S', '3S', '2S'],
+            'South': ['AD', 'KD', 'QD', 'JD', 'TD', '9D', '8D', '7D', '6D', '5D', '4D', '3D', '2D'],
+            'West': ['AC', 'KC', 'QC', 'JC', 'TC', '9C', '8C', '7C', '6C', '5C', '4C', '3C', '2C']
         }
     }
     
-    room_seats = {'N': 'user-1', 'E': 'user-2', 'S': 'user-3', 'W': 'user-4'}
+    room_seats = {'North': 'user-1', 'East': 'user-2', 'South': 'user-3', 'West': 'user-4'}
     
     print("Game State:")
     print(f"  Contract: {game_data['contract']}")
@@ -136,7 +136,7 @@ def demo_playing_phase():
                 game_data=game_data,
                 room_seats=room_seats,
                 user_id=user_id,
-                last_action={'action': 'cardPlayed', 'card': 'AH'},
+                action='cardPlayed',
                 message='Card played successfully'
             )
             

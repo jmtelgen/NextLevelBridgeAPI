@@ -7,7 +7,7 @@ from lambdas.utils.db_utils import db_utils
 from lambdas.utils.websocket_utils import broadcast_to_connection
 from typing import Dict, List
 
-SEATS = ['N', 'E', 'S', 'W']
+SEATS = ['North', 'East', 'South', 'West']
 
 class WebSocketStartRoomHandler(WebSocketBaseHandler):
     """
@@ -56,18 +56,26 @@ class WebSocketStartRoomHandler(WebSocketBaseHandler):
         # Update room state to bidding
         room_item['state'] = 'bidding'
         
+        # Find the owner's seat position
+        owner_seat = None
+        for seat, occupant in room_item['seats'].items():
+            if occupant == room_item['ownerId']:
+                owner_seat = seat
+                break
+        
         # Initialize game data if not present
         if 'gameData' not in room_item:
             room_item['gameData'] = {
                 'currentPhase': 'waiting',
-                'turn': room_item['ownerId'],
+                'turn': owner_seat,  # Use position (North/South/East/West) instead of userId
                 'bids': [],
                 'hands': {seat: [] for seat in SEATS},
                 'tricks': []
             }
         
-        # Update game phase to bidding and deal cards
+        # Update game phase to bidding, reset turn to owner's position, and deal cards
         room_item['gameData']['currentPhase'] = 'bidding'
+        room_item['gameData']['turn'] = owner_seat  # Always ensure turn is a position, not userId
         room_item['gameData']['hands'] = self._deal_cards()
         
         # Save updated room
@@ -80,7 +88,9 @@ class WebSocketStartRoomHandler(WebSocketBaseHandler):
          # Get active connections and broadcast update (excluding the user who joined the room)
         active_connections = []
         for _, user_id in room_item['seats'].items():
-            active_connections.extend(db_utils.get_room_connection(user_id))
+            connection = db_utils.get_room_connection(user_id)
+            if connection:
+                active_connections.append(connection)
         active_connections = list(set(active_connections))
         
         broadcast_message = {
@@ -128,10 +138,10 @@ class WebSocketStartRoomHandler(WebSocketBaseHandler):
         
         # Deal 13 cards to each player
         hands = {
-            'N': deck[0:13],    # North gets cards 0-12
-            'E': deck[13:26],   # East gets cards 13-25
-            'S': deck[26:39],   # South gets cards 26-38
-            'W': deck[39:52]    # West gets cards 39-51
+            'North': deck[0:13],    # North gets cards 0-12
+            'East': deck[13:26],    # East gets cards 13-25
+            'South': deck[26:39],   # South gets cards 26-38
+            'West': deck[39:52]     # West gets cards 39-51
         }
         
         return hands

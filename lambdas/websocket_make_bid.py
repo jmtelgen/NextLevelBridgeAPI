@@ -73,7 +73,7 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
             declarer = final_bidder
             
         # Calculate opening leader (player to the left of declarer)
-        seats = ['N', 'E', 'S', 'W']
+        seats = ['North', 'East', 'South', 'West']
         declarer_index = seats.index(declarer)
         opening_leader_index = (declarer_index + 1) % 4  # Next clockwise position
         opening_leader = seats[opening_leader_index]
@@ -82,16 +82,16 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
     
     def _are_partners(self, seat1, seat2):
         """
-        Check if two seats are partners (N/S or E/W).
+        Check if two seats are partners (North/South or East/West).
         
         Args:
-            seat1: First seat ('N', 'E', 'S', 'W')
-            seat2: Second seat ('N', 'E', 'S', 'W')
+            seat1: First seat ('North', 'East', 'South', 'West')
+            seat2: Second seat ('North', 'East', 'South', 'West')
             
         Returns:
             bool: True if partners, False otherwise
         """
-        return (seat1 in ['N', 'S'] and seat2 in ['N', 'S']) or (seat1 in ['E', 'W'] and seat2 in ['E', 'W'])
+        return (seat1 in ['North', 'South'] and seat2 in ['North', 'South']) or (seat1 in ['East', 'West'] and seat2 in ['East', 'West'])
     
     def process_websocket_request(self, event, context):
         """
@@ -136,9 +136,6 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
         game_data = room_item.get('gameData', {})
         current_turn = game_data.get('turn')
         
-        if current_turn != user_id:
-            return self.error_response(400, 'Not your turn to bid')
-        
         # Find user's seat
         user_seat = None
         for seat, occupant in room_item['seats'].items():
@@ -148,6 +145,10 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
         
         if not user_seat:
             return self.error_response(400, 'User not found in room')
+        
+        # Check if it's the user's turn (turn now stores position, not userId)
+        if current_turn != user_seat:
+            return self.error_response(400, 'Not your turn to bid')
         
         # Add bid to game data
         if 'bids' not in game_data:
@@ -162,13 +163,13 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
         game_data['bids'].append(bid_entry)
         
         # Determine next turn (simple round-robin)
-        seats = ['N', 'E', 'S', 'W']
+        seats = ['North', 'East', 'South', 'West']
         current_seat_index = seats.index(user_seat)
         next_seat_index = (current_seat_index + 1) % 4
         next_seat = seats[next_seat_index]
-        next_player = room_item['seats'][next_seat]
         
-        game_data['turn'] = next_player
+        # Store the position (North/South/East/West) in turn, not the userId
+        game_data['turn'] = next_seat
         
         # Check if bidding should end (4 passes in a row or valid contract)
         recent_bids = game_data['bids'][-4:] if len(game_data['bids']) >= 4 else game_data['bids']
@@ -199,9 +200,8 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
                         declarer_seat, opening_leader_seat = self._determine_declarer_and_leader(game_data['bids'])
                         
                         if declarer_seat and opening_leader_seat:
-                            game_data['turn'] = room_item['seats'][opening_leader_seat]
-                            # Update next_player to the opening leader for frontend
-                            next_player = room_item['seats'][opening_leader_seat]
+                            # Store the position (N/S/E/W) in turn, not the userId
+                            game_data['turn'] = opening_leader_seat
                             # Store declarer and contract information
                             game_data['declarer'] = declarer_seat
                             # Get the final contract bid
@@ -214,8 +214,7 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
                             game_data['openingLeader'] = opening_leader_seat
                         else:
                             # Fallback to North if something goes wrong
-                            game_data['turn'] = room_item['seats']['N']
-                            next_player = room_item['seats']['N']
+                            game_data['turn'] = 'North'
         
         # Update room state if phase changed
         if game_data['currentPhase'] == 'playing':
@@ -230,7 +229,7 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
         last_action = {
             'action': 'bidMade',
             'bid': bid_entry,
-            'nextTurn': next_player
+            'nextTurn': game_data['turn']  # Now stores position (North/South/East/West)
         }
         
         # Add bidding result information if phase changed

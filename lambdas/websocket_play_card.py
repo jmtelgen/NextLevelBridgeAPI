@@ -59,9 +59,6 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
         game_data = room_item.get('gameData', {})
         current_turn = game_data.get('turn')
         
-        if current_turn != user_id:
-            return self.error_response(400, 'Not your turn to play')
-        
         # Find user's seat
         user_seat = None
         for seat, occupant in room_item['seats'].items():
@@ -71,6 +68,10 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
         
         if not user_seat:
             return self.error_response(400, 'User not found in room')
+        
+        # Check if it's the user's turn (turn now stores position, not userId)
+        if current_turn != user_seat:
+            return self.error_response(400, 'Not your turn to play')
         
         # Check if user has the card in their hand
         hands = game_data.get('hands', {})
@@ -109,13 +110,13 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
         game_data['currentTrick'].append(play_entry)
         
         # Determine next turn
-        seats = ['N', 'E', 'S', 'W']
+        seats = ['North', 'East', 'South', 'West']
         current_seat_index = seats.index(user_seat)
         next_seat_index = (current_seat_index + 1) % 4
         next_seat = seats[next_seat_index]
-        next_player = room_item['seats'][next_seat]
         
-        game_data['turn'] = next_player
+        # Store the position (North/South/East/West) in turn, not the userId
+        game_data['turn'] = next_seat
         
         # Check if trick is complete (4 cards played)
         trick_completed = False
@@ -139,7 +140,7 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
             game_data['currentTrick'] = []
             
             # Set next turn to winner
-            game_data['turn'] = room_item['seats'][trick_winner]
+            game_data['turn'] = trick_winner  # trick_winner is already a position (N/S/E/W)
             
             # Check if hand is complete (13 tricks)
             if len(game_data['tricks']) == 13:
@@ -157,9 +158,9 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
         # If trick was completed, nextTurn should be the trick winner
         # If trick is not complete, nextTurn should be the next player in rotation
         if trick_completed and trick_winner:
-            next_turn = room_item['seats'][trick_winner]
+            next_turn = trick_winner  # trick_winner is already a position (N/S/E/W)
         else:
-            next_turn = next_player
+            next_turn = next_seat  # next_seat is already a position (N/S/E/W)
         
         # Create last action for broadcast
         last_action = {

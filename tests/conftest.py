@@ -72,14 +72,14 @@ def sample_room_data():
         'roomName': 'Test Room',
         'state': 'waiting',
         'seats': {
-            'N': 'test-user-123',
-            'E': 'robot-E',
-            'S': 'robot-S',
-            'W': 'robot-W'
+            'North': 'test-user-123',
+            'East': 'robot-E',
+            'South': 'robot-S',
+            'West': 'robot-W'
         },
         'gameData': {
             'currentPhase': 'waiting',
-            'turn': 'test-user-123',
+            'turn': 'N',  # North's turn (position, not userId)
             'bids': [],
             'hands': {'N': [], 'E': [], 'S': [], 'W': []},
             'tricks': []
