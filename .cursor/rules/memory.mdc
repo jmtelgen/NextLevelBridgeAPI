@@ -1,0 +1,631 @@
+---
+alwaysApply: false
+---
+
+# BridgeLambdas Project Memory
+
+## Project Overview
+
+BridgeLambdas is a serverless backend for an online Bridge platform built with AWS Lambda, API Gateway, and DynamoDB. It provides real-time multiplayer Bridge game functionality through WebSocket APIs and REST endpoints.
+
+## Architecture
+
+### AWS Services Used
+
+1. **AWS Lambda**: Serverless compute for API endpoints
+   - Python 3.12 runtime
+   - Individual functions for each API endpoint
+   - Cold start optimization through connection pooling
+
+2. **API Gateway**: 
+   - RESTful API management for account operations
+   - WebSocket API for real-time game communication
+   - CORS configuration for frontend integration
+
+3. **DynamoDB**: NoSQL database with three main tables
+   - `USER_TABLE`: User accounts and authentication
+   - `ROOM_TABLE`: Game rooms and state management
+   - `WEBSOCKET_CONNECTIONS_TABLE`: WebSocket connection tracking
+
+4. **CloudWatch**: Logging and monitoring
+   - Lambda function logs
+   - Performance metrics
+   - Error tracking
+
+### Project Structure
+
+```
+BridgeLambdas/
+├── lambdas/                    # Lambda handler functions
+│   ├── account_*.py           # Authentication endpoints
+│   ├── websocket_*.py         # WebSocket handlers
+│   ├── base_handler.py        # Common base classes
+│   └── utils/                 # Utility modules
+├── models/                     # Pydantic data models
+│   ├── room.py               # Room data structures
+│   ├── game_state.py         # Game state models
+│   └── user.py               # User data structures
+├── tests/                     # Unit and integration tests
+└── .cursor/rules/            # Cursor IDE rules
+```
+
+## Data Structures
+
+### Core Models
+
+#### User Model (`models/user.py`)
+```python
+class User(BaseModel):
+    username: str
+    passwordHash: str
+    createdAt: int
+```
+
+#### Room Model (`models/room.py`)
+```python
+class Room(BaseModel):
+    roomId: str
+    ownerId: str
+    playerName: str
+    roomName: str
+    isPrivate: bool
+    seats: Dict[str, str]  # {"North": "user-id", "East": "user-id", ...}
+    state: str  # "waiting", "bidding", "playing", "completed"
+    gameData: Any  # Complex game state object
+```
+
+#### Game State Models (`models/game_state.py`)
+
+**Bid Model**:
+```python
+class Bid(BaseModel):
+    seat: str  # "North", "East", "South", "West"
+    bid: str   # "1H", "pass", "double", etc.
+    timestamp: int
+```
+
+**Play Model**:
+```python
+class Play(BaseModel):
+    seat: str   # "North", "East", "South", "West"
+    card: str   # "AH", "2C", etc.
+    timestamp: int
+```
+
+**Trick Model**:
+```python
+class Trick(BaseModel):
+    leader: str
+    plays: List[Play]
+```
+
+**Public Game State** (visible to all players):
+```python
+class PublicGameState(BaseModel):
+    currentPhase: str  # "bidding", "playing", "completed"
+    turn: str          # Current player's seat
+    dealer: str        # Current dealer
+    vulnerability: str # "None", "NS", "EW", "Both"
+    bids: List[Bid]
+    tricks: List[Trick]
+    contract: Optional[str] = None
+    declarer: Optional[str] = None
+    openingLeader: Optional[str] = None
+    currentTrick: Optional[List[Play]] = None
+    trickWinner: Optional[str] = None
+    dummy: Optional[str] = None
+    dummyHand: Optional[List[str]] = None
+    previousTrick: Optional[Trick] = None
+    gameResult: Optional[str] = None
+```
+
+**Private Game State** (player-specific):
+```python
+class PrivateGameState(BaseModel):
+    seat: str
+    hand: List[str]  # Only the player's own hand
+    validBids: Optional[List[str]] = None
+    isMyTurn: bool = False
+    isDeclarer: bool = False
+    isDummy: bool = False
+    partnerSeat: Optional[str] = None
+```
+
+**Seat-Based Response** (combined response):
+```python
+class SeatBasedGameResponse(BaseModel):
+    publicState: PublicGameState
+    privateState: PrivateGameState
+    seat: str
+    action: Optional[str] = None
+    message: Optional[str] = None
+```
+
+### DynamoDB Table Schemas
+
+#### USER_TABLE
+- **Primary Key**: `username` (String)
+- **Attributes**: 
+  - `passwordHash` (String)
+  - `createdAt` (Number)
+
+#### ROOM_TABLE
+- **Primary Key**: `roomId` (String)
+- **Attributes**:
+  - `ownerId` (String)
+  - `playerName` (String)
+  - `roomName` (String)
+  - `isPrivate` (Boolean)
+  - `seats` (Map: String -> String)
+  - `state` (String)
+  - `gameData` (Map: Complex nested structure)
+
+#### WEBSOCKET_CONNECTIONS_TABLE
+- **Primary Key**: `connectionId` (String)
+- **Attributes**:
+  - `connectedAt` (Number)
+  - `sourceIp` (String)
+  - `userAgent` (String)
+  - `status` (String)
+  - `lastActivity` (Number)
+
+## API Endpoints
+
+### REST Endpoints
+
+#### Authentication
+- `POST /account/create` - User registration
+- `POST /account/login` - User authentication
+- `POST /account/refresh-token` - Token refresh
+
+#### Room Management
+- `POST /room/create` - Create new room
+- `POST /room/join` - Join existing room
+- `GET /room/{roomId}/state` - Get room state
+- `POST /room/start` - Start game
+
+### WebSocket Endpoints
+
+#### Connection Management
+- `$connect` - Establish WebSocket connection
+- `$disconnect` - Terminate WebSocket connection
+
+#### Game Actions
+- `createRoom` - Create new game room
+- `joinRoom` - Join existing room
+- `changeSeat` - Change player seat
+- `startRoom` - Start game (fill with robots)
+- `makeBid` - Make a bid during bidding phase
+- `playCard` - Play a card during playing phase
+
+## Frontend Integration
+
+### WebSocket Connection
+- **URL Format**: `wss://{api-id}.execute-api.{region}.amazonaws.com/{stage}`
+- **Authentication**: JWT tokens in query parameters
+- **Message Format**: JSON with action and data fields
+
+### Real-time Updates
+- **Broadcasting**: All players receive updates when game state changes
+- **Seat-based Filtering**: Each player sees only their own hand and relevant information
+- **Robot Integration**: Automatic robot moves for empty seats
+
+### Data Flow
+1. Frontend connects via WebSocket
+2. User actions sent as WebSocket messages
+3. Lambda processes action and updates DynamoDB
+4. Lambda broadcasts updates to all connected players
+5. Frontend receives personalized game state updates
+
+## Security Considerations
+
+### Authentication
+- JWT tokens for user authentication
+- Token validation in Lambda functions
+- Secure password hashing with bcrypt
+
+### Authorization
+- Room ownership validation
+- Turn-based action validation
+- Seat assignment verification
+
+### Data Privacy
+- Seat-based response filtering
+- Private hand information only visible to owner
+- Username mapping for public display
+
+## Robot Integration
+
+### Robot Seats
+- Empty seats automatically filled with robots
+- Robot IDs follow pattern: `robot-{seat}` (e.g., `robot-East`)
+- Robots make automatic moves during their turns
+
+### Robot Logic
+- **Bidding**: Simple bidding strategies based on hand strength
+- **Card Play**: Basic card play following Bridge rules
+- **Turn Management**: Automatic turn progression
+
+## Error Handling
+
+### Standard Error Responses
+```json
+{
+  "statusCode": 400,
+  "headers": {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*"
+  },
+  "body": "{\"error\": \"Error message\"}"
+}
+```
+
+### Common Error Scenarios
+- **400**: Invalid request parameters
+- **401**: Authentication required
+- **404**: Room not found
+- **500**: Server error
+
+## Development Guidelines
+
+### Code Organization
+- **Base Classes**: Common functionality in `base_handler.py`
+- **Utilities**: Shared utilities in `utils/` directory
+- **Models**: Pydantic models for data validation
+- **Tests**: Comprehensive test coverage
+
+### Lambda Function Structure
+1. Inherit from appropriate base class
+2. Implement required abstract methods
+3. Validate input parameters
+4. Process business logic
+5. Update DynamoDB
+6. Return standardized response
+
+### Testing Strategy
+- Unit tests for individual functions
+- Integration tests for API endpoints
+- WebSocket connection testing
+- Robot behavior validation
+
+## Deployment
+
+### Environment Variables
+- `USER_TABLE`: DynamoDB table for users
+- `ROOM_TABLE`: DynamoDB table for rooms
+- `WEBSOCKET_CONNECTIONS_TABLE`: DynamoDB table for connections
+- `JWT_SECRET`: Secret for JWT token validation
+
+### Deployment Process
+1. Build deployment packages
+2. Upload to AWS Lambda
+3. Configure API Gateway routes
+4. Set environment variables
+5. Test endpoints
+
+## Monitoring and Observability
+
+### CloudWatch Metrics
+- Lambda invocation count and duration
+- DynamoDB read/write capacity
+- WebSocket connection count
+- Error rates and types
+
+### Logging
+- Structured logging in Lambda functions
+- Error tracking and alerting
+- Performance monitoring
+- User activity tracking# BridgeLambdas Project Memory
+
+## Project Overview
+
+BridgeLambdas is a serverless backend for an online Bridge platform built with AWS Lambda, API Gateway, and DynamoDB. It provides real-time multiplayer Bridge game functionality through WebSocket APIs and REST endpoints.
+
+## Architecture
+
+### AWS Services Used
+
+1. **AWS Lambda**: Serverless compute for API endpoints
+   - Python 3.12 runtime
+   - Individual functions for each API endpoint
+   - Cold start optimization through connection pooling
+
+2. **API Gateway**: 
+   - RESTful API management for account operations
+   - WebSocket API for real-time game communication
+   - CORS configuration for frontend integration
+
+3. **DynamoDB**: NoSQL database with three main tables
+   - `USER_TABLE`: User accounts and authentication
+   - `ROOM_TABLE`: Game rooms and state management
+   - `WEBSOCKET_CONNECTIONS_TABLE`: WebSocket connection tracking
+
+4. **CloudWatch**: Logging and monitoring
+   - Lambda function logs
+   - Performance metrics
+   - Error tracking
+
+### Project Structure
+
+```
+BridgeLambdas/
+├── lambdas/                    # Lambda handler functions
+│   ├── account_*.py           # Authentication endpoints
+│   ├── websocket_*.py         # WebSocket handlers
+│   ├── base_handler.py        # Common base classes
+│   └── utils/                 # Utility modules
+├── models/                     # Pydantic data models
+│   ├── room.py               # Room data structures
+│   ├── game_state.py         # Game state models
+│   └── user.py               # User data structures
+├── tests/                     # Unit and integration tests
+└── .cursor/rules/            # Cursor IDE rules
+```
+
+## Data Structures
+
+### Core Models
+
+#### User Model (`models/user.py`)
+```python
+class User(BaseModel):
+    username: str
+    passwordHash: str
+    createdAt: int
+```
+
+#### Room Model (`models/room.py`)
+```python
+class Room(BaseModel):
+    roomId: str
+    ownerId: str
+    playerName: str
+    roomName: str
+    isPrivate: bool
+    seats: Dict[str, str]  # {"North": "user-id", "East": "user-id", ...}
+    state: str  # "waiting", "bidding", "playing", "completed"
+    gameData: Any  # Complex game state object
+```
+
+#### Game State Models (`models/game_state.py`)
+
+**Bid Model**:
+```python
+class Bid(BaseModel):
+    seat: str  # "North", "East", "South", "West"
+    bid: str   # "1H", "pass", "double", etc.
+    timestamp: int
+```
+
+**Play Model**:
+```python
+class Play(BaseModel):
+    seat: str   # "North", "East", "South", "West"
+    card: str   # "AH", "2C", etc.
+    timestamp: int
+```
+
+**Trick Model**:
+```python
+class Trick(BaseModel):
+    leader: str
+    plays: List[Play]
+```
+
+**Public Game State** (visible to all players):
+```python
+class PublicGameState(BaseModel):
+    currentPhase: str  # "bidding", "playing", "completed"
+    turn: str          # Current player's seat
+    dealer: str        # Current dealer
+    vulnerability: str # "None", "NS", "EW", "Both"
+    bids: List[Bid]
+    tricks: List[Trick]
+    contract: Optional[str] = None
+    declarer: Optional[str] = None
+    openingLeader: Optional[str] = None
+    currentTrick: Optional[List[Play]] = None
+    trickWinner: Optional[str] = None
+    dummy: Optional[str] = None
+    dummyHand: Optional[List[str]] = None
+    previousTrick: Optional[Trick] = None
+    gameResult: Optional[str] = None
+```
+
+**Private Game State** (player-specific):
+```python
+class PrivateGameState(BaseModel):
+    seat: str
+    hand: List[str]  # Only the player's own hand
+    validBids: Optional[List[str]] = None
+    isMyTurn: bool = False
+    isDeclarer: bool = False
+    isDummy: bool = False
+    partnerSeat: Optional[str] = None
+```
+
+**Seat-Based Response** (combined response):
+```python
+class SeatBasedGameResponse(BaseModel):
+    publicState: PublicGameState
+    privateState: PrivateGameState
+    seat: str
+    action: Optional[str] = None
+    message: Optional[str] = None
+```
+
+### DynamoDB Table Schemas
+
+#### USER_TABLE
+- **Primary Key**: `username` (String)
+- **Attributes**: 
+  - `passwordHash` (String)
+  - `createdAt` (Number)
+
+#### ROOM_TABLE
+- **Primary Key**: `roomId` (String)
+- **Attributes**:
+  - `ownerId` (String)
+  - `playerName` (String)
+  - `roomName` (String)
+  - `isPrivate` (Boolean)
+  - `seats` (Map: String -> String)
+  - `state` (String)
+  - `gameData` (Map: Complex nested structure)
+
+#### WEBSOCKET_CONNECTIONS_TABLE
+- **Primary Key**: `connectionId` (String)
+- **Attributes**:
+  - `connectedAt` (Number)
+  - `sourceIp` (String)
+  - `userAgent` (String)
+  - `status` (String)
+  - `lastActivity` (Number)
+
+## API Endpoints
+
+### REST Endpoints
+
+#### Authentication
+- `POST /account/create` - User registration
+- `POST /account/login` - User authentication
+- `POST /account/refresh-token` - Token refresh
+
+#### Room Management
+- `POST /room/create` - Create new room
+- `POST /room/join` - Join existing room
+- `GET /room/{roomId}/state` - Get room state
+- `POST /room/start` - Start game
+
+### WebSocket Endpoints
+
+#### Connection Management
+- `$connect` - Establish WebSocket connection
+- `$disconnect` - Terminate WebSocket connection
+
+#### Game Actions
+- `createRoom` - Create new game room
+- `joinRoom` - Join existing room
+- `changeSeat` - Change player seat
+- `startRoom` - Start game (fill with robots)
+- `makeBid` - Make a bid during bidding phase
+- `playCard` - Play a card during playing phase
+
+## Frontend Integration
+
+### WebSocket Connection
+- **URL Format**: `wss://{api-id}.execute-api.{region}.amazonaws.com/{stage}`
+- **Authentication**: JWT tokens in query parameters
+- **Message Format**: JSON with action and data fields
+
+### Real-time Updates
+- **Broadcasting**: All players receive updates when game state changes
+- **Seat-based Filtering**: Each player sees only their own hand and relevant information
+- **Robot Integration**: Automatic robot moves for empty seats
+
+### Data Flow
+1. Frontend connects via WebSocket
+2. User actions sent as WebSocket messages
+3. Lambda processes action and updates DynamoDB
+4. Lambda broadcasts updates to all connected players
+5. Frontend receives personalized game state updates
+
+## Security Considerations
+
+### Authentication
+- JWT tokens for user authentication
+- Token validation in Lambda functions
+- Secure password hashing with bcrypt
+
+### Authorization
+- Room ownership validation
+- Turn-based action validation
+- Seat assignment verification
+
+### Data Privacy
+- Seat-based response filtering
+- Private hand information only visible to owner
+- Username mapping for public display
+
+## Robot Integration
+
+### Robot Seats
+- Empty seats automatically filled with robots
+- Robot IDs follow pattern: `robot-{seat}` (e.g., `robot-East`)
+- Robots make automatic moves during their turns
+
+### Robot Logic
+- **Bidding**: Simple bidding strategies based on hand strength
+- **Card Play**: Basic card play following Bridge rules
+- **Turn Management**: Automatic turn progression
+
+## Error Handling
+
+### Standard Error Responses
+```json
+{
+  "statusCode": 400,
+  "headers": {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*"
+  },
+  "body": "{\"error\": \"Error message\"}"
+}
+```
+
+### Common Error Scenarios
+- **400**: Invalid request parameters
+- **401**: Authentication required
+- **404**: Room not found
+- **500**: Server error
+
+## Development Guidelines
+
+### Code Organization
+- **Base Classes**: Common functionality in `base_handler.py`
+- **Utilities**: Shared utilities in `utils/` directory
+- **Models**: Pydantic models for data validation
+- **Tests**: Comprehensive test coverage
+
+### Lambda Function Structure
+1. Inherit from appropriate base class
+2. Implement required abstract methods
+3. Validate input parameters
+4. Process business logic
+5. Update DynamoDB
+6. Return standardized response
+
+### Testing Strategy
+- Unit tests for individual functions
+- Integration tests for API endpoints
+- WebSocket connection testing
+- Robot behavior validation
+
+## Deployment
+
+### Environment Variables
+- `USER_TABLE`: DynamoDB table for users
+- `ROOM_TABLE`: DynamoDB table for rooms
+- `WEBSOCKET_CONNECTIONS_TABLE`: DynamoDB table for connections
+- `JWT_SECRET`: Secret for JWT token validation
+
+### Deployment Process
+1. Build deployment packages
+2. Upload to AWS Lambda
+3. Configure API Gateway routes
+4. Set environment variables
+5. Test endpoints
+
+## Monitoring and Observability
+
+### CloudWatch Metrics
+- Lambda invocation count and duration
+- DynamoDB read/write capacity
+- WebSocket connection count
+- Error rates and types
+
+### Logging
+- Structured logging in Lambda functions
+- Error tracking and alerting
+- Performance monitoring
+- User activity tracking

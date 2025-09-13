@@ -2,10 +2,12 @@ import json
 import os
 import boto3
 import time
+from typing import Dict
 from base_handler import WebSocketBaseHandler
 from lambdas.utils.db_utils import db_utils
 from lambdas.utils.websocket_utils import broadcast_to_connection
 from lambdas.utils.seat_filtering import create_seat_based_response, broadcast_game_update
+from lambdas.utils.robot_utils import is_robot_seat, get_robot_turns_sequence, execute_robot_bid, execute_robot_card_play, get_next_seat
 
 VALID_BIDS = ['pass', '1C', '1D', '1H', '1S', '1NT', '2C', '2D', '2H', '2S', '2NT', 
               '3C', '3D', '3H', '3S', '3NT', '4C', '4D', '4H', '4S', '4NT', 
@@ -225,6 +227,125 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
         # Save updated room
         room_table.put_item(Item=room_item)
         
+        # Broadcast human bid immediately
+        self._broadcast_human_bid(
+            room_id=room_id,
+            room_item=room_item,
+            user_seat=user_seat,
+            bid=bid,
+            game_data=game_data
+        )
+        
+        # Execute robot turns if next player is a robot
+        robot_turns = get_robot_turns_sequence(room_item, user_seat)
+        for robot_seat, action_type in robot_turns:
+            if action_type == 'bid':
+                robot_bid = execute_robot_bid(room_item, robot_seat)
+                if robot_bid:
+                    # Add robot bid to game data
+                    robot_bid_entry = {
+                        'seat': robot_seat,
+                        'bid': robot_bid,
+                        'timestamp': int(time.time() * 1000)
+                    }
+                    game_data['bids'].append(robot_bid_entry)
+                    
+                    # Update turn to next player
+                    game_data['turn'] = get_next_seat(robot_seat)
+                    
+                    # Broadcast this robot bid immediately
+                    self._broadcast_robot_bid(
+                        room_id=room_id,
+                        room_item=room_item,
+                        robot_seat=robot_seat,
+                        robot_bid=robot_bid,
+                        game_data=game_data
+                    )
+                    
+                    # Check if bidding should end after robot bid
+                    recent_bids = game_data['bids'][-4:] if len(game_data['bids']) >= 4 else game_data['bids']
+                    if len(recent_bids) >= 4:
+                        last_four_bids = [b['bid'] for b in recent_bids]
+                        if last_four_bids == ['pass', 'pass', 'pass', 'pass']:
+                            # Bidding ended with all passes
+                            game_data['currentPhase'] = 'completed'
+                            game_data['gameResult'] = 'noWinner'
+                            game_data['gameEndReason'] = 'allPass'
+                            game_data['winner'] = None
+                        elif len([b for b in last_four_bids if b != 'pass']) >= 1:
+                            # Check if we have 3 consecutive passes after a contract
+                            non_pass_bids = [b for b in last_four_bids if b != 'pass']
+                            if len(non_pass_bids) >= 1 and recent_bids[-1]['bid'] == 'pass':
+                                pass_count = 0
+                                for bid in reversed(recent_bids):
+                                    if bid['bid'] == 'pass':
+                                        pass_count += 1
+                                    else:
+                                        break
+                                if pass_count >= 3:
+                                    game_data['currentPhase'] = 'playing'
+                                    declarer_seat, opening_leader_seat = self._determine_declarer_and_leader(game_data['bids'])
+                                    
+                                    if declarer_seat and opening_leader_seat:
+                                        game_data['turn'] = opening_leader_seat
+                                        game_data['declarer'] = declarer_seat
+                                        final_contract_bid = None
+                                        for bid in reversed(recent_bids):
+                                            if bid['bid'] not in ['pass', 'double', 'redouble']:
+                                                final_contract_bid = bid['bid']
+                                                break
+                                        game_data['contract'] = final_contract_bid
+                                        game_data['openingLeader'] = opening_leader_seat
+                                    else:
+                                        game_data['turn'] = 'North'
+        
+        # Update room state if phase changed
+        if game_data['currentPhase'] == 'playing':
+            room_item['state'] = 'playing'
+            
+            # Check if opening leader is a robot and trigger card play
+            # Only proceed if openingLeader was actually set during this phase change
+            opening_leader = game_data.get('openingLeader')
+            if opening_leader:  # Only proceed if openingLeader exists
+                opening_leader_occupant = room_item['seats'].get(opening_leader)
+                if opening_leader_occupant and is_robot_seat(opening_leader_occupant):
+                    # Trigger robot to play opening lead
+                    robot_card = execute_robot_card_play(room_item, opening_leader)
+                if robot_card:
+                    # Execute robot card play
+                    robot_hand = game_data['hands'][opening_leader]
+                    robot_hand.remove(robot_card)
+                    game_data['hands'][opening_leader] = robot_hand
+                    
+                    # Add robot play to current trick
+                    if 'currentTrick' not in game_data:
+                        game_data['currentTrick'] = []
+                    
+                    robot_play_entry = {
+                        'seat': opening_leader,
+                        'card': robot_card,
+                        'timestamp': int(time.time() * 1000)
+                    }
+                    game_data['currentTrick'].append(robot_play_entry)
+                    
+                    # Update turn to next player
+                    game_data['turn'] = get_next_seat(opening_leader)
+                    
+                    # Broadcast this robot move immediately
+                    self._broadcast_robot_card_play(
+                        room_id=room_id,
+                        room_item=room_item,
+                        robot_seat=opening_leader,
+                        robot_card=robot_card,
+                        game_data=game_data
+                    )
+                    
+        elif game_data['currentPhase'] == 'completed':
+            room_item['state'] = 'completed'
+        
+        # Save room again after robot turns
+        room_table.put_item(Item=room_item)
+        
         # Create last action for broadcast
         last_action = {
             'action': 'bidMade',
@@ -260,25 +381,97 @@ class WebSocketMakeBidHandler(WebSocketBaseHandler):
             message=message
         )
         
-        # Broadcast personalized updates to all other players
+
+        
+        # Return personalized response to the original caller
+        return self.success_response(personalized_response.dict())
+    
+    def _broadcast_human_bid(self, room_id: str, room_item: Dict, user_seat: str, 
+                            bid: str, game_data: Dict):
+        """
+        Broadcast a human bid to all players in real-time.
+        
+        Args:
+            room_id: The room ID
+            room_item: The room data
+            user_seat: The human player's seat position
+            bid: The bid made by the human
+            game_data: Current game data
+        """
+        # Create personalized response for each player
         def broadcast_to_user(target_user_id, response):
             # Get connection for this user and send message
             connection = db_utils.get_room_connection(target_user_id)
             if connection:
                 broadcast_to_connection(connection, response.dict())
         
+        # Broadcast human bid to all players
         broadcast_game_update(
             room_id=room_id,
             game_data=game_data,
             room_seats=room_item['seats'],
             action='bidMade',
-            message=f'Bid {bid} made by {user_seat}',
-            exclude_user_id=user_id,
+            message=f'{user_seat} bid {bid}',
             broadcast_function=broadcast_to_user
         )
+    
+    def _broadcast_robot_bid(self, room_id: str, room_item: Dict, robot_seat: str, 
+                            robot_bid: str, game_data: Dict):
+        """
+        Broadcast a robot bid to all players in real-time.
         
-        # Return personalized response to the original caller
-        return self.success_response(personalized_response.dict())
+        Args:
+            room_id: The room ID
+            room_item: The room data
+            robot_seat: The robot's seat position
+            robot_bid: The bid made by the robot
+            game_data: Current game data
+        """
+        # Create personalized response for each player
+        def broadcast_to_user(target_user_id, response):
+            # Get connection for this user and send message
+            connection = db_utils.get_room_connection(target_user_id)
+            if connection:
+                broadcast_to_connection(connection, response.dict())
+        
+        # Broadcast robot bid to all players
+        broadcast_game_update(
+            room_id=room_id,
+            game_data=game_data,
+            room_seats=room_item['seats'],
+            action='robotBidMade',
+            message=f'Robot {robot_seat} bid {robot_bid}',
+            broadcast_function=broadcast_to_user
+        )
+    
+    def _broadcast_robot_card_play(self, room_id: str, room_item: Dict, robot_seat: str, 
+                                  robot_card: str, game_data: Dict):
+        """
+        Broadcast a robot card play to all players in real-time.
+        
+        Args:
+            room_id: The room ID
+            room_item: The room data
+            robot_seat: The robot's seat position
+            robot_card: The card played by the robot
+            game_data: Current game data
+        """
+        # Create personalized response for each player
+        def broadcast_to_user(target_user_id, response):
+            # Get connection for this user and send message
+            connection = db_utils.get_room_connection(target_user_id)
+            if connection:
+                broadcast_to_connection(connection, response.dict())
+        
+        # Broadcast robot card play to all players
+        broadcast_game_update(
+            room_id=room_id,
+            game_data=game_data,
+            room_seats=room_item['seats'],
+            action='robotCardPlayed',
+            message=f'Robot {robot_seat} played {robot_card}',
+            broadcast_function=broadcast_to_user
+        )
 
 # Create handler instance
 handler = WebSocketMakeBidHandler()

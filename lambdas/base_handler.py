@@ -260,4 +260,31 @@ class WebSocketBaseHandler(BaseLambdaHandler):
             else:
                 return item
         
-        return _convert_item(obj) 
+        return _convert_item(obj)
+    
+    def _convert_seats_to_usernames(self, seats: Dict[str, str]) -> Dict[str, str]:
+        """
+        Convert seat mappings from userIds to usernames for privacy
+        """
+        from lambdas.utils.db_utils import db_utils
+        
+        if not seats:
+            return seats
+        
+        # Get user table reference
+        user_table = db_utils.get_table('USER_TABLE')
+        
+        # Convert each userId to username
+        username_seats = {}
+        for seat, user_id in seats.items():
+            if user_id is None:
+                username_seats[seat] = None
+            else:
+                # Get user info from database
+                user_item = db_utils.find_user_by_id(user_id, user_table)
+                if user_item:
+                    username_seats[seat] = user_item.get('username', user_id)  # Fallback to userId if username not found
+                else:
+                    username_seats[seat] = user_id  # Fallback to userId if user not found
+        
+        return username_seats 

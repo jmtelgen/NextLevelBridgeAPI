@@ -51,7 +51,8 @@ class TestWebSocketCreateRoomHandler:
         """Set up test environment variables."""
         env_vars = {
             'ROOM_TABLE': 'test-rooms-table',
-            'WEBSOCKET_CONNECTIONS_TABLE': 'test-connections-table'
+            'WEBSOCKET_CONNECTIONS_TABLE': 'test-connections-table',
+            'USER_TABLE': 'test-users-table'
         }
         
         # Store original values
@@ -80,12 +81,20 @@ class TestWebSocketCreateRoomHandler:
     def test_process_websocket_request_success(self, handler, sample_create_room_event, mock_context, mock_environment):
         """Test successful room creation request processing."""
         with patch.object(handler, 'get_table') as mock_get_table, \
-             patch.object(handler, '_update_user_room') as mock_update_user_room:
+             patch.object(handler, '_update_user_room') as mock_update_user_room, \
+             patch.object(handler, '_convert_seats_to_usernames') as mock_convert_seats:
             
             mock_table = MagicMock()
             mock_get_table.return_value = mock_table
             mock_table.put_item.return_value = {}
             mock_update_user_room.return_value = True
+            # Mock the seat conversion to return usernames
+            mock_convert_seats.return_value = {
+                'North': None,
+                'East': None,
+                'South': 'testuser',
+                'West': None
+            }
             
             result = handler.process_websocket_request(sample_create_room_event, mock_context)
             
@@ -107,6 +116,13 @@ class TestWebSocketCreateRoomHandler:
             assert saved_room['state'] == 'waiting'
             assert 'seats' in saved_room
             assert 'gameData' in saved_room
+            
+            # Verify that response contains usernames instead of userIds
+            response_room = response_body['room']
+            assert 'seats' in response_room
+            seats = response_room['seats']
+            # The owner should have their username, not userId
+            assert seats['South'] == 'testuser'  # Username instead of 'test-user-123'
             
             # Verify user room was updated
             mock_update_user_room.assert_called_once()
@@ -196,12 +212,20 @@ class TestWebSocketCreateRoomHandler:
     def test_process_websocket_request_update_user_room_failure(self, handler, sample_create_room_event, mock_context, mock_environment):
         """Test room creation when updating user room fails."""
         with patch.object(handler, 'get_table') as mock_get_table, \
-             patch.object(handler, '_update_user_room') as mock_update_user_room:
+             patch.object(handler, '_update_user_room') as mock_update_user_room, \
+             patch.object(handler, '_convert_seats_to_usernames') as mock_convert_seats:
             
             mock_table = MagicMock()
             mock_get_table.return_value = mock_table
             mock_table.put_item.return_value = {}
             mock_update_user_room.return_value = False
+            # Mock the seat conversion to return usernames
+            mock_convert_seats.return_value = {
+                'North': None,
+                'East': None,
+                'South': 'testuser',
+                'West': None
+            }
             
             result = handler.process_websocket_request(sample_create_room_event, mock_context)
             
@@ -227,12 +251,20 @@ class TestWebSocketCreateRoomHandler:
         }
         
         with patch.object(handler, 'get_table') as mock_get_table, \
-             patch.object(handler, '_update_user_room') as mock_update_user_room:
+             patch.object(handler, '_update_user_room') as mock_update_user_room, \
+             patch.object(handler, '_convert_seats_to_usernames') as mock_convert_seats:
             
             mock_table = MagicMock()
             mock_get_table.return_value = mock_table
             mock_table.put_item.return_value = {}
             mock_update_user_room.return_value = True
+            # Mock the seat conversion to return usernames
+            mock_convert_seats.return_value = {
+                'North': None,
+                'East': None,
+                'South': 'testuser',
+                'West': None
+            }
             
             result = handler.process_websocket_request(event, mock_context)
             

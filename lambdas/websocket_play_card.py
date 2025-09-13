@@ -2,11 +2,13 @@ import json
 import os
 import boto3
 import time
+from typing import Dict
 from botocore.exceptions import ClientError
 from base_handler import WebSocketBaseHandler
 from lambdas.utils.db_utils import db_utils
 from lambdas.utils.websocket_utils import broadcast_to_connection
 from lambdas.utils.seat_filtering import create_seat_based_response, broadcast_game_update
+from lambdas.utils.robot_utils import is_robot_seat, get_robot_turns_sequence, execute_robot_card_play, get_next_seat
 
 SUITS = ['C', 'D', 'H', 'S']
 RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
@@ -151,6 +153,75 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
         # Save updated room
         room_table.put_item(Item=room_item)
         
+        # Broadcast human move immediately
+        self._broadcast_human_move(
+            room_id=room_id,
+            room_item=room_item,
+            user_seat=user_seat,
+            card=card,
+            game_data=game_data
+        )
+        
+        # Execute robot turns if next player is a robot
+        robot_turns = get_robot_turns_sequence(room_item, user_seat)
+        for robot_seat, action_type in robot_turns:
+            if action_type == 'play':
+                robot_card = execute_robot_card_play(room_item, robot_seat)
+                if robot_card:
+                    # Execute robot card play
+                    robot_hand = game_data['hands'][robot_seat]
+                    robot_hand.remove(robot_card)
+                    game_data['hands'][robot_seat] = robot_hand
+                    
+                    # Add robot play to current trick
+                    robot_play_entry = {
+                        'seat': robot_seat,
+                        'card': robot_card,
+                        'timestamp': int(time.time() * 1000)
+                    }
+                    game_data['currentTrick'].append(robot_play_entry)
+                    
+                    # Update turn to next player
+                    game_data['turn'] = get_next_seat(robot_seat)
+                    
+                    # Broadcast this robot move immediately
+                    self._broadcast_robot_move(
+                        room_id=room_id,
+                        room_item=room_item,
+                        robot_seat=robot_seat,
+                        robot_card=robot_card,
+                        game_data=game_data
+                    )
+                    
+                    # Check if trick is complete after robot play
+                    if len(game_data['currentTrick']) == 4:
+                        # Determine winner of the trick
+                        contract = game_data.get('contract')
+                        trick_winner = self._determine_trick_winner(game_data['currentTrick'], contract)
+                        
+                        # Add trick to completed tricks
+                        if 'tricks' not in game_data:
+                            game_data['tricks'] = []
+                        
+                        game_data['tricks'].append({
+                            'cards': game_data['currentTrick'],
+                            'winner': trick_winner
+                        })
+                        
+                        # Clear current trick
+                        game_data['currentTrick'] = []
+                        
+                        # Set next turn to winner
+                        game_data['turn'] = trick_winner
+                        
+                        # Check if hand is complete (13 tricks)
+                        if len(game_data['tricks']) == 13:
+                            game_data['currentPhase'] = 'completed'
+                            room_item['state'] = 'completed'
+        
+        # Save room again after robot turns
+        room_table.put_item(Item=room_item)
+        
         # Convert objects to JSON-serializable format
         game_data_serializable = self._convert_for_json(game_data)
         
@@ -182,25 +253,68 @@ class WebSocketPlayCardHandler(WebSocketBaseHandler):
             message=f'Card {card} played successfully'
         )
         
-        # Broadcast personalized updates to all other players
+
+        
+        # Return personalized response to the original caller
+        return self.success_response(personalized_response.dict())
+    
+    def _broadcast_human_move(self, room_id: str, room_item: Dict, user_seat: str, 
+                             card: str, game_data: Dict):
+        """
+        Broadcast a human move to all players in real-time.
+        
+        Args:
+            room_id: The room ID
+            room_item: The room data
+            user_seat: The human player's seat position
+            card: The card played by the human
+            game_data: Current game data
+        """
+        # Create personalized response for each player
         def broadcast_to_user(target_user_id, response):
             # Get connection for this user and send message
             connection = db_utils.get_room_connection(target_user_id)
             if connection:
                 broadcast_to_connection(connection, response.dict())
         
+        # Broadcast human move to all players
         broadcast_game_update(
             room_id=room_id,
             game_data=game_data,
             room_seats=room_item['seats'],
             action='cardPlayed',
-            message=f'Card {card} played by {user_seat}',
-            exclude_user_id=user_id,
+            message=f'{user_seat} played {card}',
             broadcast_function=broadcast_to_user
         )
+    
+    def _broadcast_robot_move(self, room_id: str, room_item: Dict, robot_seat: str, 
+                             robot_card: str, game_data: Dict):
+        """
+        Broadcast a robot move to all players in real-time.
         
-        # Return personalized response to the original caller
-        return self.success_response(personalized_response.dict())
+        Args:
+            room_id: The room ID
+            room_item: The room data
+            robot_seat: The robot's seat position
+            robot_card: The card played by the robot
+            game_data: Current game data
+        """
+        # Create personalized response for each player
+        def broadcast_to_user(target_user_id, response):
+            # Get connection for this user and send message
+            connection = db_utils.get_room_connection(target_user_id)
+            if connection:
+                broadcast_to_connection(connection, response.dict())
+        
+        # Broadcast robot move to all players
+        broadcast_game_update(
+            room_id=room_id,
+            game_data=game_data,
+            room_seats=room_item['seats'],
+            action='robotCardPlayed',
+            message=f'Robot {robot_seat} played {robot_card}',
+            broadcast_function=broadcast_to_user
+        )
     
     def _determine_trick_winner(self, trick, contract=None):
         """

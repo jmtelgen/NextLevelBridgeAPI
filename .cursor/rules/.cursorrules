@@ -1,0 +1,90 @@
+# Cursor Rules Configuration
+
+## Rule Loading Strategy
+
+This configuration enables on-demand loading of specific rule files based on context and requirements.
+
+### Available Rules
+
+1. **rules.mdc** - Development workflow and methodology
+   - Load when: Starting new features, debugging, or planning
+   - Context: General development tasks, project planning
+   - Keywords: workflow, methodology, phases, requirements, implementation
+
+2. **memory.mdc** - Project architecture and data structures
+   - Load when: Working with APIs, data models, or system architecture
+   - Context: Backend development, database operations, API design
+   - Keywords: architecture, data structures, models, APIs, DynamoDB, Lambda
+
+### Loading Triggers
+
+#### Automatic Loading
+- **rules.mdc**: Load when user mentions "workflow", "methodology", "phases", "planning", "requirements"
+- **memory.mdc**: Load when user mentions "architecture", "data structures", "models", "API", "database", "DynamoDB", "Lambda"
+
+#### Context-Based Loading
+- **New Feature Development**: Load both rules.mdc and memory.mdc
+- **Bug Fixing**: Load rules.mdc for methodology, memory.mdc for system understanding
+- **API Development**: Load memory.mdc for data structures and patterns
+- **Code Review**: Load rules.mdc for quality standards
+- **Architecture Changes**: Load memory.mdc for current system state
+
+### Rule Composition
+
+#### For Development Tasks
+```
+Load: rules.mdc + memory.mdc
+Purpose: Complete development context with methodology and system knowledge
+```
+
+#### For Architecture Work
+```
+Load: memory.mdc
+Purpose: Focus on system architecture and data structures
+```
+
+#### For Process Improvement
+```
+Load: rules.mdc
+Purpose: Focus on development methodology and workflow
+```
+
+### Custom Loading Instructions
+
+To load specific rules, use these patterns in your prompts:
+
+- "Follow the five-phase workflow" → Load rules.mdc
+- "Show me the data structures" → Load memory.mdc
+- "How does the architecture work?" → Load memory.mdc
+- "What's the development process?" → Load rules.mdc
+- "Help me implement a new feature" → Load both rules.mdc and memory.mdc
+
+### Rule Dependencies
+
+- **rules.mdc**: Standalone - can be loaded independently
+- **memory.mdc**: Standalone - can be loaded independently
+- **Combined**: Both rules complement each other for comprehensive development context
+
+### File Structure
+
+```
+.cursor/rules/
+├── .cursorrules          # This configuration file
+├── rules.mdc            # Development workflow rules
+└── memory.mdc           # Project architecture and data structures
+```
+
+### Usage Guidelines
+
+1. **Start with Context**: Mention what you're working on to trigger appropriate rule loading
+2. **Be Specific**: Use keywords that match the loading triggers
+3. **Combine When Needed**: For complex tasks, both rules provide comprehensive context
+4. **Update Rules**: Modify these rules as the project evolves
+
+### Maintenance
+
+- Update loading triggers as new patterns emerge
+- Add new rule files as needed
+- Review and update rule content regularly
+- Ensure rules stay under 500 lines each
+- Split large rules into composable smaller rules

@@ -261,6 +261,28 @@ class DatabaseUtils:
             print(f"Error finding room by ID: {str(e)}")
             return None
     
+    def find_user_by_id(self, user_id: str, user_table=None) -> Optional[Dict[str, Any]]:
+        """
+        Find a user by their ID using scan (since we don't have the sort key)
+        """
+        try:
+            if user_table is None:
+                user_table = self.get_table('USER_TABLE')
+            
+            response = user_table.scan(
+                FilterExpression='userId = :userId',
+                ExpressionAttributeValues={':userId': user_id}
+            )
+            
+            if response['Count'] == 0:
+                return None
+            
+            return response['Items'][0]
+            
+        except Exception as e:
+            print(f"Error finding user by ID: {str(e)}")
+            return None
+    
     def create_connection_record(self, connection_id: str, user_id: str, user_name: str, 
                                request_time: Optional[int] = None) -> bool:
         """

@@ -3,6 +3,13 @@
 # AWS CLI Deployment Script for BridgeLambdas
 # Usage: ./deploy-aws.sh <function-name> [create|update]
 # Example: ./deploy-aws.sh room-create create
+#
+# NOTE: When adding new Lambda functions, update this script to include:
+# 1. Add function to the help text (lines 14-35)
+# 2. Add case mapping (lines 44-104)
+# 3. Add environment variables (lines 105-132)
+# 4. Add timeout/memory settings if needed (lines 138-147)
+# 5. Add next steps guidance (lines 179-193)
 
 set -e
 
@@ -18,7 +25,6 @@ if [ -z "$FUNCTION_NAME" ] || [ -z "$ACTION" ]; then
     echo "  account-create → CreateAccountAPILambda"
     echo "  account-login → LoginAPILambda"
     echo "  account-refresh-token → RefreshTokenAPILambda"
-    echo "  ai-double-dummy → GetDoubleDummyLambda"
     echo "  connection-count → ConnectionCountAPILambda"
     echo ""
     echo "WebSocket functions:"
@@ -27,8 +33,13 @@ if [ -z "$FUNCTION_NAME" ] || [ -z "$ACTION" ]; then
     echo "  websocket-create-room → WebSocketCreateRoomLambda"
     echo "  websocket-join-room → WebSocketJoinRoomLambda"
     echo "  websocket-start-room → WebSocketStartRoomLambda"
+    echo "  websocket-change-seat → WebSocketChangeSeatLambda"
     echo "  websocket-make-bid → WebSocketMakeBidLambda"
     echo "  websocket-play-card → WebSocketPlayCardLambda"
+    echo ""
+    echo "Web Crawler functions:"
+    echo "  WebCrawler → WebCrawler"
+    echo "  CrawlerTrigger → CrawlerTrigger"
     exit 1
 fi
 
@@ -60,9 +71,7 @@ case $FUNCTION_NAME in
     "account-refresh-token")
         LAMBDA_FUNCTION_NAME="RefreshTokenAPILambda"
         ;;
-    "ai-double-dummy")
-        LAMBDA_FUNCTION_NAME="GetDoubleDummyLambda"
-        ;;
+
     "connection-count")
         LAMBDA_FUNCTION_NAME="ConnectionCountAPILambda"
         ;;
@@ -81,11 +90,20 @@ case $FUNCTION_NAME in
     "websocket-start-room")
         LAMBDA_FUNCTION_NAME="WebSocketStartRoomLambda"
         ;;
+    "websocket-change-seat")
+        LAMBDA_FUNCTION_NAME="WebSocketChangeSeatLambda"
+        ;;
     "websocket-make-bid")
         LAMBDA_FUNCTION_NAME="WebSocketMakeBidLambda"
         ;;
     "websocket-play-card")
         LAMBDA_FUNCTION_NAME="WebSocketPlayCardLambda"
+        ;;
+    "WebCrawler")
+        LAMBDA_FUNCTION_NAME="WebCrawler"
+        ;;
+    "CrawlerTrigger")
+        LAMBDA_FUNCTION_NAME="CrawlerTrigger"
         ;;
     *)
         echo "Unknown function: $FUNCTION_NAME"
@@ -114,6 +132,10 @@ if [ "$ACTION" = "create" ]; then
         fi
     elif [[ $FUNCTION_NAME == connection-count ]]; then
         ENV_VARS="Variables={WEBSOCKET_CONNECTIONS_TABLE=WebSocketConnections}"
+    elif [[ $FUNCTION_NAME == WebCrawler ]]; then
+        ENV_VARS="Variables={BUCKET_NAME=bridge-lambdas-crawler-html-2024,TABLE_NAME=crawler-metadata,QUEUE_URL=REPLACE_WITH_YOUR_QUEUE_URL,TARGET_DOMAIN=kwbridge.com,MAX_DEPTH=2}"
+    elif [[ $FUNCTION_NAME == CrawlerTrigger ]]; then
+        ENV_VARS="Variables={QUEUE_URL=REPLACE_WITH_YOUR_QUEUE_URL,TABLE_NAME=crawler-metadata}"
     fi
     
     # Set timeout and memory based on function type
@@ -123,6 +145,12 @@ if [ "$ACTION" = "create" ]; then
     if [[ $FUNCTION_NAME == account-* ]]; then
         FUNCTION_TIMEOUT=15  # 15 seconds for account functions
         FUNCTION_MEMORY=512  # 512 MB for account functions
+    elif [[ $FUNCTION_NAME == WebCrawler ]]; then
+        FUNCTION_TIMEOUT=300  # 5 minutes for web crawler (needs time to process)
+        FUNCTION_MEMORY=1024  # 1 GB for web crawler (needs memory for HTML processing)
+    elif [[ $FUNCTION_NAME == CrawlerTrigger ]]; then
+        FUNCTION_TIMEOUT=30   # 30 seconds for trigger function
+        FUNCTION_MEMORY=512   # 512 MB for trigger function
     fi
     
     aws lambda create-function \
@@ -160,6 +188,11 @@ if [[ $FUNCTION_NAME == websocket-* ]]; then
     echo "2. Set up route key mapping (e.g., 'createRoom' → WebSocketCreateRoomLambda)"
     echo "3. Test the WebSocket function"
     echo "4. Set up proper IAM roles and permissions"
+elif [[ $FUNCTION_NAME == WebCrawler ]] || [[ $FUNCTION_NAME == CrawlerTrigger ]]; then
+    echo "1. Update QUEUE_URL environment variable with actual SQS queue URL"
+    echo "2. Set up proper IAM roles and permissions (DynamoDB, SQS, S3)"
+    echo "3. Create SQS trigger for WebCrawler function"
+    echo "4. Test the crawler with: aws lambda invoke --function-name CrawlerTrigger --payload '{\"action\":\"start_crawl\",\"start_url\":\"https://kwbridge.com/\"}' response.json"
 else
     echo "1. Configure API Gateway REST API to route to this Lambda"
     echo "2. Test the function"

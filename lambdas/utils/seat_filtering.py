@@ -3,6 +3,7 @@ Utility functions for seat-based data filtering in Bridge gameplay APIs.
 """
 from typing import Dict, List, Optional, Any
 from models.game_state import PublicGameState, PrivateGameState, SeatBasedGameResponse, GameState
+from lambdas.utils.db_utils import db_utils
 
 
 def get_user_seat(room_seats: Dict[str, str], user_id: str) -> Optional[str]:
@@ -20,6 +21,32 @@ def get_user_seat(room_seats: Dict[str, str], user_id: str) -> Optional[str]:
         if occupant == user_id:
             return seat
     return None
+
+
+def convert_seats_to_usernames(seats: Dict[str, str]) -> Dict[str, str]:
+    """
+    Convert seat mappings from userIds to usernames for privacy
+    """
+    if not seats:
+        return seats
+    
+    # Get user table reference
+    user_table = db_utils.get_table('USER_TABLE')
+    
+    # Convert each userId to username
+    username_seats = {}
+    for seat, user_id in seats.items():
+        if user_id is None:
+            username_seats[seat] = None
+        else:
+            # Get user info from database
+            user_item = db_utils.find_user_by_id(user_id, user_table)
+            if user_item:
+                username_seats[seat] = user_item.get('username', user_id)  # Fallback to userId if username not found
+            else:
+                username_seats[seat] = user_id  # Fallback to userId if user not found
+    
+    return username_seats
 
 
 def create_public_game_state(game_data: Dict[str, Any], room_seats: Dict[str, str]) -> PublicGameState:

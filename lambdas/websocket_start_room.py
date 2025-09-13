@@ -5,6 +5,7 @@ from botocore.exceptions import ClientError
 from base_handler import WebSocketBaseHandler
 from lambdas.utils.db_utils import db_utils
 from lambdas.utils.websocket_utils import broadcast_to_connection
+from lambdas.utils.robot_utils import fill_empty_seats_with_robots, can_start_game_with_robots
 from typing import Dict, List
 
 SEATS = ['North', 'East', 'South', 'West']
@@ -52,7 +53,12 @@ class WebSocketStartRoomHandler(WebSocketBaseHandler):
         if room_item['state'] != 'waiting':
             return self.error_response(400, 'Room is not in waiting state')
         
-        # All seats should already be filled (either with humans or robots)
+        # Fill empty seats with robots and check if game can be started
+        room_item['seats'] = fill_empty_seats_with_robots(room_item['seats'])
+        
+        if not can_start_game_with_robots(room_item['seats']):
+            return self.error_response(400, 'At least one human player is required to start the game')
+        
         # Update room state to bidding
         room_item['state'] = 'bidding'
         
@@ -83,6 +89,8 @@ class WebSocketStartRoomHandler(WebSocketBaseHandler):
         
         # Convert objects to JSON-serializable format
         room_item_serializable = self._convert_for_json(room_item)
+        # Convert seats from userIds to usernames for privacy
+        room_item_serializable['seats'] = self._convert_seats_to_usernames(room_item['seats'])
         game_data_serializable = self._convert_for_json(room_item['gameData'])
         
          # Get active connections and broadcast update (excluding the user who joined the room)

@@ -49,7 +49,8 @@ class TestWebSocketJoinRoomHandler:
         """Set up test environment variables."""
         env_vars = {
             'ROOM_TABLE': 'test-rooms-table',
-            'WEBSOCKET_CONNECTIONS_TABLE': 'test-connections-table'
+            'WEBSOCKET_CONNECTIONS_TABLE': 'test-connections-table',
+            'USER_TABLE': 'test-users-table'
         }
         
         # Store original values
@@ -103,13 +104,21 @@ class TestWebSocketJoinRoomHandler:
     def test_process_websocket_request_success(self, handler, sample_join_room_event, mock_context, mock_environment, mock_room_data):
         """Test successful room join request processing."""
         with patch('lambdas.websocket_join_room.db_utils') as mock_db_utils, \
-             patch('lambdas.websocket_join_room.broadcast_to_connection') as mock_broadcast:
+             patch('lambdas.websocket_join_room.broadcast_to_connection') as mock_broadcast, \
+             patch.object(handler, '_convert_seats_to_usernames') as mock_convert_seats:
             
             mock_db_utils.get_table.return_value = MagicMock()
             mock_db_utils.find_room_by_id.return_value = mock_room_data
             mock_db_utils.update_user_room.return_value = True
             # Mock get_room_connection for the existing user (North seat)
             mock_db_utils.get_room_connection.return_value = 'connection-1'
+            # Mock the seat conversion to return usernames
+            mock_convert_seats.return_value = {
+                'North': 'testowner',
+                'East': None,
+                'South': None,
+                'West': None
+            }
             
             result = handler.process_websocket_request(sample_join_room_event, mock_context)
             
@@ -123,6 +132,13 @@ class TestWebSocketJoinRoomHandler:
             assert response_body['assignedSeat'] in ['East', 'South', 'West']  # One of the empty seats
             assert 'room' in response_body
             assert 'gameData' in response_body
+            
+            # Verify that seats contain usernames instead of userIds
+            room_data = response_body['room']
+            assert 'seats' in room_data
+            seats = room_data['seats']
+            # The existing user should have their username, not userId
+            assert seats['North'] == 'testowner'  # Username instead of 'test-owner-123'
             
             # Verify room was updated in database
             mock_db_utils.update_user_room.assert_called_once_with('test-user-123', 'test-room-123')
@@ -264,12 +280,20 @@ class TestWebSocketJoinRoomHandler:
     def test_process_websocket_request_update_user_room_failure(self, handler, sample_join_room_event, mock_context, mock_environment, mock_room_data):
         """Test room join when updating user room fails."""
         with patch('lambdas.websocket_join_room.db_utils') as mock_db_utils, \
-             patch('lambdas.websocket_join_room.broadcast_to_connection') as mock_broadcast:
+             patch('lambdas.websocket_join_room.broadcast_to_connection') as mock_broadcast, \
+             patch.object(handler, '_convert_seats_to_usernames') as mock_convert_seats:
             
             mock_db_utils.get_table.return_value = MagicMock()
             mock_db_utils.find_room_by_id.return_value = mock_room_data
             mock_db_utils.update_user_room.return_value = False  # Update fails
             mock_db_utils.get_room_connections.return_value = ['connection-1']
+            # Mock the seat conversion to return usernames
+            mock_convert_seats.return_value = {
+                'North': 'testowner',
+                'East': None,
+                'South': None,
+                'West': None
+            }
             
             result = handler.process_websocket_request(sample_join_room_event, mock_context)
             
@@ -311,13 +335,21 @@ class TestWebSocketJoinRoomHandler:
     def test_broadcast_message_structure(self, handler, sample_join_room_event, mock_context, mock_environment, mock_room_data):
         """Test that broadcast message has correct structure."""
         with patch('lambdas.websocket_join_room.db_utils') as mock_db_utils, \
-             patch('lambdas.websocket_join_room.broadcast_to_connection') as mock_broadcast:
+             patch('lambdas.websocket_join_room.broadcast_to_connection') as mock_broadcast, \
+             patch.object(handler, '_convert_seats_to_usernames') as mock_convert_seats:
             
             mock_db_utils.get_table.return_value = MagicMock()
             mock_db_utils.find_room_by_id.return_value = mock_room_data
             mock_db_utils.update_user_room.return_value = True
             # Mock get_room_connection for the existing user (North seat)
             mock_db_utils.get_room_connection.return_value = 'connection-1'
+            # Mock the seat conversion to return usernames
+            mock_convert_seats.return_value = {
+                'North': 'testowner',
+                'East': None,
+                'South': None,
+                'West': None
+            }
             
             handler.process_websocket_request(sample_join_room_event, mock_context)
             

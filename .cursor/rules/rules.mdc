@@ -1,0 +1,371 @@
+---
+alwaysApply: false
+---
+
+# Development Workflow Rules
+
+## Five-Phased Workflow
+
+This repository follows a structured five-phased approach for all development tasks, from entire projects down to individual features. This methodology ensures thorough planning, optimal solutions, and robust implementation.
+
+### Phase (i): Requirements and Clarifications
+
+**Objective**: Make requirements crystal clear and anticipate bottlenecks before any work begins.
+
+**Process**:
+1. **Gather Complete Requirements**: Document all functional and non-functional requirements
+2. **Ask Clarifying Questions**: Identify ambiguities, edge cases, and missing information
+3. **Define Success Criteria**: Establish clear, measurable outcomes
+4. **Anticipate Bottlenecks**: Identify potential technical, resource, or timeline challenges
+5. **Document Assumptions**: Record all assumptions made during requirement gathering
+
+**Deliverables**:
+- Comprehensive requirements document
+- List of clarifying questions and answers
+- Success criteria definition
+- Risk assessment and mitigation strategies
+- Assumptions log
+
+**Example Questions to Ask**:
+- What are the exact input/output formats?
+- What are the performance requirements?
+- What are the security constraints?
+- What are the integration points?
+- What are the error handling requirements?
+- What are the testing requirements?
+
+### Phase (ii): Exhaustive Searching and Optimal Plan
+
+**Objective**: Explore all possible solution approaches and select the optimal one through rigorous analysis.
+
+**Process**:
+1. **Research All Approaches**: Investigate multiple solution strategies
+2. **Evaluate Trade-offs**: Compare pros/cons of each approach
+3. **Consider Hybrid Solutions**: Explore combinations of different approaches
+4. **Select Optimal Solution**: Choose the best approach based on requirements
+5. **Document Reasoning**: Provide clear justification for the chosen approach
+
+**Search Areas**:
+- Technical implementation approaches
+- Architecture patterns
+- Library/framework options
+- Performance optimization strategies
+- Security considerations
+- Scalability solutions
+
+**Evaluation Criteria**:
+- Meets all requirements
+- Maintainability and readability
+- Performance characteristics
+- Security implications
+- Development time and effort
+- Long-term sustainability
+
+### Phase (iii): User Validation
+
+**Objective**: Validate the proposed solution with stakeholders before implementation begins.
+
+**Process**:
+1. **Present the Plan**: Clearly explain the proposed solution
+2. **Highlight Assumptions**: Make all assumptions explicit
+3. **Explain Design Decisions**: Provide rationale for key choices
+4. **Address Concerns**: Respond to questions and feedback
+5. **Get Approval**: Obtain explicit approval before proceeding
+
+**Presentation Elements**:
+- High-level architecture overview
+- Detailed implementation plan
+- Assumptions and constraints
+- Design decision rationale
+- Risk mitigation strategies
+- Timeline and milestones
+
+### Phase (iv): Implementation
+
+**Objective**: Implement the solution iteratively with thorough testing at each step.
+
+**Process**:
+1. **Break Down into Features**: Divide implementation into manageable chunks
+2. **Implement One Feature at a Time**: Focus on single functionality per iteration
+3. **Test Exhaustively**: Test each feature with all relevant cases
+4. **Validate Integration**: Ensure features work together correctly
+5. **Document Changes**: Record all modifications and decisions
+
+**Implementation Principles**:
+- Incremental development
+- Comprehensive testing
+- Clear documentation
+- Version control best practices
+- Code review processes
+
+**Testing Strategy**:
+- Unit tests for individual functions
+- Integration tests for feature interactions
+- End-to-end tests for complete workflows
+- Performance tests for critical paths
+- Security tests for sensitive operations
+
+### Phase (v): Further Suggestions
+
+**Objective**: Identify optimization opportunities and additional features after implementation.
+
+**Process**:
+1. **Performance Analysis**: Identify bottlenecks and optimization opportunities
+2. **Security Review**: Assess security posture and suggest improvements
+3. **Feature Enhancements**: Propose additional functionality
+4. **Code Quality**: Suggest refactoring and improvement opportunities
+5. **Documentation**: Recommend documentation improvements
+
+**Areas to Evaluate**:
+- Performance optimization
+- Security hardening
+- Additional features
+- Code quality improvements
+- Documentation enhancements
+- Monitoring and observability
+- Error handling improvements
+
+## Application Guidelines
+
+### Granularity Levels
+
+This five-phase approach applies at multiple levels:
+
+1. **Project Level**: Entire application or major feature set
+2. **Feature Level**: Individual features or modules
+3. **Function Level**: Individual functions or components
+4. **Bug Fix Level**: Problem resolution and fixes
+
+### Time Investment
+
+- **Phase (i)**: 20-30% of total time
+- **Phase (ii)**: 15-25% of total time
+- **Phase (iii)**: 5-10% of total time
+- **Phase (iv)**: 40-50% of total time
+- **Phase (v)**: 5-10% of total time
+
+### Quality Gates
+
+Each phase must be completed before proceeding to the next:
+- Phase (i): Requirements approved by stakeholders
+- Phase (ii): Solution approach validated and documented
+- Phase (iii): Plan approved by user/stakeholder
+- Phase (iv): Feature implemented and tested
+- Phase (v): Suggestions documented and prioritized
+
+## Examples
+
+### Example 1: Adding a New API Endpoint
+
+**Phase (i)**: What data does it need? What's the expected response? What are the error cases?
+**Phase (ii)**: REST vs GraphQL? What validation approach? What error handling strategy?
+**Phase (iii)**: Present the API design and get approval
+**Phase (iv)**: Implement endpoint, add tests, integrate with existing code
+**Phase (v)**: Suggest rate limiting, caching, monitoring improvements
+
+### Example 2: Fixing a Bug
+
+**Phase (i)**: What's the exact problem? What's the expected behavior? What are the reproduction steps?
+**Phase (ii)**: What are the possible causes? What's the best fix approach? What are the side effects?
+**Phase (iii)**: Present the fix approach and get approval
+**Phase (iv)**: Implement fix, add tests, verify solution
+**Phase (v)**: Suggest preventive measures, code improvements, monitoring
+
+## Benefits
+
+1. **Reduces Rework**: Clear requirements prevent costly changes later
+2. **Improves Quality**: Thorough analysis leads to better solutions
+3. **Enhances Communication**: Stakeholder involvement ensures alignment
+4. **Increases Confidence**: Iterative implementation with testing reduces risk
+5. **Enables Optimization**: Post-implementation analysis identifies improvements
+
+## Enforcement
+
+- All development tasks must follow this five-phase approach
+- Each phase must be documented
+- No phase can be skipped without explicit justification
+- Regular reviews ensure adherence to the process
+- Continuous improvement of the process itself# Development Workflow Rules
+
+## Five-Phased Workflow
+
+This repository follows a structured five-phased approach for all development tasks, from entire projects down to individual features. This methodology ensures thorough planning, optimal solutions, and robust implementation.
+
+### Phase (i): Requirements and Clarifications
+
+**Objective**: Make requirements crystal clear and anticipate bottlenecks before any work begins.
+
+**Process**:
+1. **Gather Complete Requirements**: Document all functional and non-functional requirements
+2. **Ask Clarifying Questions**: Identify ambiguities, edge cases, and missing information
+3. **Define Success Criteria**: Establish clear, measurable outcomes
+4. **Anticipate Bottlenecks**: Identify potential technical, resource, or timeline challenges
+5. **Document Assumptions**: Record all assumptions made during requirement gathering
+
+**Deliverables**:
+- Comprehensive requirements document
+- List of clarifying questions and answers
+- Success criteria definition
+- Risk assessment and mitigation strategies
+- Assumptions log
+
+**Example Questions to Ask**:
+- What are the exact input/output formats?
+- What are the performance requirements?
+- What are the security constraints?
+- What are the integration points?
+- What are the error handling requirements?
+- What are the testing requirements?
+
+### Phase (ii): Exhaustive Searching and Optimal Plan
+
+**Objective**: Explore all possible solution approaches and select the optimal one through rigorous analysis.
+
+**Process**:
+1. **Research All Approaches**: Investigate multiple solution strategies
+2. **Evaluate Trade-offs**: Compare pros/cons of each approach
+3. **Consider Hybrid Solutions**: Explore combinations of different approaches
+4. **Select Optimal Solution**: Choose the best approach based on requirements
+5. **Document Reasoning**: Provide clear justification for the chosen approach
+
+**Search Areas**:
+- Technical implementation approaches
+- Architecture patterns
+- Library/framework options
+- Performance optimization strategies
+- Security considerations
+- Scalability solutions
+
+**Evaluation Criteria**:
+- Meets all requirements
+- Maintainability and readability
+- Performance characteristics
+- Security implications
+- Development time and effort
+- Long-term sustainability
+
+### Phase (iii): User Validation
+
+**Objective**: Validate the proposed solution with stakeholders before implementation begins.
+
+**Process**:
+1. **Present the Plan**: Clearly explain the proposed solution
+2. **Highlight Assumptions**: Make all assumptions explicit
+3. **Explain Design Decisions**: Provide rationale for key choices
+4. **Address Concerns**: Respond to questions and feedback
+5. **Get Approval**: Obtain explicit approval before proceeding
+
+**Presentation Elements**:
+- High-level architecture overview
+- Detailed implementation plan
+- Assumptions and constraints
+- Design decision rationale
+- Risk mitigation strategies
+- Timeline and milestones
+
+### Phase (iv): Implementation
+
+**Objective**: Implement the solution iteratively with thorough testing at each step.
+
+**Process**:
+1. **Break Down into Features**: Divide implementation into manageable chunks
+2. **Implement One Feature at a Time**: Focus on single functionality per iteration
+3. **Test Exhaustively**: Test each feature with all relevant cases
+4. **Validate Integration**: Ensure features work together correctly
+5. **Document Changes**: Record all modifications and decisions
+
+**Implementation Principles**:
+- Incremental development
+- Comprehensive testing
+- Clear documentation
+- Version control best practices
+- Code review processes
+
+**Testing Strategy**:
+- Unit tests for individual functions
+- Integration tests for feature interactions
+- End-to-end tests for complete workflows
+- Performance tests for critical paths
+- Security tests for sensitive operations
+
+### Phase (v): Further Suggestions
+
+**Objective**: Identify optimization opportunities and additional features after implementation.
+
+**Process**:
+1. **Performance Analysis**: Identify bottlenecks and optimization opportunities
+2. **Security Review**: Assess security posture and suggest improvements
+3. **Feature Enhancements**: Propose additional functionality
+4. **Code Quality**: Suggest refactoring and improvement opportunities
+5. **Documentation**: Recommend documentation improvements
+
+**Areas to Evaluate**:
+- Performance optimization
+- Security hardening
+- Additional features
+- Code quality improvements
+- Documentation enhancements
+- Monitoring and observability
+- Error handling improvements
+
+## Application Guidelines
+
+### Granularity Levels
+
+This five-phase approach applies at multiple levels:
+
+1. **Project Level**: Entire application or major feature set
+2. **Feature Level**: Individual features or modules
+3. **Function Level**: Individual functions or components
+4. **Bug Fix Level**: Problem resolution and fixes
+
+### Time Investment
+
+- **Phase (i)**: 20-30% of total time
+- **Phase (ii)**: 15-25% of total time
+- **Phase (iii)**: 5-10% of total time
+- **Phase (iv)**: 40-50% of total time
+- **Phase (v)**: 5-10% of total time
+
+### Quality Gates
+
+Each phase must be completed before proceeding to the next:
+- Phase (i): Requirements approved by stakeholders
+- Phase (ii): Solution approach validated and documented
+- Phase (iii): Plan approved by user/stakeholder
+- Phase (iv): Feature implemented and tested
+- Phase (v): Suggestions documented and prioritized
+
+## Examples
+
+### Example 1: Adding a New API Endpoint
+
+**Phase (i)**: What data does it need? What's the expected response? What are the error cases?
+**Phase (ii)**: REST vs GraphQL? What validation approach? What error handling strategy?
+**Phase (iii)**: Present the API design and get approval
+**Phase (iv)**: Implement endpoint, add tests, integrate with existing code
+**Phase (v)**: Suggest rate limiting, caching, monitoring improvements
+
+### Example 2: Fixing a Bug
+
+**Phase (i)**: What's the exact problem? What's the expected behavior? What are the reproduction steps?
+**Phase (ii)**: What are the possible causes? What's the best fix approach? What are the side effects?
+**Phase (iii)**: Present the fix approach and get approval
+**Phase (iv)**: Implement fix, add tests, verify solution
+**Phase (v)**: Suggest preventive measures, code improvements, monitoring
+
+## Benefits
+
+1. **Reduces Rework**: Clear requirements prevent costly changes later
+2. **Improves Quality**: Thorough analysis leads to better solutions
+3. **Enhances Communication**: Stakeholder involvement ensures alignment
+4. **Increases Confidence**: Iterative implementation with testing reduces risk
+5. **Enables Optimization**: Post-implementation analysis identifies improvements
+
+## Enforcement
+
+- All development tasks must follow this five-phase approach
+- Each phase must be documented
+- No phase can be skipped without explicit justification
+- Regular reviews ensure adherence to the process
+- Continuous improvement of the process itself

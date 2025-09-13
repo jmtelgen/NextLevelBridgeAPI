@@ -139,11 +139,15 @@ class WebSocketCreateRoomHandler(WebSocketBaseHandler):
             
             self._update_user_room(owner_id, room_id, request_id)
             
+            # Convert seats from userIds to usernames for privacy
+            room_with_usernames = room.copy()
+            room_with_usernames['seats'] = self._convert_seats_to_usernames(room['seats'])
+            
             # Return success response with game state
             response_data = {
                 'action': 'createRoom',
                 'success': True,
-                'room': room,
+                'room': room_with_usernames,
                 'assignedSeat': owner_seat,
                 'gameState': game_data,
                 'message': 'Room created successfully'

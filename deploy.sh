@@ -19,9 +19,7 @@ if [ -z "$FUNCTION_NAME" ]; then
     echo "  room-start"
     echo "  room-state"
     echo "  room-move"
-    echo "  ai-bid"
-    echo "  ai-play"
-    echo "  ai-double-dummy"
+
     echo "  connection-count"
     echo ""
     echo "WebSocket functions:"
@@ -30,8 +28,13 @@ if [ -z "$FUNCTION_NAME" ]; then
     echo "  websocket-create-room"
     echo "  websocket-join-room"
     echo "  websocket-start-room"
+    echo "  websocket-change-seat"
     echo "  websocket-make-bid"
     echo "  websocket-play-card"
+    echo ""
+    echo "Web Crawler functions:"
+    echo "  WebCrawler"
+    echo "  CrawlerTrigger"
     exit 1
 fi
 
@@ -46,8 +49,44 @@ mkdir -p $BUILD_DIR
 cp -r models $BUILD_DIR/
 cp -r lambdas $BUILD_DIR/
 
+# Special handling for WebSocket functions that need the DDS library
+if [[ $FUNCTION_NAME == websocket-make-bid ]] || [[ $FUNCTION_NAME == websocket-play-card ]]; then
+    echo "WebSocket function with DDS requirements detected - ensuring DDS library is included..."
+    # Make sure the DDS library files are executable in source
+    chmod +x lambdas/dds/libdds.so.2.9.0
+    chmod +x lambdas/dds/libdds.so.2
+    chmod +x lambdas/dds/libdds.so
+    # Verify DDS library files exist in source
+    if [ ! -f "lambdas/dds/libdds.so.2" ]; then
+        echo "Warning: DDS library file not found at lambdas/dds/libdds.so.2"
+        echo "This may cause the WebSocket function to fail at runtime"
+    else
+        echo "✓ DDS library files found in source directory"
+    fi
+    
+    # Verify files were copied to build directory
+    echo "Verifying DDS library files were copied to build directory..."
+    if [ -f "$BUILD_DIR/lambdas/dds/libdds.so.2" ]; then
+        echo "✓ DDS library files successfully copied to build directory"
+        # Set permissions in build directory
+        chmod +x $BUILD_DIR/lambdas/dds/libdds.so.2.9.0
+        chmod +x $BUILD_DIR/lambdas/dds/libdds.so.2
+        chmod +x $BUILD_DIR/lambdas/dds/libdds.so
+    else
+        echo "❌ DDS library files failed to copy to build directory!"
+        echo "This will cause the WebSocket function to fail at runtime"
+        exit 1
+    fi
+fi
+
 # Copy specific handler and rename function to lambda_handler
-cp lambdas/${FUNCTION_NAME//-/_}.py $BUILD_DIR/lambda_function.py
+if [[ $FUNCTION_NAME == WebCrawler ]]; then
+    cp lambdas/web-crawler.py $BUILD_DIR/lambda_function.py
+elif [[ $FUNCTION_NAME == CrawlerTrigger ]]; then
+    cp lambdas/crawler-trigger.py $BUILD_DIR/lambda_function.py
+else
+    cp lambdas/${FUNCTION_NAME//-/_}.py $BUILD_DIR/lambda_function.py
+fi
 # Rename the handler function to lambda_handler (only if it exists)
 if grep -q "def handler(" $BUILD_DIR/lambda_function.py; then
     sed -i 's/def handler(/def lambda_handler(/g' $BUILD_DIR/lambda_function.py
@@ -68,10 +107,25 @@ fi
 
 # Copy function-specific requirements
 cp requirements-function.txt $BUILD_DIR/requirements.txt
+
+# Special handling for web crawler functions that need additional dependencies
+if [[ $FUNCTION_NAME == WebCrawler ]] || [[ $FUNCTION_NAME == CrawlerTrigger ]]; then
+    echo "Web crawler function detected - ensuring all dependencies are included..."
+    # Web crawler needs requests and beautifulsoup4
+    echo "" >> $BUILD_DIR/requirements.txt
+    echo "requests" >> $BUILD_DIR/requirements.txt
+    echo "beautifulsoup4" >> $BUILD_DIR/requirements.txt
+    echo "✓ Additional dependencies added for web crawler"
+    echo "Requirements file contents:"
+    cat $BUILD_DIR/requirements.txt
+fi
+
 cd $BUILD_DIR
 
 # Install dependencies to the package
 pip install -r requirements.txt -t .
+
+
 
 # Create deployment package
 zip -r ../${FUNCTION_NAME}-deployment.zip . -x "*.pyc" -x "__pycache__/*" -x "tests/*" -x ".git/*"
@@ -86,6 +140,7 @@ echo "2. Set handler to: lambda_function.lambda_handler"
 echo "3. Set environment variables:"
 echo "   - USER_TABLE (for account functions)"
 echo "   - ROOM_TABLE (for room functions)"
+echo "   - BUCKET_NAME, TABLE_NAME, QUEUE_URL, TARGET_DOMAIN, MAX_DEPTH (for WebCrawler function)"
 echo ""
 echo "Or use AWS CLI:"
 echo "aws lambda update-function-code --function-name $FUNCTION_NAME --zip-file fileb://${FUNCTION_NAME}-deployment.zip"
