@@ -1,0 +1,4663 @@
+GENERAL APPROACH
+Normal openings: Five-card majors in all seats; 1D with 4-4 in the minors, 1C with 3-3.
+Open the higher-ranking of long suits with equal lengths: 5-5 or 6-6.
+[Editor's note: Usually the longest suit is opened. Exception: With at least 5 cards in a
+higher-ranking suit and more cards in a lower-ranking suit, open the higher-ranking suit
+with less than 17 points and open the lower-ranking suit with at least 17 points.]
+Notrump openings show a balanced hand and can be made with a five-card major or minor suit.
+[Editor's note: Notrump openings are also possible with two doubletons that are fully stopped
+(with A or K) when matchpoint scoring is used.]
+1NT = 15-17 points, 2NT = 20-21 points, 3NT = 25-27 points.
+Strong artificial 2C opening. Weak-two bids in diamonds, hearts, and spades.
+RESPONSES AND LATER BIDDING AFTER A 1NT OPENING
+Stayman. 2C is Stayman; it requires a doubleton, a singleton, or a void. It is "non-forcing": the
+bidding can stop as low as 2 of a suit. Usually responder has at least 8 HCP; however, Stayman
+can also be used when responder has less and intends to pass any rebid by opener, e.g., a 4-4-4-1
+distribution with a singleton club. Opener rebids 2D, 2H, or 2S; 2H with 4-4 in the majors.
+After an opener's rebid of a major, a responder's rebid of the other major shows 5 cards in
+that major (implying 4 cards in opener's major), but is game force only at level three.
+Responder's rebid of 3 in a minor shows at least 5 in the suit and invites a small slam in the suit.
+[Editor's note: This rebid requires at least 6 in the minor suit when matchpoint scoring is used.]
+Jacoby transfer. Jacoby transfers show a five-card or longer suit. When used for the majors,
+2D is a transfer to hearts and 2H is a transfer to spades. However, do not use a transfer to a major
+with exactly 4 cards in the other major; use Stayman. Opener must accept the transfer and may
+jump to level three with at least 17 points and at least 4 cards in responder's major:
+1NT - 2D
+2H (= normal acceptance of the transfer.)
+3H (= 17+ points, 4+ hearts.)
+After an accepted transfer, responder's new suit bids are natural. Also, other than in the sequence
+1NT - 2D
+2H - 2S (= invites game),
+after an accepted transfer responder's new suit bids are natural, as well as game force.
+1NT - 2H
+2S - Pass (= content to play 2S.)
+- 2NT (= 5 spades, invites game. With minimum hand opener passes with 2 spades, bids 3S
+with 3+ spades; with maximum hand bids 3NT with 2 spades, 4S with 3+ spades.)
+- 3S (= 6+ spades, invites game. Opener passes with minimum, bids 4S with maximum.)
+- 3C, 3D, 3H (= natural and game force. Shows 5+ cards if major.)
+- 3NT (= 5 spades. Opener passes with 2 spades, bids 4S with 3+ spades.)
+- 4S (= placing the contract with 6+ spades.)
+-4-
+A 2S response requires the 1NT bidder to rebid 3C. Responder can then pass or rebid 3D:
+1NT - 2S
+3C - Pass (= club bust.)
+- 3D (= diamond bust; notrump opener passes.)
+Other responses
+1NT - 3C, 3D (= 6+ in the suit, invites 3NT.)
+- 3H, 3S (= 6+ in the suit. Invites a small slam in hearts and spades, respectively.)
+- 4C (= Gerber, asking for aces.)
+- 4NT (= "quantitative notrump": invites 6NT.)
+A direct raise of 1NT to 4NT invites 6NT because 4C is available as Gerber.
+NOTE: 4C IS GERBER OVER ANY 1NT OR 2NT BID BY PARTNER,
+INCLUDING OPENINGS, OVERCALLS, RESPONSES, AND REBIDS.
+4C is also Gerber if it directly follows the 4C bidder's own Stayman 2C bid:
+1NT - 2C
+2x - 4C.
+Responses show the number of aces by steps (as over a Blackwood 4NT). 5C asks for kings.
+[Editor's note: A 5C bid guarantees that the partnership holds all four aces.]
+1NT - 4C 1NT - 4C
+4D (= 0 or 4 aces.) 4x - 5C
+4H (= 1 ace.) 5D (= 0 or 4 kings.)
+4S (= 2 aces.) 5H (= l king.)
+4NT (= 3 aces.) 5S (= 2 kings.)
+5NT (= 3 kings.)
+If the Gerber bidder rebids anything other than 5C (including 4NT), it is to play.
+INTERFERENCE AFTER A 1NT OPENING
+1NT doubled. If a 1NT bid is doubled, Stayman and Jacoby transfer are "on":
+1NT - (Double) - 2C (= Stayman.)
+- 2D (= transfer to hearts.)
+1NT overcalled. If a 1 NT bid is overcalled, Stayman and Jacoby transfer are "off".
+A cuebid response is used with game force strength as a substitute for Stayman:
+1NT - (2H) - 3H (= Stayman, game force.)
+Other responses are natural.
+Jacoby transfer doubled. If a Jacoby transfer is doubled, opener passes with 2 trumps,
+completes the transfer with 3 or more trumps, jumps to 3 of the suit with at least 17 points
+and at least 4 trumps -- or redoubles with strength in the doubled suit.
+Optional "OKbridge" bid:
+If opener passes after a Jacoby transfer is doubled, responder may make a normal bid,
+redouble or pass to play, or bid 2 of the major to sign off.
+If opener redoubles, responder may make a normal bid, pass to play, or bid 2 of the major to sign off.
+- 5 -
+Optional "OKbridge" bids:
+Jacoby transfer overcalled. If a Jacoby transfer is overcalled, opener may pass, bid 3 of the major
+with good support, or double for penalty.
+If opener passes, responder may pass, make a normal bid, or double to show strength.
+Stayman doubled. If Stayman is doubled, opener may rebid normally, pass with 4 clubs,
+or redouble with 4 good clubs or any 5.
+Stayman overcalled. If Stayman is overcalled, opener may bid a 4-card major at the two level,
+double for penalty with 4+ cards in the opponent's suit, or pass.
+Responder may then rebid normally or double for penalty.
+RESPONSES TO A 2NT OR 3NT OPENING
+2NT - 3C (= Stayman.)
+- 3D, 3H (= Jacoby transfers to hearts and spades, respectively.)
+- 4C (= Gerber, asking for aces.)
+- 4NT (= "quantitative notrump": invites 6NT.)
+A direct raise of 2NT to 4NT invites 6NT because 4C is available as Gerber.
+3NT - 4C (= Stayman; not Gerber.)
+- 4D, 4H (= Jacoby transfers to hearts and spades, respectively.)
+- 4NT (= Blackwood; not "quantitative notrump".)
+A raise of 3 NT to 4NT is Blackwood because 4C is not available as Gerber.
+(A 4C bid cannot be Gerber if it is not a jump bid.)
+INTERFERENCE AFTER 2NT AND 3NT OPENINGS
+If a 2NT or 3NT bid is doubled, Stayman and Jacoby transfer are "on".
+If a 2NT or 3NT bid is overcalled, Stayman and Jacoby transfer are "off".
+RESPONSES TO A 1H OR 1S OPENING
+1H - 2H (= 6-10 points, 3+ hearts, not forcing.)
+- 1S (= 6+ points, 4+ spades, one-round force. Tends to deny 3+ hearts.)
+- 1NT (= 6-10 points, denies 4 spades or 3 hearts; not forcing.)
+- 3H = (10-12 points, 3+ hearts, limit raise, not forcing.)
+- 2C, 2D (= 11+ points, 4+ cards, one-round force. Promises another bid below game.)
+- 2NT (= "Jacoby 2NT": 13+ points, 3+ hearts, game-forcing raise --
+asks opener to show a singleton or void to help responder evaluate slam prospects.)
+- 2S, 3C, 3D (= strong jump shifts. May lead to a slam.)
+- 3NT = (15-17 HCP, balanced, 2 cards in opener's suit.)
+[Editor's note: Two stopped doubletons, as well as a singleton or void
+in opener's suit, are acceptable for this response when matchpoint scoring is used.]
+- 4Η (= usually less than 10 HCP, 5+ hearts, singleton or void.)
+- 6 -
+OPENER'S REBIDS AFTER A 1H OR 1S OPENING
+Rebids after Jacoby 2NT. A responder's jump to 2NT over a lH or 1S opening is Jacoby 2NT,
+asking opener to show a singleton or void. With no singleton or void opener shows strength.
+1H - 2NT
+3C, 3D, 3S (= singleton or void in the suit.)
+4H (= less than 15 points, no singleton, no void.)
+3NT (= 15-17 points, no singleton, no void.)
+3H = (18+ points, no singleton, no void.)
+Responder follows up by attempting to sign off in game, or exploring a slam by cuebidding
+or by bidding 4NT Blackwood.
+Other rebids. These are natural:
+Rebids with a minimum hand (13-16 points):
+Nonjump rebid of notrump.
+Nonjump raise of responder's suit. (This can be done with good three-card support if desired.)
+Nonjump rebid of opener's suit.
+Non-reverse nonjump bid in a new suit. (This has a wide range of 13-18 points.)
+Rebids with a medium hand (17-18 points):
+Jump raise of responder's suit or jump rebid of opener's suit.
+Non-reverse nonjump bid in a new suit. (This has a wide range of 13-18 points.)
+Reverse bid in a new suit.
+With a maximum hand (19-21 or 22 points) opener must make a very strong rebid:
+Jump in notrump.
+Double jump raise in responder's suit or double jump rebid of opener's suit.
+Jump shift in a new suit.
+[Editor's note: With matchpoint scoring these rebids are as follow:
+Other rebids. Bids are natural. Also, notrump may be bid with a small doubleton in an unbid suit,
+as well as with a singleton or void in responder's suit.
+Rebids with a minimum hand, 13-16 points (all bids are non-forcing):
+Nonjump rebid of notrump.
+Nonjump raise of responder's suit with 4+ cards after a level-1 response, else with 3+ cards.
+Nonjump rebid of opener's suit with 6+ cards, with 5 cards in a minor suit as a last resort.
+Non-reverse nonjump bid in a new suit. (This has a wide range of 13-18 points.)
+Rebids with a medium hand, 17-18 points (bids are non-forcing except the reverse bid):
+Rebidding two notrumps. (17-19 points; an overbid with 17 points when the bid is a jump bid.)
+Jump raise of responder's suit with 4+ cards or jump rebid of opener's suit with 6+ cards.
+Non-reverse nonjump bid in a new suit. (This has a wide range of 13-18 points.)
+Reverse nonjump bid in a new suit (one-round force).
+Rebids with a maximum hand, 19-21 points (below-game bids are one-round force):
+Jump rebid of 4 in opener's minor suit (optional, invites a small slam in the suit).
+Reverse nonjump bid, jump shift in a new suit, or other below-game forcing bids.
+Game in a suit or in notrump.]
+- 7 -
+RESPONDER'S REBIDS AFTER A 1H OR 1S OPENING AND A SUIT RESPONSE
+Responder's rebids following a 1NT rebid by opener
+A reverse bid or a jump shift into a new suit is game force; other rebids are non-forcing.
+1C - 1H
+lNT - 2C, 2D, 2H (= 5+ cards in suit, non-forcing.)
+- 3H (= 11-12 points, 5+ hearts, inviting game.)
+- 2S, 3D (= 13+ points, 5+ cards in suit, game force.)
+- 3NT, 4H, 4S, 5C, 5D (= Signoff in game.)
+Responder's rebids following a suit rebid by opener
+Bids available for signoff in partscore: Pass, 1NT, 2 of a previously bid suit.
+1H - 1S
+2C - Pass, 2H, 2S (= 6-10 points, signoff in partscore.)
+Bids available for inviting game: 2NT, 3 of a previously bid suit:
+1H - 1S
+2D - 2NT, 3D, 3H, 3S (= 11-12 points, inviting game.)
+After an initial response of a nonjump new suit at level two.
+This response promises another bid unless opener rebids game.
+The same rules apply here as after a suit response at level one, except that a subsequent jump
+raise of opener's first suit to level three is game force. (With 10-12 points and 3+ trumps,
+responder should make a limit raise directly over the opening bid.)
+1S - 2C
+2D - 2NT, 3C, 3D (= 11-12 points, inviting game.)
+- 2H (= one-round force, could be artificial)
+- 2S (= 11-12 points, 2 spades, shows preference.)
+1S - 2C
+2H - 2NT, 3C, 3H (= 11-12 points, inviting game.)
+- 2S (= 11-12 points, 2 spades, shows preference.)
+- 3D (= game force, could be artificial.)
+- 3S (= game force.)
+"4-TH FORCING" (4-TH SUIT ARTIFICIAL)
+(Optional "OKbridge" bids.)
+A nonjump new suit rebid by responder following a suit rebid by opener is usually a one-round force.
+However, if it is the 4-th suit in the auction that is "4-th suit forcing". Other than in the sequence
+1C - 1D
+1H - 1S (= natural, one round force),
+a "4-th suit forcing" bid is a one-round force at level two and a game force at level three,
+and it may be artificial:
+1H - 1S
+2C - 2D (= "4th-suit forcing", one-round force, could be artificial.)
+- 8 -
+OPENER'S REBIDS AFTER RESPONDER'S "4-TH SUIT FORCING" REBID
+(Optional "OKbridge" bids)
+(1) Raise responder's 1st suit with 3+ cards, jump raise with more than minimum strength.
+(2) Rebid of your 2nd suit shows a weak hand, rebid your 1st suit instead if that bid is lower.
+(3) Jump rebid of your second suit shows extra values and a very distributional hand.
+(4) Bid NT to show stopper in 4th suit and extra values, jump to game with exceptional strength.
+[Editor's note: A nonjump NT rebid has high priority and shows no extra values with matchpoint scoring.]
+(5) Raise 4th suit with 4+ cards.
+(6) Rebid your own 1st suit with extra strength and length.
+RESPONSES TO A 1C OR 1D OPENING
+Responses and later bidding tend to follow previous ideas. Bidding at level one is up-the-line.
+Responder needs more trumps to raise: 4 to raise 1D, 5 to raise 1C; one less trump is acceptable
+in competition. There is no forcing minor-suit raise. Responses of 2NT and 3NT are:
+1C - 2NT (= 13-15 points, game force.)
+- 3NT (= 16-17 points.)
+SEQUENCES AFTER A STRONG 2C OPENING
+A 2C opening shows 22+ points, or the playing equivalent (9+ tricks).
+Responses.
+2C - 2D (= artificial, could be "waiting" with a good hand not suited for other responses.)
+- 2H, 2S, 3C, 3D (= 8+ points, 5+ cards in the suit, natural, game force.)
+- 2NT (= 8+ HCP, balanced, game force.)
+[Editor's note: A balanced hand is not required for this bid with matchpoint scoring.]
+Opener's 2NT rebid. An opener's rebid of 2NT after a 2D response shows 22-24 points
+and is non-forcing. Responder's rebids are the same as over a 2NT opening:
+2C - 2D
+2NT - 3C (=Stayman.)
+- 3D, 3H (= Jacoby transfers to hearts and spades, respectively.)
+- 4C (= Gerber, asking for aces.)
+- 4NT (= "quantitative notrump": invites 6NT.)
+Opener's suit rebids. In most cases opener has 5+ cards in the suit bid. When holding a 4-4-4-1
+distribution, with the singleton in any suit, opener rebids the strongest 4-card suit. An opener's
+rebid of a suit over a 2D response is forcing to 3 of opener's major or 4 of opener's minor:
+2C - 2D 2C - 2D
+2H - 2S 3C - 3S
+3H (= non-forcing.) 4C (= non-forcing.)
+2C - 2D
+2S - 3C (= "cheaper minor or 3NT, whichever ranks lower": less than 5 points, no ace)
+3S (= non-forcing.)
+2C - 2D
+3C - 3D (= "cheaper minor or 3NT, whichever ranks lower": less than 5 points, no ace)
+4C (= non-forcing.)
+2C - 2D
+3D - 3NT (= "cheaper minor or 3NT, whichever ranks lower": less than 5 points, no ace)
+4D (= non-forcing.)
+- 9 -
+SEQUENCES AFTER A WEAK-TWO BID OF 2D, 2H, OR 2S
+A weak-two bid shows 5-11 HCP and a six-card suit of reasonable strength; on rare occasions
+it shows a very strong five-card suit, or a seven-card suit and a hand that is not good enough
+to open at level three. It should normally not be used with 4 or more cards in a major side suit
+unless opener is in the third seat.
+[Editor's note: The required strength in the opened suit is governed by partnership agreement.]
+Any raise of opener's suit is to play and may be preemptive. A 3NT response is also to play.
+A 2NT response is a one-round force, showing game interest; this applies also after an
+intervening bid or double. With 5-8 HCP (minimum hand), opener rebids his/her own suit.
+With more than 8 HCP (maximum hand), opener rebids another suit to show a "feature"
+(A or K in that suit); lacking a feature opener raises to 3NT and lets responder place the contract.
+Optional "OKbridge" bid:
+With more than 8 HCP (maximum hand), opener may rebid a side four-card or longer minor suit headed
+by at least the Q. [Editor's note: This bid is not applicable with matchpoint scoring.]
+"RONF" on the card means "Raise Only Non-Force": A raise is the only non-forcing response.
+A new suit response shows a five-card or longer suit and is a one-round force.
+Opener raises a major suit response with 3+ cards, or perhaps with a doubleton honor.
+Otherwise opener rebids as follows: with 5-8 HCP (minimum hand), rebids his/her own suit
+at the cheapest level; with more than 8 HCP (maximum hand), rebids a new suit or notrump.
+RESPONSES TO PREEMPTIVE BIDS OF 3 OR MORE
+Any new suit, non-game response to a preemptive bid of 3 or more is a one-round force.
+SLAM BIDDING
+Blackwood. Blackwood 4NT asks for aces; responses show the number of aces by steps.
+5NT asks for kings. A 5NT bid guarantees that the partnership holds all four aces.
+4NT - 5C (= 0 or 4 aces.) 4NT - 5x
+- 5D (= 1 ace.) 5NT - 6C (= 0 or 4 kings.)
+- 5H (= 2 aces.) - 6D (= 1 king.)
+- 5S (= 3 aces.) - 6H (= 2 kings.)
+- 6S (= 3 kings.)
+If the Blackwood bidder wishes to sign off in 5NT (realizing that too many aces are missing),
+it can often be done by bidding an "unplayable" suit, after which partner should bid 5NT:
+1H - 2D
+3D - 4NT
+5D - 5S (= "unplayable" suit)
+5NT.
+Grand slam force. A jump to 5NT (and some other 5NT bids with the auction at level five)
+is "Grand Slam Force", asking partner to bid a grand slam with two of the three top trumps:
+5NT - 6 of the trump suit (= fewer than two of the three top trumps.)
+- 7 of the trump suit (= two of the three top trumps.)
+- 10 -
+Cuebidding. (Control-showing bids.) (Optional "OKbridge" bids.) A cuebid here is a nonjump bid
+in a suit past 3 of an agreed major trump suit or past 3NT with an agreed minor trump suit. Guidelines:
+(1) First bid suits unbid by your side, aces before voids.
+(2) Plan your cuebids. The cheapest cuebid may not be the best bid, as it may cause your next
+cuebid to be higher than if the order is reversed, e.g., 4C--4x--4S rather than 3S--4x--5C.
+(3) Cuebid aces first, kings second. If you are known to be weak, your cuebid may show
+second round control before first round control in that suit has been shown or denied.
+(4) Below game, cuebid only if a slam appears possible, return to the trump suit otherwise.
+(5) A cuebid above five of the trump suit is a try for seven.
+(6) If partner cuebids again or cuebids above game, you must also cuebid if possible.
+(7) If a cuebid is doubled, a redouble shows second round control of that suit; a pass is neutral.
+(8) Avoid cuebidding singletons or voids in a suit bid naturally by your partner.
+(9) If you can judge the final contract, bid it as soon as possible.
+If the agreed trump suit is a minor and there are at least two suits unbid by your side, a nonjump bid
+in a new suit below 3NT is not a cuebid, but shows a stopper for notrump. Also, a nonjump bid
+in a new suit below 3 of an agreed major trump suit is not a cuebid, but a "help-suit game try".
+DEFENSIVE BIDDING
+Notrump overcalls
+A 1NT overcall shows 15-18 points and a balanced hand (preferably with at least one stopper
+in opener's suit). Note that Stayman is "on" and Jacoby transfer is "off".
+Unusual notrump. A jump overcall of 2NT is "Unusual Notrump" showing at least 5-5 in the
+lower two unbid suits. It can also be bid over a strong 2C opening, but not over a weak-two bid
+where a 2NT overcall shows 16-19 points.
+Optional "OKbridge" responses: Preference bid, jump preference bid (mostly preemptive),
+cuebid for game or for slam try, new suit (not forcing), 3NT, or 4NT which is Blackwood.
+Nonjump suit overcalls
+Nonjump suit overcalls show 8-16 points (double and bid with a stronger hand). The only forcing
+response is a cuebid of opener's suit, asking the overcaller about the strength of the overcall:
+(1D) - 1S - (Pass) - 2D
+(Pass) - 2S (= less than 11 or 12 points.)
+- other bids (= at least 11 or 12 points.)
+[Editor's note: A two-level nonjump suit overcall shows 10-16 points and overcaller rebids
+his/her own suit with less than 13 points (and bids something else otherwise).
+Also, with matchpoint scoring a level-one suit overcall usually shows a strong 5-card or longer
+suit and a level-two nonjump suit overcall usually shows a strong 6-card or longer suit.]
+Optional "OKbridge" responses (all non-forcing):
+(1) Raise: 3+ trumps, 6-11 points.
+(2) Double Raise: 4+ trumps, 10-12 points.
+(3) Suit game: 4+ trumps, weak distributional hand.
+(4) 1NT = 9-12 points; 2NT = 11-13 points nonjump, 13-15 points jump; 3NT = 15-16 points.
+(5) New suit usually denies a fit in overcaller's suit.
+(6) Be wary of doubling for penalty on the strength of partner's overcall.
+NOTE: After raising an overcall, do not raise again in a competitive auction.
+- 11 -
+Jump suit overcalls
+Jump suit overcalls are preemptive, showing the same values as an opening bid at the same level:
+(1D) -2S (= a hand that would open a weak-two bid of 2S.)
+- 3C (= a hand that would open a preemptive bid of 3C.)
+Optional "OKbridge" bids:
+Jump suit overcalls are not preemptive in the balancing position, after a 1NT opening,
+after a preemptive bid, or over a non-forcing raise, e.g., over (1H) - Pass - (2H).
+Cuebid overcalls
+When the opponents have bid two suits and your partner has not bid, a cuebid overcall is
+"natural" in either suit. It shows a very strong hand, usually 22+ points, and is forcing to game:
+(1D) -Pass - (1H) - 2D (= 22+ points).
+[Editor's note: With 5-5 or more in the two unbid suits overcaller may bid 2NT
+(unusual notrump).]
+Michaels cuebid. When the opponents have bid only one suit, a cuebid overcall is a "Michaels
+Cuebid": 5-5 or more in two suits. If the opening is a minor, the cuebid shows the majors.
+If the opening is a major, the cuebid shows the other major and an unspecified minor:
+Ex.1. (1D) - 2D (= at least 5-5 in the majors, 8+ points.)
+Ex.2. (1S) - 2S (= at least 5-5 in hearts and in a minor, 10+ points.)
+Responder can bid 2NT over a major-suit cuebid to ask for partner's minor:
+(1H) - 2H - (Pass) - 2NT (asks for minor)
+(Pass)- 3C (= club suit.)
+- 3D (= diamond suit.)
+Optional "OKbridge" responses:
+In a competitive auction with the 2NT bid not available, responder may bid 4C (non-forcing)
+or 4NT (forcing) in order to locate the minor suit. 3NT is always to play.
+Reopening (Balancing)
+A reopening 1NT after an opponent has opened and his partner passed shows 10-15 points.
+This is a wide range but there will not usually be a game on for you.
+Other reopening bids are the same as direct seat bids -- although perhaps lighter at the low end.
+Optional "OKbridge" bids:
+(1) With a good suit and opening values, make a jump overcall.
+(2) A double followed by 2NT shows 16-17 points, a direct 2NT shows 18-20 points.
+(3) A reopening cuebid is a takeout double, showing a void in opener's suit:
+(1C) - Pass - (Pass) - 2C (= takeout double with a void in clubs.)
+Other defensive bids
+Doubles are for takeout over partscore suit openings, for penalty over game suit openings.
+A below-game jump response to a takeout double invites game, a cuebid of opener's suit
+is a one-round force.
+Over opening preemptive bids, overcalls in suits or notrump are natural, cuebids are Michaels.
+- 12 -
+COMPETITIVE BIDDING
+There is an almost endless variety of possible sequences, so it pays to have simple guidelines
+to prevent bidding misunderstandings.
+Bids mean the same thing they meant without an intervening bid. However, it is sometimes
+necessary to pick a bid that would normally have been a second choice without the overcall:
+1D - (Pass) - 1S - (2C)
+2S (with S: J43, H: A875, D: AQJ4, C: J3; would rebid 1NT if RHO had passed.)
+[Editor's note: Opener would pass in the above example when matchpoint scoring is used.
+However, as a last resort, one less trump is acceptable for a raise even with matchpoint scoring:
+1C - (1D) - 1S - (Pass)
+2S (with S:J43, H:A875, D:J2, C:AQJ4 -- opener would rebid 1NT if LHO had passed.)]
+Cuebidding RHO's suit. This shows game values without clear direction and is usually a raise:
+1S - (2C) - 3C (= game force, usually a raise.)
+Negative doubles
+Negative doubles are used through 2S, promising 4+ cards in any unbid major. A response
+of a new major suit at level two or higher shows 11+ points and a 5-card or longer suit.
+Ex.1. 1C - (1D)- Double (= 4-4 or more in the majors.)
+Ex.2. 1D - (1H)- Double (= exactly 4 spades; 1S would promise 5 spades.)
+Ex.3. 1D - (1S) - Double (= 4 hearts and 6+ points, or 5 hearts and 5-10 points.)
+Opener's rebids after a negative double (Optional "OKbridge" bids)
+(1) Minimum bid with less than 16 points, non-forcing.
+(2) Jump bid with 16-18 points, non-forcing.
+(3) Cuebid of opponent's suit with 19+ points, game force.
+(4) Pass for penalties (rare).
+When negative doubles are used, responder can no longer double for penalties. Therefore, when an
+opponent's suit overcall is followed by two passes, opener should try to reopen with a double with
+2 or less cards in opponent's suit, as partner might have passed with a good hand for a penalty double.
+Rebids by the negative doubler (Optional "OKbridge" bids)
+These are not forcing except for a cuebid in opponent's suit.
+Other doubles
+Responses after RHO makes a takeout double
+A response of a new suit is forcing only at level one. Thus:
+1S - (Double) - 2C, 2D, 2H (= 6-10 points, usually a six-card suit, non-forcing.)
+Also:
+1D - (Double) - 1H, 1S (= 6+ points, 4+ cards in the suit, one-round force.)
+- 1NT (= 6-10 points, balanced, stoppers in unbid suits, non-forcing.)
+- 2C (= 6-10 points, usually a six-card suit, non-forcing.)
+- 2NT (= "Jordan", 10+ points, limit raise or better, one-round force.)
+- 3D (= less than 10 points, good trump support, preemptive, non-forcing.)
+- Redouble (= 10+ points, but it is better to make a more descriptive bid of
+1H, 1S, or 2NT with the appropriate hand, one-round force.)
+- 2H, 2S (= 6+ cards in the suit, like a weak-two bid, non-forcing.)
+- 3C (= 7+ cards in the suit, preemptive, non-forcing.)
+- 3NT (= 16-17 points, balanced, stoppers in unbid suits, non-forcing.)
+- 13 -
+Responses to a takeout double after RHO passes (Optional "OKbridge" bids)
+(1D) - Double - (Pass) - minimum bid (= 0-9 points.)
+- 1NT (= 6-10 points, balanced, stopper in opponent's suit.)
+- jump bid (= 10-12 points, non-forcing.)
+- double jump bid (= less than 10 points, 6-card suit, preemptive.)
+- 2NT (= 10-12 points, stopper in opponent's suit, no 4-card or longer major.)
+- 3NT (= 13-16 points, stopper in opponent's suit.)
+- cuebid (= 13+ points, or 10-12 points with two 4-card or longer majors.)
+- pass (= 5+ cards in opponent's suit, worth 3 tricks, rare.)
+Rebids by the takeout doubler after a minimum response (0-9 points) (Optional "OKbridge" bids)
+(1) Pass (= less than 16 points.)
+(2) Raise (= 16-18 points, 18-20 points at level three with no competition; 4+ cards in suit.)
+(3) Jump raise (= 18-20 points, 4+ cards.)
+(4) New suit (= 17-20 points, less if also holding an unbid major with 4+ cards; 5+ cards in suit.)
+(5) Jump in new suit (= 6-card or longer self-sufficient suit, strong hand, non-forcing.)
+(6) 1NT (= 18-20 points; 2NT = 19-21 points nonjump, 21-22 points jump; 3NT = 9+ tricks.)
+(7) Cuebid (= 21+ points, slam interest.)
+Guidelines to when a double of a suit bid is for penalty (Optional "OKbridge" bids)
+(1) When the double is made late in the auction:
+(1S) - Pass - (2S) - Pass
+(4S) - Double (= Penalty.)
+(2) When the doubler's partner has accurately described both strength and distribution.
+(3) When either partner has redoubled earlier.
+(4) When either partner has earlier made a penalty double, or a penalty pass of a takeout double.
+(5) When an artificial bid has been doubled.
+(6) When a major suit response to a preempt has been doubled.
+(7) In borderline cases, when the doubler is behind the original bidder.
+Direct double of a 1NT opening (Optional "OKbridge" bids)
+This is for penalty showing a hand as good as a 1NT opening, i.e., 17 points against a "strong" 1NT
+(1 or 2 points less against a "weak" 1NT). After a pass, responder passes with a balanced hand
+or bids 2 of a suit with a weak distributional hand. A jump response shows a good distributional
+hand with 8+ points against a "strong" 1NT (with 6+ points against a "weak" 1NT), inviting game.
+If responder to 1NT bids, the doubler's partner can: double for penalty, make a forcing pass,
+cuebid for takeout in other suits, or bid normally.
+Redoubles
+A redouble can have one of three meanings:
+(1) To play if your side is at level four or higher, or if the opponents double an artificial bid:
+Ex.1. 4S - (Double) - Redouble (= Penalty.)
+Ex.2. 4D - (Double) - Redouble (= Penalty.)
+Ex.3. 1NT - (Pass) - 2D - (Double)
+Redouble (= Penalty, good diamond suit.)
+(2) A good hand if their double is for takeout:
+1S - (Double) - Redouble (= 10+ points.)
+(3) "SOS": Requesting a different suit with support for at least two of the unbid suits,
+if your side is doubled for penalty in a trump suit at level three or lower:
+1D - (Pass) - Pass - (Double)
+Pass - (Pass) - Redouble (= SOS.)
+-14-
+Cuebidding a convention
+If the opponents use a convention (such as Michaels cuebid or unusual notrump),
+you can cuebid one of their "shown" suit(s) to force game, or double to show 10+ points:
+1S - (2S) - 3H (= game force)
+- Double (= 10+ points, probably balanced.)
+Cancellation of conventions
+Unless otherwise noted elsewhere, a convention intended for non-competitive sequences
+is canceled by an intervening bid or double by an opponent in a competitive sequence:
+Ex.1a. 1H - (Pass) - 2NT (= Jacoby 2NT) (non-competitive sequence).
+Ex.1b. 1H - (lS) - 2NT (= natural, 12-14 HCP) (competitive sequence).
+Ex.2a. 2C - (Pass) - 2D (= artificial, could be "waiting") (non-competitive sequence).
+Ex.2b. 2C - (Double) - 2D (= natural and positive) (competitive sequence).
+Forcing passes (Optional "OKbridge" bids)
+A forcing pass is used when it is clear that the opponents are bidding competitively
+for preemptive reasons, and you are unsure whether to bid higher (usually past game) or double.
+After a forcing pass, partner must either bid or double.
+DEFENSIVE LEADS AND SIGNALS
+The ACBL STANDARD YELLOW CARD specifies the following:
+Defensive signals when following suit or discarding are "high encourages, low discourages".
+Leads are top of touching honors, with choices from AKx and interior sequences. Pairs must:
+- Circle card led from AKx, xxx, xxxx, and xxxxx.
+- Circle carding agreements other than those in bold italics.
+- Circle whether 4th best or 5th best leads are used.
+- Circle whether or not frequent count signals are given.
+It is your responsibility to look at the opponents' carding agreements;
+in the absence of a circle, cards in bold italics are presumed to be the agreement.
+SA-YC.OK
+The SA-YC.OK convention card also specifies the following:
+Opening leads, shown by boldface capital letters, are:
+Vs. suit: 4th best, Kqx, Qjx, Jtx, T9x, kJtx, kT9x, qT9x, xxX, xxxX, xxxXx, aKx.
+Vs. NT: 4th best, aKjx, aQjx, aJt9, aT98, Kqjx, kQt9(!), kJt9, kT98, Qjtx, qT98,
+Jt9x, T98x, xxX, xxxX, xxxXx.
+No SOS redoubles.
+Infrequent count signals.
+Preemptive bids may be light; over a preemptive bid a double is for takeout at levels 2 and 3.
+
+SAYC
+Expanded System Summary
+Giorgio Casinovi
+SAYC OPENING BIDS
+Opening Bids
+1/26/2022 © G. Casinovi
+High-Card Points
+• High-card points (HCP) provide an initial
+evaluation of the strength of a hand
+– Ace: 4 HCP
+– King: 3 HCP
+– Queen: 2 HCP
+– Jack: 1 HCP
+• In SAYC, a one-level opening bid normally
+requires 12+ HCP
+1/26/2022 © G. Casinovi
+Opening Bids of 1 in a Suit
+• With 12+ HCP and a hand that cannot be
+opened 1NT/2NT:
+– Open 1 in the longest suit
+– With two (or three) suits of equal length, open
+1 in the highest-ranking suit
+– However, 1/ openings require 5+ cards in the
+suit (no exceptions!)
+– As a consequence, certain hands without a 5-card
+major suit must be opened 1 /
+1/26/2022 © G. Casinovi
+Opening Bids of 1 in a Suit
+• With 12+ HCP, no 5-card major suit and a hand
+that cannot be opened 1NT/2NT:
+– Open 1 in the longer minor suit ( or )
+– With both minor suits of equal length, open 1 in
+the higher-ranking minor ()
+• Exception: With exactly 3 cards in both  and ,
+open 1
+– Never open in a suit shorter than 3 cards!
+1/26/2022 © G. Casinovi
+Notrump Opening Bids
+• Open 1NT with a hand that satisfies both
+following conditions
+▪ 15–17 HCP
+▪ Hand distribution is 4333, 4432 or 5332 with a
+5‐card minor suit ( or )
+• Open 2NT with 20–21 HCP and the same hand
+distributions
+• Do not open 1NT/2NT if holding a 5‐card (or
+longer) major suit ( or )
+1/26/2022 © G. Casinovi
+Opening Bids
+Hands
+ AKJ75  A964  J6  82
+ K96  KJ102  6  AQJ97
+ AQ95  J9  Q65  QJ97
+ AQ95  A9  Q65  QJ97
+ AK1076  86  AKQ52  3
+ AK65  7  Q982  KJ65
+ AKQJ  –  K9742  Q532
+ KJ7  A9  J65  AQJ82
+Opening bid
+1
+1
+1
+1NT
+1
+1
+1
+1NT
+1/26/2022 © G. Casinovi
+RULE OF 21/22
+Opening Bids
+1/26/2022 © G. Casinovi
+Quick Tricks
+• Quick Tricks (QT) are an estimate of how many
+tricks you can expect to win in a suit the first
+two rounds in which that suit is played
+1/26/2022
+QT Count
+AK: 2 A: 1
+AQ: 1½ Kx: ½
+KQ: 1
+© G. Casinovi
+Rule of 21
+• Add the high-card points, the total length of
+the two longest suits and the number of quick
+tricks to obtain the HLQT count:
+HLQT = HCP + Length + QT
+• In first or second seat, open 1 in the
+appropriate suit if
+HLQT ≥ (A number between 21 and 22)
+1/26/2022 © G. Casinovi
+Rules for Opening 1 in a Suit
+• Open all hands with 13+ HCP
+• Open all hands with 12 HCP except those
+listed below
+• Use the rule of 21 to decide whether to open
+hands with < 12 HCP or hands with 12 HCP
+and the following distributions:
+– 4333
+– 4432 or 5332 without a 4-card (or 5-card) major
+1/26/2022 © G. Casinovi
+DUPLICATE BRIDGE SCORING
+1/26/2022 © G. Casinovi
+Duplicate Bridge Scoring
+• The declaring pair (i.e. the pair that won the
+auction) gets a positive score if they make
+their contract (i.e. if they take at least the
+number of tricks they contracted for), a
+negative score otherwise
+• The other pair (the defending side) gets the
+opposite of the declaring pair’s score (zero-
+sum scoring)
+1/26/2022 © G. Casinovi
+Duplicate Bridge Scoring
+• If the declaring pair makes their contract, they
+get a positive score given by the sum of
+– The value of the contract
+– The value of overtricks, if any
+– Bonus points
+1/26/2022 © G. Casinovi
+Duplicate Bridge Scoring
+• The value of the contract is computed on the
+basis of the number of tricks stated in the
+contract (which may be less than the number
+of tricks actually taken)
+– No trump contracts: 40 pts for the first trick, 30
+pts for each trick after that
+– Major suit (/) contracts: 30 pts per trick
+– Minor suit (/) contracts: 20 pts per trick
+• The value of a doubled contract is … doubled!
+1/26/2022 © G. Casinovi
+Duplicate Bridge Scoring
+• If the contract has not been doubled,
+overtricks are valued in the same way as in the
+computation of the contract value (30 pts for
+notrump or major suit contracts, 20 pts for
+minor suit contracts)
+• Bonus points
+– Partial contract bonus
+– Game bonus
+– Slam bonus
+1/26/2022 © G. Casinovi
+Duplicate Bridge Scoring
+• Partial contract (part score) bonus (50 pts)
+– Awarded to contracts worth less than 100 pts
+• Game bonus (500/300 pts)
+– Awarded to contracts worth 100 pts or more
+• Slam bonus (1,500/1,000/750/500 pts)
+– Awarded to contracts at the 6 (“small slam”) or 7
+(“grand slam”) level, in addition to the game
+bonus.
+1/26/2022 © G. Casinovi
+Duplicate Bridge Scoring
+• Minimum-level game contracts
+– 3 NT (40 + 30 + 30 = 100 pts)
+– 4/4 (4x30 = 120 pts)
+– 5/5 (5x20 = 100 pts)
+• For this reason, major suit or notrump
+contracts are preferable to minor suit
+contracts
+1/26/2022 © G. Casinovi
+Duplicate Bridge Scoring
+• If the contract is set (i.e. not enough tricks are
+taken), the declaring pair gets a negative
+score. If the contract has not been doubled:
+– If the declaring side is not vulnerable, 50 pts for
+each undertrick
+– If the declaring side is vulnerable, 100 pts for each
+undertrick
+1/26/2022 © G. Casinovi
+Duplicate Bridge Scoring
+• If a doubled contract is set:
+– If the declaring side is not vulnerable
+• (100/300/500) pts for each (1/2/3) undertricks
+• 300 more pts for each additional undertrick
+– If the declaring side is vulnerable, 200 pts for the
+first undertrick, plus 300 pts for each additional
+undertrick
+1/26/2022 © G. Casinovi
+Scoring Examples
+• Contract: 2, total tricks taken: 9
+– Contract value: 60
+– Overtricks: 30
+– Bonus: 50
+– Total score: 140 pts
+• Contract: 3, total tricks taken: 9
+– Contract value: 90
+– Overtricks: 0
+– Bonus: 50
+– Total score: 140 pts
+1/26/2022 © G. Casinovi
+Scoring Examples
+• Contract: 3, total tricks taken: 10
+– Contract value: 90
+– Overtricks: 30
+– Bonus: 50
+– Total score: 170 pts
+• Contract: 4, total tricks taken: 10
+– Contract value: 120
+– Overtricks: 0
+– Bonus: 300/500
+– Total score: 420/620 pts
+1/26/2022 © G. Casinovi
+Scoring Examples
+• Contract: 2, total tricks taken: 8
+– Contract value: 60
+– Overtricks: 0
+– Bonus: 50
+– Total score: 110 pts
+• Contract: 2 doubled, total tricks taken: 8
+– Contract value: 120
+– Overtricks: 0
+– Bonus: 300/500 + 50
+– Total score: 470/670 pts
+1/26/2022 © G. Casinovi
+Match Points
+• Each board is played at multiple tables
+• At the end of the game, a pair gets a number
+of points for each board equal to the number
+of pairs that they beat on that particular
+board (match points)
+• The final ranking is determined by the total
+number of match points won by each pair
+1/26/2022 © G. Casinovi
+GENERAL GUIDELINES FOR
+CONTRACTS
+1/26/2022 © G. Casinovi
+Contract Guidelines
+• A combined holding of 8+ cards in the
+prospective trump suit for suit contracts
+• A minimum combined holding of
+– 25 HCP (High Card Points) for 3NT contracts
+– 26 pts for 4/4 contracts
+– 28 pts for 5/5 contracts
+– 33 pts for all contracts at the 6 level (small slam)
+– 37 pts for all contracts at the 7 level (grand slam)
+1/26/2022 © G. Casinovi
+Key Points
+• In general, potential contracts should be explored
+in this order of preference
+– Major suit contracts (/)
+– No trump contracts
+– Minor suit contracts (/)
+• Suit contracts require a minimum combined
+holding of 8 cards in the trump suit
+• Minimum combined strength for game contracts
+– 25 HCP for 3NT
+– 26 pts for 4/4
+– 28 pts for 5/5
+1/26/2022 © G. Casinovi
+DEFENSIVE BIDDING
+1/26/2022 © G. Casinovi
+Defensive Bidding
+• Simple (non-jump) suit overcalls
+• Jump suit overcalls
+• Take-out doubles
+• Power doubles
+• Simple NT overcalls
+• “Unusual” NT overcalls
+• Michaels cue-bids
+1/26/2022 © G. Casinovi
+Simple Suit Overcalls
+• After an opening bid in a suit by an opponent
+• General requirements:
+– At least 8 HCP (but no more than 16)
+– A minimum of 5 cards in the suit chosen for the
+overcall (no exceptions!)
+– A “good hand” and/or a “good suit”, depending on the
+level of the overcall
+• “Good hand”: Opening-level strength (12+ HCP)
+• “Good suit”: Two of the top three honors, or
+three of the top five
+1/26/2022 © G. Casinovi
+Simple Suit Overcalls
+• A “good hand” or a “good suit” is required
+• Examples:
+a)  AQJ10 7  J986  74  95
+b)  KQ983  86  KQ4  985
+c)  J10 632  AK6  KQ4  63
+• All the hands above are suitable for a 1
+overcall
+1/26/2022
+One-level overcalls
+© G. Casinovi
+Simple Suit Overcalls
+• Both a “good hand” and a “good suit” are
+required
+• Examples:
+a)  83  AJ6  A74  KQ10 98
+b)  Q983  8  74  AKJ987
+c)  KQ3  A5  A63  J8643
+• (a) and (b) are suitable for a 2 overcall, but (c) is
+not
+1/26/2022
+Two-level overcalls
+© G. Casinovi
+Takeout Doubles
+• Made after an opening bid in a suit by an
+opponent
+• Requirements:
+– Shortness (no more than two cards) in opponents’
+suit
+– At least three cards in each of the unbid suits
+(ideally, four cards in any unbid major suit)
+– Opening-level strength (12+ pts)
+1/26/2022 © G. Casinovi
+Takeout Doubles
+• Examples:
+a)  QJ83  KJ64  5  K972
+b)  AQ83  K1064  52  A97
+c)  A73  KJ64  52  A972
+• All the hands above are suitable for a takeout
+double after a 1 opening bid (but not after
+opening bids of 1//)
+1/26/2022 © G. Casinovi
+1NT Overcalls
+• Made after an opening bid of 1 in a suit by an
+opponent
+• Requirements:
+– 15–18 HCP
+– A balanced distribution (distribution requirements
+are looser than in the case of 1NT openings)
+– A stopper in opener’s suit
+1/26/2022 © G. Casinovi
+1NT Overcalls
+• Note: With a 5-card major suit (or longer), it is
+generally preferable to overcall in the major
+suit, even if the hand qualifies for a 1NT
+overcall
+1/26/2022 © G. Casinovi
+WEAK TWO-LEVEL OPENING BIDS
+Preemptive Opening Bids
+1/26/2022 © G. Casinovi
+Weak Two-Bids
+• Weak two-level opening bids are 2// (but
+not 2)
+• Requirements:
+– 5–10 HCP
+– A 6-card suit (occasionally a 7-card suit, never a
+5‐card suit) of reasonable quality:
+• If vulnerable, a “good suit” (two of the top three or
+three of the five honors)
+• If not vulnerable, a somewhat weaker suit is acceptable
+(e.g. KJ8742)
+1/26/2022 © G. Casinovi
+Weak Two-Bids
+• Examples:
+a)  83  KQJ964  76  10 97
+b)  97  AQ10 643  Q10 2  42
+c)  Q53  KJ8764  5  852
+d)  KJ2  J97642  K85  6
+• (a) and (b) can be opened 2, vulnerable or
+not. (c) can be opened 2 if not vulnerable. (d)
+should not be opened 2 at any vulnerability.
+• Note: Do not open with a weak two-bid if you
+are strong enough to open at the 1 level
+1/26/2022 © G. Casinovi
+DEFENSIVE BIDDING
+1/26/2022 © G. Casinovi
+Defensive Bidding
+• Simple (non-jump) suit overcalls
+• Jump suit overcalls
+• Take-out doubles
+• Power doubles
+• Simple NT overcalls
+• “Unusual” NT overcalls
+• Michaels cue-bids
+1/26/2022 © G. Casinovi
+Two-level Jump Overcalls
+• Roughly equivalent to a weak two-level opening
+bid, with some qualifications about the strength
+of the hand (see the following slides)
+• Requirements:
+– 5–10 HCP
+– A 6-card suit (occasionally a 7-card suit, never a 5‐card
+suit) of reasonable quality:
+• If vulnerable, a “good suit” (two of the top three or three of
+the top five honors)
+• If not vulnerable, a somewhat weaker suit may be
+acceptable (e.g. KJ8742)
+1/26/2022 © G. Casinovi
+Two-level Jump Overcalls
+• If a hand qualifies both for a simple one-level
+overcall and a jump two-level overcall, the
+one-level overcall should generally be
+preferred unless at least two of the following
+conditions are satisfied:
+– Partner is a passed hand
+– The hand contains no more than 9 HCP
+– The majority of HCP are in the long suit
+1/26/2022 © G. Casinovi
+Two-level Jump Overcalls
+• In practice, with 10+ HCP a two-level jump
+overcall should be considered only in very
+particular situations, e.g.
+ 97  AKQJ86  752  42
+when partner is a passed hand
+• On average, a two-level jump overcall will be
+near the lower end of the requirements for a
+corresponding weak two‐level opening bid
+1/26/2022 © G. Casinovi
+RESPONSES TO OPENINGS OF 1 IN A
+SUIT
+1/26/2022 © G. Casinovi
+SUPPORT (“DUMMY”) POINTS
+Responses to Openings of 1 in a Suit
+1/26/2022 © G. Casinovi
+Support Points
+• In some cases, the strength of a hand can (and
+should!) be upgraded by adding support
+points (“dummy points”) to HCPs
+• This is based on the fact that in a trump suit
+contract, trump cards in the hand that is
+shorter in the trump suit (typically dummy)
+can be profitably used to ruff losers belonging
+to the hand with the longer trump suit
+1/26/2022 © G. Casinovi
+Support Points
+• Support points should be added to HCPs
+under (and only under) the following
+conditions
+– A fit (combined holding of 8+ cards) in partner’s
+suit has been found
+– The final contract is expected to be in that suit
+– The number of trump cards held in the shorter
+hand is sufficient for ruffing (usually a minimum of
+three trumps is required)
+1/26/2022 © G. Casinovi
+Support Points
+• Support points should not be counted when
+evaluating hand strength for the opening bid
+• However, support points should be included in
+hand strength evaluation for the purposes of
+making a take-out double
+1/26/2022 © G. Casinovi
+Support Points
+• With 3-card trump support when partner has 5+
+trumps, or with 4-card support when partner has
+4 trumps:
+– Add 1 point for a doubleton
+– Add 2 points for a singleton
+– Add 3 points for a void
+• With 4-card trump support (or longer) when
+partner has 5+ trumps:
+– Add 1 point for a doubleton
+– Add 3 points for a singleton
+– Add 5 points for a void
+1/26/2022 © G. Casinovi
+THE FIVE COMMANDMENTS OF
+OPENING LEADS
+1/26/2022 © G. Casinovi
+The First Commandment
+Thou shalt mentally review the
+bidding before choosing thy
+opening lead
+1/26/2022 © G. Casinovi
+The Second Commandment
+Thou shalt lead the suit bid by
+thy partner
+1/26/2022 © G. Casinovi
+The Third Commandment
+Thou shalt not lead the suits
+bid by thy opponents
+1/26/2022 © G. Casinovi
+The Fourth Commandment
+Thou shalt not underlead thy
+aces against a suit contract
+1/26/2022 © G. Casinovi
+The Fifth Commandment
+Thou shalt obey thy own
+conventions for the choice
+of the card to lead
+1/26/2022 © G. Casinovi
+GENERAL CONSIDERATIONS
+Responses to Openings of 1 in a Suit
+1/26/2022 © G. Casinovi
+Key Points
+• In general, potential contracts should be explored
+in this order of preference
+– Major suit contracts (/)
+– No trump contracts
+– Minor suit contracts (/)
+• Suit contracts require a minimum combined
+holding of 8 cards in the trump suit
+• Minimum combined strength for game contracts
+– 25 HCP for 3NT
+– 26 pts for 4/4
+– 28 pts for 5/5
+1/26/2022 © G. Casinovi
+Responder Strength Classification
+• Hand strength classification when responding
+to openings of 1 in a suit
+Responder’s strength
+6–9 pts Minimum
+Intermediate /
+Limit /
+Invitational
+10 pts
+11–12
+pts
+13+ pts Game forcing
+1/26/2022 © G. Casinovi
+General Rules for Responses to
+Openings of 1 in a Suit
+• With fewer than 6 pts, responder should
+generally pass
+• 1/1 responses generally promise a
+minimum of only 4 cards in the suit (not 5!)
+• With very limited exceptions, a non-jump bid
+by an unpassed responder in a new suit is
+forcing for 1 round. This means that opener
+should not pass at his next turn to bid, unless
+opener’s RHO intervenes in the auction
+1/26/2022 © G. Casinovi
+RESPONSES TO 1/1 OPENINGS
+Responses to Openings of 1 in a Suit
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• General rules for responses with minimum hands
+(6–9/10 pts)
+– Responder should not bid above the 1NT level, except
+in direct support of opener’s suit
+• Exception: To introduce a new suit at the two level after
+responder’s RHO intervenes in the auction with a TO double
+– Responses should be chosen in this order of priority:
+• Support opener’s suit (with 3+ card fit)
+• Show 4+ cards in the other major suit
+• Bid 1NT
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+Responses with minimum hands (6–9/10 pts)
+Responder’s
+holding in
+opener’s suit
+RHO’s bid
+Pass Take-out double Suit overcall
+3+ cards • Single raise (2/)
+• 4/[1]
+• Single (2/) or double (3/) raise[4]
+• 4/[1]
+< 3 cards • 1 (over 1) [F][2]
+• 1NT[3]
+• 1 (over 1) [F][5]
+• 2 in a new suit[6]
+• 1NT[7]
+• Pass[8]
+• Double (neg.) [F][9]
+• 1NT[7]
+• Pass[8]
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• Explanatory notes on responses with 6–9/10 pts
+1. In any type of auction, a direct jump to game (4/) is
+essentially preemptive. It should be made with a
+relatively weak hand (max ~7 HCP) that has very good
+distributional values in support of opener’s suit (5+ card
+support and at least a singleton or a void in a side suit),
+e.g. (after 1)
+ 6  K9832  A8764  93
+2. 1 (over 1) shows 6+ pts and 4+ 
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+3. In an uncontested auction, a 1NT response shows 6–9/10
+pts. It specifically denies a fit (3+ cards) in opener’s
+major suit. If made over a 1 opening bid, it also denies
+holding 4+ 
+4. In a competitive auction, a double raise shows a weak
+hand (3–6 HCP) with 4+ card support for opener’s suit
+and distributional values (at least a singleton or a void in
+a side suit), e.g. (after 1)
+ 5  K932  8764  10973
+5. After a TO double, 1 (over 1) shows 6+ pts and 4+ ,
+but is forcing only if responder is an unpassed hand
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+6. After a TO double by RHO, a non-jump bid of a new suit at the
+two level is not forcing. It shows a weak hand (< 10 pts) and a
+reasonably good suit with 6+ cards (or even just 5 cards in
+exceptional cases) and usually a singleton or a void in opener’s
+suit.
+7. After interference by RHO, a 1NT response shows 8–10 HCP. In
+the case of a suit overcall, it should also show a (possibly
+weak) stopper in RHO’s suit.
+8. If responder’s RHO interferes (whether with a TO double or an
+overcall), responder should tend to pass with 6–7 pts, no
+support for opener’s suit and fewer than 4 cards in the other
+major suit.
+9. A negative double shows 8+ points and 4+ cards in the unbid
+major. After 1-(1), it can be made with 6+ pts; in this case it
+shows 4+ cards in both minors.
+1/26/2022 © G. Casinovi
+Examples of “weak freaks”
+a)  6  J9863  Q10973  86
+b)  9  Q9842  K1085  1032
+c)  2  K9865  A8764  95
+d)  4  KJ832  A87654  9
+(d) is too strong to be considered a “weak freak”
+(use a splinter raise instead of 4)
+Responses to 1/1 Openings
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• With 10–15 pts, responses should be chosen
+in this order of priority:
+– Support opener’s suit (with 3+ card fit), except in
+an uncontested auction and with exactly 3-card
+support. In this case, responder should delay
+support and first bid another 4+ card suit at the 1-
+or 2-level, if possible.
+– Show 4+ cards in the other major suit
+– Show 4+ cards in a minor suit
+– Bid 3NT (with 15–17 HCP)
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• In an uncontested auction, a non-jump 2-level
+response to a 1/ opening is forcing to 2 of
+opener’s suit
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+Responses with limit/game-forcing hands (10+ pts)
+Responder’s
+holding in
+opener’s suit
+(RHO passes)
+4+ cards
+(13+ pts)
+• 2NT [GF][1]
+• Splinter raise [GF][2]
+4+ cards
+(10–12 pts) Double raise (3/)[3]
+≤ 3 cards
+(10+ pts)
+• 1 (over 1) [F]
+• 2 (over 1), with 5+ cards [F][4]
+• 2/ [F][5]
+• 3NT (15–17 HCP)[6]
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+Responses with limit/game-forcing hands (10+ pts)
+Responder’s
+holding in
+opener’s suit
+RHO’s bid
+Take-out double Suit overcall
+4+ cards 2NT [F][7]
+Cue-bid [F][11]
+3 cards Redouble[10]
+< 3 cards
+• 1 (over 1) [F][8]
+• 3NT (13–15 HCP)[9]
+• Redouble[10]
+• 2/ (free bid) [F][12]
+• Double (neg.) [F][13]
+• 2NT/3NT[14]
+• 2/ (free bid) [F][15]
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• Explanatory notes on responses with 10+ pts
+1. In an uncontested auction, a 2NT response is
+conventional and forcing to game (Jacoby 2NT). It shows
+13+ pts and 4+ card support for opener’s suit. Opener’s
+rebids are conventional:
+a) Opener’s first priority is to show a good 5-card or longer side suit
+by bidding it at the 4-level.
+b) Opener’s second priority is to show a singleton or void in a side
+suit by bidding it at the 3-level.
+c) If neither of the above applies, opener shows the strength of
+his/her hand by bidding
+• 4 in the opening suit (4/4) with a minimum opening hand (12–14
+HCP).
+• 3NT with an intermediate hand (15–17 HCP).
+• 3 in the opening suit (3/3) with 18+ HCP. Note that this rebid is
+virtually forcing to slam.
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• Explanatory notes on responses with 10+ pts
+2. A splinter raise is a jump bid in a new suit at a level
+higher than a double raise of opener’s suit. It shows 13+
+pts, 4+ card support for opener’s suit and a singleton or
+void in the suit bid.
+After a 1opening bid, the splinter raises are 3, 4 and 4. After a
+1 opening bid, the splinter raises are 4, 4 and 4.
+3. In an uncontested auction, an immediate limit raise
+(3/) should be made preferably when
+a) Responder has 4+ card support for opener’s suit, or
+b) Responder has good 3-card support for opener’s suit with
+additional distributional values (a singleton or void in a side
+suit).
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+4. 2 (over 1) shows 10+ pts and 5+ 
+5. 2/ shows 10+ pts and 4+ /
+6. In an uncontested auction, a 3NT response shows
+15–17 HCP and a balanced hand with exactly 2-card
+support for opener’s major suit. It specifically denies
+4+ cards in the other major.
+7. After a take-out double by RHO, a 2NT response
+indicates a limit raise (or better) with 4+ card
+support in opener’s suit, and is forcing for 1 round
+(Jordan 2NT). With 13+ pts, at the next round
+responder will bid game (4/) or make a slam try,
+if appropriate.
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+8. After a TO double, 1 (over 1) shows 6+ pts and
+4+ , but is forcing only if responder is an unpassed
+hand. With 10+ pts, this bid should be preferred to a
+redouble when the goal is to show quickly a good
+suit (typically 5+ cards).
+9. After a TO double, a 3NT response is natural and
+shows 13–15 pts. It implicitly denies both support for
+opener’s suit and 4+ cards in the other major.
+10. After a TO double, a redouble shows 10+ pts. It
+should be made with exactly 3 card support in
+opener’s suit, or when more descriptive bids are not
+available.
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+11. After a suit overcall by RHO, a cue-bid of RHO’s
+suit indicates a limit raise (or better) with 3+ card
+support in opener’s suit, and is forcing for 1
+round. With 13+ pts, responder will bid game
+(4/) at the next round.
+12. After a suit overcall by RHO, a free bid is a non-
+jump bid of a new suit at the two level. When
+made in a major suit, it shows 10+ pts and 5+
+cards in the suit bid. It should be preferred to a
+negative double when holding 5+ cards in an
+unbid major.
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+13. With 10+ pts, a negative double should be used only
+when holding exactly 4 cards in the unbid major.
+With 5+ cards, an explicit bid in that suit should be
+preferred to a negative double
+14. After a suit overcall by RHO, a 2NT (resp. 3NT)
+response is natural. It shows 11–12 pts (resp. 13–15
+pts) and guarantees 1-2 stoppers in RHO’s suit. It
+implicitly denies both support for opener’s suit and
+4+ cards in an unbid major.
+15. A free bid in a minor suit shows 10+ pts and 5+ cards
+in the suit bid.
+1/26/2022 © G. Casinovi
+RESPONSES TO 1/1 OPENINGS
+Responses to Openings of 1 in a Suit
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• General rules
+– With less than 6 pts, responder should pass
+– With 6+ pts, responses should generally be chosen
+in this order of priority:
+• With 4+ /, start describing your hand by bidding a
+new suit. See the following slides for the rules to follow
+in selecting the suit to bid.
+• Bid 1NT/2NT/3NT with a hand suitable for notrump play
+• Support opener’s suit
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• General rules (contd.)
+– Responses at the 1 level (1//) generally show
+4+ cards in the suit
+– A notrump response at any level denies holding a
+4+ card major suit
+– In a non-competitive auction, a direct raise of
+opener’s minor suit tends to show a hand not
+well-suited for notrump play
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• Selecting a new suit to bid
+– Without a 5-card (or longer) suit, bid the first
+4-card suit “up the line” (lowest-ranking suit first)
+– With one 5-card (or longer) suit, bid that suit,
+unless restrictions dictated by the strength of the
+hand prevent it
+– With two 5-card suits, bid them “down the line”
+(higher-ranking suit first)
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• With 6–9/10 pts, responder should not bid above
+1NT except in direct support of opener’s suit
+Responses with 6–9/10 pts
+RHO’s bid
+Pass Take-out double Suit overcall
+• 1// [F][1]
+• 1NT[2]
+• Single raise (2/)[3]
+• 1// [F][4]
+• 1NT[5]
+• Single (2/) or double
+(3/) raise[6]
+• 2 (over 1)[7]
+• 2 (over 1), 2/[8]
+• Pass[9]
+• 1/ [F][10]
+• Double (neg.)[11] [F]
+• 1NT[5]
+• Single (2/) or double
+(3/) raise[6]
+• 2/ (jump shift)[8]
+• Pass[9]
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• Explanatory notes on responses with 6–9/10 pts
+1. 1// shows 6+ pts and 4+ //
+2. In an uncontested auction, a 1NT response shows 6–10
+pts. It specifically denies holding 4+ /. It tends to
+show a hand suitable for notrump play
+3. An immediate raise of opener’s minor suit specifically
+denies holding 4+ /. It tends to show a hand not well
+suited for notrump play. It should be made with 6–10 pts
+and 5+  or 4+ .
+4. After a TO double, 1// has the same meaning as in
+an uncontested auction, but is forcing only if responder is
+an unpassed hand
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+5. After interference by RHO, a 1NT response shows 8–9/10 pts.
+In the case of a suit overcall, it should also show a (possibly
+weak) stopper in RHO’s suit
+6. In a competitive auction, a double raise shows a relatively
+weak hand (4–7 HCP) that is ill-suited for notrump play, with
+5+ card support for opener’s suit and distributional values (at
+least a singleton or a void in a side suit)
+7. After a TO double by RHO, a non-jump bid of a new suit at the
+two level is not forcing. It shows a weak hand (< 10 pts) and a
+reasonably good suit with 6+ cards (or even just 5 cards in
+exceptional cases) and usually a singleton or a void in opener’s
+suit
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+8. After a TO double by RHO, a jump response in a new suit
+(jump shift) has the same meaning as a weak jump overcall at
+the same level. In particular, a jump bid in a new suit at the
+two level is equivalent to a weak two-level overcall.
+9. If responder’s RHO interferes (whether with a TO double or an
+overcall), responder should tend to pass with 6–7 pts, fewer
+than 4 cards in either major suit and no support for opener’s
+suit
+10. After a suit overcall by RHO, 1/ generally has the same
+meaning as in an uncontested auction. However, the
+particular sequence 1/-(1)-1 shows 5+  (a negative
+double is used to show 4)
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+11. A negative double shows 6+ pts and 4+ cards in the
+unbid major suit(s) (8+ pts if the overcall is made at the
+two level in a minor suit). The sequence 1-(1)-Dbl
+shows both 4+ and 4+.
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+Examples
+• Opening bid: 1
+ KJ963  QJ62  65  Q7
+ K753  A964  865  82
+ AQ95  97642  Q65  7
+ A965  97  82  KJ963
+ K53  A8  Q984  10754
+ J86  7  K762  QJ963
+1/26/2022
+1
+1
+1
+1
+1NT
+2
+© G. Casinovi
+Responses to 1/1 Openings
+Examples
+• Opening bid: 1
+ 1053  J964  AK65  82
+ A965  97  82  KJ963
+ K53  A8  J10984  1087
+ 53  J8  QJ984  K1087
+1/26/2022
+1
+1
+1NT
+2
+© G. Casinovi
+Responses to 1/1 Openings
+1/26/2022
+Responses with 10–15 pts
+Responder’s
+strength
+RHO’s bid
+Pass Take-out double Suit overcall
+10–12 pts
+• 1// [F][1]
+• 2 (over 1) [F][2]
+• 2NT (11–12 HCP )[3]
+• Double raise (3/)[4]
+• 1// [F][5]
+• 2NT [F][6]
+• 3NT (13+ HCP )[7]
+• Redouble[8]
+• 1/ [F][9]
+• Double (neg.)[10][F]
+• 2/ (free bid) [F][11]
+• 2NT/3NT[12]
+• 2/ (free bid) [F][11]
+• Cue-bid [F][13]13–15+ pts
+• 1// [F][1]
+• 2 (over 1) [F][2]
+• 3NT[3]
+© G. Casinovi
+Responses to 1/1 Openings
+• Explanatory notes on responses with 10–15 pts
+1. 1// shows 6+ pts and 4+ //
+2. In an uncontested auction, 2 (over 1) shows 10+ pts
+and 4+ . However, with exactly 10 pts and 4 
+responder should bid 1NT (or possibly 2/3) [*].
+3. A 2NT (resp. 3NT) response shows 11–12 (resp. 13–15)
+HCP and a hand suitable for notrump play. It implicitly
+denies 4+ cards in either major suit
+4. An immediate double raise of opener’s minor suit
+(3/) specifically denies holding 4+ /. It tends to
+show a hand not well suited for notrump play. It should
+be made with 10–12 pts and 5+ /.
+1/26/2022
+[*]This is to avoid ending in a 2NT contract after 1- 2-2NT when opener holds
+minimum values. © G. Casinovi
+Responses to 1/1 Openings
+5. After a TO double, 1// has the same meaning as in an
+uncontested auction, but is forcing only if responder is an
+unpassed hand
+6. After a TO double, a 2NT response indicates a limit raise (or
+better) with 5+ card support in opener’s suit, and is forcing for
+one round (Jordan 2NT)
+7. After a TO double, a 3NT response is natural and shows 13–15
+pts. It implicitly denies 4+ cards in either major suit
+8. After a TO double, a redouble shows 10+ pts but does not
+necessarily deny support for opener’s minor suit[*]. This bid
+should be made when more descriptive bids are not available
+1/26/2022
+[*]A redouble generally denies support for opener’s major suit.
+© G. Casinovi
+Responses to 1/1 Openings
+9. After a suit overcall by RHO, 1/ generally has the
+same meaning as in an uncontested auction. However,
+the particular sequence 1/-(1)-1 shows 5+  (a
+negative double is used to show 4)
+10. With 10+ pts, a negative double should be used only
+when holding exactly 4 cards in the unbid major. With 5+
+cards, a (non-jump) bid in that suit at the two level
+should be preferred to a negative double. Furthermore,
+after 1-(1), responder should explicitly bid a 5-card
+major suit at the one level (instead of using a negative
+double) when holding 9+ cards in the majors and
+opening strength.
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+11. After a suit overcall by RHO, a free bid is a non-jump bid of a
+new suit at the two level. When made in a major (resp. minor)
+suit, it shows 10+ pts and 5+ cards (resp. 4+ cards) in the suit
+bid. It should be preferred to a negative double when holding
+5+ cards in an unbid major.
+12. After a suit overcall by RHO, a 2NT (resp. 3NT) response is
+natural. It shows 11–12 pts (resp. 13–15 pts) and guarantees 1-
+2 stoppers in RHO’s suit. It implicitly denies 4+ cards in any
+unbid major suit.
+13. After a suit overcall by RHO, a cue-bid of RHO’s suit indicates a
+limit raise (or better) with 5+ card support in opener’s minor
+suit, and is forcing for 1 round. It implicitly denies 4+ cards in
+any unbid major suit.
+1/26/2022 © G. Casinovi
+WALSH RESPONSES TO 1
+OPENINGS
+Responses to 1/1 Openings
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• Standard rules
+– If the hand contains at least one suit of 5 cards or
+longer:
+• Bid the longest suit first
+• With two suits of equal length, bid the higher ranking
+suit first
+– With no 5-cards suits, bid your 4-card suits “up
+the line” (lowest ranking suit first)
+1/26/2022 © G. Casinovi
+Walsh Responses to 1 Openings
+• Walsh responses apply to hands in which
+– One major suit is exactly 4 cards long
+– The other major suit is no more than 4 cards long
+• With such hands
+– Always skip a 4-card  suit in favor of the major
+suit(s), regardless of strength
+– Skip also a 5 or 6-card  suit, unless holding
+game-forcing values (13+ HCP)
+– Never skip a 7-card  suit
+1/26/2022 © G. Casinovi
+Walsh Responses to 1 Openings
+• Under Walsh rules, a 1 response indicates
+(with very rare exceptions) one of only two
+possibilities
+– Responder has no 4-card major suit
+– Responder has one (rarely two) 4-card major
+suit(s) with game-forcing values. In such case
+responder will show the major suit at his next bid
+1/26/2022 © G. Casinovi
+Walsh Responses to 1 Openings
+• Opener’s rebids after a 1 response
+– With a balanced hand (4333, 4432 or 5332)
+opener should rebid 1NT (or 2NT), skipping over
+any 4-card major suits
+• Exception: It is advisable for opener to bid a 4-card
+major instead of 1NT with a bad doubleton (Jx or
+worse) in the other major
+– With a 5-card  suit and 4/, opener should rebid in
+his major suit(s) “up the line”
+– With a 6-card  suit, opener should generally rebid
+2, regardless of any holdings in the majors suits
+1/26/2022 © G. Casinovi
+Walsh Responses to 1 Openings
+Responder’s 2nd bid with 4/ and 4
+• Responder’s 1st bid was 1/
+• If no major suit fit has been found and a rebid
+is necessary, responder should generally rebid
+in notrump at the appropriate level (1/2/3NT)
+• In some cases, if opener has shown 5+ 
+responder may choose to rebid in  instead of
+notrump (e.g. 1 – 1 – 1 – 2)
+1/26/2022 © G. Casinovi
+Walsh Responses to 1 Openings
+Responder’s 2nd bid with 4/ and 5
+• With game-forcing values (13+ HCP),
+responder should bid his major suit
+(responder’s 1st bid was 1)
+• With less than game-forcing values, responder
+should generally follow the same guidelines as
+when holding 4 (i.e. ignore the  suit and
+rebid in notrump or )
+1/26/2022 © G. Casinovi
+Walsh Responses to 1 Openings
+Responder’s 2nd bid with 4/ and 6
+• With game-forcing values (13+ HCP), responder
+should bid his major suit (responder’s 1st bid was 1)
+• With invitational values (10–12 HCP), responder
+should generally rebid 2NT (responder’s 1st bid was
+1/)
+• With minimum values (6–9 HCP), responder should
+bid 3 (sign-off). Note: 2 (after opener’s 1NT
+rebid) would be NMF.
+1/26/2022 © G. Casinovi
+Responses to 1 Openings
+with 4/ and 5+ 
+• With game-forcing values (13+ HCP), responder
+should bid 2 first, then bid / on the 2nd
+round (responder’s reverse)
+• With invitational values (10–12 HCP), responder
+should bid 1/ first, then generally rebid 2NT
+on the 2nd round (if no major suit fit is found)
+• With minimum values (6–9 HCP), responder
+should bid 1/ first, then bid 3 (sign-off).
+Note: 2 (after opener’s 1NT rebid) would be
+NMF.
+1/26/2022 © G. Casinovi
+Walsh Responses to 1 Openings
+Responding without a 4-card major
+• Response should be in notrump or ,
+depending on the hand. General guidelines:
+– Reserve the 1NT response for hands with 8–10
+HCP. This means you may have to respond 1
+with 6–7 HCP and only 3 . Examples:
+A53  J64  A85  9752 (bid 1NT)
+ 653  864  AQ5  9752 (bid 1)
+1/26/2022 © G. Casinovi
+Walsh Responses to 1 Openings
+Responding without a 4-card major
+• General guidelines (cont.)
+– In all other cases, give priority to notrump
+responses over  responses, unless the hand is
+ill-suited for notrump play. Examples:
+ Q103  KJ6  J6543  Q9 (bid 1NT)
+ A103  K6  K843  J972 (bid 2NT)
+ KJ6  10  A6543  QJ85 (bid 1)
+1/26/2022 © G. Casinovi
+1/ - 1 Sequences
+• By partnership agreement, Walsh-style rules may
+also be followed after a 1/ opening bid and a
+1 response (opener skips over a 4-card  suit
+and bids 1NT with a balanced hand). However,
+this has some (minor) drawbacks.
+• To avoid misunderstandings, partnerships should
+have very clear agreements about whether
+Walsh-style rules apply or not to 1/ - 1
+sequences.
+1/26/2022 © G. Casinovi
+NEW MINOR FORCING
+Responses to 1/1 Openings
+1/26/2022 © G. Casinovi
+New Minor Forcing
+• An artificial (and alertable) bid by responder after
+the sequence 1/ – 1/ – 1NT/2NT in an
+uncontested auction
+• Normally used to find a major suit fit, but can
+also be used (less frequently) to create a forcing
+auction in other cases
+• After a 1NT rebid by opener, responder must
+have at least invitational strength (11+ HCP)
+• After a 2NT rebid by opener, NMF is necessarily
+forcing to game
+1/26/2022 © G. Casinovi
+New Minor Forcing
+After 1NT Rebid by Opener
+• Opener’s third bid (in order of priority)
+– 2 in the unbid major
+• Shows 4 cards in the suit, does not deny 3 cards in
+responder’s major (Note: this bid is independent of
+opener’s strength)
+– 2 (12–13 HCP) or 3 (14+ HCP) in responder’s major
+• Shows 3-card support in the suit, denies 4 cards in the
+other major
+– 2NT (12–13 HCP) or 3NT (14+ HCP)
+• Denies both 3 cards in responder’s major and 4 cards in
+the other major
+1/26/2022 © G. Casinovi
+New Minor Forcing
+After 1NT Rebid by Opener
+• Responder’s third bid
+– All 3-level (and higher) rebids are game-forcing,
+except for simple raises of opener’s 2-level major suit
+bids (which show invitational strength)
+▪ 1 – 1 – 1NT – 2 – 2 – 3 (5 , inv.)
+– In particular, a rebid by responder of his previously bid
+major (that is not a raise) shows 6+ cards in the suit
+and game-forcing values
+▪ 1 – 1 – 1NT – 2 – 2 – 3 (6+ , GF)
+▪ 1 – 1 – 1NT – 2 – 2NT – 3 (6+ , GF)
+– Similarly:
+▪ 1 – 1 – 1NT – 2 – 2NT – 3 (5 , 5 , GF)
+1/26/2022 © G. Casinovi
+New Minor Forcing
+After 1NT Rebid by Opener
+• Responder’s third bid (cont.)
+– If opener has shown 4 cards in the unbid major, a
+notrump rebid by responder implicitly shows 5
+cards in the first-bid major (and denies 4 cards in
+opener’s major)
+• 1 – 1 – 1NT – 2 – 2 – 2NT (5 , inv.)
+Opener can correct to 3 (4) with 3  and a min
+(max) opening, or to 3NT with a max opening and < 3 
+• 1 – 1 – 1NT – 2 – 2 – 3NT (5 , GF)
+Opener can correct to 4 with 3 
+1/26/2022 © G. Casinovi
+New Minor Forcing
+After 1NT Rebid by Opener
+• Responder’s third bid (cont.)
+– If Walsh-style rebids by opener are used after
+1/ – 1, NMF can be used to try to locate a
+4-4 fit in . In this case, after opener has shown
+3-card support for responder’s major (), a
+notrump rebid by responder implicitly shows a 4-4
+holding in the majors
+▪ 1 – 1 – 1NT – 2 – 2 – 2NT (4 , 4 , inv)
+1/26/2022 © G. Casinovi
+New Minor Forcing
+After 1NT Rebid by Opener
+• Related sequences
+▪ 1 – 1/ – 1NT – 3 (4/, 6+ , 6–9 HCP)
+▪ 1 – 1/ – 1NT – 3 (4/, 6+ , 6–9 HCP)
+▪ 1/ – 1 – 1NT – 2 (5+ , 4+ , 6–10 HCP)
+• “Pass or correct” – Opener should generally pass 2 or
+correct to 2. Exceptionally, opener can invite to game
+by raising to 3 or 3 with a fit and maximum values
+and/or a particularly favorable distribution. With 5-4
+distribution in the majors (either way) and 11+ HCP,
+responder should bid the 5-card major first and then
+use NMF.
+1/26/2022 © G. Casinovi
+New Minor Forcing
+After 1NT Rebid by Opener
+• Related sequences (cont.)
+▪ 1/ – 1/ – 1NT – 2/
+(6+ /, 6–9 HCP)
+▪ 1/ – 1/ – 1NT – 3/
+(6+ /, 10–12 HCP)
+▪ 1/ – 1 – 1NT – 3 (5 , 5 , 10–12 HCP)
+▪ 1/ – 1 – 1NT – 2 (5+ , 4+ , 13+ HCP)
+• Reverse by responder
+1/26/2022 © G. Casinovi
+New Minor Forcing
+After 2NT Rebid by Opener
+• The overall structure remains essentially the
+same, except that a NMF bid necessarily
+forces to game.
+• Specific differences:
+– Opener should not jump to 2NT with a singleton:
+it is better to use other bids, (e.g. a reverse) to
+show strength. Therefore a jump to 2NT always
+guarantees at least 2 cards in responder’s major
+suit.
+1/26/2022 © G. Casinovi
+New Minor Forcing
+After 2NT Rebid by Opener
+• Specific differences (cont.):
+– After 1/ – 1, if opener does not have 4  he
+should jump to 2NT even with 4. If responder is
+4-4 in the major, he should use NMF (if strong
+enough) to check for a possible fit in . This
+means that the sequence
+1/ – 1 – 2NT – 3/ – 3 – 3NT
+shows a 4-4 holding by responder.
+1/26/2022 © G. Casinovi
+New Minor Forcing
+After 2NT Rebid by Opener
+• Related sequences
+▪ 1/ – 1/ – 2NT – 3/
+▪ 6+ /, slam interest. Opener should respond by cue-
+bidding aces up the line.
+1/26/2022 © G. Casinovi
+Responses to Openings of 1 in a Suit
+1/1 1/1
+Resp.
+holding
+RHO’s bid RHO’s bid
+Pass T.O. dbl Suit overc. Pass T.O. dbl Suit overc.
+Responses with 6–9/10 pts
+3+ cards 2/ 2/3 /
+• 1//[F]
+• 1NT
+• 2/
+• 1//[F]
+• 1NT
+• 2/3 /
+• 2//
+• Pass
+• 1/[F]
+• Dbl.[F]
+• 1NT
+• 2 /3 /
+• Pass
+< 3 cards • 1[F]
+• 1NT
+• 1[F]
+• 1NT
+• Pass
+• Dbl.[F]
+• 1NT
+• Pass
+Responses with 10–15+ pts
+3+ cards
+(10–12 pts) 3/ 2NT[F] Cue-bid[F]
+10–12 pts • 1//[F]
+• 2[F]
+• 2NT (11–
+12 HCP)
+• 3/
+• 1//[F]
+• 2NT[F]
+• 3NT (13+
+HCP)
+• Redbl.
+• 1/[F]
+• Dbl.[F]
+• 2/[F]
+• 2NT/3NT
+• 2/[F]
+• Cue-bid[F]
+3+ cards
+(13–15 pts)
+• 2NT[GF]
+• 4/
+• 2NT[F]
+• 4/
+• Cue-bid[F]
+• 4/
+< 3 cards
+• 1/2[F]
+• 2/[F]
+• 3NT (15–17
+HCP)
+• 1[F]
+• 3NT (13–15
+HCP)
+• Redbl.
+• 2/[F]
+• Dbl.[F]
+• 2NT/3NT
+• 2/[F]
+12–15+ pts
+• 1//[F]
+• 2[F]
+• 3NT
+1/26/2022 © G. Casinovi
+NEGATIVE DOUBLES
+1/26/2022 © G. Casinovi
+Negative Doubles
+• A negative double is a conventional bid made
+by responder (opener’s partner) after an
+opening bid of 1 in a suit and an overcall in a
+different suit by RHO
+• Therefore a double by responder is not
+negative if:
+– The opening bid is not 1 in a suit
+– The overcall is in opener’s suit (e.g. Michaels cue-
+bid) or in notrump
+1/26/2022 © G. Casinovi
+Negative Doubles
+• A double by responder is also not negative if
+the overcall is above a predetermined level set
+by partnership agreement
+• SAYC sets the upper limit for a negative double
+at 2, but most players use a higher threshold
+(e.g. 3)
+1/26/2022 © G. Casinovi
+Negative Doubles
+• In general, a negative double shows 4+ cards in
+both of the two remaining unbid suits
+• In most cases, however, responder may choose to
+make a negative double with 4+ cards in only one
+of the unbid suits. Nevertheless:
+– If only one of the unbid suits is a major, a negative
+double always guarantees 4+ cards in that suit
+– Responder should have a contingency plan with an
+“escape bid” to be used if opener rebids in the
+“wrong” suit
+1/26/2022 © G. Casinovi
+Negative Doubles
+• The most common “escape bids” are:
+– A bid in opener’s first suit. This bid does not
+necessarily indicate support, only suit preference.
+– A notrump bid, showing a stopper in overcaller’s
+suit. Responder should make sure to have
+sufficient strength for such bid
+– A 2-level rebid of one of the original unbid suits.
+This shows 6+ cards in that suit and a minimum
+hand (6–10 HCP)
+1/26/2022 © G. Casinovi
+Negative Doubles
+• The minimum strength required for a negative
+double depends on the level of RHO’s overcall
+• A negative double sets no upper bound on the
+strength of responder’s hand
+1/26/2022
+RHO’s overcall Minimum strength (HCP)
+Through 1 6
+2/ 8–9
+2/ 9–10
+3/ 10–11
+© G. Casinovi
+Negative Doubles
+• Responder should prefer an explicit bid in a
+suit to a negative double:
+– When holding game-forcing values (13+ HCP) and
+a 5-4 (or 5-5) distribution in the unbid suits
+– If only one of the unbid suits is a major and
+responder holds 5+ cards in that suit and sufficient
+strength to bid it explicitly
+• After a 1/ opening bid, a negative double
+denies 3-card support of opener’s suit
+1/26/2022 © G. Casinovi
+Negative Doubles
+• This negative double always guarantees
+4+ cards in both majors (no exceptions!)
+• Do not double with:
+ AQ965  KQJ64  65  7 (bid 1)
+ 8653  KQ10965  74  2 (bid 2)
+1/26/2022
+1 — (1) — X
+© G. Casinovi
+Negative Doubles
+• This negative double shows exactly 4 
+– An explicit bid of 1 shows 5+ cards in the suit
+– This double says nothing about responder’s
+holding in the unbid minor suit, and opener
+should make no assumptions about such holding
+1/26/2022
+1/ — (1) — X
+© G. Casinovi
+Negative Doubles
+Examples
+• Bidding: 1 — (1)
+ A752  64  AQ1075  72 (double)
+ A752  64  AQ1075  A2 (bid 2)
+• Bidding: 1 — (1)
+ A752  64  AQ1075  72 (double)
+ A752  64  AQ1075  A2 (double)
+1/26/2022 © G. Casinovi
+Negative Doubles
+• This negative double shows 4+ 
+– An explicit bid of 2 should be made instead of a
+negative double when holding 5+  and 10+ HCP
+– This double says nothing about responder’s
+holding in the unbid minor suit
+1/26/2022
+1/ — (1) — X
+© G. Casinovi
+Negative Doubles
+Examples
+• Bidding: 1 — (1)
+ 986  AJ54  KJ9  A52 (double)
+ 986  A8654  KJ  852 (double)
+ 64  K75432  KQ  1098 (double)
+(rebid 2 on the next round)
+ 86  KQJ94  A1087  97 (bid 2)
+1/26/2022 © G. Casinovi
+Negative Doubles
+• In principle this negative double shows 4+
+cards in both minors
+• If responder chooses to double with 4+ cards
+in only one minor, he should have an “escape
+bid” ready in case opener rebids in the other
+minor
+1/26/2022
+1 — (1) — X
+© G. Casinovi
+Negative Doubles
+• If responder holds 4+ cards in only one minor,
+a bid other than a negative double will often
+(although not always) be available:
+– A NT bid at the appropriate level with a spade
+stopper
+– A direct 2/ bid with 10+ HCP and 5+cards in
+the suit (or just 4 cards and 11+ HCP in a pinch)
+– A weak jump shift (normally with 7+ cards, since it
+will have to be at the 3-level)
+1/26/2022 © G. Casinovi
+Negative Doubles
+• Even with 4+ cards in both minors, another
+bid (e.g. in notrump) may be more descriptive
+and therefore should be preferred to a
+negative double.
+1/26/2022 © G. Casinovi
+Negative Doubles
+Examples
+• Bidding: 1 — (1)
+ 96  K4  Q9653  K852 (double)
+ 865  J6  A743  Q1074 (double)
+ KQ5  76  K743  J1087 (bid 1NT)
+ AJ7  K6  J842  K765 (bid 2NT)
+ 64  KQ  A963 A10964 (bid 2)
+1/26/2022 © G. Casinovi
+Negative Doubles
+Examples
+• Bidding: 1 — (1)
+ 954  A6  KJ  987543 (double)
+(bid 2 if opener’s response is 2)
+ 9765  A  Q87543  Q10 (double)
+(bid 2 if opener’s response is 2)
+1/26/2022 © G. Casinovi
+Negative Doubles
+• In principle this negative double shows 4+
+cards in both unbid suits
+• Responder guarantees to have 4+ cards in the
+unbid major
+• If responder chooses to double without 4+
+cards in the unbid minor, he should have an
+“escape bid” ready
+1/26/2022
+1/ — (2/) — X
+© G. Casinovi
+Negative Doubles
+Examples
+• Bidding: 1 — (2)
+ KJ94  A6  J8752  73 (double)
+ AQ42  A6  AQ87  763 (double)
+ QJ654  Q6  QJ87  J3 (double)
+ AK1076  86  K852  93 (bid 2)
+ A965  K  AQ9852  65 (bid 2)
+ 6532  –  KQ98742  K5 (bid 3)
+1/26/2022 © G. Casinovi
+Negative Doubles
+Examples
+• Bidding: 1 — (2)
+ QJ9754  A  J86  743 (double)
+(bid 2 on the next round)
+ KQ65  98  K87  KJ107 (double)
+(bid 2NT on the next round if opener doesn’t bid )
+1/26/2022 © G. Casinovi
+Negative Doubles
+• In principle these negative doubles show
+4+ cards in both majors
+• If responder chooses to double with 4+ cards
+in only one major, he should have an “escape
+bid” ready in case opener rebids in the other
+major
+1/26/2022
+1 — (2) — X
+1 — (2) — X
+© G. Casinovi
+Negative Doubles
+Examples
+• Bidding: 1 — (2)
+ KJ75  A964  J65  82 (double)
+ AQ96  KJ102  65  A97 (double)
+ AQ95  KQJ64  Q65  7 (bid 2)
+ AK1076  86  52  KJ93 (bid 2)
+ A965  K7  Q982  65 (bid 2)
+ 6532  –  KQ98742  K5 (bid 3)
+1/26/2022 © G. Casinovi
+Negative Doubles
+Examples
+• Bidding: 1 — (2)
+ QJ9754  A  J86  743 (double)
+(bid 2 on the next round)
+ AJ65  Q7  K1082  65 (double)
+(bid 3 on the next round if opener bids 2)
+ AJ65  KQ7  1082  865 (double)
+(accept that you may end up playing in a 7-card fit)
+1/26/2022 © G. Casinovi
+Negative Doubles
+Opener’s Rebids
+• A minimum-level rebid indicates a minimum
+opening (≤ 15 HCP)
+• A jump rebid below game level is invitational
+• A cue-bid of overcaller’s suit is forcing to
+game
+• A notrump bid promises a stopper in
+overcaller’s suit
+1/26/2022 © G. Casinovi
+Negative Doubles
+• However, in the absence of better alternatives
+opener may be forced to:
+– Rebid a strong 5-card suit at the 2-level
+– Bid 1NT without much of a stopper in overcaller’s suit
+(a 2NT rebid should always promise a solid stopper
+and it shouldn’t be made unless the partnership’s
+combined strength is at least 22 or 23 HCP)
+– Bid a new (strong) suit that is only 3-card long (try to
+do this only at the 1-level and only if partner’s
+negative double guarantees 4+ cards in that suit)
+1/26/2022 © G. Casinovi
+UNUSUAL OVER UNUSUAL
+1/26/2022 © G. Casinovi
+Defense against Unusual NT and
+Michaels Cue Bids
+• Opening bid is 1 in a suit
+• RHO interference
+– Michaels cue bid
+– Unusual NT
+• Defense is essentially the same in either case.
+However, some defensive bids by responder
+depend on whether only one or both of RHO’s
+suits are known
+1/26/2022 © G. Casinovi
+Defense against Unusual NT and
+Michaels Cue Bids
+• Weak responses (7–10 pts, not forcing)
+– Simple raise
+• Shows support for opener’s suit (3+ cards for a major suit,
+usually 5+ cards for a minor suit)
+– Game-level raise
+• Shows length in opener’s suit and distributional values, with
+overall strength less than a limit raise (analogous to a “weak
+freak”)
+– Minimum-level bid of a new suit.
+• Shows a hand roughly equivalent to a weak-two opening bid
+(6+ card, good quality suit). It usually denies support for
+opener’s major suit.
+1/26/2022 © G. Casinovi
+Defense against Unusual NT and
+Michaels Cue Bids
+• Responses with invitational strength or better
+(10+ pts)
+– When both of RHO’s suits are known two indirect
+cue bids (“invisible cue bids”) are available:
+• The cheaper cue-bid is conventionally linked with
+opener’s suit
+• The other cue-bid is linked with the “fourth suit”
+– Other conventions about the meaning of the
+invisible cue-bids exist
+1/26/2022 © G. Casinovi
+Defense against Unusual NT and
+Michaels Cue Bids
+• Invitational and game forcing responses
+– Cue bid of RHO’s cheaper suit
+• Invitational raise or better of opener’s suit
+– Jump cue bid of either of RHO’s suits
+• Splinter bid, slam try
+– Cue bid of RHO’s other suit
+• Shows 5+ cards in the “fourth suit” with invitational values.
+It usually denies support for opener’s major suit.
+– 2NT (over Michaels cue bid) / 3NT
+• Shows stoppers in both of RHO’s suits with invitational/game
+forcing values. Denies support for opener’s major suit.
+1/26/2022 © G. Casinovi
+Defense against Unusual NT and
+Michaels Cue Bids
+• Invitational and game-forcing responses
+– Double
+• A waiting bid, showing 10+ HCP, usually denying
+support for opener’s major suit. After advancer’s bid,
+opener may bid to convey additional useful information
+about his hand:
+– Rebid the opening suit, showing 6+ cards
+– Bid a new suit to show a fairly strong two-suited hand
+– Bid 3NT, with suitable values and a stopper in opponents’
+chosen suit
+– Double (penalty)
+1/26/2022 © G. Casinovi
+Defense against Unusual NT and
+Michaels Cue Bids
+• Invitational and game-forcing responses
+– After initial double, if opener passes responder
+rebids
+• Double (penalty)
+• New suit, showing 5+ cards with game-forcing values
+• 3NT, with a stopper in opponents’ chosen suit (does not
+necessarily promise a stopper in opponents’ other suit)
+• Delayed cue bid of opponents’ chosen suit, showing
+game-forcing values, but denying a stopper in
+opponents’ suit (Western cue bid). Opener should bid
+3NT with a stopper.
+1/26/2022 © G. Casinovi
+Defense against Unusual NT and
+Michaels Cue Bids
+• When only one of opponents’ suit is known
+– The only available “invisible cue bid” denotes a
+limit raise or better of opener’s suit
+– 2NT / 3NT shows invitational / game-forcing
+values with a stopper in opponents’ known suit. It
+denies support for openers’ (major) suit
+– The meaning of all other responses remains
+unchanged
+1/26/2022 © G. Casinovi
+RESPONSES TO 1NT OPENINGS
+1/26/2022 © G. Casinovi
+1NT Opening Bid
+• 15–17 HCP
+• Hand distribution is 4333, 4432 or 5332 with
+5-card minor suit
+• It is usually convenient to open 1NT a 5422
+hand with 15–16 HCP, a 5-card minor suit and
+a 4-card major suit (with 17+ HCP, open 1 in
+the minor suit and then reverse)
+1/26/2022 © G. Casinovi
+Responses to 1NT Opening
+• General rules
+– Only HCP are used to evaluate hand strength in
+notrump contracts
+– With less than 8 HCP, responder should generally pass
+• Exception: With 5+ cards in a major suit or 6+ cards in a
+minor suit, responder may transfer to that suit even with
+less than 8 HCP
+– With 8+ HCP, priority should be given to looking for a
+fit in a major suit, using the Stayman or the Jacoby
+Transfers conventions
+1/26/2022 © G. Casinovi
+Responses to 1NT Opening
+• General rules (contd.)
+– The Stayman convention is used with
+• 8+ HCP
+• Exactly 4 cards in a major suit
+• Up to 5 cards in the other major
+– Jacoby transfers are used with 5+ cards in a major
+suit and any number of points
+1/26/2022 © G. Casinovi
+JACOBY TRANSFERS
+Responses to 1NT Openings
+1/26/2022 © G. Casinovi
+Jacoby Transfers
+• Used by responder when holding 5+ cards in
+one or both majors and any number of points
+• With exactly 5 cards in one major suit and 4
+cards in the other, responder
+– Transfers to the 5-card major suit with fewer than
+8 HCP
+– Uses the Stayman convention with 8+ HCP
+1/26/2022 © G. Casinovi
+Jacoby Transfers
+• Responder initiates the transfer by bidding the
+suit immediately below the suit targeted for the
+transfer. Specifically, after a 1NT (2NT) opening
+bid
+– 2 (3) is a transfer to 
+– 2 (3) is a transfer to 
+• Opener responds by bidding the target suit,
+usually at the cheapest level
+– After 2/3 opener bids 2/3
+– After 2/3 opener bids 2/3
+1/26/2022 © G. Casinovi
+Jacoby Transfers
+• After opener’s forced rebid, responder
+indicates both the strength of his hand and
+the length of his suit
+– A notrump rebid by responder shows exactly 5
+cards in the target suit
+– A rebid by responder in the target suit shows 6+
+cards in the suit
+– The strength of responder’s hand is indicated by
+the rebid level
+1/26/2022 © G. Casinovi
+Jacoby Transfers
+1/26/2022
+Responder’s rebid after opener’s transfer
+Responder’s
+holding 0–7 HCP 8–9 HCP 10–15 HCP 16–17 HCP 18+ HCP
+5 cards Pass 2NT 3NT 4NT 5NT
+6+ cards Pass 3/ 4/ 5/
+Do not
+transfer
+Bid 3/
+Subsequent bidding
+© G. Casinovi
+Jacoby Transfers
+Openers’s rebid after responder’s 2nd bid
+Responder’s
+2nd bid
+Opener’s holding
+2 cards in target suit 3+ cards in target suit
+Min
+(15–16 HCP)
+Max
+(16–17 HCP)
+Min
+(15–16 HCP)
+Max
+(16–17 HCP)
+2NT Pass 3NT 3/ 4/
+3NT Pass 4/
+4NT Pass 6NT 5/ 6/
+5NT 6NT 6/
+3/ Pass 4/ Pass 4/
+4/ Pass Pass
+5/ Pass 6/ Pass 6/
+1/26/2022 © G. Casinovi
+Jacoby Transfers
+• With 5 cards in both major suits and 8+ HCP,
+responder
+– Transfers to  (i.e. bids 2) and then rebids 2 over
+opener’s 2 response with an invitational hand (8–
+9/10 HCP)
+– Transfers to  (i.e. bids 2) and then rebids 3 over
+opener’s 2 response with a game-forcing hand
+(10/11+ HCP)
+• Opener places the final contract. Note that an
+8-card fit in one of the majors is guaranteed
+(unless opener’s distribution is 5422 with
+doubletons in the major suits)
+1/26/2022 © G. Casinovi
+STAYMAN CONVENTION
+Responses to 1NT Openings
+1/26/2022 © G. Casinovi
+Stayman Convention
+• Used to uncover a 4-4 fit in a major suit
+• Normally responder must have 8+ HCP and
+also hold 4 cards in at least one major suit
+– Some variants of the convention (e.g. “garbage”
+Stayman, “crawling” Stayman) allow for its use
+with fewer than 8 HCP
+– Other variants allow the convention to be used
+even without a 4-card major
+1/26/2022 © G. Casinovi
+Stayman Convention
+• It is generally advised not to use the Stayman
+convention when responder’s distribution is
+4333. The reason is that such distribution is
+unlikely to generate any ruffing tricks, and
+therefore a suit contract will probably take the
+same number of tricks as a no trump contract
+1/26/2022 © G. Casinovi
+Stayman vs. Jacoby Transfers
+• With exactly 4 cards in one or both majors and
+8+ HCP, responder uses Stayman
+• With 5+ cards in one or both majors responder
+uses Jacoby transfers, regardless of point count
+• With exactly 5 cards in one major suit and 4 cards
+in the other, responder
+– Transfers to the 5-card major suit with fewer than
+8 HCP
+– Uses the Stayman convention with 8+ HCP
+1/26/2022 © G. Casinovi
+Stayman Convention
+• To use the Stayman convention, responder
+bids 2 (3) after a 1NT (2NT) opening bid
+• Opener responds (over 2):
+– 2 without a 4-card major
+– 2/ with 4 /. With both 4  and 4  opener
+bids 2
+• Responder’s subsequent rebid clarifies both
+his holding and the strength of his hand
+1/26/2022 © G. Casinovi
+Stayman Convention
+• After a 2/ response by opener, responder:
+– Raises opener’s suit with 4+ card support in that
+suit.
+– Makes a no trump bid without 4-card support for
+opener’s suit. Such bid indicates implicitly that
+responder holds 4 cards in the other major suit.
+• In either case, the strength of responder’s
+hand is indicated by the level of his rebid
+1/26/2022 © G. Casinovi
+Stayman Convention
+• After a 2 response by opener, responder
+normally rebids in no trump. However, with 5
+cards in one major suit and 4 cards in the
+other, responder:
+– Bids his 5-card major suit at the two level with an
+invitational hand (8–9/10 HCP)
+– Bids his 5-card major suit at the three level with a
+game-forcing hand (10/11+ HCP)
+1/26/2022 © G. Casinovi
+Stayman Convention
+1/26/2022
+Responder’s rebid after opener’s response
+Opener’s
+response
+Responder’s
+holding in
+opener’s
+major suit
+8–9 HCP 10–15 HCP 16–17 HCP 18+ HCP
+2 • 2NT
+• 2/
+• 3NT
+• 3/ 4NT 6NT
+2/ < 4 cards 2NT 3NT 4NT 5NT
+4+ cards 3/ 4/ 5/ 6/
+Subsequent bidding
+© G. Casinovi
+Responses to 1NT Opening
+1/26/2022
+Response 0–7 HCP 8–9 HCP 10–15 HCP 16–17 HCP 18+ HCP
+Pass
+2 Stayman
+2/ Jacoby transfers
+2[1]
+2NT [2]
+3/[3]
+3/[4]
+3NT [5]
+4 Gerber
+4/ Texas transf.
+4NT [6]
+© G. Casinovi
+Responses to 1NT Opening
+1. Transfer to minors, to be used with 6+ cards in
+the target suit
+2. Invitational to 3NT, it denies holding 4+ cards in a
+major. Opener passes with a minimum or bids
+3NT with a maximum
+3. Indicates 6+ cards in the named suit, with 2 of
+the top 3 honors. It is invitational to 3NT
+4. Indicates 6+ cards in the named suit, with slam
+interest
+5. Sign-off bid, it denies holding 4+ cards in a major
+1/26/2022 © G. Casinovi
+Responses to 1NT Opening
+6. Invitational to 6NT. When made in direct
+response to a 1NT opening bid, it denies holding
+4+ cards in a major
+1/26/2022 © G. Casinovi
+COMPETITIVE BIDDING
+Responses to 1NT Openings
+1/26/2022 © G. Casinovi
+Competitive Bidding
+• If the opponents interfere after a 1NT opening
+by your partner
+– Make sure you understand what the interference
+indicates (if necessary, ask)
+– Check vulnerability (both yours and the
+opponents’)
+– Check your HCP count
+– Check your holding in the opponents’ suit(s)
+– Decide your best course of action
+1/26/2022 © G. Casinovi
+Defenses against 1NT
+Cappelletti DONT Landy
+Double Penalty
+Unknown
+single-suited
+hand
+Penalty
+2
+Unknown
+single-suited
+hand
+ and a higher-
+ranking suit  and 
+2  and   and a major Natural
+2  and a minor  and  Natural
+2  and a minor  Natural
+1/26/2022 © G. Casinovi
+Competitive Bidding
+• After a double
+– The meaning of all responses remains unchanged
+• After a 2 overcall
+– A double is the Stayman convention
+– All other responses remain unchanged
+• After 2// overcalls
+– Use the Reverse Lebensohl convention
+1/26/2022 © G. Casinovi
+ASPTRO CONVENTION
+Defense against 1NT Openings
+1/26/2022 © G. Casinovi
+1NT Opening Ranges
+• Weak NT
+– Any range with an upper bound ≤ 15 HCP
+– Most common range is 12–14 HCP
+• Strong NT
+– Any range with a lower bound ≥ 14 HCP
+– Most common range is 15–17 HCP
+1/26/2022 © G. Casinovi
+Against Weak NT
+• Double shows 15+ HCP and a generally
+balanced hand, typically without a 5+ card
+major suit (similar to a 1NT overcall)
+• Advancer should treat partner’s double as
+“optional”
+• If advancer decides to remove the double, the
+same conventions apply as when responding
+to a 1NT opening bid (“systems on”)
+1/26/2022 © G. Casinovi
+Against Weak NT
+• Overcalling with one-suited hands
+– 2/ generally show a good suit(*) with 6+ cards
+and 10+ HCP
+• Suit quality is more important than HCP strength
+• Overcalling with a 5-card suit should be considered only
+with a particularly good suit (partner is entitled to
+expect 6+ cards, and may raise with only 2-card
+support)
+• A raise by advancer is invitational and shows 11+ pts
+1/26/2022
+(*)Two of the top three honors or three of the top five
+© G. Casinovi
+Against Weak NT
+• Overcalling with one-suited hands
+– 3 /// generally show a good suit with 7+
+cards
+• Suit quality is the most important consideration
+1/26/2022 © G. Casinovi
+Against Weak NT
+• Overcalling with two-suited hands
+– 2 / show a two-suited hand, at least 5-4, with at
+least one major suit and 11+ HCP (±1 HCP depending
+on suit length and quality, vulnerability, range of
+opponents’ NT opening, etc.)
+• 2 promises 4+ 
+• 2 promises 4+ 
+• In general, the known major suit (“anchor major”) can be
+shorter/of equal length/longer than the other unknown suit
+– 2NT shows a 5-5 distribution in the minors (unusual
+notrump)
+1/26/2022 © G. Casinovi
+Against Weak NT
+• Overcalling with both majors
+– If one suit is longer than the other, anchor to the
+shorter major
+– If the two suits are of equal length (at least 5-5!),
+anchor to the weaker major
+• When holding both a 6-card major and a 4-
+card minor, it is generally preferable to
+overcall 2/ (unless the major suit is
+particularly weak)
+1/26/2022 © G. Casinovi
+ASPTRO Responses
+• Minimum-hand responses (0–10 HCP)
+– 2/ (known major), with 3+ card support
+– Step response (2 over 2, 2 over 2)
+• Asks overcaller to show his longest suit
+• Ideally, it should be made with no singletons or voids
+– 2 (over 2) with 6+ cards
+– Pass, with 6+ /
+1/26/2022 © G. Casinovi
+ASPTRO Continuations after a Step
+Response
+• Overcaller’s bid
+– Pass, if the suit bid is overcaller’s longest (or of
+equal length to the other)
+– Bid longest suit
+• After overcaller’s response, advancer may ask
+for overcaller’s 2nd suit by bidding 2NT
+1/26/2022 © G. Casinovi
+ASPTRO Responses
+• Responses with invitational or better hands
+(11+ HCP)
+– 3/ (known major), with 4+ card support and
+11–14 HCP
+– 4/ (known major), with 4+ card support with
+15+ HCP
+– 2NT (natural) with 11–14 HCP
+1/26/2022 © G. Casinovi
+Against Strong NT
+• The meaning of ASPTRO overcalls and responses
+remains the same. However, the minimum
+strength required for overcalls should be adjusted
+accordingly.
+• A double should be made only with 90% certainty
+that the contract can be defeated (to protect
+against responder’s redoubling for penalty)
+• When overcalling with one-suited hands (2/),
+suit quality is of particular importance
+1/26/2022 © G. Casinovi
+Against Strong NT
+• One-suited overcalls with 5-card suits should
+be made only with extremely good suits and
+reasonable overall hand strength (~12+ HCP)
+• Two-suited overcalls should generally be made
+with both reasonably good suits and
+reasonable overall hand strength (~12+ HCP)
+1/26/2022 © G. Casinovi
+Competitive Bidding
+• If the opponents interfere after a 1NT opening,
+make sure you understand what the interference
+indicates (if necessary, ask)
+• After a double
+– The meaning of all responses remains unchanged
+• After a 2 overcall
+– A double is the Stayman convention
+– All other responses remain unchanged
+• After 2// overcalls
+– Use the Lebensohl convention
+1/26/2022 © G. Casinovi
+RUBENSOHL CONVENTION
+Responses to 1NT Openings
+1/26/2022 © G. Casinovi
+Rubensohl Convention
+• It applies after a direct 2//overcall that
+shows
+– A known single-suited hand
+– A two-suited hand with one known suit
+• It also applies to delayed responses after
+responder passes an overcall (or double) that
+shows an unspecified single suit, e.g.
+1NT – (2) – P – (2) – P – (P) – ?
+1/26/2022 © G. Casinovi
+Rubensohl Convention
+• However, the convention is off when the
+opponents’ suit is clubs, e.g.
+1NT – (X) – P – (2) – P – (P) – ?
+1/26/2022 © G. Casinovi
+Rubensohl Convention
+• Overview
+– 2/ bids are natural and weak
+– Bids of 2NT through 3 inclusive are ostensibly
+transfers to the next higher denomination (must be
+alerted). They promise at least invitational values (8+
+HCP) and 5+ cards in the suit of the attempted
+transfer (other than the opponents’)
+– Attempted transfers to opponents’ suit are Stayman
+asking bids. They promise game-forcing values.
+– 3NT is natural
+1/26/2022 © G. Casinovi
+Rubensohl Convention
+Natural Responses
+• 2/ bids are competitive. They generally
+show a suit with 6+ cards and a weak hand
+(< 8 HCP)
+• 3NT promises game-forcing values and a
+stopper in opponents’ suit. It denies 4 cards in
+any unbid major suits.
+1/26/2022 © G. Casinovi
+Rubensohl Convention
+Transfer to 3NT
+• 3 is an attempted transfer to 3NT. It
+promises game-forcing values but denies both
+a stopper in opponents’ suit and 4 cards in any
+unbid majors.
+– Opener bids 3NT with a stopper in opponents’ suit
+– Without a stopper, opener bids his cheapest 4-
+card suit
+1/26/2022 © G. Casinovi
+Rubensohl Convention
+Transfers to an unbid minor suit
+• These transfers promise invitational values or
+better and 5+ cards in the target suit. They do not
+necessarily deny 4 cards in an unbid major suit.
+• Opener responds in this order of priority
+– Opener completes the transfer with less than a
+maximum or without a stopper in opponents’ suit
+– With both a maximum and a stopper in opponents’
+suit, opener bids his cheapest 4-card unbid major suit
+(or 3NT)
+1/26/2022 © G. Casinovi
+Rubensohl Convention
+Transfer to opponents’ minor suit
+• This bid promise game-forcing values and 4 cards
+in at least one major suit. It neither promises nor
+denies a stopper in opponents’ suit.
+• Opener responds in this order of priority
+– Opener completes the transfer without a stopper in
+opponents’ suit.
+– With a stopper in opponents’ suit, opener bids his
+cheapest 4-card major suit (or 3NT).
+1/26/2022 © G. Casinovi
+Rubensohl Convention
+Transfers to an unbid major suit
+• These transfers promise invitational values or
+better and 5+ cards in the target suit. They
+neither promise nor deny a stopper in opponents’
+suit.
+• Opener responds in this order of priority
+– Opener bids game (4/ or 3NT) with maximum
+values and suitable fit or stopper in opponents’ suit.
+– Otherwise opener completes the transfer
+1/26/2022 © G. Casinovi
+Rubensohl Convention
+Transfer to opponents’ major suit
+• This bid promises game-forcing values and 4
+cards in the unbid major suit. It neither promises
+nor denies a stopper in opponents’ suit.
+• Opener responds in this order of priority
+– Bids 4/ with an appropriate fit
+– Bids 3NT with no fit but with a stopper in opponents’
+suit
+– Otherwise opener completes the transfer.
+1/26/2022 © G. Casinovi
+Rubensohl Convention
+Responder’s double
+• A double by responder shows a generally
+balanced hand with invitational values and
+the following features:
+– Four cards in an unbid major suit
+– Three or four cards in the other unbid major suit,
+if there is one
+– Preferably at least two cards in opponents’ suit
+1/26/2022 © G. Casinovi
+LEBENSOHL CONVENTION
+Responses to 1NT Openings
+1/26/2022 © G. Casinovi
+Lebensohl Convention
+• Overview
+– A double of opponent’s overcall is for penalty
+– A two-level bid of a suit is natural and generally
+shows minimum values (< 8 HCP)
+– An immediate three-level bid of a suit (other than
+the opponents’) shows 5+ cards and game-forcing
+values (10/11+ HCP), whether or not it is a jump
+bid
+1/26/2022 © G. Casinovi
+Lebensohl Convention
+• Overview (cont.)
+– An immediate cue-bid of opponents’ suit is
+Stayman. It shows game-forcing values and denies
+a stopper in opponents’ suit
+– 2NT is a conventional relay to 3
+– An immediate 3NT bid shows game-forcing values
+but denies a stopper in opponents’ suit
+– 4/ bids are Texas transfers, with or without a
+jump
+1/26/2022 © G. Casinovi
+Lebensohl Convention
+• Responder’s rebids after opener’s 3 relay
+– Pass (to play in 3)
+– A three-level bid of a suit (other than the opponents’)
+shows 5+ cards and
+• Invitational values (8-10 HCP) if the suit could have been bid
+at the two level
+• Minimum values, if the suit could not have been bid at the
+two level (sign-off)
+– A cue-bid of opponents’ suit is Stayman. It shows
+game-forcing values and also a stopper in opponents’
+suit
+– A 3NT bid shows game-forcing values and also a
+stopper in opponents’ suit
+1/26/2022 © G. Casinovi
+Lebensohl Convention
+• Key features to keep in mind
+– Three different bidding sequences are possible for
+new suits ranking higher than the overcall suit
+• 1NT– (2) – 2
+This sequence shows minimum values by responder
+• 1NT– (2) –2NT– (P) – 3 – (P) – 3
+This sequence shows 5+  and invitational values by
+responder
+• 1NT– (2) – 3
+This sequence shows 5+  and game-forcing values by
+responder
+1/26/2022 © G. Casinovi
+Lebensohl Convention
+• Key features to keep in mind
+– Only two different bidding sequences are possible
+for new suits ranking lower than the overcall suit
+• 1NT– (2) –2NT– (P) – 3 – (P) – 3
+This sequence shows 5+  and only minimum values by
+responder
+• 1NT– (2) – 3
+This sequence shows 5+  and game-forcing values by
+responder
+– There is no invitational sequence in this case
+1/26/2022 © G. Casinovi
+Lebensohl Convention
+• Key features to keep in mind
+– There are two different ways to reach Stayman or 3NT
+bids
+– “Fast” sequences
+• 1NT– (2) – 3
+• 1NT– (2) – 3NT
+– “Slow” sequences
+• 1NT– (2) –2NT– (P) – 3 – (P) – 3
+• 1NT– (2) –2NT– (P) – 3 – (P) – 3NT
+– The “fast” sequences deny a stopper in opponents’
+suit, while the “slow” sequences show a stopper in
+opponents’ suit (Slow Shows Stopper)
+1/26/2022 © G. Casinovi
+Lebensohl Convention
+• Key features to keep in mind
+– Sequences, whether fast or slow, that end with a
+new suit generally say nothing about the presence
+or absence of a stopper in opponents’ suit
+– There is no sequence that replaces the original
+meaning of a 2NT response
+– The Stayman convention can be used only with
+game-forcing values
+1/26/2022 © G. Casinovi
+Lebensohl Convention
+Responses after two-level overcalls
+Responder’s
+holding Responses
+0–9/10 HCP
+• 2 (new suit)
+• 2NT–3–3 (new suit)
+• Pass
+10/11+ HCP
+• 3 (new suit)
+• 2NT–3– cue bid (Stayman)
+• Cue-bid (Stayman)
+• 2NT–3–3NT
+• 3NT
+• 4/
+1/26/2022 © G. Casinovi
+REVERSE LEBENSOHL CONVENTION
+Responses to 1NT Openings
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+• Overview
+– A double of opponent’s overcall is for penalty
+– A two-level bid of a suit is natural and generally
+shows minimum values (< 8 HCP)
+– An immediate three-level bid of a suit (other than
+the opponents’) shows 5+ cards and invitational
+values (8–10 HCP), whether or not it is a jump bid
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+• Overview (cont.)
+– An immediate cue-bid of opponents’ suit is
+Stayman. It shows game-forcing values (10/11+
+HCP) and promises a stopper in opponents’ suit
+– 2NT is a conventional relay to 3 and shows
+game-forcing values
+– An immediate 3NT bid shows game-forcing values.
+It denies 4 cards in any unbid major suit and
+promises a stopper in opponents’ suit
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+• Responder’s rebids after opener’s 3 relay
+– A three-level bid of a suit (other than the
+opponents’) shows 5+ cards
+– A cue-bid of opponents’ suit is Stayman. It denies
+4 cards in any unbid major suit and also denies a
+stopper in opponents’ suit
+– A 3NT bid shows game-forcing values but denies a
+stopper in opponents’ suit
+• All rebids show game-forcing values
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+• Key features to keep in mind
+– Three different bidding sequences are possible for
+new suits ranking higher than the overcall suit
+• 1NT– (2) – 2
+This sequence shows minimum values by responder
+• 1NT– (2) – 3
+This sequence shows 5+  and invitational values by
+responder
+• 1NT– (2) –2NT– (P) – 3 – (P) – 3
+This sequence shows 5+  and game-forcing values by
+responder
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+• Key features to keep in mind
+– Only two different bidding sequences are possible
+for new suits ranking lower than the overcall suit
+• 1NT– (2) – 3
+This sequence shows 5+  and invitational values by
+responder
+• 1NT– (2) –2NT– (P) – 3 – (P) – 3
+This sequence shows 5+  and game-forcing values by
+responder
+– There is no minimum values sequence in this case
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+• Key features to keep in mind
+– There are two different ways to reach Stayman or 3NT
+bids
+– “Fast” sequences
+• 1NT– (2) – 3
+• 1NT– (2) – 3NT
+– “Slow” sequences
+• 1NT– (2) –2NT– (P) – 3 – (P) – 3
+• 1NT– (2) –2NT– (P) – 3 – (P) – 3NT
+– The “fast” sequences promise a stopper in opponents’
+suit, while the “slow” sequences deny a stopper in
+opponents’ suit
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+• Key features to keep in mind
+– Sequences, whether fast or slow, that end with a
+new suit generally say nothing about the presence
+or absence of a stopper in opponents’ suit
+– There is no bid or sequence that replaces the
+original meaning of a 2NT response
+– The Stayman convention can be used only with
+game-forcing values
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+Responses after two-level overcalls
+Responder’s bid Responder’s holding
+2 / 0–7 HCP, 5+ cards
+3 ///
+(new suit) 8–10 HCP, 5+ cards
+Cue-bid
+10+ HCP, Stayman for the unbid
+major(s). Promises a stopper in
+opponents’ suit.
+3 NT
+Denies 4 cards in any unbid
+major suit. Promises a stopper
+in opponents’ suit.
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+Responses after 2NT - 3
+Responder’s bid Responder’s holding
+3 (new suit) 10+ HCP, 5+ cards
+3 /
+(new suit) 10+ HCP, 5 cards
+Cue-bid
+10+ HCP, Stayman for the unbid
+major(s). Denies a stopper in
+opponents’ suit.
+3 NT
+Denies 4 cards in any unbid
+major suit. Denies a stopper in
+opponents’ suit.
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+• A 2NT response followed by 3NT or a cue bid
+of opponents’ suit specifically deny a stopper
+in that suit. If opener also does not have a
+stopper:
+– Opener should consider playing in a 4-3 fit, even
+at the 4 level
+– Opener may have to bid his best minor suit at the
+4 level (hopefully with 4+ cards, but in some cases
+it could be a 3-card suit)
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+• If opponent’s 2-level overcall is conventional
+and shows one known and one unknown suit,
+the rules for responder’s bids remain
+unchanged, except that cue-bids should be
+made against opponent’s known suit (whether
+or not it is the suit actually bid).
+1/26/2022 © G. Casinovi
+Reverse Lebensohl Convention
+• If opponents overcall at the 3 level, responder
+bids as follows:
+– Doubles are for takeout
+– Bids in a new suit below game level are natural
+and forcing
+– Game-level bids are sign-offs (3NT shows a
+stopper in opponents’ suit)
+– A cue-bid of opponents’ minor suit is either
+• Stayman, or
+• Slam try
+1/26/2022 © G. Casinovi
+REBIDS
+1/26/2022 © G. Casinovi
+Definitions
+• A rebid denotes a bid made by a player after
+his/her first non-pass bid. In most cases it refers
+to the player’s second bid.
+• A new suit denotes a suit that has not been bid
+previously by any player in the auction.
+• Responder is opener’s partner. A response is a bid
+by responder.
+• A simple response/raise/rebid means a non-jump
+(that is, a minimum-level) response/raise/rebid.
+1/26/2022 © G. Casinovi
+Rebids by Opener
+• When opener rebids a new suit:
+– The second suit is generally at least 4-cards long
+– The second suit is never longer than the first suit
+bid by opener (but it can be of equal length as
+opener’s first suit)
+– Opener’s first suit is at least 5-cards long except in
+the case of a 4441 distribution
+– The most common lengths of opener’s first and
+second suits are 54, 64 and 55, respectively
+1/26/2022 © G. Casinovi
+Rebids by Opener
+• The tables that follow summarize the
+conventional meanings of the most common
+types of rebids by opener after an opening of 1 in
+a suit in the context of traditional Standard
+American
+• The auction is assumed to be uncontested
+(opponents always pass)
+• All responses to opening bids are assumed to be
+simple (i.e. non-jump)
+• Opener’s rebids are also assumed to be simple,
+except where otherwise indicated
+1/26/2022 © G. Casinovi
+Rebids by Opener
+Opener rebids 1NT
+Generally a balanced hand with minimum opening strength (12–14 HCP). Occasionally
+5422 or 5431 distribution with singleton in responder’s suit.
+Example auction Opener’s hand
+1 – 1 – 1NT  KJ84  AQ2  J10  Q1087
+1 – 1 – 1NT  4  KQJ3  KQ742  A86
+1 – 1 – 1NT  84  AJ876  AJ5  K96
+Opener rebids the same suit at the two-level
+Generally 6+ cards in the suit and minimum opening strength (12–15 HCP).
+Example auction Opener’s hand
+1 – 1 – 2  Q84  A7  J10  AQ10874
+1 – 1NT – 2  5  KJ10965  AJ8  KQ6
+1/26/2022 © G. Casinovi
+Rebids by Opener
+Opener jump-rebids the same suit at the three-level
+Intermediate opening strength (16–18 HCP) and 6+ cards in the suit
+Example auction Opener’s hand
+1 – 2 – 3  2  Q109  AKJ975  AK5
+1 – 1NT – 3  AKQ1075  K10  QJ7  Q6
+Opener makes a simple raise of responder’s new suit
+Generally 4+ cards in responder’s suit and minimum opening strength (12–15 HCP).
+Example auction Opener’s hand
+1 – 1 – 2  K1072  AQ1094  85  A5
+1 – 2 – 3  AQ1075  7  QJ7  QJ96
+1/26/2022 © G. Casinovi
+Rebids by Opener
+Opener jump-raises responder’s new suit to the three-level
+Generally 4+ cards in responder’s suit and an intermediate hand (16–18 pts)
+Example auction Opener’s hand
+1 – 1 – 3  10  KJ94  AQJ85  A65
+1 – 1 – 3  KJ75  KQJ7  7  AJ96
+Opener rebids a new lower-ranking suit at the two-level
+Wide-range opening hand (12–18 HCP). First suit is always of equal length or longer
+than the second. First suit is 5+ cards long except with 4441 distribution.
+Example auction Opener’s hand
+1 – 1 – 2  9  AQJ85  Q85  KJ65
+1 – 1NT – 2  AKJ75  KQJ8  74  K6
+1 – 2 – 2  76  KJ1085  KQJ65  A
+1 – 1 – 2  8  K1085  AJ105  AQ98
+1/26/2022 © G. Casinovi
+Rebids by Opener
+Opener rebids a new higher-ranking suit at the two-level after a one-level
+response
+This reverse by opener shows an intermediate to strong hand (17–21 HCP). The first
+suit is always strictly longer than the second except with 4441 distribution.
+Example auction Opener’s hand
+1 – 1 – 2  43  A4  AQJ5  KQJ52
+1 – 1NT – 2  AJ75  KQ9  AKQJ4  6
+1 – 1 – 2  8  AK85  AJ105  KQJ8
+Opener jump-rebids 2NT or bids 2NT after a 1NT response
+A strong (18–19 or 17–19 HCP) balanced hand.
+Example auction Opener’s hand
+1 – 1 – 2NT  K43  A64  AJ10  KQJ2
+1 – 1 – 2NT  AK75  KQ9  AQ74  J6
+1 – 1NT – 2NT  A8  AK985  Q105  KJ8
+1/26/2022 © G. Casinovi
+Rebids by Opener
+Opener jump-rebids a new lower-ranking suit
+This sequence shows a strong opening (19–21 HCP) and is forcing to game. The first
+suit is always at least 5-cards long and of equal length or longer than the second.
+Example auction Opener’s hand
+1 – 1 – 3  2  AKQJ85  AQ  KJ65
+1 – 1NT – 3  AKQ75  KQ85  A4  K6
+1 – 2 – 3  A6  AJ1085  KQJ65  A
+1/26/2022 © G. Casinovi
+SIMPLIFIED OPENING LEADS
+1/26/2022 © G. Casinovi
+Leads against Suit Contracts
+• If the suit is headed by an honor sequence (two or
+more consecutive honors), lead the top honor of the
+sequence
+– Examples: AKxx, KQJxx, QJx
+– Exception: If the suit consists of exactly two consecutive
+honors, lead the lower honor:
+AK, KQ, QJ
+• From a suit with 3+ cards containing one or more
+honors not in sequence, lead the fourth highest card
+(4th best), or the lowest card with only three cards
+(Bottom Of Something)
+– Examples: Kxxx, Q10xxx, Qxx
+1/26/2022 © G. Casinovi
+Leads against Suit Contracts
+• If the suit does not contain any honors (i.e. no
+cards higher than 9), lead the highest card (Top
+Of Nothing)
+– Examples: 754, 8632, 543
+• Always lead the top card from a doubleton.
+– Exception: With a doubleton consisting of two honors
+in sequence, lead the lower honor
+• In general, leading from a doubleton containing
+honor(s) is strongly discouraged, unless the suit
+has been bid by partner
+1/26/2022 © G. Casinovi
+Honor Sequences
+• In the definitions of honor sequences (and only for that
+purpose), the 9 is considered to be an honor if it is the
+last card of an honor sequence
+• A (solid or perfect) sequence consists of 2+ consecutive
+honors (e.g. AK, KQJ, J109)
+• A broken sequence is a 3+ honor combination headed
+by 2 consecutive honors, with exactly a 1-card gap
+between the 2nd and 3rd honor (e.g. AKJ, KQ10, QJ9)
+• An interior sequence consists of 2+ consecutive honors
+separated by a gap (1-card or longer) from an isolated
+higher honor (e.g. AQJ, KJ10, AJ10, K109)
+1/26/2022 © G. Casinovi
+Leads against No Trump Contracts
+• From a long suit (4+ cards) headed by a (solid,
+broken or interior) honor sequence, lead the
+top card of the sequence if the sequence
+contains a total of at least 3 honors
+– Examples: AKQx, AKJx, KQ10x, AQJx, AJ10x, K109x
+1/26/2022 © G. Casinovi
+Leads against No Trump Contracts
+• From a long suit (4+ cards) containing a
+combination of one or more honors that does
+not fall in one of the previous cases, lead the
+fourth highest card (4th best) (Bottom Of
+Something)
+– Examples
+• AKxx, KQxx, QJxxx, 109xx
+• AJxx, Q10xx, Kxxxx, Qxxx, 10xxxx
+1/26/2022 © G. Casinovi
+Third Hand Play
+1/26/2022
+• If your partner leads a
+low card (Bottom Of
+Something), you should
+be prepared to sacrifice
+your honors in order to
+promote partner’s
+• Example: Your partner
+leads the 5, you should
+play the K
+© G. Casinovi
+Third Hand Play
+• Your partner leads (what you believe to be) a
+low card (suggesting that he/she holds honors
+in that suit), and
+• You can cover the card that is played from
+dummy, then
+• You should generally play the lowest card that
+is equivalent to the highest card you hold in
+that suit
+1/26/2022 © G. Casinovi
+Third Hand Play
+1/26/2022
+• W leads the 5 (declarer is S)
+• E should play the K • E should play the J
+© G. Casinovi
+• W leads the 5 (declarer
+is S)
+• If declarer plays the 10
+from dummy, E should
+play the J
+• If declarer plays the 2
+from dummy, E should
+play the 9
+Third Hand Play
+1/26/2022 © G. Casinovi
+• W leads the 2 (declarer
+is S)
+• If declarer plays the J or
+the 10 from dummy, E
+should play the Q
+• If declarer plays the 7 or
+the 3 from dummy, E
+should play the 8
+Third Hand Play
+1/26/2022 © G. Casinovi
+Third Hand Play
+• If your partner leads a low card and you
+cannot cover the card that is played from
+dummy, you should give an attitude signal,
+unless it will be clear to your partner that you
+cannot have a card in that suit higher than the
+J, in which case you should give a count signal
+1/26/2022 © G. Casinovi
+Signals
+• A signal is a way to convey information by a
+defender to his/her partner through the
+card(s) the defender plays in a particular
+context
+• There are three (main) types of signals:
+– Attitude
+– Count
+– Suit preference
+1/26/2022 © G. Casinovi
+Signals
+• The default signal on opening leads is attitude
+– If using standard signals, a low card discourages
+while a high card encourages continuing the suit
+led. The meaning is reversed if using upside-down
+signals.
+• Default means that the card played in 3rd seat
+is intended to convey an attitude signal,
+except in specific circumstances previously
+agreed upon by defenders.
+1/26/2022 © G. Casinovi
+Signals
+• There are three exceptions to signaling attitude
+on an opening lead
+• First exception:
+– The opening lead is a low card (Bottom Of Something)
+– 3rd seat defender does not cover the card played by
+dummy
+– After all four players have played to the first trick, it
+will be clear to the opening leader that partner cannot
+have a card in the suit led higher than J
+– In this case, defender in 3rd seat should signal count
+1/26/2022 © G. Casinovi
+OPENING LEADS
+1/26/2022 © G. Casinovi
+Conceptual Framework
+• In principle, the opening lead choice should be
+the result of a risk/benefit analysis
+• The results of this analysis depend on a multitude
+of factors, e.g.:
+– Contract level (part score, game, slam)
+– Type of contract (suit or notrump)
+– Strength of each side relative to the contract
+– Expected suit holdings of each player
+– Form of scoring (match points, IMPs, …)
+– And more …
+1/26/2022 © G. Casinovi
+The First Commandment
+Thou shalt mentally review the
+bidding before choosing thy
+opening lead
+1/26/2022 © G. Casinovi
+General Guidelines
+• Review the auction in your mind
+• Estimate partner’s HCP strength
+– Update your estimate after seeing dummy
+• Choose which suit to lead
+• Choose which card to lead from the selected
+suit
+1/26/2022 © G. Casinovi
+Preferred Suits for Leads against No
+Trump Contracts
+• Lead a suit of your own that is both long and headed by a
+strong honor sequence
+– Examples: KQJ10x, KQJxxx
+• Lead a suit bid by partner
+• Lead your longest (4+ cards) and strongest suit that has not
+been shown by the opponents
+– With two suits of equal length (4+ cards), lead the stronger[*]
+– With two suits of unequal length, generally lead the longer
+unless the shorter suit is significantly stronger than the longer
+• Lead a suit containing no honors that has not been shown
+by the opponents
+– Give preference to longer suits over shorter suits
+1/26/2022
+[*]A suit headed by a honor sequence is generally stronger than a suit containing only
+scattered honors
+© G. Casinovi
+Disfavored Suits for Leads against No
+Trump Contracts
+• Do not lead a suit that has been shown (explicitly
+or implicitly) by the opponents, unless it is both
+long and headed by a strong honor sequence
+(e.g. KQJxx)
+• Do not lead a singleton, except in a suit bid by
+partner
+• Except in particular circumstances, do not lead a
+short suit (≤ 3 cards) containing honors (e.g. Axx,
+KQx, KJx, Kx), unless the suit has been bid by
+partner
+1/26/2022 © G. Casinovi
+Preferred Suits for Leads against Suit
+Contracts
+• Lead a suit of your own that is both long and
+headed by a strong honor sequence
+– Examples: KQJ10x, KQJxxx
+• Lead a suit bid by partner
+• Lead a suit headed by a honor sequence
+– Give preference to suits headed by stronger
+sequences, regardless of the overall length of the suit
+(e.g. prefer KQJ to QJxx)
+– Leads from solid sequences are generally safer than
+leads from broken or interior sequences
+– See leads to avoid for exceptions
+1/26/2022 © G. Casinovi
+Preferred Suits for Leads against Suit
+Contracts
+• Lead a suit of 3+ cards with one or more
+scattered honors that has not been shown by
+the opponents
+• Lead a suit containing no honors that has not
+been shown by the opponents
+– Give preference to longer suits over shorter suits
+• In special cases, lead a singleton or a trump
+1/26/2022 © G. Casinovi
+Disfavored Suits for Leads against Suit
+Contracts
+• Do not lead a non-trump suit that has been shown
+(explicitly or implicitly) by the opponents, unless it is
+headed by a strong, solid honor sequence (AKQ or KQJ)
+• Do not lead a suit headed by an unsupported ace (i.e.
+without the king)
+• Do not lead doubletons containing one (or two)
+honors, except if
+– The doubleton is AK, or
+– The suit has been bid by partner
+• Do not lead singleton honors, unless the suit has been
+bid by partner
+1/26/2022 © G. Casinovi
+The Fifth Commandment
+Thou shalt obey thy own
+conventions for the choice
+of the card to lead
+1/26/2022 © G. Casinovi
+OPENING LEADS AGAINST
+NOTRUMP CONTRACTS
+Opening Leads
+1/26/2022 © G. Casinovi
+Opening Lead Conventions
+• Just like bidding conventions, conventions about
+opening leads convey to your partner (and your
+opponents!) information about your hand
+• The conventional rules for opening leads
+described here can be divided into three classes:
+– General leads
+– Leads of suits bid by partner that you have supported
+– Leads of suits bid by partner that you have not
+supported, or that you have supported after partner
+has shown 6+ cards in the suit
+1/26/2022 © G. Casinovi
+Honor Sequences
+• In the definitions of honor sequences (and only for that
+purpose), the 9 is considered to be an honor if it is the
+last card of an honor sequence
+• A (solid or perfect) sequence consists of 2+ consecutive
+honors (e.g. AK, KQJ, J109)
+• A broken sequence is a 3+ honor combination headed
+by 2 consecutive honors, with exactly a 1-card gap
+between the 2nd and 3rd honor (e.g. AKJ, KQ10, QJ9)
+• An interior sequence consists of 2+ consecutive honors
+separated by a gap (1-card or longer) from an isolated
+higher honor (e.g. AQJ, KJ10, AJ10, K109)
+1/26/2022 © G. Casinovi
+General Leads against No Trump
+Contracts
+• From a long suit (4+ cards) headed by a (solid,
+broken or interior) honor sequence, lead the
+top card of the sequence if the sequence
+contains a total of at least 3 honors
+– Examples: AKQx, AKJx, KQ10x, AQJx, AJ10x, K109x
+1/26/2022 © G. Casinovi
+General Leads against No Trump
+Contracts
+• From a long suit (4+ cards) containing a
+combination of one or more honors that does
+not fall in one of the previous cases, lead the
+fourth highest card (4th best) (Bottom Of
+Something)
+– Examples
+• AKxx, KQxx, QJxxx, 109xx
+• AJxx, Q10xx, Kxxxx, Qxxx, 10xxxx
+1/26/2022 © G. Casinovi
+General Leads against No Trump
+Contracts
+• From a 3-card suit containing one or more
+honors(*)
+– If the suit is headed by two consecutive honors,
+lead the top honor
+• Exception: lead K from AKx
+– If the suit contains a single honor, lead the lowest
+card
+– Leads in other cases depend on the specific
+situation
+1/26/2022
+[*] Except in particular cases, leading from this card combination should generally be avoided
+unless the suit has been bid by partner
+© G. Casinovi
+General Leads against No Trump
+Contracts
+• From a suit of 3+ cards containing no honors
+(i.e. no cards higher than 9), lead
+• The highest card from a 4-card or shorter suit (Top Of
+Nothing)
+• The fourth highest card (4th best) from 5-card or longer
+suit
+• Always lead the top card from a doubleton.
+However, leading from a doubleton containing
+honor(s) is strongly discouraged unless the
+suit has been bid by partner
+1/26/2022 © G. Casinovi
+Choice of Lead Cards against No Trump
+Contracts
+• Exceptions and special cases
+– If you are leading a suit bid (or shown) by partner
+that you have not supported, lead:
+• Top of a doubleton (xx, Qx)
+• Lowest card from 3 cards, with or without honors (xxx,
+Qxx)
+• 4+ cards (???)
+– If you have supported partner’s suit, follow the
+general rules
+1/26/2022 © G. Casinovi
+Choice of Lead Cards against No Trump
+Contracts
+• Exceptions and special cases
+– From a suit of exactly 4 cards headed by the 9,
+lead second best
+– From a suit of exactly 4 cards headed by the 10,
+lead second best if you would like to encourage
+partner to switch to another suit, or if you have no
+particular interest in partner’s returning that suit
+– From a 3-card suit headed by the 10 or 9, follow
+the general rules (lead 9xx or 10xx)
+1/26/2022 © G. Casinovi
+General Leads against No Trump
+Contracts
+1/26/2022 © G. Casinovi
+Choice of Lead Cards against No Trump
+Contracts
+• Exceptions and special cases
+– From a suit of 5+ cards containing no honors, lead
+• The top card (or another suit) without a side entry
+• Fourth beast with a potential side entry (however,
+consider where it may be better to lead another suit
+which partner may hold length and/or strength in)
+1/26/2022 © G. Casinovi
+Choice of Lead Cards against No Trump
+Contracts
+1/26/2022
+Leading from strong 3-card suits
+© G. Casinovi
+Choice of Lead Cards against No Trump
+Contracts
+• Exceptions and special cases
+– If your best suit is AQxx or AQxxx
+• Lead fourth best from AQxxx
+• With AQxx, consider leading high (top of nothing) in
+another suit to encourage partner to switch to your suit
+when on lead
+1/26/2022 © G. Casinovi
+OPENING LEADS AGAINST SUIT
+CONTRACTS
+Opening Leads
+1/26/2022 © G. Casinovi
+The Fourth Commandment
+Thou shalt not underlead thy
+aces against a suit contract
+1/26/2022 © G. Casinovi
+Choice of Lead Cards against Suit
+Contracts
+• From a suit with 3+ cards headed by an honor
+sequence, lead the top honor of the sequence
+– Examples: AKxx, KQxx, KQ10, AQJx, AJ10x, K109x
+• From a suit with 3+ cards containing one or more
+honors not in sequence, lead the fourth highest
+card (4th best), or the lowest card with only three
+cards (Bottom Of Something)
+• However, be weary of leading from a 3-card suit
+containing honors that has not been bid by
+partner
+1/26/2022 © G. Casinovi
+Choice of Lead Cards against Suit
+Contracts
+• From a suit of any number of cards containing
+no honors (i.e. no cards higher than 9), lead
+the highest card (Top Of Nothing)
+• Always lead the top card from a doubleton.
+– Exception: With a doubleton consisting of two
+honors in sequence, lead the lower honor
+• In general, leading from a doubleton
+containing honor(s) is strongly discouraged
+unless the suit has been bid by partner
+1/26/2022 © G. Casinovi
+Choice of Lead Cards against Suit
+Contracts
+• Exceptions and special cases
+– If you are leading a suit bid by partner that you
+have not supported, or that you have supported
+after partner has shown 6+ cards in the suit,
+special rules apply.
+– If you have supported partner’s suit, follow the
+general rules (but see other exceptions next)
+1/26/2022 © G. Casinovi
+Choice of Lead Cards against Suit
+Contracts
+• Exceptions and special cases
+– Lead K from AK(…)
+• After the first trick
+• Against a contract at the 5-level or higher
+• From AK doubleton
+• If leading a suit bid by partner, whether or not you have
+supported it
+• If leading a suit that you have bid and that partner has
+supported
+1/26/2022 © G. Casinovi
+Special Opening Leads
+• Modified rules for opening leads apply when
+leading a suit bid or otherwise shown by
+partner that you have not supported, or that
+you have supported after partner has shown
+6+ cards in the suit
+– Against all suit contracts
+– Against no trump contracts, provided that partner
+is known to hold 5+ cards in the suit
+1/26/2022 © G. Casinovi
+Special Opening Leads
+• Follow the usual rules for leads in partner’s
+suit when leading
+– From a doubleton
+• The higher card is led
+• The lower honor is led from a doubleton consisting of
+two consecutive honors
+– From 3+ cards headed by a honor sequence
+• The top honor in the sequence is led
+• K is led from AKx(…)
+1/26/2022 © G. Casinovi
+Special Opening Leads
+• From 3+ cards not headed by a honor
+sequence, lead
+– The 3rd highest card, from an even number of
+cards
+– The lowest card, from an odd number of cards
+• These leads help partner get a count of the
+suit, especially when the card led is recognized
+to be the lowest possible card that can be held
+by the opening leader
+1/26/2022 © G. Casinovi
+Special Opening Leads
+• To compute the number of cards higher than
+the card led that are not in opening leader’s
+hand, use
+– The rule of 12, for 3rd-best leads
+– The rule of 10, for 5th-best leads
+• It should be kept in mind that the lead of a
+low card does not necessarily show an honor
+in the suit
+1/26/2022 © G. Casinovi
+Special Opening Leads
+Continuations
+• When starting with an even number of cards,
+on the second round of the suit the opening
+leader should play a lower card than the
+opening lead, unless common sense dictates
+otherwise
+1/26/2022 © G. Casinovi
+Special Opening Leads
+Continuations
+• When starting with an odd number of cards
+– If you’re leading the suit, follow the standard rules
+for leads
+• With two remaining cards, lead the higher
+• With four remaining cards , lead the lowest
+– If you are following suit
+• With two remaining cards, play the lowest
+• With four remaining cards, play the highest card you
+can afford
+1/26/2022 © G. Casinovi
+RESPONSES TO SIMPLE SUIT
+OVERCALLS
+Defensive Bidding
+1/26/2022 © G. Casinovi
+Simple Suit Overcalls
+• A simple suit overcall is a minimum-level (i.e.
+non-jump) bid in a suit that is made over an
+opening bid in a different suit by an opponent
+• Requirements:
+– A minimum of 5 cards in the suit chosen for the
+overcall (no exceptions!)
+– Suit quality and hand strength requirements that
+depend on the level of the overcall
+1/26/2022 © G. Casinovi
+Simple Suit Overcalls
+• 8–16 HCP
+• A “good hand” or a “good suit” is required
+– “Good hand”: opening-level strength (12+ HCP)
+– “Good suit”: two of the top three honors, or three of the
+top five
+• All the following hands are suitable for a 1 overcall
+a)  AQJ10 7  J986  74  95
+b)  KQ983  86  KQ4  985
+c)  J10 632  AK6  KQ4  63
+1/26/2022
+One-level overcalls
+© G. Casinovi
+Simple Suit Overcalls
+• Generally 12–16 HCP
+• Both a “good hand” and a “good suit” are
+required
+• Examples:
+a)  83  AJ6  A74  KQ10 98
+b)  Q983  8  74  AKJ987
+c)  KQ3  A5  A63  J8643
+• (a) and (b) are suitable for a 2 overcall, but (c) is
+not
+1/26/2022
+Two-level overcalls
+© G. Casinovi
+Simple Suit Overcalls
+• Simple (non-jump) overcalls at the three-level
+and higher generally require sound opening
+values and a solid suit. The higher the level of
+the overcall, the more important the quality of
+the suit becomes in comparison to overall HCP
+strength.
+1/26/2022
+Higher-level overcalls
+© G. Casinovi
+General Guidelines for Advances
+• Broadly speaking, the following factors favor
+somewhat aggressive bidding:
+– You have a fit for partner’s suit (the longer the fit,
+the more aggressively one can bid)
+– You are short in the opponents’ suit(s) ( ≤ 2 cards)
+– Your HCPs (outside partner’s suit) consist of high
+honors (aces and kings)
+– You have favorable vulnerability
+1/26/2022 © G. Casinovi
+General Guidelines for Advances
+• Conversely, the following factors suggest
+somewhat cautious bidding:
+– You don’t have a fit for partner’s suit
+– You are long (≥ 3 cards) in the opponents’ suit(s)
+– Your HCPs (outside partner’s suit) are made up of
+minor honors (queens and jacks)
+– You have unfavorable vulnerability
+1/26/2022 © G. Casinovi
+General Guidelines for Advances
+• Except as otherwise noted, the meaning of
+advancer’s responses is not affected by
+responder’s bidding
+1/26/2022 © G. Casinovi
+Advancing 1-Level Overcalls
+1/26/2022
+Advance 6–7 8–9 10–12 12+
+With support Direct raise 6–9 pts
+Jump cue-bid ~8–9 pts
+Cue-bid 10+ pts
+Splinter
+Without support New suit ~8–10+ HCP
+Jump shift 10+ HCP
+1NT 8–11 HCP
+2NT 12+ HCP
+Resp. double ~8+ HCP
+Redouble 10+ HCP
+© G. Casinovi
+Advancing 1-Level Overcalls
+• With a minimum hand (6–9/10 pts):
+– Raise partner’s suit
+– Jump cue-bid opener’s suit (mixed raise)
+• With an invitational hand or better (10+ pts):
+– Cue-bid the opponents’ suit(s)
+– Jump directly to game
+• Remember to add support (“dummy”) points to
+your HCPs!
+1/26/2022
+Advances with support (3+ cards)
+© G. Casinovi
+Advancing 1-Level Overcalls
+• As a rule of thumb, you should consider raising
+partner’s suit to a level such that the total
+number of tricks in the contract equals the
+combined number of cards you and your partner
+hold in the trump suit (law of total tricks)
+▪ 3-card support → raise to the 2-level
+▪ 4-card support → raise to the 3-level
+▪ 5-card support → raise to the 4-level
+1/26/2022
+Minimum-hand support
+© G. Casinovi
+Advancing 1-Level Overcalls
+1/26/2022 © G. Casinovi
+Advancing 1-Level Overcalls
+• This particular form of the law of total tricks is useful
+primarily as a pre-emptive tool. It should not be relied
+upon if advancer has an invitational hand or better.
+• The level of the raise is to some extent independent of
+the HCP strength of advancer’s hand. However, one
+should be mindful of factors (e.g. vulnerability, hand
+shape, etc.) that may suggest caution in the bidding.
+– With only 3-card support, raise to the two-level with 6–10
+HCP (pass with fewer than 6 HCP)
+– Treat a 4333 distribution as if you had just 3-card support
+1/26/2022
+Minimum-hand support
+© G. Casinovi
+Advancing 1-Level Overcalls
+• With 10+ pts and 3+ cards in partner’s suit,
+cue-bid the opponents’ suit
+Example: (1) — 1 — (1NT) — 2
+• If the opponents bid two suits, the lower-level
+cue-bid shows 3-card support, the higher-level
+cue-bid shows 4-card or longer support
+Example: (1) — 1 — (2) — 2/3
+1/26/2022
+Invitational-hand support
+© G. Casinovi
+Advancing 1-Level Overcalls
+• A mixed raise is made with a hand with the
+following characteristics:
+– At least 4-card support
+– Hand distribution other than 4333
+– Overall strength at the top of the range for a minimum
+raise (~8–10 pts) with ½ QT at the very minimum
+(1 QT is better)
+• Example (after 1 overcall):
+ KJ10 7  A986  74  965
+1/26/2022
+Mixed raises
+© G. Casinovi
+Advancing 1-Level Overcalls
+• A mixed raise is indicated by a jump cue-bid at
+the three-level of opener’s suit. Examples:
+(1) — 1 — (P) — 3
+(1) — 1 — (1) — 3
+(1) — 1 — (X) — 3
+• The following is a not a mixed raise
+(1) — 1 — (2) — 3
+1/26/2022
+Mixed raises
+© G. Casinovi
+Advancing 1-Level Overcalls
+• A bid by responder below 2 of overcaller’s suit
+does not affect the meaning of advancer’s
+support bids
+(1) — 1 — (1) — 2 (minimum raise)
+(1) — 1 — (1NT) — 3 (pre-emptive)
+(1) — 1 — (2) — 3 (inv. raise or better)
+1/26/2022
+Effect of responder’s raises
+© G. Casinovi
+Advancing 1-Level Overcalls
+• A bid by responder at or above 2 of
+overcaller’s suit (e.g. a jump raise or a weak
+jump shift) does change the meaning of
+advancer’s support bids
+(1) — 1 — (3) — 3 (min./pre-empt. raise, 3–9 pts)
+(1) — 1 — (3) — 4 (inv. raise or better, 10–15 pts)
+(1) — 1 — (3) — 4 (strong hand, 16+ pts)
+1/26/2022
+Effect of responder’s raises
+© G. Casinovi
+Advancing 1-Level Overcalls
+• General considerations
+– If responder (advancer’s RHO) makes any non-
+preemptive bid, opponents probably have a
+minimum of ~18 HCP. This leaves a maximum of
+~22 HCP for the other side.
+– In order to bid without support for overcaller’s
+suit, advancer should have 8 HCP at the very
+minimum. Thus opponents have at most 24 HCP
+(usually not enough for game).
+1/26/2022
+Advancing without support
+© G. Casinovi
+Advancing 1-Level Overcalls
+• Non-jump bid in a new suit
+– General requirements are similar to those for an
+overcall at the same level
+• Jump bid in a new suit (jump shift)
+– Good 6-card suit and 12–15 HCP
+• No trump bids
+– 1NT (8–11 HCP) or 2NT (12–15 HCP)
+1/26/2022
+Advancing without support
+© G. Casinovi
+Advancing 1-Level Overcalls
+• A 5-card suit or longer of good quality
+• For 1-level bids:
+– 8+ HCP
+– Suit quality requirements may be relaxed somewhat
+for hands approaching opening-level strength
+• For 2-level bids:
+– 10+ HCP
+– HCP strength can be somewhat less with particularly
+long/strong suits
+1/26/2022
+New suit bids
+© G. Casinovi
+Advancing 1-Level Overcalls
+• Bidding a minor suit in response to an overcall
+in a major suit implicitly denies support for
+overcaller’s suit
+• Bidding the other major in response to a
+major suit overcall does not necessarily deny
+support. It may just indicate that advancer has
+a particularly long/strong suit
+1/26/2022
+New suit bids
+© G. Casinovi
+Advancing 1-Level Overcalls
+• New suit bids are not forcing, but hey should
+be constructive, that is, overcaller should
+make an effort to bid again in response to a
+bid in a new suit by advancer
+• Overcaller should bid again when the overcall
+was made with a non-minimum hand (i.e.
+above approximately opening strength)
+1/26/2022
+New suit bids
+© G. Casinovi
+Advancing 1-Level Overcalls
+• Requirements:
+– 12–15 HCP
+– A 6-card suit or longer of good quality
+(exceptionally a 5-card suit if the suit is extremely
+good or the hand is very strong)
+• Jump shifts are highly invitational but not
+forcing
+1/26/2022
+Jump shift bids
+© G. Casinovi
+Advancing 1-Level Overcalls
+• Notrump bids implicitly deny support for
+major suit overcalls. They also deny
+possession of a biddable major suit
+• Caution should be used in making notrump
+bids when responder does not pass (thus
+showing 6+ HCP)
+1/26/2022
+Notrump bids
+© G. Casinovi
+Advancing 1-Level Overcalls
+• If responder passes, it shows 8–11 HCP and a
+stopper in opener’s suit. The stopper may be
+weak at the upper end of the range (10–11 HCP)
+• If responder does not pass, a 1NT advance should
+be made only with 10–11 HCP.
+• If responder bids a new suit, advancer should
+have a solid stopper in responder’s suit (he may
+or may not have a stopper in opener’s suit)
+1/26/2022
+1NT bid
+© G. Casinovi
+Advancing 1-Level Overcalls
+• This bid shows 12–15 HCP and a stopper in
+the opponents’ suit.
+1/26/2022
+2NT bid
+© G. Casinovi
+Advancing 1-Level Overcalls
+• A double by advancer is responsive if and only if it
+is made after responder raises opener’s suit
+(1) — 1 — (2) — X
+(1) — 1 — (3) — X
+(2) — 2 — (3) — X
+• The following are not responsive doubles
+(1) — 1 — (1NT) — X
+(1) — 1 — (1) — X
+1/26/2022
+Responsive double
+© G. Casinovi
+Advancing 1-Level Overcalls
+• A responsive double shows length (ideally 5-5)
+in the two remaining unbid suit
+• In practice, it is often made with a 5-4
+distribution, and occasionally even with a 4-4
+distribution
+• It implicitly denies support for overcaller’s
+major suit
+1/26/2022
+Responsive double
+© G. Casinovi
+Advancing 1-Level Overcalls
+• The maximum level for a responsive double is
+a matter of partnership agreement
+• A common agreement is to use the same
+threshold (e.g. 3) both for negative and
+responsive doubles
+1/26/2022
+Responsive double
+© G. Casinovi
+Advancing 1-Level Overcalls
+• Requirements
+– 8+ HCP with a 5-5 distribution, if at least one of
+the suits can be bid by partner at the 2-level
+– 10+ HCP with a 5-4 or 4-4 distribution or if partner
+must respond at the 3-level
+– Any suit that must be bid at the 3-level must be
+at least 5-card long
+1/26/2022
+Responsive double
+© G. Casinovi
+Advancing 1-Level Overcalls
+• Suits must be of reasonable quality
+– At least one top honor (A,K,Q) for a 5-card suit
+– At least two honors (A,K,Q,J,10) for a 4-card suit
+• Unlike a negative double, a responsive double
+should be preferred to a direct bid of a 5-card
+major suit, unless one of the suits is
+considerably weaker than the other
+1/26/2022
+Responsive double
+© G. Casinovi
+Responsive Doubles
+None vul.
+➢ (1) — 1 — (2) — ?
+ QJ654
+ K10652
+ 3
+ 65
+Advancer: Double
+(The ideal responsive double)
+None vul.
+➢ (1) — 1 — (2) — ?
+ KJ103
+ 8
+ 865
+ A10932
+Advancer: Double
+(A 5-4 distribution. Note the 3
+honors in the  suit)
+1/26/2022 © G. Casinovi
+Responsive Doubles
+Our side vul.
+➢ (1) — 2 — (2) — ?
+ AQ95
+ KJ103
+ 865
+ 32
+Advancer: Double
+(A 4-4 distribution. Note the strength
+of the / suits and the relatively
+high HCP count)
+Both vul.
+➢ (1) — 1 — (3) — ?
+ Q2
+ J10875
+ AQ642
+ 3
+Advancer: Double
+(A reasonable bid in light of
+responder’s weak 3)
+1/26/2022 © G. Casinovi
+Responsive Doubles
+None vul.
+➢ (1) — 1 — (2) — ?
+ Q1087
+ Q54
+ A7652
+ 2
+Advancer: 2
+(A responsive double would deny
+support for partner’s major suit)
+None vul.
+➢ (1) — 1 — (2) — ?
+ AQJ75
+ 3
+ 10765
+ J54
+Advancer: 2
+(The  suit is significantly weaker
+than the  suit)
+1/26/2022 © G. Casinovi
+Advancing 1-Level Overcalls
+• A redouble made by advancer after responder
+makes a negative double. It shows:
+– 10+ HCP
+– Exactly 2 cards in overcaller’s suit
+– Inability to make a more descriptive bid (including
+a NT bid, thereby indicating the lack of a stopper
+in opener’s suit)
+1/26/2022
+Responsive(?) redouble
+© G. Casinovi
+General Guidelines
+• Classify responses by advancer according to
+the following bids by advancer’s RHO:
+– Pass
+– Raise of opener’s suit
+– Cue bid of overcalled suit (limit raise)
+– Double (negative)
+– Bid of a new suit or NT
+1/26/2022 © G. Casinovi
+RESPONSES TO TAKEOUT DOUBLES
+Defensive Bidding
+1/26/2022 © G. Casinovi
+Takeout Doubles
+• Made after an opening bid in a suit by an
+opponent
+• Requirements:
+– Shortness (no more than two cards) in opponents’
+suit
+– At least three cards in each of the unbid suits
+(ideally, four cards in any unbid major suit)
+– Opening-level strength (12+ pts)
+1/26/2022 © G. Casinovi
+Takeout Doubles
+• Examples:
+a)  QJ83  KJ64  5  K972
+b)  AQ83  K1064  52  A97
+c)  A73  KJ64  52  A972
+• All the hands above are suitable for a takeout
+double after a 1 opening bid (but not after
+opening bids of 1//)
+1/26/2022 © G. Casinovi
+Advancing Takeout Doubles
+• Bid a new suit that is
+– At least 4-card long
+– A major suit
+– Your longest suit
+• Bid 1NT
+– Ideally, with a stopper in opener’s suit
+• Pass (rare)
+1/26/2022
+Responder passes
+© G. Casinovi
+Advancing Takeout Doubles
+• Advancing by bidding a new suit
+– A minimum level bid with 0–9 HCP
+– A jump bid with 9–12 HCP
+– A game-level bid (4/) with 13+ HCP
+1/26/2022
+Responder passes
+© G. Casinovi
+Advancing Takeout Doubles
+• Advancing by bidding a 1NT
+– No suitable 4-card major suit to bid
+– A fairly balanced distribution
+– A stopper in opener’s suit, if at all possible
+1/26/2022
+Responder passes
+© G. Casinovi
+Advancing Takeout Doubles
+• Pass (converting takeout double to penalty)
+– Generally, with substantial assets in opener’s suit
+and no alternative bids available
+• Example: (1) – X – P – ?
+ 83  QJ1084  AJ2  J97
+1/26/2022
+Responder passes
+© G. Casinovi
+Advancing Takeout Doubles
+• Advancer may pass
+• If advancer chooses to bid, it shows sufficient values to
+compete at the current level of the auction
+– When bidding a new suit
+• 6–9 HCP at the 2 level
+• 10–12 HCP at the 3 level
+• 13+ HCP at the 4 level
+– When bidding 1NT
+• 9–12 HCP
+• Stopper(s) in opponents’ suit(s)
+1/26/2022
+Responder bids
+© G. Casinovi
+Advancing Takeout Doubles
+• A double by advancer is responsive if and only if it
+is made after responder raises opener’s suit
+(1) — X — (2) — X (responsive)
+(1) — X — (3) — X (responsive)
+(2) — X — (3) — X (responsive)
+• The following are not responsive doubles
+(1) — X — (1NT) — X
+(1) — X — (1) — X
+1/26/2022
+Responsive double
+© G. Casinovi
+Advancing Takeout Doubles
+• When the opening bid is in a minor suit, a
+responsive double shows 4+ cards in both
+major suits (except if advancer holds game-
+forcing values)
+• When the opening bid is in a major suit, a
+responsive double shows 4+ cards in both
+minor suits and denies 4 cards in the unbid
+major
+1/26/2022
+Responsive double
+© G. Casinovi
+Advancing Takeout Doubles
+• In either case advancer
+– Shows enough values to compete at the level of the
+auction (~6+ HCP at the two level, ~9+ HCP at the three
+level)
+– Expresses no clear preference between the two suits
+• The maximum level for a responsive double is a matter
+of partnership agreement
+• A common agreement is to use the same threshold
+(e.g. 4) both for negative and responsive doubles
+1/26/2022
+Responsive double
+© G. Casinovi
+Advancing Takeout Doubles
+• After a responsive double, a bid of a suit by
+doubler guarantees 4+ cards in that suit
+• After a responsive double over a minor suit
+opening
+– Doubler should give priority to showing a 4-card
+major
+– Consequently, a bid by doubler of the other minor suit
+denies 4 cards in either major
+– Doubler is allowed to jump with 4 cards in a major suit
+and extra values
+1/26/2022
+Responsive double
+© G. Casinovi
+Advancing Takeout Doubles
+• After doubler bids a suit in response to a
+responsive double, a bid of a new suit by
+advancer shows 4+ cards in that suit and game-
+forcing values
+• If doubler and advancer have not yet agreed on a
+major suit, a cue bid of opener’s suit after a
+responsive double shows game-forcing values
+and asks for a stopper in that suit (Western cue
+bid)
+1/26/2022
+Responsive double
+© G. Casinovi
+Responsive Doubles
+➢ (1) — X — (2) — ?
+ J743
+ KJ93
+ Q10
+ J65
+Advancer: Double
+A minimum responsive double:
+partner may bid a major suit at the 2,
+3 or 4 level. Advancer should pass
+any response by partner, including
+2
+➢ (1) — X — (2) — ?
+ KQJ3
+ AQ63
+ J65
+ 103
+Advancer: Double
+Game-forcing values: jump to game
+after a 2/ response by partner. If
+partner bids 2, you may pass or try
+3 (western cue bid).
+1/26/2022 © G. Casinovi
+Responsive Doubles
+➢ (1) — X — (2) — ?
+ 74
+ KJ93
+ A1073
+ 965
+Advancer: 2
+A responsive double would show
+both majors.
+➢ (1) — X — (2) — ?
+ AKJ7
+ J52
+ AJ108
+ 107
+Advancer: Double
+If partner’s response is 2, bid 2,
+showing 4 and game-forcing
+values. Bidding 4 directly risks
+having to play in a 4-3 fit, when 3NT
+may be a better contract.
+1/26/2022 © G. Casinovi
+Responsive Doubles
+➢ (1) — X — (2) — ?
+ 87
+ 943
+ AJ73
+ QJ108
+Advancer: Double
+The responsive double shows both
+minors and denies 4.
+➢ (1) — X — (2) — ?
+ 76
+ 93
+ AQ73
+ Q9652
+Advancer: Double
+A responsive double can still be used
+with 5-4 distribution in the minors
+1/26/2022 © G. Casinovi
+Responsive Doubles
+➢ (1) — X — (2) — ?
+ J3
+ 84
+ KJ1085
+ AKJ4
+Advancer: Double
+If partner responds 3, bid 3 to ask
+for a stopper (western cue bid).
+1/26/2022 © G. Casinovi
+Advancing Takeout Doubles
+• A cue bid of opener’s suit by advancer is a
+forcing bid showing, at a minimum, interest in
+game
+• The exact conventional meaning of the cue bid
+depends on a number of factors, including
+responder’s bid
+1/26/2022
+Cue bid of opener’s suit
+© G. Casinovi
+Advancing Takeout Doubles
+• A cue bid by advancer generally indicates one
+of the following:
+– Advancer identifies two (or more) viable options
+for the final contract. Usually the choices will be
+• Between part score or game contracts in one of the two
+major suits
+• Between game contracts in a suit or in notrump
+– Advancer wants to create a forcing auction,
+usually to investigate the possibility of slam
+1/26/2022
+Cue bid of opener’s suit when responder passes
+© G. Casinovi
+Advancing Takeout Doubles
+• After a minor suit opening, a cue bid shows
+invitational values or better (~10+ HCP)
+– With exactly invitational values (~10–12 HCP),
+advancer should have 4+ cards in both majors
+• A cue bid promises another bid by advancer
+below game level. Therefore there is no need
+for doubler to jump to show extra values
+1/26/2022
+Cue bid of opener’s minor suit: Responder passes
+© G. Casinovi
+Advancing Takeout Doubles
+• Doubler should respond in this order of
+priority
+– Bid a 4+ card major suit up the line
+– Bid 2NT (or 3NT). This shows a stopper in opener’s
+suit and is forcing to game
+– Bid the remaining minor suit (usually this shows 5
+5-card suit)
+1/26/2022
+Cue bid of opener’s minor suit: Responder passes
+© G. Casinovi
+Advancing Takeout Doubles
+• If advancer’s rebid is
+– A simple raise of the suit bid by doubler, it shows 4+
+card support and invitational values (non-forcing)
+– A new suit, it denies 4-card support for doubler’s
+major suit, shows 4+ cards in the suit and game-
+forcing values
+– 2NT, it denies 4-card support for doubler’s major suit,
+shows a stopper in opener’s suit and game-forcing
+values
+1/26/2022
+Cue bid of opener’s minor suit: Responder passes
+© G. Casinovi
+Advancing Takeout Doubles
+• After a major suit opening, a cue bid shows
+game forcing values
+• Doubler responses in order of priority
+1/26/2022
+Cue bid of opener’s major suit: Responder passes
+(1) — X — P — (2) (1) — X — P — (2)
+2 (4+ cards) 2NT (shows  stopper)
+2NT (denies 4, shows  stopper) ?
+3/ (4+ cards, denies 4 and  stopper) ?
+© G. Casinovi
+Cue Bids
+ AQ73
+ J1074
+ K3
+ 963
+➢ (1) — X — (P) — 2
+Raise a 2/ response to 3/,
+showing invitational values. Note
+that a 2-level response by doubler
+does not necessarily show a
+minimum: partner may raise to game
+with a sufficiently strong hand.
+ AQ73
+ KJ107
+ K3
+ 965
+➢ (1) — X — (P) — 2
+Raise a 2/ response to 4/ with
+game forcing values. A 3-level raise is
+not forcing and may be passed by
+partner.
+1/26/2022 © G. Casinovi
+Cue Bids
+ KJ43
+ 3
+ AJ76
+ A1094
+➢ (1) — X — (P) — 2
+(P) — 2(1) — (P) — 2(2)
+(P) — 3(3) — (P) — 4(4)
+1) Shows 4, may have 4
+2) Shows 4, denies 4
+3) Shows 4 support
+4) Signoff
+This hand has game forcing values, so it
+is OK to cue bid with only one four-
+card major. This makes it unnecessary
+to jump directly to 4 after partner’s
+TO double. Instead, use the cue bid to
+find out if you have an 8-card fit in . If
+not, you know from the start that you
+can always sign off in 3NT, because you
+have a  stopper.
+1/26/2022 © G. Casinovi
+Cue Bids
+ AK73
+ KQ5
+ Q73
+ 872
+➢ (1) — X — (P) — 2
+(P) — 2(1) — (P) — 2(2)
+(P) — 2NT(3) — (P) — 3NT(4)
+1) Shows 4, may have 4
+2) Shows 4, denies 4
+3) Denies 4 support, shows a 
+stopper
+4) Signoff
+1/26/2022
+In this auction partner’s 2NT bid
+denies 4 support but shows a 
+stopper, so you can safely sign off in
+3NT. Had partner bid 3 instead of
+2NT, it would have denied a 
+stopper. In such case you can bid 3,
+also denying a  stopper, but
+showing 3-card support in  (your
+previous 2 bid over partner 2
+denies 4-card support). Partner may
+still raise to 4, fully aware that the
+contract will be played in a 7-card fit.
+© G. Casinovi
+Cue Bids
+ QJ92
+ AJ854
+ 975
+ 6
+➢ (1) — X — (P) — 2
+Raise a 2/ response to 3/. If
+partner bids 2NT (game forcing), bid
+3 to show 5 . Partner will choose
+between 3NT and 4.
+ KQ102
+ QJ72
+ 732
+ 63
+➢ (1) — X — (P) — ?
+Although this hand has two four-card
+majors, it is not strong enough for a
+cue bid. Bid 1, hoping to be able to
+show the four-card  suit later if
+necessary.
+1/26/2022 © G. Casinovi
+Cue Bids
+ AJ
+ 75
+ 1087
+ AQJ982
+➢ (1) — X — (P) — 2
+(P) — 2 — (P) — 3(1)
+(P) — 3(2) — (P) — 4(3)
+1) Game forcing: shows 4+ ,
+denies both 4  and 4 , asks for
+a  stopper
+2) Shows 4 , denies a  stopper
+3) Shows 5+  and a preference for
+ as trump suit
+This is an example of a cue bid used
+to create a game forcing auction. The
+3 rebid by advancer denies 4 cards
+in either major, so doubler’s first
+priority at this point is to show a 
+stopper. Consequently, his 3 rebid
+implicitly denies such stopper.
+Advancer’s 4 rebid indicates a
+preference for  as the trump suit.
+Doubler can bid 5/ with 5 cards in
+the suit: advancer should pass (with
+3-card support) or correct to 5.
+Alternatively, doubler can raise to 5
+directly.
+1/26/2022 © G. Casinovi
+Cue Bids
+ QJ97542
+ A
+ KQ8
+ K10
+➢ (1) — X — (P) — 2
+(P) — 2 — (P) — 3(1)
+1) Game forcing and a slam try: sets
+the trump suit to , regardless of
+partner’s holding in the suit
+This is another example of a cue bid
+used to create a game forcing
+auction. The jump is forcing to game
+and a try for slam: it sets the trump
+suit to , independently of partner’s
+holding in the suit. This means that
+the suit should be playable in a game
+contract even opposite the minimum
+possible support by partner (3 small
+cards in this case). Partner will
+normally continue by cue bidding
+controls in the other suits.
+1/26/2022 © G. Casinovi
+Advancing Takeout Doubles
+• If responder raises opener’s (major or minor)
+suit, a cue bid by advancer asks for a stopper
+in opener’s suit (western cue bid)
+• However, in some particular circumstances
+advancer may simply be trying to create a
+forcing auction
+• Doubler’s first priority is to bid 3NT with a
+stopper in opener’s suit
+1/26/2022
+Cue bid of opener’s suit when responder raises
+© G. Casinovi
+Advancing Takeout Doubles
+• A convention whereby, after advancer bids a
+suit in response to a TO double, a bid by
+doubler of another suit at the same level does
+not show extra values over those expected for
+an ordinary TO double
+1/26/2022
+Equal Level Conversion
+© G. Casinovi
+Advancing Takeout Doubles
+• Advantages
+– More flexibility in the use of TO doubles, which
+can now be used to show many two-suited hands
+• Disadvantages
+– Partial loss of power doubles
+– Specific agreements are needed to manage
+possible jumps by advancer in the “missing suit”
+1/26/2022
+Equal Level Conversion
+© G. Casinovi
+Advancing Takeout Doubles
+• ELC is applicable to the following
+– Takeout doubles made over an opening bid at the
+two level or higher, whether in the direct or
+balancing seat
+– Takeout doubles made after responder raises
+opener’s suit to the three (two?) level or higher
+1/26/2022
+Equal Level Conversion
+© G. Casinovi
+Advancing Takeout Doubles
+• After a TO double, advancer should always
+assume it to be a regular TO double until
+partner indicates otherwise
+• Doubler indicates that ELC is in effect by
+converting advancer’s suit to the next higher
+suit (excluding opener’s suit) at the same level
+as advancer’s bid
+• The conversion bid by doubler is not forcing
+1/26/2022
+Equal Level Conversion
+© G. Casinovi
+Advancing Takeout Doubles
+• ELC applies with the following restrictions
+– The “missing suit” must be a minor
+– The conversion must be made to a suit with 5+
+cards
+– The length of the other suit must be
+• 4+ cards if the suit is a major
+• 5+ cards if the suit is a minor
+1/26/2022
+Equal Level Conversion
+© G. Casinovi
+Advancing Takeout Doubles
+• When responding to a TO double to which ELC
+may apply, advancer should avoid jumping in a
+minor suit, because it could be doubler’s
+“missing suit.” Instead, with a sufficiently
+strong hand and/or suit, advancer should
+consider other alternatives (e.g. a cue bid of
+opener’s suit)
+1/26/2022
+Equal Level Conversion
+© G. Casinovi
+Advancing Takeout Doubles
+➢(2) — X — (P) — 3 — (P) — 3
+▪ Doubler promises 5+ , 4+ 
+➢(2) — X — (P) — 3 — (P) — 3
+▪ Doubler promises 5+ , 4+ 
+➢(2) — X — (P) — 3 — (P) — 3
+▪ Doubler promises 5+ , 5+ 
+1/26/2022
+Equal Level Conversion
+© G. Casinovi
+Advancing Takeout Doubles
+➢(2) — X — (P) — 3 — (P) — 3
+▪ Doubler promises 5+ , 4+ 
+➢(2) — X — (P) — 3 — (P) — 3
+▪ Doubler promises 5+ , 5+ 
+➢(3) — X — (P) — 3 — (P) — 3
+▪ Doubler promises 5+ , 4+ 
+1/26/2022
+Equal Level Conversion
+© G. Casinovi
+SIGNALS AFTER OPENING LEADS
+Defensive Signaling
+1/26/2022 © G. Casinovi
+Signals after Opening Leads
+• A signal must always be given in response to an
+opening lead, except:
+– When it is necessary to play “third hand high”
+– When the opening lead is a trump
+• The default signal on opening leads is attitude
+• The signal on the opening lead does not indicate
+attitude:
+– Against a suit contract, when dummy has a singleton or a
+void in the suit led (suit preference)
+– Against any contract, when the opening lead is “bottom-
+of-something” and third hand’s attitude is “clearly
+negative” (count)
+1/26/2022 © G. Casinovi
+Signals after Opening Leads
+• Standard attitude signals
+– A high card encourages continued play of the suit
+– A low card discourages continued play of the suit
+• In general, the determination of whether to
+encourage or discourage should be based on a
+global assessment of the hand, as opposed to the
+possession (or lack thereof) of specific card(s)
+• Attitude signals are suggestions, not commands
+1/26/2022 © G. Casinovi
+Signals after Opening Leads
+• Assumption: the opening lead is the top of an
+honor sequence
+• Opening leader’s partner holds an equal
+honor if that honor forms an unbroken
+sequence with the honors that are implicitly
+shown by the opening lead
+1/26/2022 © G. Casinovi
+Signals after Opening Leads
+Opening
+lead
+Against no trump contracts Against suit contracts
+Implied
+sequences Equal honors Implied
+sequences Equal honors
+A AKQ
+AKJ
+J
+Q AK Q
+K KQJ
+KQ10
+A / 10
+A / J KQ A / J
+Q QJ10
+QJ9
+K / 9
+K / 10 QJ K / 10
+1/26/2022 © G. Casinovi
+Signals after Opening Leads
+• The concept of equal honor can be a useful
+guideline to show attitude after an opening
+lead of an honor that is believed to be the top
+of an honor sequence
+• Signal attitude based on possession of an
+equal honor (equal honor signal)
+– Encourage with an equal honor
+– Discourage without an equal honor
+1/26/2022 © G. Casinovi
+Signals after Opening Leads
+• The (lack of) possession of an equal honor is
+especially important in determining what
+attitude signal to give in the following cases:
+– When K is led against any contract (suit or
+notrump)
+– When A is led against a suit contract
+1/26/2022 © G. Casinovi
+Signals after Opening Leads
+1/26/2022
+N
+W Dummy EDeclarer
+S
+© G. Casinovi
+Signals after Opening Leads
+N
+W Dummy EDeclarer
+S
+1/26/2022 © G. Casinovi
+Signals after Opening Leads
+N
+W Dummy EDeclarer
+S
+1/26/2022
+Lead of A against a suit contract
+© G. Casinovi
+Signals after Opening Leads
+• When giving a (standard) attitude signal:
+– Discard the highest card you can afford to encourage
+(be careful about discarding the 10, especially if you
+don’t have the 9!)
+– When encouraging, discard the highest of equal cards
+• If the opening lead is the top of an honor
+sequence, use the equal honor concept as a
+guideline for your attitude signal, especially if the
+opening lead is:
+– K against any contract (suit or notrump)
+– A against a suit contract
+1/26/2022 © G. Casinovi
+Signals after Opening Leads
+• When A is led against a suit contract:
+– If dummy has Qx, signal attitude based on your
+(lack of) possession of the J
+– You may choose to encourage with a doubleton.
+However, give due consideration to how the third
+round will play out, especially if dummy also holds
+a doubleton in the suit
+– Remember that if dummy has a singleton or a void
+in the suit led, your signal indicates suit
+preference, not attitude
+1/26/2022 © G. Casinovi
+• Non-attitude signals on opening leads
+– Against a suit contract, when dummy has a
+singleton or a void in the suit led, third hand’s
+signal indicates suit preference
+– Against any contract, after a “bottom-of-
+something” opening lead, third hand’s signal
+indicates count when his/her attitude is “clearly
+negative”
+Signals after Opening Leads
+1/26/2022 © G. Casinovi
+Signals after Opening Leads
+N
+W Dummy EDeclarer
+S
+1/26/2022
+Attitude signals after “top-of-nothing” leads
+Note that third hand should not play the Q when the 8 is led
+© G. Casinovi
+Signals after Opening Leads
+N
+W Dummy EDeclarer
+S
+1/26/2022
+Attitude signals after “top-of-nothing” leads
+© G. Casinovi
+• Standard count signal
+– High-low discards indicate an even number of cards
+– Low-high discards indicate an odd number of cards
+• A signal on the opening lead indicates count only
+if both of the following conditions are satisfied:
+– The opening lead was “bottom-of-something”
+– Third hand’s attitude is “clearly negative”
+Signals after Opening Leads
+1/26/2022 © G. Casinovi
+• Third hand’s attitude is “clearly negative”
+when:
+– It can be unambiguously inferred from the cards
+played that third hand cannot have a card higher
+than J in the suit led
+– Equivalently, when dummy plays Q or a lower card
+on the opening lead, and third hand fails to cover
+Signals after Opening Leads
+1/26/2022 © G. Casinovi
+RESPONSES TO 1NT OVERCALLS
+Defensive Bidding
+1/26/2022 © G. Casinovi
+UNUSED SLIDES
+1/26/2022 © G. Casinovi
+Hand Strength Classification
+• Hand strength classification for openings of 1
+in a suit and subsequent bidding
+Opener
+12–15 pts Minimum
+16–18 pts Medium/Intermediate
+19–21 pts Maximum/Strong
+Responder
+6–9 pts Minimum
+10–12 pts Intermediate/Limit/Invitational
+13+ pts Game forcing
+1/26/2022 © G. Casinovi
+General Rules for Responses to
+Openings of 1 in a Suit
+• With less than 6 pts, responder should generally pass
+• With 6–9/10 pts, responder should not bid above the
+1NT level, except in direct support of opener’s suit
+– Exception: To introduce a new suit at the two level after
+responder’s RHO intervenes in the auction with a TO
+double
+• 1/1 responses generally promise a minimum of
+only 4 cards in the suit (not 5!)
+• With limited exceptions, a non-jump bid by an
+unpassed responder in a new suit is forcing for 1 round.
+This means that opener may not pass at his next turn
+to bid, unless opener’s RHO intervenes in the auction
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• General rules
+– With less than 6 pts, responder should pass
+– With 6–15 pts and a fit (3+ cards) in opener’s suit,
+priority should be given to responses expressing
+support for opener’s suit
+• Exception: In an uncontested auction, with 10+ pts and
+exactly 3 cards in opener’s suit , responder may delay
+support until the second round of bidding and, if
+possible, bid another suit first at the 1- or 2-level
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+• General rules (contd.)
+– A non-jump bid by responder in a new suit is
+forcing for one round (unless opener’s RHO
+subsequently interferes)
+• Exception: A non-jump bid in a new suit at the 2 level is
+not forcing if it is made immediately after a take-out
+double by responder’s RHO
+1/26/2022 © G. Casinovi
+Responses to 1/1 Openings
+Responses with limit/game-forcing hands (10+ pts)
+Responder’s
+holding in
+opener’s suit
+RHO’s bid
+Pass Take-out double Suit overcall
+3+ cards
+(10–12 pts) Double raise (3/)[1] 2NT [F][7] Cue-bid [F][11]
+3+ cards
+(13–15 pts)
+• 2NT [GF][2]
+• 4/[3]
+• 2NT [F] + 4/[7]
+• 4/[3]
+• Cue-bid [F] + 4/[11]
+• 4/[3]
+≤ 3 cards
+(10–15+ pts)
+• 1 (over 1) [F]
+• 2 (over 1),
+with 5+ cards [F][4]
+• 2/ [F][5]
+• 3NT (15–17 HCP)[6]
+• 1 (over 1) [F][8]
+• 3NT (13–15 HCP)[9]
+• Redouble[10]
+• 2/ (free bid) [F][12]
+• Double (neg.) [F][13]
+• 2NT/3NT[14]
+• 2/ (free bid) [F][15]
+1/26/2022 © G. Casinovi
+Responses to 1NT Opening
+Responder’s
+holding
+RHO’s bid
+Pass Double Suit overcall
+0–7 HCP
+• 2/[1]
+• 2[2]
+• 3/[3]
+• Pass
+8–9 HCP
+• 2[4]
+• 2/[5]
+• 2NT[6]
+10–15 HCP
+• 2[7]
+• 2/[8]
+• 3NT[9]
+1/26/2022 © G. Casinovi
+Choice of Lead Cards
+• If the suit has been bid by partner
+– Lead the higher card from a doubleton
+– Otherwise follow the general rules
+• General rules
+– If the suit is headed by a (solid, broken or interior)
+sequence, lead the top card of the sequence (e.g.
+AKQx, KQx, KQ10, AQJ, AJ10x, K109x)
+• Exception: Against no trump contracts, if leading a
+4-card (or longer) suit headed by a 2-honor sequence,
+lead the fourth highest card (4th best) (e.g. AKxx, QJxxx)
+1/26/2022 © G. Casinovi
+Choice of Lead Cards
+• General rules (cont.)
+– If the suit contains isolated or scattered honors,
+lead
+• The smallest of a 3-card suit (e.g. KJx, Qxx)
+• The fourth highest card (4th best) from a suit of 4+ cards
+(e.g. K10xx, Qxxx, AJxxx)
+– If the suit contains no honors (i.e. no cards higher
+than 9), lead
+• The highest card from a 4-card or shorter suit
+• The fourth highest card (4th best) from 5-card (or
+longer) suit

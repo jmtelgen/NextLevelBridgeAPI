@@ -3,7 +3,7 @@
 Test script for the DDS wrapper with realistic bridge scenarios.
 """
 
-from working_dds_wrapper import DDS, DDSError
+from .working_dds_wrapper import DDS, DDSError
 
 def test_realistic_bridge_scenario():
     """Test with a realistic bridge scenario."""

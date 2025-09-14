@@ -3,7 +3,7 @@
 Test to verify which libdds library is being loaded.
 """
 
-from working_dds_wrapper import DDS
+from .working_dds_wrapper import DDS
 import os
 
 def test_library_path():

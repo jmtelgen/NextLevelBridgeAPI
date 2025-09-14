@@ -37,6 +37,10 @@ if [ -z "$FUNCTION_NAME" ] || [ -z "$ACTION" ]; then
     echo "  websocket-make-bid → WebSocketMakeBidLambda"
     echo "  websocket-play-card → WebSocketPlayCardLambda"
     echo ""
+    echo "AI functions:"
+    echo "  robot-bridge-bidding → RobotBridgeBiddingLambda"
+    echo "  ai-double-dummy → AIDoubleDummyLambda"
+    echo ""
     echo "Web Crawler functions:"
     echo "  WebCrawler → WebCrawler"
     echo "  CrawlerTrigger → CrawlerTrigger"
@@ -99,6 +103,12 @@ case $FUNCTION_NAME in
     "websocket-play-card")
         LAMBDA_FUNCTION_NAME="WebSocketPlayCardLambda"
         ;;
+    "robot-bridge-bidding")
+        LAMBDA_FUNCTION_NAME="RobotBridgeBiddingLambda"
+        ;;
+    "ai-double-dummy")
+        LAMBDA_FUNCTION_NAME="AIDoubleDummyLambda"
+        ;;
     "WebCrawler")
         LAMBDA_FUNCTION_NAME="WebCrawler"
         ;;
@@ -132,6 +142,10 @@ if [ "$ACTION" = "create" ]; then
         fi
     elif [[ $FUNCTION_NAME == connection-count ]]; then
         ENV_VARS="Variables={WEBSOCKET_CONNECTIONS_TABLE=WebSocketConnections}"
+    elif [[ $FUNCTION_NAME == robot-bridge-bidding ]]; then
+        ENV_VARS="Variables={ROOM_TABLE=GameRooms,WEBSOCKET_CONNECTIONS_TABLE=WebSocketConnections}"
+    elif [[ $FUNCTION_NAME == ai-double-dummy ]]; then
+        ENV_VARS="Variables={ROOM_TABLE=GameRooms}"
     elif [[ $FUNCTION_NAME == WebCrawler ]]; then
         ENV_VARS="Variables={BUCKET_NAME=bridge-lambdas-crawler-html-2024,TABLE_NAME=crawler-metadata,QUEUE_URL=REPLACE_WITH_YOUR_QUEUE_URL,TARGET_DOMAIN=kwbridge.com,MAX_DEPTH=2}"
     elif [[ $FUNCTION_NAME == CrawlerTrigger ]]; then
@@ -145,6 +159,12 @@ if [ "$ACTION" = "create" ]; then
     if [[ $FUNCTION_NAME == account-* ]]; then
         FUNCTION_TIMEOUT=15  # 15 seconds for account functions
         FUNCTION_MEMORY=512  # 512 MB for account functions
+    elif [[ $FUNCTION_NAME == robot-bridge-bidding ]]; then
+        FUNCTION_TIMEOUT=30  # 30 seconds for robot bidding (needs time for AI processing)
+        FUNCTION_MEMORY=1024  # 1 GB for robot bidding (needs memory for AI models)
+    elif [[ $FUNCTION_NAME == ai-double-dummy ]]; then
+        FUNCTION_TIMEOUT=60  # 60 seconds for double dummy analysis
+        FUNCTION_MEMORY=1024  # 1 GB for double dummy analysis
     elif [[ $FUNCTION_NAME == WebCrawler ]]; then
         FUNCTION_TIMEOUT=300  # 5 minutes for web crawler (needs time to process)
         FUNCTION_MEMORY=1024  # 1 GB for web crawler (needs memory for HTML processing)
@@ -188,6 +208,16 @@ if [[ $FUNCTION_NAME == websocket-* ]]; then
     echo "2. Set up route key mapping (e.g., 'createRoom' → WebSocketCreateRoomLambda)"
     echo "3. Test the WebSocket function"
     echo "4. Set up proper IAM roles and permissions"
+elif [[ $FUNCTION_NAME == robot-bridge-bidding ]]; then
+    echo "1. Configure API Gateway WebSocket API to route to this Lambda"
+    echo "2. Set up route key mapping (e.g., 'robotBid' → RobotBridgeBiddingLambda)"
+    echo "3. Test the robot bidding function"
+    echo "4. Set up proper IAM roles and permissions (DynamoDB, WebSocket connections)"
+elif [[ $FUNCTION_NAME == ai-double-dummy ]]; then
+    echo "1. Configure API Gateway REST API to route to this Lambda"
+    echo "2. Test the double dummy analysis function"
+    echo "3. Set up proper IAM roles and permissions (DynamoDB)"
+    echo "4. Consider adding DDS library dependencies if needed"
 elif [[ $FUNCTION_NAME == WebCrawler ]] || [[ $FUNCTION_NAME == CrawlerTrigger ]]; then
     echo "1. Update QUEUE_URL environment variable with actual SQS queue URL"
     echo "2. Set up proper IAM roles and permissions (DynamoDB, SQS, S3)"

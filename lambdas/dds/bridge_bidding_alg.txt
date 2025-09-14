@@ -1,0 +1,2769 @@
+Fantoni-Nunes
+notes by Daniel Neill
+final version?  2016
+
+
+Opening Summary:
+
+1C = 15+ balanced (4333/4432/5m332), or 14+ value 5+C/444-1red, F1
+1D = 14+ value 5+D or 444-1black, F1
+1H = 14+ value 5+H (12+ if 4S), F1, may have 6H-5S, 5H-6m
+1S = 14+ value 5+S (12+ if 4+H), F1
+1N = 12-14 (11+ NV), all 5422's included except both M's, 6m ok, all 4441's included (!)
+2C = 10-13 value, 5C-4other unbalanced, or 6+C (5C-5S, 5H-6C has opened 2C before)
+2D = 10-13 value, 5D-4M/4+m unbalanced, or 6+D
+2M = 10-13 value, 5M-4+m unbalanced, or 6+M
+2N = 21-22 bal
+3y/4y = pree
+3N = solid 7+crd minor nothing much else
+
+Upgrade often.
+2-bid openers will often bid again where a std. weak two bidder could not, e.g. after being raised or with extra 
+	length, or with a takeout double if short in the opponents' suit.
+2/1 GF (2C 3-way), unless opener has 5-4+ majors.
+Third/Fourth Seat - 2-bids are (6)8-12 (mb 5332 or 5-4 majors) with nat responses, 1-bids 13+, 2/1 not GF, 4-level pree vul-appropriate
+
+X/XX by wide-range hand (that has already bid previously) shows cards while bids all show minimums, even jumps.
+X by 0-9 hand later is takeout.
+Most all other doubles are takeout.
+
+
+Responses:
+
+********************
+Opening 1C Responses
+********************
+
+1D = 4+H, 0-9 (10-12 ok if bal nonpositional for NT)
+	(X)  XX = 18+, cards (takeout doubles)
+	(1S)
+		Pass = 15-18(-)
+			(Pass) X = cards, says nothing about S length (1N = nat may have 3H)
+			(2S) X = was cards once, cards+ takeout another
+		1N = 18+-20, may have 3H, balancing double takeout (2D = retransfer, 2N inv)
+		3H = was 2434 19
+	(2m) op double 18+, balancing double takeout, Pass = may have 3fit (no supp X's)
+	(2S) 
+		Pass = had 3235 15 (balancing 3D = was 3550 6 HCP NF)
+		X = was 1426 17 (3S = was 2452 10)
+	(2N = minors)
+		3H = competitive, was 17 bal
+
+	1H = 4+H 14-20/GF, or 23+ NT - forcing
+		(X)
+			2m = as normal
+		1S = relay: was 3433/2533/24(43)/1525/1444/2524/14(53) 6-9 - probably short S at this pt
+			1N = was 3433 22, 3343 23
+				2C = was 1444 6 (3H = was 3433 22, cues...)
+				2N = was 8 no 5suit (3N = was 3343 23)
+			2C = was 4423 20
+				3C = was 1525 (etc etc)
+			2H = 4fit, was 15 4H bal x4, promises minimum (4H to play)
+			4H = to play (esp opp PH)
+		2C = short C:  5+ if sing. or 7+ if doub. (if doub denies S doub, may have D doub)
+			2D = ask
+				2H = 5+H
+					2S = ask
+						2N = 3532
+							3C = C for H
+							3D = 5D sets D with 23+ BAL
+							3H = sets H, no C cue
+							3S = 1st rd S cue, H supp, no C cue
+							3N = to play
+				2N = was 3442 9
+				3C = 6+D sing C (and 4H)
+					3H = sets H
+			2H = 4H, min not turned on, but was 18  (2S = 4S F1, 2N = was 23 2fit, 3H = was extra trump invite)
+			3C = was 4H-5C 19
+		2D = short D:  5+ if sing. or 7+ if doub. (if doub, denies cheaper doub)
+			2H = 15-16 4H, may have 4S (2S = 4S F1)
+			2S = 4S, was 4432 18, implies 17+ (cf 2H, 2N)
+				2N = was 3424 9, thk promises balanced (4H = to play)
+				3S = sets S GF
+			2N = was 4324 24
+				3D = shows 5+H, was 4513
+		2H = double-negative: 0-4 with sing, 0-6 with doub
+			2S = was 4432 18/20 (3D = was max with 5D, 3H = was 2443 1 s/o)
+	1S = natural, was 4(31)5 19, 4144 14-21, 4225 16/20, 4126 13/14
+		1N = semipos NF?
+		2C = signoff attempt
+		2D = 4th suit F, was 4432/3442/2434/3433 10, 2632 9
+			(X) XX = was 4315 19, think shows 18+ any (3N = was to play with 3433 10)
+			2H = ?
+			2S = was 4135 19 (4S = to play)
+			2N = ?
+			3D = was 4144 18, 4225 D stop 20 ("good hand")
+			3N = max, D stop, was 4144 20 (4C = sets C)
+		2H = signoff, as much as 3622 6
+		2S = was 4531 2
+		2N = inv (was 3451 8)
+			3D = was 4144 21, promises 4D (4D = was 5fit)
+		3S = inv (was 7/8, 4S-4H)
+		3N = was 2443 9 great stoppers
+		4S = was 4531 9 BPH, 4522 8 BPH
+	1N = 15-18(-), denies 4H, may have 4S, not 18 with 3H
+		2C = invit+ relay, incl. 4/5H-4S (if X, Pass = stopper [XX back on path], bid = no stopper)
+			2D = 17-18
+				2H = was 4414 7
+					2S = promises 4S (4S = to play)
+				2N = GF relay, 3514/44(32)/4531/4522x2/4612
+					3C = was 3235 but suit-oriented, 3244 tk denies 4S/3H (3N = was 4522/4432)
+					3H = 3crds (games to play, 3N = 4S-4H NF)
+					3S = was 4243 (games to play)
+					3N = was 3235
+			2H = 15-16, 3H, may have 4S
+				2S = was 4441 9
+					2N = was 3343
+				3N = was 4414 10 (implies 4S prob)
+			2S = 15-16, 4S, may have 3H (?)
+			2N = 15-16, denies 4S or 3H (3C = to play)
+		2D = retransfer (forces 2H)
+			2H = forced (2N/3H = inv, 3N = c.o.g. mb with 6H bal)
+		2H = 4S-4/5H, s/o (Pass = H are better/longer than S, 2S = 3S-2H)
+	2C = 14-17, NF, 6+C or 4D-5C
+		2D = 5+H F, was 2542 7, 4531 10, 3541 7
+			2H = was 3fit min (recently 1fit min) (3N = c.o.g. promised 5H)
+			2N = was 3226 av [3C NF])
+		2S = was 4432 9, 3433 10 (mb shows stop) (2N = was 1345 min, 3N = was max good C with D stop)
+	2D = 18+, nat or C 1-suiter, was 3145 24 x 2, 3145 20
+		2H/3C = 0-5, NF signoff attempt (3N to play)
+		2S = 6+, GF, art
+			2N = was 3145 20/24, never really showed 24
+				3C = was 6H-3C
+					3D = was 3145 20 (3N = was 3613 10 to play)
+				3H = was 6crd no m fit
+	2H = 18-20 3crd raise, may have 4S
+		2S = transfer to 2N, incl. 4414 GF, 4H-5+C GF, signoff in 3NT
+			2N = forced
+				3C = 5+C or 4414 GF (3N = was 4342 NF and missed 4-4 S fit, 4C = nat)
+				3N = to play, was 3433
+		3C = 6+C GF
+		3D = 6+D GF
+		3H = promises 4 spades, was 4-4 x2 (3S = S fit, 3N = to play)
+		4C = splinter or cue
+	2S = was 2227 21
+		2N = asks
+			3C = was 2227 21 (3D = was 1651, they messed up)
+	2N = 18(+)-20, denies 3H, may have 4S
+		3C = GF relay
+			3D = was 3253
+				3S = was 4531
+			3H = was 3334 (3N = was 4432 no slam)
+			3N = 4S-4C (4234/4144)
+		3D = transfer, 5+H
+			3H = forced
+				3N = choice of games
+	3C = 14-17 but lots of tricks, long good C
+		3N = to play (4C = insists then cues)
+1H = 4+S, 0-10 maybe more if just 4S (was 13 bal in BBowl, 5224 12 in EuroClub08, 4144 13 in '10 Vandy)
+	(X)
+		Pass = 15-16, < 4 S, bal
+		XX = was 4432 18 (later 2S NF)
+		1S = 3S (e.g. 3415 15)
+			2H (cue) = good hand
+		2S = 14-17 4fit
+	(2C = Michaels for reds)
+		3S = was 4144 19
+	(2red) 
+		Pass = may have 3 spades (don't play support doubles)
+			X = was 5152 8 (2S = 3fit)
+			3C = was 6C weak
+		X = 18+ no 4fit (3D = general GF asks nat bids)
+		2H = was 2416 17
+	1S = 4S 14-20/ GF, 4144 19 or 23+ NT - forcing
+		(X) Pass = was bal 0 HCP
+		1N = 5-9, 6S
+			2C = R, was 23 bal with 2S, 4315 16, "23+"
+				2D = no short
+					2N = 23+ bal without 4S "2443" (3S = minimum but was setting S [4C = cue for S])
+				2N = 9 HCP, was BAL
+		2C = short C:  5+ if sing. or 7+ if doub., OR catchall bal 9-11
+			2D = was 4S 20 bal twice, was 4243, 4315 21, 4225 19
+				2S = invite, 1-2 C
+				2N = was 4342 6
+					3C = was 4225 19, not sure they knew what they were doing
+				3D = was 4162, 4252 max (tk cuebidding for S now)
+			2S = was 4423 16 (Qxx C), 4333 17 (Axx C)
+				3D = was 4333 9 good fragment (4S = was 4423 16)
+				3N = c.o.g.
+			4S = no slam
+		2D = short D:  5+ if sing. or 7+ if doub.
+			2H = R, was 21+ bal with 3S, 24 with 2S
+				2S = was 5314 max
+					2N = was 2353 24
+						3C = was 5314 max (at this point promises at least 8 HCP)
+				3C = was 4315
+			2S = was 4333 15 (3N = c.o.g.)
+			4S = was 4144 19, 4234 17, 4432 19
+		2H = short H:  5+ if sing. or 7+ if doub.
+			2S = was 4432 15 twice, 4333 16 NF (3S = invit, 3N = c.o.g.)
+			2N = was 4423 16 (3D = was 4D 10)
+			3D = was 4432 19 no C cue, they had mixup and stopped in game with cold grand
+			3S = was 4342 20, hAQx (cues), happened after 3D so maybe not clear agreements here
+			4S = was 19 bal
+		2S = double-negative: 0-4 with sing, 0-6 with doub
+			2N = GF relay
+			3S = was 5233 4
+			3S = was 4333 19, 4225 20 (3N = was 4333, played; 4S = to play)
+			3N = to play (esp. opposite PH, < 3 S)
+		3C = was 5530 4 but other thought showed 5440 so off the rails
+	1N = 15-18(-), denies 4S, could be 1444, not 18 with 3S
+		(2C) 2H = 5+S as normal
+		2C = invit relay, even with 4S or 5S-4H
+			2D = 17-18, could have 3S or 4H
+				2H = was 5S-4H 7 (2S = was 3S-3H promises 3S)
+				2N = was 5431 6 [3N = had 2S-3H]
+				3N to play, no M interest
+			2H = 15-16, 4H, may have 3S
+				2S = NF 5S
+				2N = NF 4S
+				3S = GF, was 5S-5C
+				3N = to play, was 4153 and pd corrected to 4S with AKx ATxx xx Axxx
+			2S = 15-16, 3S, denies 4H
+			2N = 15-16, denies 4H or 3S
+		2D = "transfer to 2S", was 6S-4H 8 - cf 2C-2D-2H above
+			2S = was 3S-3H (3H = was 6S-4H 8 [4S = was 3S-3H 17])
+		2H = 5+S, any strength (cf 2D, maybe changed?), puppet
+			(X) Pass = was Ax AJxx ATx KTxx alerted (XX was 5134 10, prob retrans - pd bid 2S with Ax)
+			2S = forced
+				Pass = s/o
+				2N = was 8 probably really balanced since pd bid 3NT with 3334
+				3C = invit with 5S-4+C, was 5044 7, 5304 8 (3S = was 3S min NF, 4S = was 3442 max)
+				3D = 5S-4D GF (? cf 3C)
+				4S/3N = to play/c.o.g.
+	2C = 14-17, could have 4red-5C and/or 3S
+		(X) XX = cards
+		2D = ** new ** transfer to S, may have 4H
+			2H = probably 4H
+			2S = had stiff Q without 4H
+				2N = inv (3C = to play)
+		2H = had 5S-4H 6x2
+			2S = to play, was 2362 min, 3145 15
+				3C = NF
+		2S = s/o, but recently was an invite NT bid with just 4S (2N = inv)
+		2N = invit, had 4S
+		3C = pree
+	2D = Gazzilli, 18+ C/C-D, F
+		2H = GF relay, 6+
+			2S = 3S
+			2N = H stopper, 5+C-4D, denies 3S
+			3C = 21-23 1-suiter
+			3D = 6+C-4D
+			3S = was 3145 21 (4S = to play)
+			3N = was 1345 23 with H stoppers
+		3N = was 5431 8 HCP (UPH), great H stoppers, I'm guessing forgot since pd had 3S and passed
+	2H = was 2326 good 20, 1435 22
+		2S = was 5323 4
+			2N = was 2326 good 20
+				3S = was 5323 4, they got to a 5-2 spade game when 3N cold
+		3C = was signoff attempt
+	2S = 18-20 3crd raise, was 3226/3433
+		2N = relay, was 5242 8
+			3C = was 3433 18 with xxx C
+		3S = transfer to 3NT, just 4crd S
+		4H = 5-5 c.o.g.
+	2N = 18(+)-20 bal or 1444, denies 4S (denies 3S now?)
+		3C = was 5125
+			3H = was 2434 (3N = was 5125)
+		3D = was 5431 GF
+			3H = was 2443 (3N = was 5431 and pd passed with 4H in bad contract, mistake)
+		3H = 5+S, any strength (3S = accepts even with 1 crd [3N c.o.g.])
+		3S = 4S-5+m, sing. H (3N = to play)
+	3C = 18-20 1-suiter?
+1S = no M, 0-11 (or 5440), may be stronger if doesn't want to declare NT (later X = 7+ general)
+	(X) - can bid normal 1N/2N if have S stopper
+	(1N = natural) Pass = general (re's X = cards)
+	(1N = majors) X = was good 18 bal, 2D = was nat min
+	(2D)
+		2N = was 19 BAL
+	(2H) - 	X = 18+ (3C = was 5C 4 HCP)
+		Pass = was 4135 14, 3235 18 (partner's X = 7+ even at 3-level)	
+		2S = was 4117 15
+	(2S)
+		Pass = was 2344 16 (partner's X was 3055 4 [2N = no 5m])
+	1N = 15-18(-), may be 4414
+		2C = to play, 5+C
+		2D = to play, 5+D
+		2H = 7-11, no H stopper (2S = H val not S [2N = min w/ S stop], 3C = to play [3D = NF])
+		2S = 7-11, no S stopper (2N = s/o attempt)
+		2N = invit.
+		3D = invit. 6crds
+		3H = GF, sing. H, 5-4 minors
+		3S = GF, sing. S, 5-4 minors
+	2C = 5C-4other unbal, or 6+C, 15-17 (once xx xxx KQJx AKQx)
+		(2S) X = cards, even with fit and short S
+		2H = no stop H (poss no S stop too), invit+ (2N = was majors stopped 16, 3C = to play)
+		2S = H stop, no S stop, invit+ (they forgot 2nd time) (3C = s/o no S stop mb 5crds, 3D = nat no S stop)
+		2N = invit
+		3N = tip top, prob C help, major stoppers
+	2D = 4+C-4+D, was 4144 17/20, NF
+		2S = was 2362 10 (3S = was 4144 no alert [4D = sets D])
+		3C = was 2335 3 (3S = was 4144 20)
+	2H = 23+ HCP NT or 6+C-0/2 D 18-20, or 21+ with C
+		2S = relay, any strength
+			2N = 23-24(-) bal
+				3D = was 3352 7
+					3H = had D fit, no S stop (4N = quant)
+				3H = was 3154 7 (3N = to play)
+			3N = 24(+)-26 bal, may have 4M (4N = 4-4 minors quant.), but was 23 3253 once (4C = was 2245 [4D = was 3253])
+	2S = was 2245 18
+		2N = was 3253 max
+			3D = was 2245 18 (4D = sets D)
+	2N = 18(+)-20
+		3H = "short H", was 3163 8
+		3S = short S (may have 6 card minor)
+		4D = slamtry D, necessarily mild (was 2362 9), cues for D
+		4S = was 2272 SOL diamonds (over X, XX = 1st rd)
+	3H = was 2416 3 losers (5C to play)
+	3N = was 3532 9 tricks
+1N = 10+, any 4432/4333/5m332, GF, perhaps optional to respond 1red or 1NT if positional considerations
+	(2H) Pass = was 4324 15 (X = was 4342 12, passed)
+	(2S) Pass = had xxx S min
+	2C = balanced/4441, or 17+ 1-suiter (3226 20 once, 4135 16 recently)
+		2D = 13+
+			2H = 15-17, 4H
+				2S = 4S (3S = sets S)
+				3C = was 3235 13 [3H = was cue mild C fit]
+				3H = sets H
+			2S = 15-17, 4S, denies 4H (3S = flag, 3N = min, to play)
+			2N = 18+ any shape, (3C = Baron, 3H = 5C [3S ok with cue])
+			3C = no 4M, was 3325 17 x2, limited to 17 (cf 2N) (3N = to play mb 14)
+			3H = was 2344 15-17 (4C = sets C)
+			3S = was 3244 17
+			3N = 33(34) 15-17 (4C = 4+C asks fit [4D = yes and cue])
+		2H = 10-12, 4H
+			2S = was 4333, 4144 18, 4234 17
+				2N = was 3433/2443 10 (3D = was 4144 18, 3N = to play)
+				3D = was 2452
+			3C = was 3226 20 (3N = was 3442 12 [4C sets C for cues or mb Q Turbo (only C poss)])
+			3H = was 3433 16, promises H
+			3N = to play, denies 4S
+		2S = 10-12, 4S was 4333
+		2N = 10-12, denies a major, was 2335
+		3C = 10-12 5C (3D = was nat not sure why bid as had minimum with great M stops, 3N = to play)
+		3H = was 2344 12, denies a major
+		3N = 33(43) 10-12
+	2H = "14-17", was 2425 minimum x3, 2416 18
+		2S = relay, was 4324, maybe shows C fit (see below)
+			3C = was 2425 minimum
+				3D = ?
+					3H = was 2425 minimum
+		2N = relay, was was 3343/4333 13
+			3S = was 2416 18 (4C sets C)
+			3N = was 2425 minimum
+		3H = sets H, was 4432
+	2S = was 4S any strength, 5+C ?
+		2N = relay
+			3C = was 4(xx)5 17, 4126 15, (3D = cue with C fit "ask" [3H = was 4126 15, 3S = was 4135 17])
+			3D = was 4342 minimum
+			3N = was 4225 minimum
+		3C = was 2353
+			3D = was 4225 18
+	2N = 14-16, 5C-4D
+	3C = 14-16, 6+C 1-suiter
+		bid stoppers
+		3N = to play
+		4C = was huge 4432 no cQ
+	3D = 6C-4D 17-20 (4C = fit)
+2C = GF 5+D
+	2H = was 4414 17
+		3D = was 3172 13
+	
+2D = GF 5+H
+	2H = was 2353 15
+		2N = was 2533 slammish with S cue, so this is shape or relay
+			3H = was 2353 15 with C cue so this is relay response or setting H
+			
+	3C = was 2128 min (4C = C flag)
+	
+2H = GF 5+S
+	2S = was 3244/2335
+		3D = was 5242 14, 5143 11, promises D
+			3S = was 3244 17 promises 3S (4C = knew about S fit max, so cue)
+	3C = was 2336 18
+		3H = was 5422
+2S = 5+C GF
+	2N = R
+		3C = was 3226 13, promises extras (4C = sets C)
+
+
+2N = GF 5M-332
+	3C = asks which
+		3D = 5H, 10-12
+		3H = 5S, 10-12
+			3S = was 3325, 3244
+				3N = was 3532 (4S = quant to 4N? think they had a mixup)
+			3N = to play
+		3S = 5H, 13-15 (4C = H flag/cue)
+		3N = 5S, 13-15 (4C = S flag/cue)
+		4C = 5H, 15+
+		4D = 5S, 15+ (4S = to play)
+3C = GF 5C-5other 10-14
+	3D = asks which
+		3S = S was min (4C = sets C, 4D = cue for S)
+		3N = D
+3D = 5H-5S 10-14
+	3M = fit (cues)
+	3N = to play (4M = freak with longer M, to play)
+	4C = nat, no fit (4N = s/o)
+3H = GF 5S-5D 10-14 (3S = S flag [3N = was min 5251], 4C = nat no fit for pd)
+3S = GF 5H-5D 10-14
+
+Handling Interference:
+
+(X)
+	Pass = was 4234 bust, 3(42)4 6, 2353 4, 2326 4, 4432 2, 2335 (force not set up at any level)
+		(1S)  1N = was good 18 bal
+	XX = 6+, may have 5S or 5D bal, activates inverted doubles
+		(1y) Pass = neutral BAL (re's 2z NF), 3C = minmum but extra tricks
+	1D = 4+H, 0-9 (1S = 5+C-4S [2C = signoff attempt]), no retransfers
+	1H = 4+S, 5-9 (1S = 4crds), no retransfers
+	1S = 5+C , 6-9, denies 4M (but was 0454 8 recently)
+
+(1D)
+	Pass = 0-5 (later X by opener = takeout or 18+ [foll by cue = GF], balancing 1N = just 15-18, free 1N/2N = 19-20, free 1S = unbal C-S)
+	X = 6+ HCP, 0 or 1 majors
+		(1H) 1S = nat 14-17 mb bal
+		(1S) 	Pass = may have perfectly normal 1N rebidx2, so maybe 1N implies more? (reopening X by re is cards/takeout)
+			2N = was 19 no 4M
+				3C = nat NF no major
+		(2D) opener does not bid a major with an average hand (X by re: = bid something)
+		(3D) X = was extras takeout, 4S = was 5116
+		1H = was nat 15-18 even 4414 (1S = was 4234 8 [1N = was 3433 16 NF], 2D = was 9 no M [2S = other 4suit])
+	1H = 5+S, may be 6S-4red
+		(X) Pass = was 2335 17 no H stop (later 4D cue by Re xfers to 4S)
+		(2D) 2S = was 4fit (later X by opener was takeout)
+		1S = was 3433 17 (shows 3fit) (2H = general GF)
+		2C = was 1228/2416 min [2D = was nat GF, 2S was s/o]
+		2D = general great hand, was 3fit 19 (2S = was 5S 6 HCP [4S = signoff])
+		2S = 4fit
+	1S = 5+H, normal resp strength, F1 (2C = nat, 2H = was 15 3fit, 2N = 18[+]-20 [3S nat], later retransfer to H possible)
+	2C = 5+C, F1, was ATxx Jxx x AJTxx
+	2D = both majors, 4+ 4+, competitive or better (2M = 3+crds s/o)
+
+(1D [ART])
+	2D = nat F
+
+(1H)
+	Pass = 0-5
+		later X by opener = takeout or 18+
+		later X by re = takeout 3-5
+		balancing 1N = just 15-18 [either 5m ok)
+		free 1N = 19-20
+		jump = distr min
+	X = 4-5S, does not set a forcing pass
+		(XX) 1S = normal
+		(2H) 	Pass
+				X = cards (2S = 3 spades [3C = F with 4S -5+C])
+			X = was 3145 min, tk shows 3S
+			3H = was GF 4fit
+			4S = was 4117 min, no support X/XX
+		(3H) 3S = was 3136 13 (pd may have known but bid Moysian anyways), 4H = was 4036 16 (5D = was cue for spades)
+		1S = 3crds NF
+		1N = 15-18[-] 1-2S, or bad 3S with H stopper (2N invit)
+		2S = 4crds NF (3D HSGT)
+		3D = was 1246 17
+		
+	1S = denies 4+S, could have H stopper, promises enough for game opposite 18
+		(2H) X = takeout
+		1N = 15-17 NF
+			2D = weak
+		2C = could be good 4 if no H stopper (3C NF)
+		2H = general GF, even with H stop, had 3433 24 (3C = was 5C no H stop)
+		2N = was 4333 18
+		3N = was 20
+	1N = was 3442 7 with good H stops
+	2C = 5+C, F1 (2S = was 4144)
+		later X = takeout
+	2D = 5+D, F1 (2N = was 15 with D and stops, 3C = was 6C min)
+	2H = 6+S, can be weak, (BPH must be weak) "+ cue bid H" - had void
+		(3H) 3S = was 3244 17, 4N = Turbo for S
+		2S = was 2fit
+		3S = was 3fit 19
+		4S = was 3415 16
+	2S = GF bal, half or full H stopper (2N = had stopper twice)
+
+(1S)
+	Pass = 0-5
+		later X by opener = takeout or 18+ [2N by re scramble]
+		later X by re = takeout 4-6
+		1N = just 15-18 [either 5m ok]
+		free 1N = 19-20
+	X = ** 4 or 5 H, 6+ HCP, possibly 6H 4-7 HCP, 3541/2551 8 (no supp X)
+		** but recently was 3163 6, not strong enough for 2D **
+		(2S) 2N = 2335 18 [3H = was 2542], 3C = min NF, 3H = min NF, 4H = was 17 bal
+			later X by RE = takeoutish
+		1N = nat, had 3H (2D = was 6D 6 without 4H [2N = was 17 with 3H])
+		2C = nat, may have 4D-5C, min (2D = was 5-5 reds s/o, 2S = was 4531 8 no stop)
+		2H = was 4414 16
+		2S = general GF, better than 20 if BAL (3C = nat)
+		2N = 18+-20
+		3C = was nat 19 (3S = had 5H)
+		3H = 18+-20, fit
+	1N = nat
+	2C = 5+C, F1
+	2D = 5+D, F1, mb as weak as 7
+		(2S) 3D = was strong NT 15-17 NF
+		2H = nat (2S = general GF)
+		2N = had D fitx2 but S stoppers, 15-17
+		3D = was 4fit 17 still NF
+	2H = was 6H 8-10 HCP, forcing, 5H-4C 9 (7-10 HCP has X'd instead, hmm)
+		3C = was min sol suit
+		3H = was 17 4fit, 14 3fit, think GF since 3N is now nonserious
+	2S = tk invit+ NT: was 4342 9 with good S stops, 3343 10 with stop, 3244 11 no stop, 3343 9/10 no stop, 4324 9 stop
+		2N = was 15/16 bal with stop
+	 	3N = was 3433 17 with stops, 3352 17 no stops, 3424 18 with stop
+
+(1N [strong])
+	X = 7+, but does not set up forcing passes
+	2C = majors (forgotten by Nunes of course)
+	2D = one major (forgotten by Nunes of course)
+(1N [art])
+	X = 7+, was 3613 9
+
+(2C [majors])
+	X = was 3442 7 (does not set up a force, op must cue to do so)
+	2H = limit+ C raise
+	3C = was 7crd 4 HCP
+
+(2C [natural])
+	Pass (Pass) 2D = natural 5D-(332) 15-18 NF
+	X = neg
+
+(2D [natural])
+	X = was 5521 1 so prob negative
+		(3D) X = cards
+
+(2D [majors])
+	X = cards, was 1354 8, 3343 8
+	2S = was 1354 7 (2N = nat, 3C = NF)
+	3C = was 6C 8 HCP
+
+(2D [multi for a major])
+	X = was 5323 10, 3433 9
+		(3H [p/c]) 4D = was 1345 20
+
+(2H)
+	Pass-(Pass)-reopening 2S = was 4405 21
+	X = neg (does not set up force, so 2N NF, 3N = was 19-20), had weak 5S once
+	2S = F (3D = was 4D-6C GF)
+	3D = F was lite (later 4N= pick a minor)
+	3H = 6+S GF, was 6124 9 (3S sets S)
+
+(2S)
+	Pass
+		2N = 18-20 (3C = Stayman)
+	X = negative, says nothing about H, sets forcing pass (later X's takeout)
+		3C = was min (pd bid 3D with 2452 7?)
+		3H = minimum NF (3N = to play, had C fit)
+	3H = was 2722 12, 2632 10 (3S = punt [4S = was autocue long H])
+	4C = long hearts, was weak
+
+(3C [nat])
+	3D = nat, GF
+
+(3D)
+	X = neg, says nothing about majors (4D = pick a M)
+	3H = 5+S, F1 (pd thought 6S and jumped to 4S with doubleton, 4C = nat)
+	3S = 5+H GF (4D = H flag)
+	4D = 5-5 majors
+
+(3S)
+	X = neg (was 3433 10, 3523 8)
+		4S = intended pick a suit, was 1345 18
+	4H = was 2632 6, alerted
+
+(4S)
+	X = was neg 7 HCP
+
+Third/Fourth Seat adjustments:
+	1N = 10-11, same 2C relay
+	2/1 invitational
+	2H = normal
+	3S = 5H-5D GF
+
+********************
+1D Opening Responses
+********************
+
+1H = 4+H, 0-9
+	(X)
+		XX = had 4fit 17
+	(1S)
+		Pass = was 4252 16 (X = was 1534 9)
+		X = 18+ (what is 1N?)
+		1N = "17-19", was 4252 18 (2S = general GF)
+	(2S)
+		X = 18+ (takeout X by responder)
+	1S = 5+D-4S (forcing?), was 4360/4351 16, 4144, 4252 17
+		1N = was 3415 6 NF, 2425 7 NF (2N = was 4252 17 so probably 1NT guarantees some values)
+		2C = relay, 6+
+			2D = was 4162 min (3N = to play had 6 bad hearts)
+			2H = was 4351 16, promises 3H
+		2D = to play, was 6-7, doubleton twice, but once with 3S so maybe courtesy
+			3H = was 4360 16
+		2S = was 4522 7 courtesy (NF)
+		2N = invite
+		3S = invite
+	1N = any 18+ unbalanced
+		2C = 6-9 HCP relay, GF
+			2H = was 4441 19 (4D = was min splinteR)
+			2S = was 4252 19 (4H = to play)
+			2N = 18-20, 6-(322)
+				3H = was 4603 (3S = had 2H)
+			3C = was (21)55 21, 3154 23
+				3D = was 3-fit x2, once with C fit too(3H = 4th suit or advance cue, 3N = descriptive)
+				3N = was 4423 (4C = was 22+ 55)
+		2D = 0-5, 2+D
+	2C = 14-17 nat, 5+D-4+C, may have 3H
+		2D = to play, mb 2D-3C 5
+		2S = was 3523 9 with S stop, AQ QJxxxx Txx xx
+			2N = was 3154 16 w/ half S stop (3H = NF)
+			3S = was 17, sAx, maybe xfer to 3N, pd bid 3N with QJx
+	2D = 14-17 6+D 1-suiter, may have 3H
+		2H = was 6+H 7
+			3H = was Qx minimum
+		2S = was 4513 9 (3H = 3crds, was min)
+	2H = 4crd raise, 14-17, mb unbal 15 (3C = was xx AJT97 xx QTxx, 3H = was preempt but they thought invite)
+	2N = GF relay, was 3262 22, but explained online as 6D-4S 18+ "and this could change soon"
+		2N = R
+			3C = sing C
+			3D = sing H
+			3H = void C
+			3S = void H
+			3N = 5161
+			4C = 5260
+			4D = 5062
+		3C = was 2425 5
+			3D = was 3262 22 (3N = was 2425 5)
+		3D = weak
+		3H = 6+H F
+		3S = weak supp
+		3N = to play
+	3D = had about 8 tricks, 2H
+1S = 4+S, 0-9
+	(X) XX = had GF S raise
+	1N = any 18+ unbalanced
+		2C = 6-9 relay, GF <--- they have had a few mixups after this point
+			2D = was 3262
+				3C = was 4225 (3H = had Qx H)
+			2H = nat, incl. 1444, 3361 20 *new?*
+				2S = had 5224/5332, then nat, but recently 4315 7 maybe a R when pd had 3361 20
+					3D = recently 3361 20 - again they had a mixup
+				2N = was 5233 10 (3N = was 2452 18)
+				3D = nat had 5S-4D
+			2N = 18-20, 6-(322)  (3S = was 5422)
+			3C = nat, was (31)54/1444
+				3S = had 5/6S, no H stopper
+				4C = was 4315 9 with Qxx H (cues)
+			3N = was SOL 7D, minimum, but misunderstanding
+		2D = 0-5, 2+D (2N = was 2254 21 [3S = was 5323 5 (3N to play)])
+		2H = 5+S-4+H GF (since 1D-2D is same 0-6)
+			2S = was 2362 min (3C = was 5422 8 [event. got to 5-2 4S since just 1 club stop])
+	2C = 4+C 14-17
+		2D = pref
+		2H = 4th suit forcing (was 5323/5305 9/10 with H stopper, so maybe relay)
+			(X) Pass = was 2254 17 with Qx H (5C = to play so Pass denied 3S)
+			3D = denies 3S, was 2254 16 (no H stopper)
+		2N = invit
+		3S = invit
+
+	2D = 5+D 14-17, may have 3S and/or 4H
+		2S = 6+S or 5decent S with max, was 6322/6214 8, NF (3S = was 3451 17)
+		2N/3D = invit
+		3C = was 5332 9 no C stop, 5323 9 with Qxx C, 5143 8 with C stop, 5224 10 no H stop - guess art invite
+			3D = was 2461 min, NF
+			3S = 3crd
+			3N = to play, may have 4H
+		3S = invit
+	2H = ??
+	2S = 4crd raise, 14-17
+		2N = was 4324 8 (pd bid 4S with 4441 14)
+	2N = GF relay
+	3D = about 8 tricks
+1N = no M, 0-9
+	(X) Pass = includes (43)51 so 2D prob shows 6 (later bid 2S with max)
+	(2H) 3C = was 4054 15
+	2C = Gazzilli:  14-17 natural, or any 18+
+		2D = 6-9 relay
+			2N = was 2254 18, GF (3C = fit then stoppers)
+			3C = 14-17 nat NF, but was 1354 21 recently (3S was AKx xxx Qxx xxxx, then 4H slamtry Q AQx AKTxx AQxx)
+	2D = nat 14-17, may be just 5 cards with a 4M, was 4252 16, 4450 14, 3451 16
+		2H = 7-9 no H stop (2N = was 3451 16 [3D = s/o])
+		2S = 7-9 H stop no S stop (3N = was 4252 16)
+		2N = invite, both M's stopped
+	2H/2S = ??
+	2N = GF relay
+	3D = good suit, trick-based, but limited strength (3S = heart worry, 4D = inv)
+2C = GF, balanced OR clubs OR D raise
+	2D = nat 14-17 denies 4M, was 3262/3154 16, 3064 13
+		2H = was 1435
+			3C = was 3154
+				3D = was 1435
+		2N = was 4324
+		3N = was 4324 10
+	2H = was 4441/2452 15/16 x2, 1561 18
+		2S = 4th suit
+			2N = S stop (3N = had 13/16)
+		2N = was 4243 11, but they missed a 4-4 spade fit, 4216 10
+			3D = was 4441 16
+			4C = was 1561 18 (5D = to play)
+		3D = was 3145 11 (3N = good S stopper)
+	2S = 4S any strength, was 4252/4144/4351/4153, 4351 19/21, 4153 13, 4360 3rd seat, 4261 19
+		2N = relay, was 2137 12, 3343 13, 2425, 4234 10, 3442 11
+			3C = 5D-4S 18+
+				3D = R (3H = short C (4C = cue for D), 4C = was 4252 20 too strong for 3N)
+			3D = 4153 (but was 4144/4351x2) 14-17 ("shows 3 clubs")
+				3H = "relay" (3S = was 4351 17 [4C = S flag], 3N = was 4153 13x2)
+			3H = ?
+			3S = was 4261 19 (4S = signoff min)
+			3N = 4252 14-16 (4D sets D)
+		3C = was 3226 10 (3D = was 4351 19)
+		3N = fast arrival (10 e.g.)
+		4S = to play
+	3C = was 3154 18, 2254 17 (3H was 1435 12 [3S had no S stopper], 3N = to play was 3343)
+	3D = was 3172 20, think cues now
+2D = 5+S-4H, 2-6 (NF)
+	2H = was 2452 18
+		2S = was 6412 4
+			2N = R, was 2452 18 (3H = was 6412 4)
+2H = GF, 5+H (not 5332 but was recently)
+	2S = 4162 13
+		2N = was 6H GF (3H = was 4162 13 [4N quant])
+	2N = was 4351 14/18, thk relay
+		3C = was 2722 12, 2533 14
+			3D = was 4351, thk relay
+				3H = was 2722 12, then cues for H
+			3S = was 4351 14 (think H cue, cues)
+	3C = was 2155 (had misopened, had 11), 3055 14, 3154 BPH
+		3H = was 3703/2623 (3N = was 3055, 4H = worst possible hand with singleton)
+	3D = was 3163 16, 2182 15
+		3H = was 2623, promises 6+H
+		4D = sets D
+2S = GF, 5+S (not 5332)
+	2N = was 3154 15, think promises S fit?
+		3C = was 6322 13 (3N = was nonserious... cues)
+	3C = 4+C, denies 3+S, was 1354/1444/1255
+		3D = nat
+		3S = was 7123 (3NT = to play [4C = was 7123 and cue-bidding commenced ending in a jump to 6C by the 5crd])
+		4C = sets C
+	3D = had 1273, 1174 14[SOL D], 1363 14/16
+		3H = was 6403 11, prob implies just 4H since 1D-3C = 5S-5H (3N = was 1174 min, to play)
+		3S = was 7 great spades no D fit x2 (3N = s/o attempt [cues for S], 4S = was sing min [Turbo/cues])
+		3N = to play (4C = cue for D[4N quant])
+	3S = fit, was 4252 14, 4441 15 (cues)
+2N = GF, 5M-332
+	3C = relay, any shape
+		(X) ignore
+		3H = 5S, was 12 once (4S to play)
+	3N = no 3crd M, to play, was 2263 15
+	4C = 5-5 slammish (4D = D fit, 4M = cue for C, 4N = to play)
+	4D = sets D, great suit, cues
+3C = 5H-5S GF (3N = to play)
+3D = was 1354 5
+	3H = was 4441 20 (3S = was 1354 6, cues...)
+3H = ?
+3S = now 5H-5C 11-14
+
+Handling Interference:
+
+(X)
+	XX = 6-7, may have fit and/or 4M, activates inverted doubles (X = 2-3 cards in their suit, Pass = long/short)
+		(bid) X = extras
+	1H = was 3532 5, 2623 6
+		(2C) 2S = was 5161 13
+	2D = weak 3+D, may have 4M as judgement
+	2S = was 6S-5D 6
+(1H)
+	X = 4 or 5 S
+		(bid) free 2S raise = 3-4 crds [no supp X]
+		1S = 3crds, but was 4252 15 recently
+		2H = generic 18+ incl 3154 18 [2N = nat]
+		2S = 4crd, min
+	1S = takeout without 4+S
+	2C = 5+C F (2S = nat not reverse)
+	2D = 3-7(-) raise, mb 3 good cards
+	2H = 6+S (cf X)
+	2S = general GF without 4+S, had 6D
+	3D = v. weak, 4+D (pd did not move with AQx xxx AQJ9xx A)
+
+(1S)
+	Pass
+		X by opener = was 3154 19 (1N = was 6 HCP with stop [2S = general force])
+		2S by opener = was 0454 21
+	X = 4 or 5 H
+		(XX)  1N = was 4252 17 (2C = to play)
+		2S = general GF
+	1N = was 4324/4333 7 (2D = to play, 2H = was 18+ nat)
+	2C = 5+C, F, may be 7 HCP (2H = nat not reverse, 2N = was 16 with S stop [3S = was c.o.g.])
+	2D = 3-7(-) HCP raise, mb 3 good cards (2S = was 21+ [3D signoff attempt])
+	2H = 5+H, not GF (3D = NF)
+	2S = had 10 HCP 4D, no S stop
+
+(1N)
+	2D = mb weak 3fit
+	2M = to play
+
+(2C)
+	X = neg, had 4S, may be 5S-5H 8 (2S = was 4351 min)
+	2D = 3-7(-) HCP raise, mb 3 cards, may be 4-4 majors, still bid majors nat to find 4-4 fit
+		(X) XX  = 18+ sets F pass
+		(any) 3M = nat reverse
+	2H = was 5H 8 HCP
+	3D = pree, was 3253 5
+	3H = was 7crds 5 HCP
+
+(2D = Michaels)
+	3D = was 7 4fit
+
+(2H)
+	3D = GF, nat
+
+(2S)
+	3D = to play, mb 3
+	3H = was 2632 8
+
+(3C)
+	3H = was confusion, one thought it showed spades
+
+(3C [C-H])
+	X = neg
+
+(3D)
+	X = neg, might not have both majors (4D = strong, scramblish)
+
+(3H)
+	3S = GF (3N = had 0454 [4H = slamtry S])
+
+Third/Fourth Seat Adjustments:
+2C = invit, mb 3334
+	2S = was 4360 min (3N = was 3334 10)
+2D = same
+2H = near GF (3C = was 3154 15 [3H = NF])
+2S = 9-11 GF 5S (3H = not nec strong, was 2461 14)
+2N = 5M332 10-11 (cont's the same)
+3C = (same - 5H-5S GF)
+
+********************
+1H Opening Responses
+********************
+
+1S = 4+S, 0-9
+	(2C) 2S = was 4531 13, 3C = good fit was 4522 18, 4630 16
+	(2D) X = supp, 3D = huge S raise (3S = superneg, 3N = eh, 4y = good)
+	1N = 15-17 balanced
+		2D = to play
+		2S = to play
+	2C = Gazzilli - 14-17 natural, or any 18+
+		2D = 6-9 relay
+			2H = 5+H-4+C 14-17
+				2S/games = s/o
+				2N = invit (3C = 5-5 to play)
+			2S = 18+, 3S
+				2N = relay
+					3C = was 3514
+					3H = was 3631 (4H to play)
+				3H = sets H, was 5341 9 (4H to play)
+				3S = sets S
+			3C = 18+ nat, denies 3S, was 1624 20 (3N = to play but had 2H)
+			3D = was 2542 18, 1543 18x2/20x2 (3H = had 3H, 3N = to play but had 2Hx2, 4D)
+			3H = was 1732 21, 2713 18, good H (4m = cue with at least doubleton H was 9 HCP, 4H = s/o attempt)
+		2H = 0-5, 2-3H (2N = art, 22+ force [3H = double neg])
+		2S = 0-5, was 5143 5 (3H = NF was 18 good 7H)
+	2D = 5+H-4+D, max 17, preferred with 0544
+		2H = s/o attempt, may be 7 with doub
+		2N = invite
+		3C = 4SF (3N = was 0544 14)
+		3D = invite
+		3H = invite
+		3S = invite
+	2H = 6+H, max 17
+		2S = was 6142 6, to play
+	2S = raise, was 4crds 11/13 HCP
+		(3C) X = was bal 10 (3H = was 4612 13)
+		2N = R (3m = sing, 3H = 6H-4S, 3S = 4522 min, 3N = 4522 max)
+		3NS = trial
+		3S = general invite
+	2N = 18+, 5-5 or 6+-4
+		3C = relay, was 5 HCP
+			3D = was 2650 16 (4C = cue for D with just 3D so 3D 5-5?)
+	3m = 5H-5m, good 16-17, more based on tricks (3N = to play)
+	3H = 16-18 value based on good H
+	3S = 16-18 value based on distribution
+	4N = RKC S!
+1N = no 4M, 0-9, NF
+	(X) 2D = was 2641 15 (3C to play)
+	(2C) X = was 4531 19, prob just 18+;  re's X = cards
+	(2D) X = was 4504 21, prob just 18+
+	(2S) 3C = was 2524 17
+	Pass = was 4531 16
+	2C = Gazzilli - 14-17 natural (4513 ok), or any 18+
+		2D = 6-9 relay
+			2H = H-C or 4513, 14-17
+			2S = 3/4S, 18+
+				2N = R may have a 5m (3S = 4crd S was 4522 [3N = to play], 3N = was 3523 min)
+				3D = nat (3H = was 4S-6H with C stop)
+		2H = 0-5, 2-3H
+		2N = 0-5, 5-5 minors
+	2D = 14-17
+		2S = inv. with 4+D (3D = to play)
+		3C = was 3145 7 (3D = to play)
+		4D = freak invite
+	2H = 14-17 (4H = was sharp 9 with Kx H)
+	2S = ?
+	2N = 18+, 5-5 or 6+-4
+		3C = relay, was 3244 8
+			3D = was 2551 good 18 (4C = cue for D was 3244 8)
+	3m = 5H-5m, good 16-17, more based on tricks
+2C = 10+ HCP, balanced OR clubs OR H raise (mb 3154)
+	(X = clubs) Pass = was 1534 min, 2D = was normal showing spades but no C stop
+	(2S) Pass = could have AJx minimum (reopening X by RE = was 3145 with xxx = not sure how they penalize or if this is inverted doubles)
+	(3D) 3H = was 6H
+	2D = 4+S, 11+ HCP, not yet GF (may be 5-6)
+		2H = was 3343 10, 2245 10, 3226 10, 3235 11 (NF probably opp 11-13)
+			2N = was 4522 19 GF
+			3C = was 4513 15/18 (3N = to play, 4C = was 2245 10 [promises 5+C, had no D stop])
+			3D = was 4540 14
+		2S = NF, was 3154 10, 3145 11 (3D = was made up 4522 no C stop)
+		2N = GF relay, was 3424 12, 2344 18, 4234 15, 2335, 3244 11
+			3C = was 15+ 4504/4513 (promised club fragment at least)
+				3D = relay
+					3S = was 15+ 4504/4513 promised C length (3N to play, 4C cue for H)
+				3N = to play was 3244
+			3D = 45(31) minimum, 12-14
+				3H = relay? (3N = was 4513 14, then cues for H)
+				games = to play
+		3H = (over X) = was 2533
+		4H = was 2425 11
+		4S = bal, minimum, to play (C not natural)
+
+	2H = 14+, 1-suiter or H-C (14-17? cf 3C), GF
+		2S = ?
+		2N = relay
+			3C = 4+C, was 1624 14, 1534 15x2, 2524 14
+				3D = R asks short
+					3H = was 2524 14 but recently "short D" 3514
+						3N = to play
+						4D = ART slamtry H had other cues so think only flag
+				3H = sets H, had 4C bal, cues...)
+			3D = was 2533/2523/1633/3613 14/16, so must promise 3 clubs (cf 3H/3S/3N)
+				(X) Pass = had 4D, probably just inquiring (3H = had 6H - then cues for H)
+				3H = asks (3S = cue with 6H?, 3N = was 2533)
+			3H = 6+H, 0-2C, minimum (or 1723) - now cues for H (4H = was doubleton H)
+			3S = was 2623 18, prob 6H-3C extras (4H = to play)
+			3N = shows 3532 (4H = s/o)
+		3C = was 2245 10
+			3H = was 3712
+		3D = was 2245
+		3H = "forcing", was 1336x2, 4342 10, 4423 11, 4414 11/13, 1444 13 (cues, and minimum 3N)
+		3N = was 4144 min
+		4H = no slam, e.g. bal 10 3fit
+	2S = 14+, 4+D, GF, denies 4S
+		2N = R, was 3442 10, 4333 10, 4234 10/13, 4225, 1147
+			3C = was 3541 17, probably shows any extras
+				3D = R (was 3442 10 pd must still be unlimited)
+					3H = was 3541 17, not a cue (pd bid 4H with 3442 10)
+			3D = was 3541 13/14
+				3H = was 4234 10 (3S = alerted was 3541)
+				4D = sets D
+			3H = was 1660 alerted, they f'd it up;
+			3S = was 1552 min
+			3N = was 2542 min (4H = to play)
+		3D = nat (3S = 4th suit)
+		3H = nat, was 3316 13
+	2N = any 18+ 5332, GF *but recently was 2524 15 but that was a mistake*
+		3D = was 3154 promises C fit
+		3H = sets H
+	3C = was 3514/2524 18 (3H = was 4333 11 sets H ... cues, 3N = was 11 to play)
+	3H = was 3631 23 solid suit, 1732 14 great suit (cues for H, 4D had 13 4fit )
+2D = 10+ HCP, 5+D or 4D-5H
+	(3C) 3D = was 4531 11
+	2H = GF, was 26(32)/1534/3613x2/3523 min, 3622 21
+		2S = 4S, was 4252/4162
+			3D = was 2632 (3H = had doub)
+		2N = relay, was 2254, 4252 10 - cf 3C, promises 2+H?
+			3C = was 1534 min
+				3D = relay
+					3S = was 1534
+			3H = was 3613 min (3N to play)
+			3N = was 3523 min
+		3C = was 3154/2164 (3D = was 3622, 3H = was 2623 17! [4H = was to play with sing and no S stop])
+		3D = was 3073 (3N = was 3613 to play)
+		3H = was 3451 14 (cues, incl. the 3N minimum cue)
+	2S = 4S, any strength
+		2N = relay, incl. 5D-5C 10, S fit
+			3D = 45(31) or 45(40) 11-15
+				3H = R (3S = short C, 3N = short D)
+			3H = was 4612, 4603 11 (3S = flag, 4C = cue for H)
+			3S = was 4513 18 (3N = to play)
+		3C = 4th suit forcing, was 3163 no C stop (descriptive cont's)
+		3H = sets H, says nothing about relative D-H length, cues (incl. 3N = minimum)
+		3S = sets S, was 4270 NS3NT/cues
+		4H = min, was bal
+	2N = 18+ bal, 5+H
+		3C = R
+			3D = 3crd D (3H = strength/length relay [3S/3N/4C/4D = 18-19 5H/20+ 5H/6H same/6H same])
+	3H = was 7 SOL 13 (3S = cue for H)
+2H = 2(+)-7(-) raise
+	2S = relay, was 4522 18 x2, 4504 16 (3C = was 3343 5, 3H = was 3fit min NF, 3N = max 3(433))
+	2N = some sort of invite, was 2542 19
+		4H = was 4423 4
+	3C = long suit game try (1525 17)
+	3S = was 0535 slammish, promises short S (cues)
+2S = 10+, 5+S, GF
+	(3C) 3S = was fit min
+	2N = relay, was 2533/2542/4531
+		3D = was 6133/6124 14, 7312 11/5233
+			3H = had 3S with H cue, cues
+			3S = had xx S but good controls, or recently 3fit
+			3N = was 2533 17 then cues for S
+		3H = 4C, 10-12 (3N = may have 2S [cue = 6-4 12])
+		3S = was 6313 9, promises minimum
+	3C = was 2524/1615
+		3D = was 5242/5233 min (4th suit?)
+			3H = promises 6H, was 1616 (4H = to play was doubleton 11)
+			3N = was 2524
+	3D = was 1552 18, 2641, 2641 14, 2542 16/19
+		3H = H fit, cues...
+		3S = was 7015 great S, huge hand, 6142 11
+			4C = ART sets S, was 2542 16 (cues)
+			4S = stiff S, to play (cues)
+		3N = even had 6S but good club stops, may have 2H or 4D
+	3H = was 1633x2, promises 6+H
+	3S = 3-4crd, not 5332 I think, incl. 4513 18, 35(41) 16, 4531 11 (11 would cooperate) - possibly denies 3S-6H since recently that bid 2N
+		3N = minimum, artif., cues or s/o
+		4m = max, cue
+	3N = was 2533 15 probably an NFU
+		4C = was 5134 15, blundered way into a lucky 6S on 5-2 making
+2N = 5-9 4crd raise, 7-9 3crd, or 8-11 with sing., may have 5+S
+	(X) ignore
+	(3C) X = was 3523 18 [4C = was 4441 8], 4H = distrib. minimum, was 1552 13, sets Forcing Pass
+	(3D) = alerted, was 4522 12
+	3C = asks which, tk 17+
+		3D = 7-9, 3crd (cues)
+		3S = was 7-9 4fit (cues)
+	3D = 14-16 invite, was 4522 14 twice / 2524 15 / 3523 15 / 4621 14 / 2542 15 (3H = declines invite, 3S = was 6511)
+	3H = was 11-13 with 4S (mb 12-13 with 5H-4S)
+	3S = ?
+	3N = was 3523 17 (4H = was 4crd unbal)
+	4H = was 2524/4513/1543 16, 0526 11
+3C = 5-5 10-16 with spades (which minor?) - was 5125
+	3S = sets S, was 4513 (cues)
+3D = 5-5 10-16 (which suits?)
+3H = v. weak, distributional (4 unbal or 5 bal, e.g.), but recently was 3433 8 Vul and pd accepted with 16 so maybe constr?
+3N = was 3460 9
+4C = 2-3 ctrls, void in D, raise
+
+Handling Interference:
+
+(X)
+	XX = 6+ may be 6223/3154 GF, 2263 7
+		(1S) Pass = was 4612 14 (2D = was 6D 7 [2H = was 4612 14 NV])
+		4H = minimal
+	1S = ?, maybe not strong
+	1N = no longer necessary with weak hand, can Pass with 3 HCP
+	2C = to play
+	2D = ?? (passed with good 6crd D suit and 5 HCP recently) (XX'd with 6D 7 HCP recently)
+	2H = wk raise, not hopeless
+	2N = was 3415 6, 1534 7, 4432 9 some sort of lim raise (3C = asks [3S = was 4fit 9])
+	3H = was v. weak 3541/1453, vul-dependent but still weak
+	4H = was KQxxx bal w/ side jack
+(1S)
+	X = was 3343 10 (1N = was 4513 16)
+	2C = was 6+ good C but 8 HCP (F1 but not GF)
+		2H = was min 6H (3C = NF)
+		2S = generic 18+ even with S stop so 2N prob NF)
+	2D = was GF, promises another bid at least ([2S] X = was 0724 15 xtra trix, 2H = was 6H 18)
+	2H = v. weak
+	2S = limit or slam ** now mixed **
+		3D = 6-4?
+		3S = void (3N = slamtry not limit)
+	2N = was lim+ 3-crd raise ** cf 2S ** (3H = was minimum like 15)
+		(4S) P  re doubled with 8 3fit and pd passed since minimum
+	3D = was art mixed raise (4 HCP)
+	3H = v. weak (1 HCP?)
+	3N = GF 4-crd raise
+	4H = was 2461 7, 5440 6, no alert
+
+(1N)
+	Pass
+		2m = 5-5
+
+(2C)
+	X = neg, was 4252 7
+	2H = about 4-7 HCP
+	2S = 5+S, F1
+	3C = was 4crd 7-8 HCP raise, 4441 6
+	3N = H raise, was 4432 9
+
+(2D)
+	X = was 2245 13 (??)
+		2S = was 4513 11 (3N = was 2245 13)
+	2N = was 3-crd 9 HCP raise
+	3C = nat GF *WITH TOLERANCE(+) FOR HEARTS*
+	3D = was 4-crd 8 HCP raise
+	3H = v. weak pree (4414 0)
+	3N = to play 4H "not weak" e.g 4414 10
+
+(2H)	
+	2N = was 3fit 9 HCP, promises fit
+	3D = nat, was 4351 14 (possibly GF with TOL for hearts as above)
+	3N = raise to 4H with cards, 4+H
+(2S)
+	2N = was 0355 12, 3424 7
+		(3S) Pass = NF, was 4522 11 (4m cue for H)
+	3C = nat GF, had H tolerance
+	3D = nat GF, had 3H
+	3H = v. weak (cf 2N)
+	3N = raise to 4H with cards, was 4H with 8, 13
+
+(3D)
+	X = was 6313 6, 4234 8
+		3H = was 3523 16 and was passed there, making 4
+		4D = was 3712 19 (4H = was 4234 8 signoff)
+
+Third/Fourth Seat adjustments:
+1N = NF, mb 3145 9
+2/1 = invit 
+	2C = 5+C, or 4144, may have 3H or 4S
+		(2D) Pass = was 4531 13 (2H = was 5C-3H 10 NF)
+		2H = GF, was 2533/3622 16 (2N = as normal R, 3D = was 2245 10 [3N = had 6-2 fit but played it 3N], 3H = was 4342 10)
+		2S = 4+D (3H = nat inv)
+		3H = was 2821 9.5 tricks (4C = was cue for H but had S cue)
+	2D = nat, stronger than 3163 8 (bid 1N with that), may have H fit
+		2N = was 2533 17 (3H = sets H, cues)
+2N = same
+
+********************
+1S Opening Responses
+********************
+
+1N = 0-9 no 4S
+	(X)
+		Pass = had 5431 13
+		XX = 18+
+			(bid)
+				X = was 7 semibal with 5H
+	(2y) 
+		Pass = had 17 BAL
+		X = 18+, any distr. (cue = GF general)
+		4S = was min distributional
+	2C = Gazzilli:  14-17 natural OR any 18+
+		2D = 6-9 relay
+			(X) 2H = as normal
+			2H = 18+, 3+H
+				2S = R, may be any shape, was 2245 7, 2335, 1345 6, 2425 7, 2434
+					2N = was 5332x2, denies 4H
+						3C = was 2335, no D stopper
+						3N = to play, was 2245
+					3C = 4 clubs, so 5314'ish (5C = to play)
+					3D = was 5341 18 (3N = to play had doubleton S)
+					3H = was 5431/5422/7411/6421 (3S = doubleton, 3N = to play, 4H = to play [was 3])
+					3S = 6+S (cues for S)
+				3C = natural, was 2326 6
+				3H = 5+H, max (3D = cue, 3N = min. no S cue, 4H = min)
+				3S = was 0742 7, mb splinter for H (4C = was 5332 19, H is trumps)
+			2S = 5+S-3+C, 14-17(16?)
+			2N = was 5224 17, denies 3H
+			3C = 18+, 5+S-4+C, 0-2H
+				3D = nat (3H stall)
+				3H = was 1624 (3N = was 5134 stiff Ace [5C to play])
+				3N = to play, may have 2S
+			3D = 18+, 5+S-4+D, 0-2H (4C = cue for D)
+			3S = 6+S, denies 3+H (was 8crds 9 tricks or 6crds 7.5 tricksx2 - good suit either way, AKxxxx at worst)
+				3N = to play
+				4y = cue for S, had Hx
+		2H = 0-5, 5+H
+			2N = strong invite, 20+, NF
+			3H = invite, was 6313 18 solid spades
+			4m = cue for H, huge hand
+		2S = 0-5, 2(3)S
+		2N = 0-5, 5-5 minors (3S NF)
+		3C = 0-5, long C
+	2D = 4+D, max 17
+		2H = to play
+		2S = pref, signoff (3D = 5-5 max)
+		2N = invit, may have 2S-3H (4S = was 6 good S-4H)
+		3D = invit
+		3H = invit, 6+H
+		4D = was 2263 5, NF
+	2H = 4+H, max 17, could be 6S-4H
+		2S = pref, signoff, tends to have some values (was as strong as 2344 8 2335 7, NF)
+		2N = invite, was as weak as 2335 9 (3H = 5-5 min, signoff)
+		3C = tk max
+		3D = was max, tk max since pd bid 3N with fitting 14
+		3H = invit, e.g. 8 HCP (3S = 6-4, 4H to play)
+		4C = was 0544 8 with club cue
+		4H = was 2623 5, 1534 9
+	2S = 6+S, max 17
+		2N = invite, was 1543 8 1453 9, 1444 8 NF
+		3D = nat invite, was 0472 8
+	2N = 18+, 5+-5
+		3C = relay
+			3D = 5S-5H
+			3H = 5S-5C [4S = was doub)
+			3S = 5S-5D [3N = to play (4D = 6-5), 4S = mb doub]
+			4D = was 6S-5D 16 (4S = s/o was doub)
+		4S = was 3343 2 HCP
+	3C/D/H = 5S-5y, good 16-17, more based on tricks
+	3S = was 7222 5 losers
+	4S = was freak non-slam
+2C = 10+ HCP, balanced (even longer D) OR clubs or S raise (even BPH)
+	(2D) 	P = was alerted, was 6241 15, pd doubled with 3433 10 but was removed back to 2S
+		2H = was 5422 12, 5413 14 (4H min)
+	(2H)    P = was 6430 18 (4S = bare min)
+		3D = was 5-5
+	2D = 4+H, 11+ HCP
+		(X) ignore
+		2H = ?, prob NF short S, yes was 1345 10
+			2S = was 6421 15 (2N = was 1345 10)
+		2S = was 2164 11 recently NF
+			3N = was 5422 17 (4C = cue for S)
+		2N = GF relay, may be unbal with 3S-5+C, 5S-4C, 1444, 2434, 4153, 2353, 3433, 2245, 4243
+			3C = "maximum" was 5413 19
+				3H = sets H
+			3D = 54(31) min, mb 14
+				3H = relay (3S = shows 5431 exactly [3N = to play, 4D sets S ART])
+				4H = was 1444 11 with C wastage
+			3H = was 6403 10 (3S = was 3352 12 [3N = was 6403 10])
+			3S = 5-5, may be 11, 5512 9 (4C = sets H, 4D = sets S, 4S = to play)
+			3N = 5422 minimum (4H = to play)
+		3C = was 1336 16 great suit (4D = splinter for C)
+		3H = GF H raise, was 10 bal
+		3S = was 4135 12
+	2H = 4+D, says nothing about S length, GF, may have 3C, denies 4H
+		** maybe exactly 4D **
+		2S = was 4225/4423, 3433/3244 10
+			2N = was 5242 16 (not max, cf 3N) (4S = to play)
+			3D = was 5-5 min had C cue, so probably just natural (3S = had no H cue, now 3N ART min...)
+			3S = 6-4 max [cues (3N min?)
+			3N = 5242 max
+		2N = R, was 4225/3334/2335 12
+			3D = was 5341 min [3S sets S]
+			3H = was 6241 min promises 6S (3S = sets suit [3N = min])
+			3N = was 5242 15
+		3D = was 1345 14 (3S = was 7240 12, shows 6+S [raised with stiff, even with 14...])
+		3H = was 2335 11 no H stopper (4C = was 5053 14 [5C = to play minimum])
+		3N = was 1444 12 good soft stoppers in other suits (4N = quant was 19)
+		4S = was 3433/3334 11, 3316 9
+	2S = was 6124/6214/5125/5224/6(331)/62(32)/5(332) min, denies 4+D, think GF, also 6223 20
+		2N = relay, says nothing about S
+			3C = was 6134/6214/5224 min, alerted 6223 20
+				3D = R no S fit (3H = was 6223 20 [3N was random 11 no S cue pd jumped 6S], 3N = 5224 min)
+				3S = sets S
+			3D = 3C, may have 6S, incl 5233
+				3H = R had no S fit, but once S fit (3S = was 6223x2 [4C = cue for S], 3N = was 5233x2 15 NF)
+				3S = S fit
+			3H = was 6331 15 (3N = to play)
+			3S = 6+S 14-17, without 3C (4C = cue for S)
+			3N = 5332 exactly, 15-17
+		3C = was 1336 (4C was 5125 min)
+		3D = was 1345 13 (4C = had 3fit short H)
+		3S = was 4333 10
+	2N = 17+ one-suiter, was mostly 5332. or 6223 18 recently
+		3S = was 3415 slammish, 4432 minimum (cues)
+		3N = to play, was 10 HCPx2, even with 4H or 5D
+	3C = was 5(21)5 13/15/17, 6124 17/18, 6304 15 (, 5224 18 4th seat)
+		3D = relay
+			3H = was 5125
+			3S = was 6124 18 (4C = sets C)
+		3S = sets S, was just GF balx5 (3N/cues)
+		3N = to play, doub S
+	3S = SOL 7+suit any strength (cues)
+2D = 10+ HCP, 5+D, GF, even without major fit
+	(2H) 	X = was 5224 14 (2S = was 4351 12, sets suit)
+		3D = was 5440 12 (5D = was min with xx hearts)
+	2H = 4+H, 11+
+		2S = was 3253 11x2 (F?)
+			3D = was 5431 11, 5530 15 (3S = was same as 4S, but signed off later quickly, 4S = no slam)
+		2N = GF relay, any shape (GAR)
+			3C = 5-4, 15+ (3D = relay [3N = 5422])
+			3D = 54(31) or 54(40) 11-15
+				3H = R (3S = short C, 3N = short D)
+			3H = 6+S-4H, was 6403 13 (probably 11-14 as... 4S = min to play)
+			3S = was 5S-5H min, promises 5H (4H = to play)
+			3N = 5422 11-14
+		3C = 4th suit GF, no C stopper (3S = 6+S)
+		3D = was 2272/3172 GF
+			3N = had 6 good S but C stop (4D = sets D for cues)
+		3H = sets H, was 3460 10 (cues for H)
+	2S = was 6124/6313/5224/5215/72(13)/6322/5332/5314 minimum (16 ok)
+		2N = was 2254 14 (shows extras?)
+			3S = was great 7 crds (3N = had 2 spades weak H stop, maybe cue for S?)
+		3C = was 0355/0454, 2155 12, 1264 12
+			3D = fit, was 7231/5332 (3H = was 2155 no slam [3N to play], 3N = to play)
+			3H = had hAx but 4 clubs (3N = H stop [4C = slamtry C])
+			3S = was 6313
+		3D = was 2263 12, 1372 16
+			4S = was awesome solid suit minimum
+		3S = was 3271 9 (3N = was AQJTxx AJx Qx xx, think the minimum 3N since pd signed off)
+		4C = splinter for S, mb void with 3fit
+		4S = minimum
+	2N = 17+ bal?
+	3C = was 5215 14/15
+		3D = was 2182 (3N = to play)
+		3H = was 1453 18 (4C = was 5215 15 no H stop [4H = cue for C had no D cue])
+	3D = was 5053 14 (3S = sets S was 4153 10)
+	3S = SOL 7+suit any strength (cues)
+2H = GF, 10+ HCP, 5+H
+	(2S) X = 6+crds
+	2S = denies 3H, was 8122, 6142 15, 5242 15, 7141 12
+		2N = was 2533 13, denies 6H, 5m (3N = was 5242 15)
+		3C = was 0535 slammish, 2524 12, 2614 thk nat (3D = 4th suit [3S doub], 3S = was 8122/7141 [ 3N = to play, 4C S flag])
+		3D = was 1651 no alert (3H = was Hx [4C = was H flag])
+		3H = was 8 hearts (4S = was AKJT9x and stiff heart, minimum, horrible bid)
+	2N = 3+H (incl. 5332 18, 6322 17, 5314 16), cf 3H
+		3C = rel, any hand (3D = ?, 3H = was 5314 16, 3S = 6S-3H, 3N = was 5332 15, 4C = shows 53[32] 18+, cue)
+	3C = was 5134 16, 5044 19 (3S = sets S)
+	3D = was 5152/5251, 5242 15, 6142 16 (3N to play, 4D = D flag, 4S = bad for slam)
+	3H = 3+H, 14+, may be 6-4, cues for H (3S = was Kxx [4C = was 5431 15, 3N = min])
+	3S = SOL 7+suit any strength (cues)
+	4H = was 5422 13, 6412 11
+2S = 2(+)-7(-) raise (with less and 3fit bid 1N)
+	(X) 3D = was dAKQx game try
+	2N = relay
+		3C = was 3244 6
+		3S = min
+		3N = 3(433) not min
+	3D = was short C GT
+2N = raise, 5-9 4 crd, 7-9 3-crd, or 8-11 with sing.
+	(X) ignore
+	(bid) does not set up a forcing pass
+		3H = was 5S-4H GF (4H = to play was min)
+	3C = relay
+		3D = 7-9, 3S
+			3H-3N-cues... was 5S-5H no slam once, pd bid 4H as cue and they played 5-1 fit
+			3N = c.o.g. 5(332)
+			4C = was 6214 20 no H cue
+		3H = 7-9, 4+S (4C = was serious cue x2)
+		3S = 5-6 with 4S (4C = serious cue)
+	3D = 14-15 without 4+H, art (3S = min NF, 3N = 4S 7-9, 4S = 3S max)
+	3H = was 5422 min/16, 5431 14, 5413 14/17 (3S = signoff, 4H = to play, 4S = was 4351 8, 4144 7, 3244 9)
+	3S = 5+S-4+H 11-13
+	3N = was 5233 16, all side suits stopped
+	4S = to play (5413 14 e.g.)
+3C = 5D-5H 10-15 (4S = misfit to play)
+3D = 5C-5H
+3H = 5D-5C 10-15?? (not sure actually, bid 2D many times with this)
+3N = was 5332 10
+4C/4D = D/H void splinter, 2/3 controls
+
+Handling Interference:
+
+(X) 
+	XX = 7+, but passed with 7 recently, maybe range was upped for XX since 1S mb light, may have 3+S
+		(2C) 2D = was min 5-5 (2N = invit was 8)
+	2C = to play
+	2S = was 3crd 0-6 HCP, alerted
+	2N = was 4342 6, 3226 7, 3235 8, probably same as if no int (3D = was 6232 14 and bid game with 8, 3S = signoff)
+
+(1N)
+	2N = was 4fit limit x2 (systems on)
+
+(2C)
+	X = negative, was 5
+	2N = was 8 HCP 3fit
+	3N = GF 4crd raise
+
+(2D)
+	X = neg or some GF, was 2245 GF, 1444 9 (2H = was 5422 12 [3N = was 2245 GF to play], 2S = was 6S 14 and pd passed with 8 misfit)
+	2H = was 6H 6 HCP, did not set up force
+	2S = was 3334 6
+	2N = 3crd invit+ raise
+	3D = was 5332 12, 3424 10 (3N = nat)
+	4S = was 5233 6
+
+(2H)
+	X = negative, may be 3244 11, 2344 8, 2353 8 (3D = was 5143 17, 3S = was GF [4S = to play had min doub], 3N = was 19)
+	2S = was 3334 with just Ace (4 HCP)
+	2N = was 4S 7 HCP, 3S 8 HCP (even BPH)
+	3D = was GF 1462
+	3S = weak
+
+(2S [michaels])
+	2N = was slammish 3fit (3D = was 5242 16 [3H = was slammish 3fit])
+	later opener's X is extra strength/takeout
+	3H = was 3fit GF
+
+(2N [minors])
+	Pass = could have 7 (judgement)
+	X = could have 6 (judgement)
+	3S = was 3415 6 NF
+	4S = mb 7 HCP 5crd
+
+(3C)
+	X = neg (3D = nat)
+	4C = non-pree. raise to 4S, including 17
+
+(3D)
+	3N = to play
+	4D = good raise, including 17, 5fit 10
+
+(4H)
+	5H = was 5062 9
+
+Third/Fourth Seat adjustments:
+2C (can be bal 3crd 9-10 HCP, even with 3fit)
+	2D = shows H, was 5413 19x2 (2N = was 3433 12, 3H = was 2443 10, sets H, 3S = was 3343 11 sets S)
+	2S = GF, was 6232 16, 5323 16 [no D stopper] (3S = was 4333 10, 4S = was 3424 9)
+	2N = was 16 5332, 18 6223 (3S = was 3253 10, 4432 11 [3N = to play, 4C = cue])
+	3C = was 5224 18 (3S = was 4333 10)
+	4S = just wants to play 4S opp. PH
+2D = semi-GF
+2H = GF (since if partner minimum then has 4+H)
+	4S = was bash 7222 13 good suit
+2N = same
+4m = same
+
+********************
+1N Opening Responses
+********************
+With 4441 14, opening 1D may be chosen instead of 1N.
+
+2C = Stayman, at IMPs any 10 HCP will do, also may be a psyche with v. weak hand (rare)
+	(X)
+		Pass = C stopper (re redoubles and continue normal)
+		XX = to play (re 2D is garbage)
+		bids = normal but no C stopper (X by Stayman bidder is takeout)
+	(2D)
+		(3D) X = had cards with xx D
+		2H = had 4H with AQ D (twice!), not 4S
+	(2H)
+		op's X = takeout (since had 5 great H and passed)
+	(2S)
+		re's X = was penalty
+	(3C)
+		3M = good 5crds
+
+	2D = no M
+		2H = relay to 2S, could be 5+S-4+H weak, or GF 3415 et al
+			2S = forced
+				Pass = 5+S-4+H weak
+				2N = was 1354/4414 minimum GF *** this is new I think ***
+					3C = was 2335 with Ax S, 2353 - asking
+						3H = was 1354, but recently 4414 it shows
+		2S = relay, was 17+ bal, 19 4414, 4315 13, 5422 15
+			2N = was 3235 min
+				3S = was 5422 15 (cues for S with 3fit)
+			3C = was 3352, but recently was 3235 showing C, but then again 3352 14
+				3D = ?  at some pt D was set, was 4315 13
+					3S = was 3352 14 (3N  to play)
+				4C = sets C, was 4414 19
+			3S = was 3244 max (4D sets D)
+		2N = invite, might not have 4M (was 5314 inv in BBowl)
+		3C = nat GF, was 2425, 3406 14 (3N = was 3352, 4C = big fit)
+		3D = was 2461 GF/15, 3262 16 SOL D
+			3H = was 3235 no S stopper and pd bid 5D with xx S
+			3N = was KQT Ax xxx Kxxxx or other 3fits with M stoppers
+		3H = 5+H GF, 1-suiter or 4S-5H (was 45[22/(31)] 12-13, 2812 13, 3532 16, 1633 16)
+			3S/4m = cues with H fit
+			3N = no fit (4C = auto-cue for H)
+		3S = was 5422/5404/7114/5305 GF, 5233 16
+			3N = doubleton spadex2
+			4C = was 2344, ended in S
+			4D = was AJx xx AQTxx xxx (4S = to play was bare min)
+		3N = to play
+		4S = to play, 6S-4+other for whatever reason
+	2H = 4+H, incl 1444
+		2S = relay, asks strength/shape, may be invit+ with 4S, may be slammish, may be 7141 slammish
+			(X) Pass = no agreement, think 3/4 S
+			2N = min, not 4S, NF
+				3C = relay, may have 4H if slammish
+					3D = was 2443/3442/1444
+						3H = was 4234 slammish mb looking for 5D? [3N = was 2443]
+						3N = was looking for C fit
+						4S = was 6322
+					3H = 5H (3S = cue for H [3N min])
+					3N = 4 clubs (4H = to play)
+				3H = H flag (had long spades too) - cues
+				3S = was 7141 14 (4C = cue for S was 3fit)
+				3N = to play
+				4H = to play
+			3C = max, 4+C
+				3S = was 6313 slammish (3N = was doubleton spade [4S = to play even though had cues])
+			3D = max, 4+D
+				3H = sets H, cues
+				3S = was 4144/4333 no alert (looking for S fit if op 4441?)
+					3N = was 2452 (4C = cue for D)
+					4H = was 2542, misunderstanding
+			3H = max, 5H (even 2524) or 3433(3S = might ask [4C = 5H], 3N/4H = to play, 4C cue for H)
+			3S = min, 4-4 majors, not 44(41) (4C = sets H)
+			3N = max, 4-4 majors, not 44(41) (4C was 2245 slammish, 4D = S flag not cue)
+		2N = inv, no major
+		3C = was 3235 18, 1327 13, solid clubs slammish
+			3D = was 2542, or 3442 with good side stops (4N = quant, 5m = to play)
+			3H = was 2524 no alert (4C = C flag since had S cue)
+			3S = was 3433 min (3N = was mild slamtry)
+		3D = nat GF, enc raise
+			3S = 4-4 majors
+			3N = to play [4C = was 5D-4C slamtry]
+			4D = was 4fit
+		3H = invite
+		3S = was 6+S balanced slammish x3, 5143 mild slammish (3N to play, 4C = was 3442 cue)
+		3N = no major, was 3136
+		4m = great hand, H fit, cheapest cue (short or honor or length ok), Turbo
+	2S = 4+S
+		(3C) 3S = pree
+		2N = invit (3S = max, 5S)
+		3C = GF relay, may have S fit or minors
+			3D = 4+D, may have 5S (3H = was 3325 16 [3N = was 4243], 3S = sets S, 4D = sets D)
+			3H = 4333 (4m = sets m)
+			3S = was 5(332) (4C = S cue, 4D = was 4054 slammish [4H = was last train for S])
+			3N = was 4225/4(32)4 any strength (4C = sets C, 4D = cue for S even with C cue, 4N = quant)
+		3D = was 2461 11, 3451 16, no alert (3N = to play may have 3D)
+		3H = 6+H, at least mild slam interest
+			** but was 3541 no slam recently (4H = 3fit)
+			3s = 5S (4C = cue)
+			3N = to play (auto-cues)
+		3S = invite
+		4m = great hand, cheapest cue (short or honor ok), Turbo
+		4H = to play, was 1651
+		5m = to play, does not promise 4H, probably short H
+	2N = was 4441 minimum x2, def. short C (4M = to play)
+	3C = was 4414 minimum (4M = to play)
+
+2D = transfer, 5+H, or 5M GF, or 4H-5+m invite (recently was 5422 10, 5134 15 also)
+	(X)
+		XX = D.N.E. I think
+		Pass = 2H (XX = retransfer, or later free 3H = to play)
+		2H = 3-4H, or maybe Ax
+	(2H)
+		X = had max, Axx H
+	2H = accepts transfer
+		Pass (any) -Pass-  X = takeout (2N = scramble)
+		(2S) X = cards
+		2S = transfer to 2N
+			2N = forced
+				3C = 5M-3oM-1D-4C, GF (3D = relay [3S = 5S])
+				3D = 5M-3oM-4D-1C, GF
+					3H = relay (3S = 5S)
+					4S = to play, 5S
+				3H = was 5422 GF x2, promises 5S
+					4S = had 4/5S
+				3S = 51(43), c.o.g
+				3N = 15(43), c.o.g.
+		2N = invite
+		3m = 4H-5+m invite
+		3H = invite (had 4S but so did op and they weren't mentioned)
+		3S = 5+S-5+H slamtry (3N = to play was 2-2 majors [4H = to play], 4D = sets S?, 4S = s/o)
+		3N = c.o.g.
+		4C = 5+-5+ H-C slamtry (4D = cue, had C fit)
+		4D = 5+-5+ H-D slamtry (4H = to play)
+		4H = to play, was aceless bal 14, was it looking for perfecto superaccept?
+	2S = 4-5H, short C - probably short C (2N = was 2524 mild slamtry [3H min], 4D = retransfer)
+	2N = was 4414 min, prob short D (4H = to play)
+	3C = was 2452 (Ax clubs) avg, soft 14 KJxx C, 1444 12/13 (3D = retransfer then cues), prob short S
+	3H = min 4H, or max 4333
+		3S = 5S, not hearts, GF not nec slam interest (3N = doubleton S to play)
+		4C = probably just ART H slamtry [good?]not cue was 2524 with S ctrl, alerted as denying S ctrl so Nunes thought nat? so now 4D = S ctrl
+2H = 5+S transfer (could be 4S-5+other invite)
+	(X)
+		Pass = 2S (2S = to play, XX = retransfer)
+		XX = was 1444 (3D = was 5242 11 and pd passed)
+		2S = 3S or maybe Ax (3m = still 4S-5m invite, 4S = s/o)
+	2S = accepts transfer
+		(X) 3D = weak 5-5
+		(3C)  3N = need not have C stop
+		2N = 5S invite (3D = declines, was 2452)
+		3m = 4S-5+m invite
+		3H = 4S-5+H invite
+		3S = invite
+		3N = c.o.g.
+		4m = 5+S-5+m slamtry
+		4H = 5+S-5+H c.o.g.
+	2N/3m = working doubleton next higher suit, 4S (3H retransfer)
+	3S = was 5233 sub-minimum, 4342 max with xx clubs
+2S = transfer, many possible hands, incl. 5-5 minors GF, 5H-5D invit, 5S-5H 11
+	(X) later X by responder = takeout invite 5-5
+	2N = forced
+		(3S) Pass = forcing invite with 5H most likely (5-5)
+		3C = 5H-5C inv?
+		3D = 5H-5D inv
+		3H = 5S-5D inv?
+		3S = was 5S-5C inv
+2N = transfer: signoff minor, or 5-5 non-touching invite
+	(X) 	P = was max, Axx D
+		3C = was equal minors average
+	3C = forced
+		Pass = C s/o
+		3D = D s/o (4S = cue with bid D fit)
+		3H = H-C invite 5-5 (4C s/o)
+		3S = S-D invite 5-5 (4D s/o)
+		3N = was 16 with 6 SOL clubs no short, NF (4S = was 3fit with 5 good S)
+3C = asks 5-crd major or 5422, not used if just looking for 4-4 fit
+	(X) Pass = C stopper (XX continues), bids = normal without C stopper
+	3D = denies 5m-4M
+		3H = 3H, may have 3S (had various 5m332's not nec slammish)
+			3S = 5S
+			3N = no 5M (4D = 5crd F [particularly over X of 3C])
+			4C = cue with 5H
+			4H = was good 14 with 5H suprised didn't cue
+		3S = 3S, denies 3H (usu. sing or bad doub)
+			3N/4S = to play
+	3H = 5C-4M
+	3S = was 2452
+3M = splinter, 5+-4 minors, GF - recently was 1246
+	(X) 3N = had great stops
+	4oM = to play 5crd
+4m = South African Transfer to 4M
+	(X) 4M completion = was misfit with control
+
+
+Handling Interference
+
+(X direct = pen)
+	Pass = asks partner to pass if 4333, may be weak no 5crd suit, or any 8+ (these bid later)
+		(2any)
+			Pass (had 5crds in their natural runout once)
+				(P)
+					X = takeoutish, usu. 2-3 crds, 8+, may be 5-4
+					2N = minors (if over a major)
+				(2S)
+					X = takeoutish 8+, was 3523 and pd bid 2N with xx AQxx AQxx xxx no stoppers anywhere
+				(3D)	X = takeoutish was 4225 and passed 3H
+			X = was 5crds in their suit, pd raised with 4 to play
+		(3any)
+			Pass
+				(P)
+					X = forward going, was takeout with 2crds 11
+		Pass = any 4333
+		XX = any 44 or 54, later XX by either side SOS
+			Pass = 8+
+			2C = weak C+higher, or any 4333 (2D = p/c)
+			2D = weak D+higher
+			2H = 4+S 4+H weak
+		2y = 5-crd suit 1-suiter, may judge to do this if good 5 card suit and weak 4 card suit
+	XX/2C/D/H = transfer to 5+crd suit, may be 2-suited, usually signoff (may superaccept with 5[4] crds)
+		(X) complete transfer = mb 2 cards (mb Pass shows 1444?)
+		later responder can compete to 3-level non-invite, even reverse with 6-5
+		later NT bidder can XX after completing transfer to indicate maybe 4441 short pd's suit
+	*[runouts may be natural opposite a 1N overcall:  (1D)-1N-(X)-2C = nat]
+
+(X balancing = pen)
+	Pass
+		(2H)
+			(2S)
+				P
+					X = cards takeout oriented
+		XX = scrambling, 2m = natural
+	2C = judged to bid NV with 2335 great suit
+	2D = judged to bid NV with 4252 eh suit
+	2H = judged to bid NV with 2524/2542, V with 3532
+	2S = judged to bid NV with 5233
+
+(2C = any suit[s])
+	X = values
+	4M = to play
+
+(2C = majors)
+	Pass = mb 8+ waiting without pen for both majors (cf X)
+		(2M = pref)
+			Pass
+				X = was 8-10 cards not stack (even sing), pd passed with sA98x max
+	X = stack for at least one major?  was KQx Qxx xxx Kxxx (3C by op NF 5 crds)
+	2D/3C/3D = to play
+	2H = clubs, lim+ (later cue M you "show" stopper in)
+	2S = diamonds, lim+ (3D = neg)
+	2N = nat, had no major stack (Kx xx), but recently was 5-5 minors weakish
+
+(2C = H + another)
+	X = was 4252 10, cards likely (does not set force)
+
+(2C = S + another)
+	2D = to play
+
+(2D = D + major)
+	2H = nat s/o
+
+(2D = majors)
+	X = general strength (activates pen X's)
+
+(2D = H)
+	Pass then 2NT = minors
+	X = values but not F (later X takeout both sides), but recently BPH was takeout of hearts (bid bid 4crd S freely at 3-level)
+		(P)
+			Pass = had 2542
+	2H = was 5233 12 no H stopper, 3235 9, probably takeoutish
+		2S = was 3crd NF
+	2S = to play
+	2N = was C signoff, probably Leb
+	3H = 5+S GF, no H stopper (*but see 2H recently)
+	3N = has stopper
+
+(2D = multi)
+	Pass = mb strong takeout of H or penalty of S
+		(2M p/c) X = takeout both sides, except pen X by Re: behind o/c'er
+	X = cards (was 3-4/3-2/2-4 majors), sets up pen X's, may be as light as 8
+		(2H = p/c)  
+			Pass = had 4144 and sat for pd's penalty double, or AQJ and didn't penalize
+				3C = was 3235 10, pd bid 3N with 12 but hAQJ
+			X = had 5S-3H max, pd sat with Q9xx hearts and 8 HCP
+	2S = s/o
+	3D = nat, F
+	4m = South African Texas as normal, sets forcing Pass
+
+(2H [nat])
+	P (P) X = takeout
+	X = takeout, may be GF with 5S, does not set up forcing pass
+	2N = was long good D suit (forces 3C then bids 3D), prob. invit.
+
+
+(2H = S)
+	X = 4+H, was 10+ HCP and pd can raise to 4H over 2S (2N = to play)
+	3S = 5+H GF, no S stopper
+	3N = has stopper
+
+(2S [nat])
+	X = neg (must pass with penalty, mb opener will reopen with t/o X), might have 5H BAL
+		might have 3H-3S showing flexible GF
+		does not set up forcing pass
+		(3S) X = takeout
+		3D = had hKxxx dAJxx
+		3H = had 4H (3N = had sAxx and hQJx)
+	2N = puppet to 3C, includes GF with long D (rebid 3D)
+	3S = 5H (was 5H short S - pd bid 4H with 3 hearts)
+	3N = had stoppers
+	4C = SAT transfer as normal (hearts)
+
+(2y balancing)
+	passable takeout X's by both sides
+	natural X by opener over art 2y (Kxxxx ok)
+
+(3C)
+	X = takeout
+	3D = nat GF
+	3S = was 4S-5H GF (pd bid 4H with 3)
+(3D)
+	X = takeout
+	3H = 5+S, invite+, was 5S-4H GF, 6322 10 (3S = 3+S NF)
+	4D = 5-5 majors
+
+********************
+2C Opening Responses
+********************
+
+2D = invit+ relay, asks for 3+crd major - could be 4-4 majors weak gambling on better fit
+	(X)  2H = was 1435/3415 "3 or 4 hearts" as normal
+	(2H)	Pass = was 1345
+	(2S)  	
+		Pass = could be penalty of spades (bal X = takeout passable)
+		X = takeout (passable) with 4H
+		3C = was 1246 (pd 4H to play)
+	(3D) Pass = neutral (3H = was 5H GF) X = takeout, 3H = nat was 3406 10
+	(3H) X = takeout was 3046
+	(3S) Pass = had min with sAQx (X = was takeout)
+	2H = 3-4H
+		2S = 5+S GF
+			2N = was 1435/0445/1345
+				3D = was 5350, thk D fit (4D = was 0445, cues)
+				3S = 6+S
+			3C = was 2326 no D stop, denies 3S
+			3D = was 1345/1444 max (3N/4S = s/o)
+			3H = 1435 (4C = sets C)
+			3S = shows 3S assume?
+		2N = R, denies 5+S
+			3C = 6+C
+				3D = relay
+					3H = 4H-6+C(4H to play)
+					3S = was 2317
+					3N = 3H exactly, was 3316/2326 (4C = sets C, 4D = H flag)
+				3N = to play
+			3D = 4D, was 1345x2 (5D to play)
+			3H = 1435x3 any strength(3S = cue for H [3N min])
+			3S = was 3415 any strength x2 (promises 4H)
+				4D = was ART H slamtry (since had C cue)
+				4H = to play
+		3C = NF, had 4S or 3-4H, 2/4 C (3N = accepts without 4H)
+		3D = was nat, F (3H = was 1426 no S stopper [4H = sugg Moysian])
+		4M = to play
+	2S = 3-4S, could be 4405/3145/4135/4126/3226/4117/4306 "denies 3-3 majors, mb 3S-2H or 4S-3H"
+		2N = relay, any shape
+			3C = 6+C (was 4126/3226/4117/4306)
+				3D = relay (was 2533 13) (3S = was 4117/4126 [4D = sets S])
+				3S = was 5431 GF (4S = to play, was min)
+				4C = sets C
+			3D = 3145 (5D = to play)
+			3H = was 4315 any strength, or 4405, promises 4S and 3H (4M = to play)
+			3S = was 4135 min (5C = to play)
+		3C = NF
+		3D = nat, F (3H = denies 4S was 3226)
+		3S = was 6331 GF
+			3N = was 3145
+		4M = to play
+	2N = max 1suiter no 3+M (3D = was 4251 GF no H stopper [3N = had sK, hKx (5C to play had no H stop)])
+	3C = min no 3+M
+	3D = nat, was 4D-6C max (denies 3M)
+2H = nat NF constructive
+	(2S) Pass could be 6 nice clubs unbalanced with doubleton spade, but was bare minimum
+	(3D) 4H = was 1426
+	2S = was 4135 min (3C = s/o)
+	2N = was 3136 max (3D = to play)
+	3C = to play, was 3136 min
+	3H = was 4315 11, NF
+	4H = was 0445 min, 4315 max
+2S = nat NF constructive
+	2N = was 2326 with solid clubs, 2236 max v. good clubs, 1345 12 any clubs, 0445
+		3C = to play, v. light
+		3H = nat, was 11
+		3S = nat NF, was 8/11
+		3N = to play, was 6322 12
+	3S = courtesy
+	4S = was 3415 12, 2236 13 bad hearts Kx spades
+2N = 5+S-4+H invit (4M = to play)
+3C = pree, 3+C
+3D/H/S = 7+ crds invit
+4C = pree/to play
+4H = to play
+
+Handling Interference:
+
+(X)
+	Pass = may have constructive hand, waiting to reopen for takeout
+		(Pass = pen by 2nd seat) 
+			XX by re: = SOS over balancing X
+		(bid) 
+			3H by opener may be 4 or 5 cards but highly distributional
+			reopening X by RE = takeout
+	XX = 10+, was 7222/5233/24(34)/2533/5143 (if would relay, XX) - later 2S freebid is 5S F1 (2N = s/o attempt, can stop in partial)
+			does not set up force if they win auction
+		3H = was 6C-5 bad hearts
+	2D = nat NF
+	2H = was 6H 9-10, NF (3H = courtesy min 3fit)
+	2S = nat NF
+	3C = pree
+	4C = was good pree vul x2
+
+(2D)
+	X = neg, at least one major usually, not nec. invit (later C raise constr. NF)
+		(3D) X = takeout, but does not set up force
+(2H)
+	Pass -> Op can reopen for takeout
+	X = neg but if light or offshape will have 3+C, could have 5S if light
+		(3H) X = was 2137 alerted, probably is takeout without 4S
+			3S = was 4S-6C min
+		2N = nat, was x Kxx  KQxx  Axxxx, xx KJx Jx AQJxxx
+		3C = was xx45
+	2S = F (3S = was min 3fit)
+	3C = to play
+
+(2S)
+	X = neg but if light will have 3+C (2N = was QT xx Qx AKxxxxx, 3H = was 4H-6C min), may be invite with 6+H
+	2N = nat mb C fit
+	3C = to play
+	3S = was Qxxx Axx J QJxxx
+
+(2N = natural)
+	3S = was 5314 8 good suit
+
+(4D = natural)
+	
+
+(4D [D + M])
+	Pass = may have normal takeout of a major (double later)
+	X = cards?
+
+(they bid, we balance)
+	X = takeout, both sides
+
+********************
+2D Opening Responses
+********************
+
+2H = GF relay, asks for short major, OR INVITE with 4+H
+	(X [= H])
+		ignore, but not sure what Pass/XX =
+		Pass = was 1363 min with H stop (XX = was GF 4234 [ pd bid 3D with 1363 and H stop but probably out of book])
+	(2S)
+		Pass = could have 6D min, could have 4S min (X by Re = takeout)
+		2N = was 3262 max with S stop
+		3C = nat, was minimum
+		3H = nat, was avg 5D-4H but conc.
+		3S = was 0454 max, 1453 min (3N = to play had no H or D fit)
+	2S = short H:  3154 any, 4153 any, 3055 11, 2164 12, 2155 9-10
+		(X) 4H = to play
+		2N = GF relay, any shape, even with 6+H
+			3C = shows clubs, was 3154 any strength, 3055 11, 2155 9-12
+				Pass = misfit city!
+				3D = relay
+					3H = was 3154 12 (3N to play)
+					3S = "2155", was 3055 11, 2155 9-12 ("5-5+") (3N = to play, 4m = sets suit)
+					3N = explained as 6+D-4+C short H, but F thought was 3154 (4C = fit)
+			3D = to play
+			3H = was 4153 any strength, denies 2H (4D = sets D)
+			3S = 6D-4+S (was 5062 min)
+				4D = not sure, was 1723 slammish and now 4H pd was explained "no Ace")
+	2N = 1-suited D hand no voids, or 4+S-2+H
+		3C = relay, if min then 4+S or D fit
+			(X) XX = max 6322, no C stop (3S = normal and had cA)
+			3D = 1-suited hand no void
+			3S = was 4270/4261/4360 (4D = sets D had no C cue, 3N/4H/4S = to play)
+			3N = 6322 max (4S = to play)
+		3D = was 3415 12, likely NF
+			3S = 4S-6+D, 2-3H
+		3H = was 2614 good 9 (3N = was 3262 no C stopper)
+		4H = to play
+	3C = short S, 4+C, denies 4H, short S, was 0364/1354x4/(12)55 min, ** but recently was 3262 min , tk this right
+		3D = NF, but was GF relay recently (but was NF recently when 3C was bal - think they switched here)
+			3H = was 1354 min (4C = sets C)
+		3S = 4th suit essentially)
+		3N = to play
+	3D = 6+D, short S or C (2-3H), any strength
+		3D = s/o
+		3H = R [3S = short C was 3361x2 (3N/4H s/o),3N = short S was 1363]
+		3S = 5crds
+		4H = s/o
+	3H = 5D-4H low short (4S = to play)
+	3S = 5D-4H high short, any strength, including 0454 (4C = H flag, 4D = sets D, 4H/5C = to play)
+	3N = 6D-4H, says nothing about shortness (5D = to play)
+	4H = was 4441 max
+2S = invite exactly, 4+S
+	(3H)
+		X = max, says nothing about majors
+		3S = was 3451 min
+	2N = NF, pretty sure shows minimum without 3S, denies 3S, was 2362x2/2173, 0355 11x2, 1453 10, 1363 min
+		3C = nat NF, was 5224/4315 good suits (3N = was min 2362 endplayed?, 5C = suprise 0355)
+		3D = NF
+		3H = was 5413 GF (3S = had Ax)
+		3S = was 5S 1-suiter 12
+	3C = was 1354 max (4D invit)
+	3D = NF, was minimum 1561, medium 2263
+	3H = was 3451 max (4D = fit [4S = to play Moysian])
+	4S = was 4153 min, 4270 min
+
+2N = transfer, clubs, or 5M F, or 5H-5S F
+	3C = forced
+		Pass = clubs s/o
+		3D = asks for 3crd major, could be 5S-5H, 4S-5H or bal slammish
+			3H = had good H fit (cues)
+			3S = was 3163/3154 (3N to play)
+		3S = 5S, F, was 5233 14/15 ("5332 with S" GF) (3N = to play even with 1 suit unstopped)
+	3D = was 2263 min
+		3H = 5H F (4H = was Ax)
+3C = 5+S-4H (or 6+-5+), invit
+3D = ** 5H-5S invit ** (3M = to play)
+3M = invite, 6+ crds, may be light if distributional
+4D = pree/to play
+4M = to play
+
+Handling Interference:
+
+(X)
+	Pass (Pass) XX = SOS by re over balancing X
+	XX = strong, even with 3343/5134
+		(2H)
+			Pass = had Kxxx hearts
+				2S = was 5134 12 (2N = to play [3D to play])
+		(2S) 
+			X = max or good shape
+			3D = min, 6+D
+	2S = was 5134 8, 6232 8, does not set forcing pass
+	3D = pree, 3+D
+	3N = to play
+	4D = pree/to play
+
+(2H)
+	X = neg but does not promise 4S and does not set force (op rebids side suit even with 7-4)
+	3C = was long suit, good 9, 11
+		(3H) X = takeout, had 4153
+	3D = to play
+	3H = incl. slamraises
+	4S = to play
+
+(2S)
+	X = neg but does not promise 4H
+		op rebids side suit even with 7-4
+		2N = was 4351 (3D to play)
+		3D = 6+D
+			later X by RE = takeout (pd should strain to bid NT rather than penalize)
+	2N = had QT9 Qxx AQxx xxx, does not set up forcing pass
+	3C = BPH = nat NF
+	3D = to play
+	3H = GF
+	4S = splinter raise (Was void with 5D)
+
+(3C)
+	X = neg, was 4432 (3S = 4crd)
+
+(3D)
+	X = cards, not lead-direct
+
+(4S)
+	X = negative/optional
+
+Passed Hand Adjustments:
+	(2S) 3C = nat NF for some reason that hadn't preempted
+	2H = nat, max passed hand, NF (4H to play)
+	3D = **natural was invit**
+********************
+2H Opening Responses
+********************
+
+2S = asks for a minor - can easily be v. weak 3244 type, or any invite+ hand
+	(X) 2N = was 1732 max, 3C = was 3505 11, pd passed with light invite
+	(3H) X = had 6H
+	2N = 6+H, denies 4+D (think single-suited)
+		Pass = 4144 10 typically (5044)
+		3C = relay
+			3D = 6(322) but recently was 3631 promising 3S (4S = to play, 5C = to play)
+			3H = see above, but 3631 (4C = sets H, 4D = sets D)
+				3S = was 3334 slammish with cue
+					3N = had S cue, min
+			3S = thk short D
+			3N = was 1732/1633 (thk short S) (cues)
+			4C = void C, cues
+		3D = ART I think invite to 4H?
+		3H = to play (but was psyche)
+		4H = to play
+	3C = was 3514 12, 1624 10, 3505 11, 2614, 1525 12
+		3D = relay, was 3244/5233/3262/3253/4225 GF
+			3H = was supposed to be 5H-5C, was 3514 once (4C = sets C, games = to play)
+			3S = was 3514 [3N to play]
+			3N = was 0544 (prob mb 1534)
+			4C = 6H-4C (even over X) (4D was slamtry H x2, 4H = to play)
+	3D = 5+H-4D (even over X)
+		3H = GF relay
+			3S = 3541
+			3N = 1543 (4C sets C)
+			4C = was 6H-4D
+		games = to play
+	3H = 5+D (was 2650/2551)
+		4C = was D flag/cue
+2N = 5+S, invit+
+	3C = 4+C, was 2614/1534 (3S = 6+S [F?], 3N = to play)
+	3D = was 1543 min, 1552 12
+	3H = was 2524 min, 2632 max
+	3S = was 2623 12 (4S = had AKTxx x KTx KQxx)
+	3N = 3S, max
+3C = nat, F1 (3D = was 6-4 min, 3H = min [4C NF but recently was F])
+3D = nat, F1
+	3H = was 1624 min (3S = was 5161 slam [3N = to play])
+3H = pree (4H = 7+H, 2-way shot)
+3S = GF, good suit (4C = was 1741 alerted, 4D = was 1642 no C cue [thk they unsure here what 4H is])
+4H = to play (op can compete to 5H with 6)
+4S = to play
+
+
+Handling Interference:
+
+(X)
+	XX = 10+, even Qxx Jxx ATxx Kxx (opener's immediate 3H in comp is minimum w/ 6crds) (later pen X by XX'er)
+	2N = was weak scramble
+	3C = was lead-directing raise BPH
+
+(X balancing)
+	P
+		X = cards, was 3253 9 w/ 2 def tricks, opener ran to 3H with sing C
+
+(2S)
+	X = takeout, may be invite 3fit (was 4333/3334 11, 3352 10 and pd bid 3H with min 6crdsx2, "shows 6crd min")
+		(3S) 4H = was 2641
+		3C = was 1534 min no alert
+	3D = nat, was GF no fit
+	3S = GF raise, does not set force over 4S
+	3N = was 1534 10, 1552 8, 4441 11 (but forgot) - "any splinter"
+	4H = mb 3325 13 (later X)
+	over reopening X, 2N = scramble
+
+(3C)
+	3S = GF was 6133 (4C = S flag)
+
+(4S)
+	5m = to play
+
+Passed Hand Adjustments:
+2S = nat, original "weak two", NF - but recently was 5413 invite (relay?) and was passed with 3S min
+(X)
+	3C = lead-directing raise
+
+
+********************
+2S Opening Responses
+********************
+
+2N = asks for minor (may be semigambling with short S both m's), or constr. 4crd raise, or invit+ relay
+	(X) 3H = 5+S-5+D (as before)
+	(3H) Pass = may have minimum 5134 takeout
+	3C = 4+C, even 5044
+		(3H) 3S = was GF fit
+		3D = was 2452/3451/1462/1552/2353/2434 GF, 1723 15, 4432 17
+			3H = 5-5 (3N = s/o), but recently 5314
+			3S = was 5314 x4 any strength (3N = to play, else cues for S, except recently 4D = ART C flag)
+			3N = "short H 3D", was 5134x3, 5044 (4C = sets C, 4D = D flag, 4H = S flag)
+			4C = promises 6S, was 6304/6214, 6C-5C (4D = sets C, 5C = to play)
+		3S = was 2443 inv (NF), 3352 light invite
+		3N = to play but enough S tolerance for op to go back with unbalanced 6S
+		4C = was a distributional invite, taken as slamtry
+	3D = 4D exactly, may be 6-4, was 5044 once but that was prob wrong
+		3H = relay
+			3S = 5341 exactly
+				4D = was 3S-4D, with C cue, unsure what is happening
+				4H = to play
+			3N = 5143 exactly, was 5044 recently and had mistake (4C = cue for S)
+			4C = was 6142 (4S = to play)
+		3S = was just 4324 8
+		4D = invite?
+	3H = 5+D (4C = cue for D, games to play)
+	3S = 6+S no minor, any strength, incl. 7132, 6313 min (3N = to play, else cues for S)
+	3N = was 6313 max
+3C = 5+H, invit+, support-ask
+	3D = 2 H
+	3H = 0-1 H (3N = to play but had 2S when 4S was so much better, hmmm)
+	3N = H fit, was 6331 min
+3D = nat, F1 (3S = was 6214 [4D = was F nat no fit (5D = to play was 6124 soft)])
+3H = 6+C, F1
+3S = pree (op may re-raise with 7crds)
+4C = was 5404 13
+4H = to play
+4S = to play (op can compete to 5S with 6 and dist)
+5S = asked for good trumps
+
+
+Handling Interference:
+
+(x)
+	XX = 10+, says nothing about S length (will compete with 3S, later penalty X by XX'er, but does not set up a force)
+
+(3C)
+	X = was 2362 10, implies invit+ values and S tol since pd jumped to 4S with 6232 12
+(3D)
+	3H = nat, F
+	3S = pree, was 3334
+(3H)
+	reopening X = takeout but could be 2632 great H max (2N = nat assuming pd has 1543ish)
+
+
+Passed Hand Adjustments:
+- 6-12 HCP, mb 5332 at times, vul-dependent
+(X)
+	XX = was 3325 11 but did not compete 3/3
+2N = ask (was 4fit limit)
+	3S = mb 5332
+3S = pree, was 4333 10
+
+********************
+2N Opening Responses
+********************
+
+3C = Puppet Stayman
+	(X) Pass = had C stop with/without 5M
+		XX = pls continue
+	3D = at least one major
+		3H = 4S
+			3S = S fit, cues
+		3S = 4H
+			3N = nope
+				4D = 4D
+					4N = renope (5N = invit)
+		4C = 4-4 majors at least mild slammish (4S = to play)
+		4D = 4-4 majors no slam
+		4N = quant, no major
+	3H = no 4M (was 4333 recently)
+		3S = transfer to 3N, incl. hands with 4H
+		3N = 5S-4H I think
+	3S = 5S
+	3N = 5H
+3D = transfer
+	3H = may have 3H
+		3S = was 4531, 1543 10, 1642 6 "transfer to 3N"
+			3N = denies 3H (4H = was 1642 6)
+			4C = sets H
+			4H = 
+		3N = 4S-5H no slam
+		4C = was 0544 slammish (4H = ? had no fit for anything)
+	3S = cue with 3+H (3N turbo, 4D retransfer)
+	3N = 3H but suggests 3NT (4D retransfer)
+3H = transfer
+	3S = 2S
+		4C = was 5125 8 (4S = signoff attempt - was good doubleton - NF, 4N = signoff attempt bad S)
+		4D = was 5341/5251 slammish (4H = was 3D but slammish, 4N = just 3D NF)
+	3N = 3S (4H retransfer)
+	4C = was good hand 4Sx3 (4H retransfer)
+	4S = was 4333 21 good ctrls
+3S = 5+S-4+H GF
+4m = South African Transfer to 4M
+4H = 6+C slammish
+4S = 6+D slammish, was 2263/2272/1462 - they may not know if 4N is Turbo here, or to play
+	4N = to play but was AJ AKx KQx AJ9xx recently
+		5C = was xx Jx AJTxxxx Qx
+	5C = was KQJTx KQx AKx Kx
+		6C = was no 1st rd 5-level cue, odd keycards, got to 6D off 2 Aces
+4N = quant
+
+
+***********************
+3-bid Opening Responses
+***********************
+
+3C
+	3S = F1 (4red = cue with S fit)
+	games = to play
+
+3D
+	(X)  3H = was nat
+
+3S
+	4C = likely ART slamtry S because had no C or D ctrl
+
+
+
+******************
+DEFENSIVE BIDDING
+******************
+
+Two-suited overcall strength minimum varies by vul, from good 6 fav to good 10 unfav.
+Jump overcall one-suiters are vul-dependent too, weak NV, intermediate V.
+
+(1C = std, short, or multi)
+	(1D = neg) 1N = nat
+	(1D = H) 1H = normal takeout of 1H response
+	(1H = S) 2H = normal constructive 2H overcall of a 1S response
+	(1S = not S) X = S
+	X = t/o
+		(1H) X = was 3S-6D constructive, so takeoutish
+		(1S) X = takeout!
+		1H = nat
+			(1S) 2C = as below
+			2C = any GF, or 18+ with 3+fit (2D = was 3442 5)
+			2H = was av 13 4fit NF
+		1S = nat
+			1N = 18-20 may have 3fit
+		2C = general force, inc. 5413 9 (2H = 4M may have 4D [3C = general GF])
+	1D = nat
+		(X) XX = cards, 2N = nat
+		(X [=H]) 2S = weak, 2N = was great 4fit
+		(1H) X = had 5S strong hand, 4423 8 BPH, 1S = had 5S-3D 9
+		(1S) X = was negative with 4H-3D, 2S = shows 4fit was 14, 3C = mixed
+		(2C) 4C = splinter
+		NS = NF, 1M mb 4 cards
+		2C = general force, may be GF with 5+M
+		2N = nat
+		3C = mixed, prob.
+		3D = pree
+	1H = nat (denies 4S unless 7-4 or v. minimum)
+		(X) 1S = was 4333 14 no alert and pd rebid 2H with 4S-6H weak, 2C = was 3fit limit+, 3D = was mixed as belowx2
+		(1S) 2C = was 3fit limit, 2D = nat
+		(2D) 2N = 3+H invit+
+		NS = NF (1S = 5crds usually unless 4S-1H, can raise with 3crds)
+		1N = up to 11
+		2C = general force, need not have fit, incl. 3-crd lim raise (2H = min [2N= inv])
+		2H = as strong as 10 3fit
+		2N = was 8-10 4-crd raise
+		3C = was AT9x T98x QJx Q9, promises fit
+		3D = about 5-7 4-crd raise
+		3H = pree
+	1S = nat (denies 4H unless 6+-4 or v. minimum)
+		(X) 1N = nat constructive, 2D = nat, 3C = 4S good raise, 3D = mixed raise
+		(2C) 2D = was 5D-3S by a passed hand
+		2C = general force, need not have fit, incl. 3crd limit raise
+			2D = nat
+			2S = min (2N = was 15 bal)
+		NS = NF
+		2S = as strong as 10 3fit
+		2N = lim 4+crd raise
+		3D = mixed 4-crd raise
+		3S = pree
+	1N = 15-18(-)
+	2C = 5-4 or 6-4 majors (to show C, pass then bid C like std) = * recently bid 1S with 6S-4H, then 3H later, so maybe this is 5-4 exact
+		(X) 
+			XX = asks which longer (but was 1435 10 once so think is equiv to 2D relay below)
+			Pass = had 6 clubs (2D = frag)
+			2D = prob. natural
+		(2S)
+			X = was constructive hand 3-3 majors, maybe it asks for 5crd major to compete
+		2D = relay, asks longer or some invite, may be 4-4 majors (2M = longer [2N = invite])
+		2M = 3+M clear pref, but no game interest
+		3M = pree/mixed
+	2D = 5+H-5+S
+		2H = to play (2S = 6-5 extras NF)
+		2S = to play (3C = was 5503 15 [3D = was 3271 constructive])
+		2N = relay
+		3D = self-suff suit
+	2M = weakish (3C = cue raise)
+		(X) XX = may be limit 4fit (raise later), new suit = lead-direct
+	2N = 5D-5H (3C = relay, 3S = self-suff suit)
+	3C = 5D-5S (3H = relay or nat)
+	3D = weak
+	3M = weak
+
+(1C [strong artif])
+	(1D) 
+		X = lead-direct D (2C = nat)
+		1M/2C/2M/3m = nat, tends to be weak but vul could be solid
+	(1H = S)
+		X = lead-direct H
+	X/1D/1N = C/RA/SH (p/c responses, even jumps [pree], even over [X])
+	1H = nat (2H = pree)
+	1S = nat
+		(X = double-neg) XX = was 2344 10
+		2N = 4+fit 8+ (3C = not horrible)
+		3S = pree
+	2C = nat
+
+(1D [standard])
+	X = takeout
+		(XX)  2S = pree
+		(1H)  X = was 3244 8 (denies 4S I think since pd did not compete 2S with 4)
+		(2C [weak[) X = takeout
+		(2D)  3H = was 5crd constructive
+		(2H [weak]) X = takeout
+		1H = normal
+			2D = was 4333 18 no stopper, 3532 18 with stopper
+				2H = was 3424 3
+				3H = was 5H xtras
+		1S = normal (2D = was 1345 21 [3S = was 6crd 5 HCP, 2S = was 4315 13)
+		2S = was 5134 9 NF
+		3S = pree, 6suit v. weak
+	1H = nat
+		(X)
+			2C = nat
+			2D = was 11 3fit
+			2N = 4+crd limit
+			3C = mixed raise
+			3D = was 2434 10
+		(1S)
+			2S = was 7 4fit
+		(1N)
+			2S = to play, not too weak
+		(2C)
+			3C = 4crd raise, was 5422 9
+		(2D)
+			3D = was mixed raise
+		NS = NF (1S = 5crds usually unless 4S-1H, can raise with 3crds)
+		2D = likely lim raise or invite+ balanced, was GF 4crd raise
+		2H = as strong as 10 3fit
+		2N jump in comp = 4H limit+, not as strong as 3D
+		3C = mixed raise
+		3D = v. strong limit (better than 2N, maybe GF I think)
+	1S = nat
+		(X)  XX = was 2623 12 3532 13 [does not set force], 3C = was 4fit 7-8 (mixed?), 3D = was 5323 8/12, 4423 11 (lim?)
+		(2H) 3H = was 3fit limit
+		NS = NF
+		2D = lim raise or invite+ NT - was lim 4crd raise, 3crd 9-10 HCP BPH, 2434 17, 2425 15
+			2H = was nat 8 HCP (promises non-junk)
+			2S = was 4/6 (2N = was 2425 15 NF, 3N = was 2434 17)
+			3S = counter-invite, was 6 trumps
+		2H = nat, constructive (3D = general force)
+		2S = was as strong as 10 HCP 3fit
+		3C = mixed raise
+		3D = was GF 5-crd raise, 9 4fit, 5323 10 (3H = ART countertry)
+	1N = 15-18 (thought I saw a few 12-14's NV but then counterexample so who knows)
+	2C = nat (2M = NF, even over X, may be light [2S = nat])
+	2D = 5H-5S
+		(X) XX = was 2335 10
+		2H = s/o (2N = was great 15 5-5 no D stop [3N = to play had 2H])
+		2N = relay
+		3C = self-suff suit)
+	2M = weak
+		(X) XX = was limit 4fit (later 3S), new suit = lead-direct
+	2N = 5C-5H (3D = relay [3H = min NF], 3S = self-suff suit)
+	3C = 5C-5S min or intermediate (3D = relay)
+	3D = 5C-5S max
+	3S = weak
+
+(1D [precision, 1+crds]) ** might just treat this as normal above, it seems
+	X = takeout, normal
+	2C = normal
+	2D = same as normal (to show D, pass then bid D later)
+	3C = same as normal
+
+(1H)
+	1S = nat
+		(X) XX = was 3244 11, 2S = was 3343 5, 2N = limit+ 4fit, 3H = was 10 4fit
+		(2H) 2N = was lim 3fit, 3H = was limit 4fitx2
+		(2S) X = was 2344 8 no S honor, 2N = lim+ 3fit, 3H = was 4fit 8 unbal
+		(3H) 4H = was slammish 4fit
+		NS = NF
+		1N = normal (later X is takeout)
+		2H cue = 3crd limit+ (2S = min [2N = was 15])
+		2N jump = 4S limit+
+		3H = think mixed, but was 4fit lim recently
+	1N = 15-18
+	2C = nat (2D = 5+S, 2H = 5+D, 2S = 4S exactly [F1], 2N = nat, 3H = asks stop, 3S = FSJ)
+		(X) XX = cards, even with 5+S
+		(2H) X = takeout, was 5S-4D
+	2D = nat (XX = cards, 2H = 5+S, 2S = 4S exactly [F1], 2N = nat, 3C = ?, 3D = semipree, 3H = asks stop, 3S = FSJ)
+	2H = 5S-5C (XX = some limit+, had nice club raise;  2N = relay, 4C jump = pree)
+	2S = weak
+	2N = 5C-5D (3H = relay, 3S = self-suff suit, 4m = pree)
+		(X) Pass = asks pref
+	3C = 5D-5S, incl. v. strong
+		3H = relay incl invit (4S = was 6052 average, good S suit [5D = to play])
+		4C = self-suff suit
+	3D = weak
+	4D = weak
+
+(1S)
+	X = takeout
+		2H = nat, < 9 cf below (2S = incl. 3244 GF, 1435 18)
+		2S = was 3424 9 (3D = was 4H-5D [3H = was 4H NF])
+	1N = 15-18
+		(X) normal xfer runouts
+		(2S) 3S = was 1543 GF (pd bid 4H with 3 hearts)
+		2S = was 2533 Qx stopper
+		4C = SAT to H
+	2C = nat (2D = 5+H, 2H = 4H [3C = weak NF], 2S = 5+D, 2N = nat, 3H = FSJ, 3S = asks stop)
+		(X) XX = was 4414 10
+	2D = nat (3D = was constr. raise Vul, 2N = nat)
+	2H = nat (2S = was 4-crd 8 HCP raise, 2N = nat, 3H = pree, 3N = good 4-crd raise)
+		(X)  XX = cards 9+, 3H = pree
+		(2S) 4m = splinter (but recently was FSJ or spl other m)
+	2S = 5H-5C, no upper limit (2N = invit+  [3C = was min, 4D = was strong 3505], 3C/H = to play, 3D = self-suff suit)
+		later maverick X by overcaller = was 19 sing in their suit
+	2N = 5D-5C (3C = relay)
+	3C = 5H-5D, mb 11
+	3D = ?
+	3H = weak
+	4m = pree
+
+(1N [strong]) (in balancing seat BUPH they doubled with 12 against 14-16 NV, so maybe some treatment there)
+	(2red = transfer)	3red = nat
+	X = 5m-4M (2C = p/c, 2D = asks major, 2M = to play), over XX 2C = same
+	2C = 4+H-4+S
+		(X) XX = was 3-3 majors
+		(2D) Pass = suggests really does not care to play in a major at all, X = asks pick best major mb 3-3
+		2D = asks pref, and/or some invite
+			2M = pref, even stronger suit if 5-5 (3M = invite)
+		2M = to play (3m = was 5440 with 5M-4m)
+	2D = 6+M, or 5-5 v. strong
+		(X) 2S/2N = same as before
+		(2S) 4H = assumes pd has hearts
+		(2N Leb) 3C = was pree 3-3 majors, alerted;  3S = was strong p/c NF
+		(3C) 3D = was invit 3523
+		2H = p/c (2N = 5+S-4+m strong, 3m = 5+H-4+m strong)
+		2S = p/c, invit+ for H (2N = 6+S strong, 3m = 5+S-4+m strong, 3H = H min, 4H = H max)
+		2N = invit+ ask (3C = H, 3D = S, 3N = was SOL S nothing else gambling)
+			(3m) Pass = minimum, 3M = maximum (3M = p/c)
+		3D = invit, 3+ 3+ majors, I think
+		3H = p/c, length both majors
+	2M = 5+M-4+m (2N asks m)
+		(2S) X = was pen but had H fit, pd showed minor, adv leaped to game over weak NT
+	2N = 5-5 minors (3m = to play, 3M = stop for NT or cue for a m)
+	3m = nat
+	3M = constructive
+
+
+(1N [weak])
+	as above but 
+	X = equal or better (hopefully mostly better), later inverted doubles once re shows strength, else takeout (BPH might be Woolsey as above)
+		vs. 9-12, 11 is not enough to double
+		(Pass = forces XX)
+			Pass = shows strength, sets up pen X's
+				(XX = forced)
+					Pass
+						(2C = scramble)
+							X's = penalty
+				(2C)
+					Pass
+						(Pass)
+							X = penalty
+		(XX = art runout)
+			Pass = cards (later X takeout)
+			2S = to play but not too weak (3H NF)
+			3S = was 6 spades 7 HCP
+		(2H s/o)
+			X = takeout was 4252 8, passable with 4 trumps
+		(3S) 4H = to play
+		2C = 5+ crds or (4333) or lower of 4-4 (can later XX to indicate 4333's if X'd)
+		2D/H = 5+crds or lower of 4-4
+		2S = 5+S weak
+
+	and
+	double of Stayman or transfer shows good hand, not lead-direct BUPH (must "cue" to show suit)
+
+
+(2C [strong artif])
+	X/2D/2N = C/RA/SH
+	2M/3m = natural pree
+
+(2C [nat])
+	2D = nat (3D pree)
+	2H = nat (3D = nat F1)
+	2S = nat (3C = was 2533 GF [3S = was 6232 11 -pd raised with doub])
+	3C = was 5-5 majors (3D = was R but they had misunderstanding)
+	3D = nat, good disruptive bid, range vul/seat dependent
+
+(2C [multi incl. weak 2D])
+	2M = nat
+
+(2D [weak])
+	X = t/o
+
+(2D [multi]) - defense is to assume they have S
+	(any p/c bid is assumed nat) also (2D)-(2H)-(2S) X is full strength by 4th seat
+	(2H [p/c]) 
+		Pass = may have takeout of S
+			(2S = S)
+				Pass
+					(P)
+						X = takeout of S
+		X = takeout of H I think, includes 5215 strong, 21+ bal (3D = was 3253 6)
+		3H = natural
+	(2S [p/c]) 2N = nat
+	Pass = may contain takeout of hearts (later X H bid)
+	X = takeout of S, or strong, can be KQxxxxx Jx KQ Kx (rebid S), can be 2443 14, 2335 20
+		doubler can double either M later for takeout
+		doubler can rebid 2N later as 19-21
+		advancer can double H later for penalty
+		(XX)  2H = nat (2S = general GF cue)
+	2H = nat (2N = was 3433 7 prob ART constr. raise, but NAT by passed hand, 4H = was 2533 10 does not set forcing pass)
+	2S = nat (3C = nat, constructive, 3H = "cue" don't think they knew what doing)
+	2N = nat (transfers with superaccepts)
+	3m = nat, solid opening strength (3D = seminat forcing, 3S = nat)
+	4m = 6m-5H
+
+(2D [strong art])
+	2H = nat
+	3C = nat
+
+(2D [short D precision])
+	Passed with 1354 13, balanced X over pree (3S), slowly
+	4D = pree/to play
+
+(2H [5H+5other weak])
+	Pass
+		(2S [p/c])
+			X = general values (later X's takeout)
+		(3C [p/c])
+			X = takeout
+	otherwise like vs. weak two
+
+(2H [majors weak])
+	X = includes 19 bal
+
+(2H [weak])
+	X = t/o (3C = weak to play, 4S = long suit not too strong)
+	2S = nat
+		(3H) 4H = was 4333 13
+		2N = lim+ S raise
+		3D = nat
+	2N = 15-18 (3C = Puppet Stayman, 3H = transfer)
+	3H = Michaels
+	4m = 6m-5S
+
+(2S [weak])
+	X = t/o
+		2N = s/o, or good 4H bid with 5 trumps (remove 3C to 4H) or 3N with a stopper (remove 3C to 3N)
+		3C = was constructive NF
+		3D = was constructive NF
+		3S = asks stopper (3D = extras, 5+suit)
+	direct or bal 2N = strong
+		3C = Puppet Stayman
+		3D = xfer
+	3C = nat (3H = nat)
+	3S = Michaels (3N = to play, 4N = was asking minor)
+	4m = 6m-5H
+
+(2N = strong)
+	3H = 6-5 majors
+
+(3C)
+	X = takeout (4C = scramble or great 4S bid)
+	4C = 5-5 D + major
+
+(3C = D transfer preempt)
+	X = takeout of diamonds (includes)
+
+(3H)
+	4D = nat
+
+(3S)
+	4N = minors
+
+(3N)
+	4C = H+m
+	4D = S+other
+	4M = nat
+
+(4H)
+	X = was 4144 21
+
+(4S)
+	X = takeout
+
+Balancing
+	(1y) 1N = 11(+)-15(-), mb no stopper (2C after 1C op = cue baron-like), if BPH then 9-11 nat
+			2H (after 1S op) = nat s/o
+			2H (after 1H op) = was 4243 11 with Qx - pd bid 3N with 3244 14 with hKx)
+	X = 8-11 nebulous, or 15+ any
+	(4S) X = takeout
+
+OBAR
+
+(1D)-(1H)
+	1S
+		(X)
+			2C = nat (no transfer advances opposite sandwich)
+(1D)-(1N)
+	2D = 5-5 majors
+
+(1H)-(2D = ART weak raise or others)
+	X = t/o of hearts
+(1H)-(2H)
+	X = t/o (over 3C/3D [weak], 3D = D-S not strong, 3S = strong)
+		2N = mb invite with 4S exact
+	2N/3C/3D = 6+C/D/S transfer
+	3H = Michaels
+	4C = 5-5 minors NF
+	4D = 5-5 minors GF
+(1S)-(2S)
+	as over (1H)-(2H)
+	except 2N = was minors BPH
+
+(1S)-X-(2S)
+	Pass
+		X
+			2N = scramble
+	3D = weak
+	3H = weak
+
+(2H)-P-(3H)
+	4C = nat
+
+Sandwich
+
+(1C)-P-(1D)
+	1N = nat (2D = xfer)
+(1C)-P-(1H)
+	X = takeout
+		1S
+			(bid) cue = includes 20 HCP 4fit
+	1S = nat (2C = good S raise)
+	2H = Michaels takeout
+		(X) XX = cards
+
+(1C)-P-(1H = S)
+	X = hearts, but recently was takeout of C-S
+	2H = more hearts
+
+(1C)-P-(1S)
+	2H = nat
+		(2S) 2N = was 4fit limit
+(1C)-P-(1S [art])-
+	X = spade overcall
+(1C/D std)-P-(1N)-
+	2C = majors, may be 5-4 (2D = asks longer)
+	2D = probably shows 5-5 majors
+
+(1C mb short)-P-(1N)-
+	2C = natural constructive
+
+(1D)-P-(1H)-1S
+	(X) 3D = mixed raise, art
+	(1N)-2H = was 4fit 11 bal
+
+
+(1m)-P-(1N)
+	2M = nat
+
+(1H)-P-(1S)
+	1N = nat
+	2H = was 5S-5m if 1S not S
+
+(1M)-P-(1N)-
+	2D = nat
+	2M = as (1M)-2M Ghestem (2S = H + minor)
+	3D = pree
+
+(1M)-P-(2M)-
+	X = t/o (2N = scramble)
+
+(1H)-P-(2C Drury)-
+	2H = 5S-5D
+
+(1M)-P-(splinter)
+	X = X'd suit + another (p/c responses)
+
+(2H)-P-(2S)
+	2N = nat
+Passed Hand Overcalling
+	P-P-(1S)-P-(P)-1N = nat 8-11
+	P-P-(1S)-1N = 5-5 minors
+
+********************
+SLAM BIDDING
+********************
+Negative 3N - 3N cue shows minimum after major set as trumps, bypassing shows extras (unless signing off)
+Cue up the line: bypassing a suit denies 1/2 rd control (don't cue shortness in pd's length)
+	if partner does not immediately sign off after a cue is denied, it promises control of that suit
+	if there is just one cue left below game, and a suit has been bypassed, it merely shows control of the bypassed suit
+Repeating a cue guarantees 1st rd control but need not have 2nd
+Bypassing a cue and then cue-bidding it later shows the Queen (or maybe doub too not sure)
+Turbo 4N/5N - 
+	in cue-bidding, 4N just shows even # of KC's and bypassing shows odd
+	if clubs is trumps, 4D is Turbo, not 4N
+	5N involves the Queen - bypassing shows the Queen, bidding 5N denies the Queen (exception if minor trump below)
+		over 5N, pd once bid 6D (cue) without the trump Q but with the J
+	if minor is already set as trump
+		4m is Turbo for the Queen of trumps (bypass shows Queen)
+If a cue is doubled, XX by either side shows 1st rd ctrl
+	Pass of doubled cue-bid was 2nd rd control once
+	Bidding immediately over doubled cue-bid was no control twice (alerted)
+
+(rare) Jump to 4NT in fit auction is RKC
+
+
+********************
+GENERAL
+********************
+If opponents cue-bid our overcall, X by either side asks for different lead.
+Over X of our preemptive (weak) opening/overcall, new suit may be lead direct.
+
+
+SPECIAL ARTIFICIAL AND COMPETITIVE 
+DOUBLES/REDOUBLES 
+ 
+A DBL in our side suit when it's not important to engage a competitive auction 
+discourage lead in that suit -------------------------> in the same situation PASS 
+encourage lead in that suit; [note: even when a double could mean a raise, it's not]
+We play two-way doubles in some situations: i.e. 4?-X, 1?-4?-X, NEVER at 
+low level; 
+In forcing game situations opener's double often shows minimum and 
+BAL/SEMIBAL hands; 
+We play splinter double: a double of an opponent's splinter bid send the 
+message "Do not make your normal lead, i.e. in dummy's fragment suit"; 
+ 
+
+********************
+CARDING
+********************
+LEADS AND SIGNALS 
+ 
+We normally play suit preference:  LOW = encouraging ,  HIGH = discouraging 
+Rarely we play count, sometimes, when we think it is useful, on declarer's lead. 
+Exceptions: 
+Vs Suit:   
+- A lead, dummy have Qxx(+), we play count; 
+- A lead, dummy have singleton, we play: HI=pref. HI suit; MIDDLE=pref. lead 
+suit; LOW=pref. LOW suit; 
+Vs NT: 
+- after lead we play Reverse Smith convention: when one of us discard LOW he 
+encourage return in lead suit; 
+- we play count or unblock on the King; 
+
+SLAVINSKY LEADS:
+When we have one or more honours we lead in direct counting: small with an odd number of cards, high with an even number of cards.
+When we have no honours we lead in reverse counting: small with an even number of cards, high with an odd number of cards.
+i.e.: K6532 = 2; K653 = 6; 9832 = 2; 983 = 9; 92 = 2;
+10 is not considered an honour but with 10x we lead with 10.
+Exceptions are logical, i.e 1062=6; 10962=10(vs Suit),=2(vs NT); 10654=4; H98x(+)=9;
+KJ92 = 2
+COUNT:
+On partner's suit, but only if it wasn't supported, we lead signeling count: LOW with ODD, HIGH with EVEN. With 10x, Jx, Qx, Kx, Ax we lead 10, J, Q, K, A.
+
+Lead Chart:
+LEAD
+
+HONOR/TEN/NINE
+	Vs SUIT 			Vs NT
+ACE = 	AKx + 				AKx +
+KING = 	KQ(x) + or AK 			KQ109(x)+,KQ10x(x)+ ,AKJ(10x)+, KQJx(x)+
+QUEEN = QJ(x)+ 				QJ(x)+ KQx(x)+ , KQJx(x)
+JACK = 	J10(x)+ or HJ10(x)+ 		J10(x)+ or HJ10(x)+
+10 = 	109(x) or H109(x) or 10x 	109(x) or H109(x) or 10x
+9 = 	9xx , 9xxxxx , H98(x)+ 		9xx , 9xxxxx , H98(x)+
+
+SPOTS
+LOW = xx , xxxx , xxxxxx , Hxx , Hxxxx , Hxxxxxx
+HIGHer is possible to play = xxx , xxxxx , xxxxxx , Hxxx , Hxxxxx
+EXC : AJ92 we lead low
+K1082 we lead low ecc.
