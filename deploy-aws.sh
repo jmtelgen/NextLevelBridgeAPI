@@ -25,6 +25,8 @@ if [ -z "$FUNCTION_NAME" ] || [ -z "$ACTION" ]; then
     echo "  account-create → CreateAccountAPILambda"
     echo "  account-login → LoginAPILambda"
     echo "  account-refresh-token → RefreshTokenAPILambda"
+    echo "  account-logout → LogoutAPILambda"
+    echo "  guest-session → GuestSessionAPILambda"
     echo "  connection-count → ConnectionCountAPILambda"
     echo ""
     echo "WebSocket functions:"
@@ -74,6 +76,12 @@ case $FUNCTION_NAME in
         ;;
     "account-refresh-token")
         LAMBDA_FUNCTION_NAME="RefreshTokenAPILambda"
+        ;;
+    "account-logout")
+        LAMBDA_FUNCTION_NAME="LogoutAPILambda"
+        ;;
+    "guest-session")
+        LAMBDA_FUNCTION_NAME="GuestSessionAPILambda"
         ;;
 
     "connection-count")
@@ -131,12 +139,23 @@ if [ "$ACTION" = "create" ]; then
     ENV_VARS=""
     if [[ $FUNCTION_NAME == account-* ]]; then
         ENV_VARS="Variables={USER_TABLE=UsersTable,JWT_SECRET_ID=Bridge/JWT}"
+    elif [[ $FUNCTION_NAME == guest-session ]] || [[ $FUNCTION_NAME == websocket-connect ]]; then
+        SESSION_ORIGINS="${WS_ALLOWED_ORIGINS:-${FRONTEND_URL:-}}"
+        if [[ -z "$SESSION_ORIGINS" ]]; then
+            echo "WS_ALLOWED_ORIGINS (or FRONTEND_URL) must specify exact frontend origins"
+            exit 1
+        fi
+        ENV_VARS=$(python3 -c 'import json,sys; values={"JWT_SECRET_ID":sys.argv[1],"WS_ALLOWED_ORIGINS":sys.argv[2]}; values.update({"WEBSOCKET_CONNECTIONS_TABLE":"WebSocketConnections"} if sys.argv[3] == "websocket-connect" else {}); print(json.dumps({"Variables":values}))' "${JWT_SECRET_ID:-Bridge/JWT}" "$SESSION_ORIGINS" "$FUNCTION_NAME")
     elif [[ $FUNCTION_NAME == room-* ]] || [[ $FUNCTION_NAME == websocket-* ]]; then
         # WebSocket functions need different tables based on their purpose
         if [[ $FUNCTION_NAME == websocket-connect ]] || [[ $FUNCTION_NAME == websocket-disconnect ]]; then
             ENV_VARS="Variables={WEBSOCKET_CONNECTIONS_TABLE=WebSocketConnections}"
-        elif [[ $FUNCTION_NAME == websocket-start-room ]]; then
-            ENV_VARS="Variables={USER_TABLE=UsersTable,ROOM_TABLE=GameRooms}"
+        elif [[ $FUNCTION_NAME == websocket-* ]]; then
+            if [[ -z "${WEBSOCKET_ENDPOINT:-}" ]]; then
+                echo "WEBSOCKET_ENDPOINT must identify the API Gateway WebSocket stage"
+                exit 1
+            fi
+            ENV_VARS="Variables={USER_TABLE=UsersTable,ROOM_TABLE=GameRooms,WEBSOCKET_CONNECTIONS_TABLE=WebSocketConnections,WEBSOCKET_ENDPOINT=$WEBSOCKET_ENDPOINT}"
         else
             ENV_VARS="Variables={ROOM_TABLE=GameRooms}"
         fi
@@ -156,7 +175,7 @@ if [ "$ACTION" = "create" ]; then
     FUNCTION_TIMEOUT=$TIMEOUT
     FUNCTION_MEMORY=$MEMORY_SIZE
     
-    if [[ $FUNCTION_NAME == account-* ]]; then
+    if [[ $FUNCTION_NAME == account-* ]] || [[ $FUNCTION_NAME == guest-session ]]; then
         FUNCTION_TIMEOUT=15  # 15 seconds for account functions
         FUNCTION_MEMORY=512  # 512 MB for account functions
     elif [[ $FUNCTION_NAME == robot-bridge-bidding ]]; then
@@ -203,11 +222,22 @@ fi
 
 echo ""
 echo "Next steps:"
-if [[ $FUNCTION_NAME == websocket-* ]]; then
+if [[ $FUNCTION_NAME == account-logout ]]; then
+    echo "1. Wire REST POST /logout with Lambda proxy integration; frontend calls /api/logout"
+    echo "2. Forward multiValueHeaders.Set-Cookie and disable response caching"
+    echo "3. Set FRONTEND_URL to the exact frontend origin and ENVIRONMENT=production for HTTPS"
+    echo "4. This expires the browser cookie only; stateless JWTs are not revoked"
+elif [[ $FUNCTION_NAME == guest-session ]]; then
+    echo "1. Wire REST POST and OPTIONS /auth/guest to this Lambda using proxy integration"
+    echo "2. Configure exact WS_ALLOWED_ORIGINS and JWT_SECRET_ID matching websocket-connect"
+    echo "3. Allow Secrets Manager GetSecretValue for the configured signing secret"
+    echo "4. Validate signed guest bootstrap, renewal, CORS and rejected expired/tampered tokens"
+elif [[ $FUNCTION_NAME == websocket-* ]]; then
     echo "1. Configure API Gateway WebSocket API to route to this Lambda"
     echo "2. Set up route key mapping (e.g., 'createRoom' → WebSocketCreateRoomLambda)"
     echo "3. Test the WebSocket function"
     echo "4. Set up proper IAM roles and permissions"
+    echo "5. websocket-connect requires signed JWT subprotocols and exact WS_ALLOWED_ORIGINS"
 elif [[ $FUNCTION_NAME == robot-bridge-bidding ]]; then
     echo "1. Configure API Gateway WebSocket API to route to this Lambda"
     echo "2. Set up route key mapping (e.g., 'robotBid' → RobotBridgeBiddingLambda)"

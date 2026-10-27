@@ -7,6 +7,10 @@ import time
 import sys
 from lambdas.shared.utils.base_handler import WebSocketBaseHandler
 from lambdas.shared.database.db_utils import db_utils
+from lambdas.core.game.runtime import connection_user, GameRequestError
+from lambdas.core.rooms.lifecycle import public_presence
+from lambdas.core.rooms.responses import deliver_reply
+from lambdas.shared.utils.websocket_utils import broadcast_to_connection
 
 # Configure logging
 logger = logging.getLogger()
@@ -46,6 +50,8 @@ class WebSocketCreateRoomHandler(WebSocketBaseHandler):
             player_name = data.get('playerName')
             room_name = data.get('roomName')
             is_private = data.get('isPrivate', False)
+            if not isinstance(is_private, bool):
+                return self.error_response(400, "isPrivate must be a boolean")
             
             logger.info(f"[{request_id}] Validating required fields", extra={
                 'request_id': request_id,
@@ -63,6 +69,10 @@ class WebSocketCreateRoomHandler(WebSocketBaseHandler):
                     'data': data
                 })
                 return self.error_response(400, f"Missing required field: {error}")
+            try:
+                owner_id = connection_user(db_utils, event, owner_id)
+            except GameRequestError as exc:
+                return self.error_response(exc.status, str(exc))
             
             # Generate room ID
             room_id = str(uuid.uuid4())
@@ -102,9 +112,19 @@ class WebSocketCreateRoomHandler(WebSocketBaseHandler):
                 'playerName': player_name,
                 'roomName': room_name,
                 'isPrivate': is_private,
+                'locked': False,
                 'seats': seats,
                 'state': state,
-                'gameData': game_data
+                'gameData': game_data,
+                'presence': {
+                    owner_seat: {
+                        'userId': owner_id,
+                        'connections': {
+                            item['connectionId']: int(item['authExpiresAt'])
+                            for item in db_utils.get_user_connection_records(owner_id)
+                            if item['authExpiresAt'] > time.time()},
+                    },
+                },
             }
             
             logger.info(f"[{request_id}] Created room object", extra={
@@ -142,6 +162,7 @@ class WebSocketCreateRoomHandler(WebSocketBaseHandler):
             
             # Convert seats from userIds to usernames for privacy
             room_with_usernames = room.copy()
+            room_with_usernames['presence'] = public_presence(room)
             room_with_usernames['seats'] = self._convert_seats_to_usernames(room['seats'])
             
             # Return success response with game state
@@ -262,7 +283,7 @@ def lambda_handler(event, context):
     try:
         result = handler.handle_websocket_request(event, context)
         logger.info(f"Handler result: {result}")
-        return result
+        return deliver_reply(event, result, broadcast_to_connection)
     except Exception as e:
         logger.error(f"Exception in lambda_handler: {str(e)}")
         import traceback

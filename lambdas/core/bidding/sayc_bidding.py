@@ -1,8 +1,8 @@
 """
 SAYC (Standard American Yellow Card) Bidding System Implementation
 
-This module implements the complete SAYC bidding system directly in code,
-tracking the full bidding sequence and seat positions for accurate decision making.
+Rule-based SAYC-style agreements with incomplete conventions and later rounds.
+The supported agreements and deviations are in docs/robot-engine-contract.md.
 """
 
 from typing import Dict, List, Optional, Tuple, Any
@@ -13,7 +13,7 @@ from lambdas.core.hand_evaluation.hand_evaluator import HandEvaluator, HandAnaly
 @dataclass
 class Bid:
     """Represents a single bid in the auction."""
-    seat: str  # N, E, S, W
+    seat: str  # North, East, South, West
     bid: str   # 1C, 1D, 1H, 1S, 1NT, 2C, etc.
     position: int  # 1st, 2nd, 3rd, 4th seat relative to dealer
     timestamp: int = 0
@@ -32,7 +32,7 @@ class BiddingContext:
 
 
 class SAYCBidding:
-    """Complete SAYC bidding system implementation."""
+    """Rule-based SAYC-style bidding; live proposals require auction validation."""
     
     def __init__(self):
         self.hand_evaluator = HandEvaluator()
@@ -712,7 +712,14 @@ class SAYCBidding:
     def _make_1nt_response(self, context: BiddingContext) -> str:
         """Make a response to 1NT opening."""
         analysis = context.hand_analysis
-        
+
+        # Natural game placement must not fall through to pass or ace asking.
+        if self._is_natural_nt_response_hand(analysis):
+            if 8 <= analysis.hcp <= 9:
+                return "2NT"
+            if 10 <= analysis.hcp <= 15:
+                return "3NT"
+
         # Check highest priority responses first
         
         # 4NT quantitative (invites 6NT) - highest priority
@@ -828,11 +835,25 @@ class SAYCBidding:
                      analysis.suit_lengths.get('S', 0) >= 5) and
                 not (analysis.suit_lengths.get('H', 0) >= 4 or 
                      analysis.suit_lengths.get('S', 0) >= 4))  # Not strong enough for Stayman
-    
+
+    def _is_natural_nt_response_hand(self, analysis: HandAnalysis) -> bool:
+        """No major fit or long minor to investigate with the existing conventions."""
+        return (analysis.balanced
+                and analysis.suit_lengths.get('H', 0) < 4
+                and analysis.suit_lengths.get('S', 0) < 4
+                and analysis.suit_lengths.get('C', 0) < 5
+                and analysis.suit_lengths.get('D', 0) < 5)
+
     def _make_2nt_response(self, context: BiddingContext) -> str:
         """Make a response to 2NT opening."""
         analysis = context.hand_analysis
-        
+
+        if self._is_natural_nt_response_hand(analysis):
+            if 4 <= analysis.hcp <= 10:
+                return "3NT"
+            if 11 <= analysis.hcp <= 12:
+                return "4NT"
+
         # 3C Stayman
         if self._is_stayman(analysis):
             return "3C"
@@ -1250,7 +1271,7 @@ class SAYCBidding:
         # Partner is the seat that's not current_seat and not the opener
         opener_seat = context.bidding_sequence[0].seat
         partner_seat = None
-        for seat in ['N', 'E', 'S', 'W']:
+        for seat in ['North', 'East', 'South', 'West']:
             if seat != context.current_seat and seat != opener_seat:
                 partner_seat = seat
                 break

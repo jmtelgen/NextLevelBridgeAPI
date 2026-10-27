@@ -28,12 +28,10 @@ def lambda_handler(event, context):
         
         # Parse cookies to find refresh_token
         if cookies:
-            logger.info(f"Cookies found, length: {len(cookies)}")
             for cookie in cookies.split(';'):
                 cookie = cookie.strip()
                 if cookie.startswith('refresh_token='):
                     refresh_token = cookie.split('refresh_token=', 1)[1]
-                    logger.info(f"Refresh token extracted from cookie, length: {len(refresh_token)}")
                     break
         
         # Fallback to request body for backward compatibility
@@ -43,7 +41,6 @@ def lambda_handler(event, context):
             if 'refresh_token' in event:
                 # Direct event data
                 refresh_token = event.get('refresh_token')
-                logger.info(f"Refresh token from event data, length: {len(refresh_token) if refresh_token else 0}")
             else:
                 # Traditional body-wrapped data
                 body_raw = event.get('body', '{}')
@@ -71,7 +68,6 @@ def lambda_handler(event, context):
                 else:
                     body = {}
                 refresh_token = body.get('refresh_token')
-                logger.info(f"Refresh token from request body, length: {len(refresh_token) if refresh_token else 0}")
         
         # Validate input
         if not refresh_token:
@@ -96,7 +92,7 @@ def lambda_handler(event, context):
             jwt_utils = JWTUtils()  # Uses default "Bridge/JWT" secret ID
             logger.info(f"JWT utilities initialized successfully - RequestID: {request_id}")
         except Exception as e:
-            logger.error(f"Failed to initialize JWT utilities - RequestID: {request_id}, Error: {str(e)}")
+            logger.error("Failed to initialize JWT utilities")
             return {
                 'statusCode': 500,
                 'headers': {
@@ -107,7 +103,7 @@ def lambda_handler(event, context):
                 },
                 'body': json.dumps({
                     'error': 'Configuration error',
-                    'message': f'Failed to initialize JWT utilities: {str(e)}',
+                    'message': 'Authentication is temporarily unavailable. Please try again.',
                     'request_id': request_id
                 })
             }
@@ -118,7 +114,7 @@ def lambda_handler(event, context):
             new_access_token = jwt_utils.refresh_access_token(refresh_token, expires_in_minutes=15)
             logger.info(f"Access token refreshed successfully - RequestID: {request_id}")
         except Exception as e:
-            logger.warning(f"Token refresh failed - RequestID: {request_id}, Error: {str(e)}")
+            logger.warning("Token refresh rejected")
             return {
                 'statusCode': 401,
                 'headers': {
@@ -129,7 +125,7 @@ def lambda_handler(event, context):
                 },
                 'body': json.dumps({
                     'error': 'Token refresh failed',
-                    'message': str(e),
+                    'message': 'Your session expired or is invalid. Please sign in again.',
                     'request_id': request_id
                 })
             }
@@ -140,10 +136,11 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'headers': {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Origin': os.environ.get('FRONTEND_URL', '*'),
+                'Access-Control-Allow-Credentials': 'true',
                 'Access-Control-Allow-Headers': 'Content-Type,Authorization',
                 'Access-Control-Allow-Methods': 'POST,OPTIONS',
-                'Set-Cookie': f'refresh_token={refresh_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=604800'  # 7 days
+                'Cache-Control': 'no-store'
             },
             'body': json.dumps({
                 'message': 'Token refreshed successfully',
@@ -155,7 +152,7 @@ def lambda_handler(event, context):
         }
         
     except json.JSONDecodeError as e:
-        logger.error(f"JSON decode error - RequestID: {request_id}, Error: {str(e)}")
+        logger.error("Invalid JSON during token refresh")
         return {
             'statusCode': 400,
             'headers': {
@@ -171,7 +168,7 @@ def lambda_handler(event, context):
             })
         }
     except Exception as e:
-        logger.error(f"Unexpected error during token refresh - RequestID: {request_id}, Error: {str(e)}")
+        logger.error("Unexpected token refresh failure")
         return {
             'statusCode': 500,
             'headers': {
@@ -182,7 +179,7 @@ def lambda_handler(event, context):
             },
             'body': json.dumps({
                 'error': 'Internal server error',
-                'message': f'An unexpected error occurred: {str(e)}',
+                'message': 'An unexpected error occurred. Please sign in again.',
                 'request_id': request_id
             })
         }

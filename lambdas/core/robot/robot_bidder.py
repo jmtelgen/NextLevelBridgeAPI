@@ -1,13 +1,13 @@
 """
 Robot Bidder utility class for intelligent bridge bidding.
 
-This class uses the AdvancedBiddingEngine to make intelligent
-bidding decisions for robot players in bridge games using the full
-Fantoni-Nunes system with DDS integration.
+Live calls use rule-based SAYC and the authoritative auction's legal-call list.
+No par table or concealed cards are consulted.
 """
 
 import os
 import sys
+import logging
 from typing import Dict, List, Optional, Tuple
 
 # Add the lambdas directory to the path for imports
@@ -18,9 +18,11 @@ from lambdas.core.bidding.bidding_system import BiddingSystem, BiddingContext
 from lambdas.core.bidding.advanced_bidding_engine import AdvancedBiddingEngine, BiddingDecision
 from lambdas.core.bidding.sayc_bidding import SAYCBidding, BiddingContext as SAYCBiddingContext, Bid
 
+LOG = logging.getLogger(__name__)
+
 
 class RobotBidder:
-    """Intelligent robot bidder using SAYC bidding system with fallback to Fantoni-Nunes."""
+    """Legal rule-based SAYC bidding with a basic rule fallback."""
     
     def __init__(self):
         self.hand_evaluator = HandEvaluator()
@@ -31,7 +33,9 @@ class RobotBidder:
         self.use_sayc = True
         
         # Initialize advanced engine with algorithm file as fallback
-        algorithm_file = os.path.join(os.path.dirname(__file__), '..', 'dds', 'bridge_bidding_alg.txt')
+        # Construct path relative to the lambdas directory root
+        lambdas_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        algorithm_file = os.path.join(lambdas_root, 'dds', 'bridge_bidding_alg.txt')
         try:
             self.advanced_engine = AdvancedBiddingEngine(algorithm_file)
             self.use_advanced = True
@@ -52,25 +56,39 @@ class RobotBidder:
             The bid to make
         """
         try:
+            from lambdas.core.game.rules import legal_calls
+            from .fair_play import card
+
             # Get robot's hand
             game_data = room_data.get('gameData', {})
+            allowed = legal_calls(game_data, robot_seat)
+            if not allowed:
+                return 'pass'
             hands = game_data.get('hands', {})
-            robot_hand = hands.get(robot_seat, [])
+            robot_hand = [card(value) for value in hands.get(robot_seat, [])]
             
             if not robot_hand:
                 return 'pass'
             
             # Use SAYC bidding system as primary method
             if self.use_sayc and self.sayc_bidding:
-                return self._make_sayc_bid(robot_hand, room_data, robot_seat)
-            elif self.use_advanced and self.advanced_engine:
-                return self._make_advanced_bid(robot_hand, room_data, robot_seat)
+                proposed = self._make_sayc_bid(robot_hand, room_data, robot_seat)
             else:
                 # Fallback to basic system
-                return self._make_basic_bid(robot_hand, room_data, robot_seat)
+                proposed = self._make_basic_bid(robot_hand, room_data, robot_seat)
+            normalized = str(proposed).strip().upper()
+            proposed = {'PASS': 'pass', 'X': 'double', 'DOUBLE': 'double',
+                        'XX': 'redouble', 'REDOUBLE': 'redouble'}.get(normalized, normalized)
+            if len(proposed) == 2 and proposed[1] == 'N':
+                proposed += 'T'
+            if proposed not in allowed:
+                LOG.warning("robot_bid_degraded seat=%s reason=illegal_sayc_call call=%s",
+                            robot_seat, proposed)
+                return 'pass'
+            return proposed
                 
-        except Exception as e:
-            print(f"Robot bidding error: {e}")
+        except Exception:
+            LOG.exception("robot_bid_degraded seat=%s; passing", robot_seat)
             return 'pass'
     
     def _make_advanced_bid(self, hand: List[str], room_data: Dict, robot_seat: str) -> str:
@@ -106,7 +124,7 @@ class RobotBidder:
             return bid
             
         except Exception as e:
-            print(f"SAYC bidding failed: {e}")
+            LOG.warning("robot_bid_degraded reason=sayc_failure error=%s", e)
             return self._make_basic_bid(hand, room_data, robot_seat)
     
     def _make_basic_bid(self, hand: List[str], room_data: Dict, robot_seat: str) -> str:
@@ -122,7 +140,7 @@ class RobotBidder:
                 return self._make_response_bid(hand, context)
                 
         except Exception as e:
-            print(f"Basic bidding error: {e}")
+            LOG.warning("robot_bid_degraded reason=basic_failure error=%s", e)
             return 'pass'
     
     def _create_bidding_context(self, room_data: Dict, robot_seat: str) -> BiddingContext:
@@ -137,7 +155,7 @@ class RobotBidder:
         partner_bids, opponent_bids = self._separate_bids(bids, robot_seat)
         
         # Get vulnerability
-        vulnerability = room_data.get('vulnerability', 'None')
+        vulnerability = game_data.get('vulnerability', room_data.get('vulnerability', 'None'))
         
         return BiddingContext(
             seat=robot_seat,
@@ -211,7 +229,7 @@ class RobotBidder:
         partner_bids, opponent_bids = self._separate_bids(bids, robot_seat)
         
         # Get vulnerability
-        vulnerability = room_data.get('vulnerability', 'None')
+        vulnerability = game_data.get('vulnerability', room_data.get('vulnerability', 'None'))
         
         # Create comprehensive context
         context = {
@@ -246,10 +264,10 @@ class RobotBidder:
             sayc_bids.append(sayc_bid)
         
         # Get vulnerability
-        vulnerability = room_data.get('vulnerability', 'None')
+        vulnerability = game_data.get('vulnerability', room_data.get('vulnerability', 'None'))
         
         # Get dealer
-        dealer = game_data.get('dealer', 'N')
+        dealer = game_data.get('dealer', 'North')
         
         # Create hand analysis (will be set by SAYC system)
         hand_analysis = None  # Will be set by the SAYC system
@@ -263,7 +281,7 @@ class RobotBidder:
             room_id=room_data.get('roomId', ''),
             game_phase=game_data.get('currentPhase', 'bidding')
         )
-    
+
     def _are_partners(self, seat1: str, seat2: str) -> bool:
         """Check if two seats are partners."""
         return ((seat1 in ['North', 'South'] and seat2 in ['North', 'South']) or

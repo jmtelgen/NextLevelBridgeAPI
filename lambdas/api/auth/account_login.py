@@ -6,6 +6,33 @@ from lambdas.shared.security.password_utils import PasswordUtils
 from lambdas.shared.security.jwt_utils import JWTUtils
 
 
+def find_login_user(table, username):
+    """Filtered scan limits count scanned items, not matching accounts."""
+    for use_index in (True, False):
+        params = {
+            'FilterExpression': 'username = :username OR email = :email',
+            'ExpressionAttributeValues': {':username': username, ':email': username},
+            'ProjectionExpression': 'userId, username, email, passwordHash, salt',
+        }
+        if use_index:
+            params['IndexName'] = 'username-email-index'
+        else:
+            params['ConsistentRead'] = True
+        try:
+            while True:
+                response = table.scan(**params)
+                if response.get('Items'):
+                    return response
+                if not response.get('LastEvaluatedKey'):
+                    if not use_index:
+                        return response
+                    break
+                params['ExclusiveStartKey'] = response['LastEvaluatedKey']
+        except ClientError:
+            if not use_index:
+                raise
+
+
 def lambda_handler(event, context):
     """
     Lambda function to handle user login and JWT token generation
@@ -25,11 +52,15 @@ def lambda_handler(event, context):
             else:
                 body = {}
         
+        if not isinstance(body, dict):
+            return {'statusCode': 400, 'body': json.dumps({
+                'error': 'Invalid request', 'message': 'Request body must be a JSON object'
+            })}
         username = body.get('username')
         password = body.get('password')
         
         # Validate input
-        if not username or not password:
+        if not isinstance(username, str) or not isinstance(password, str) or not username or not password:
             return {
                 'statusCode': 400,
                 'headers': {
@@ -51,41 +82,9 @@ def lambda_handler(event, context):
         
         # Look up user by username or email
         try:
-            print(f"DEBUG: Looking up user by username/email: {username}")
             
-            # Try to find user by username or email using GSI
-            response = None
-            try:
-                print(f"DEBUG: Attempting GSI scan on username-email-index")
-                
-                # Use GSI scan since the exact key schema is unknown
-                response = table.scan(
-                    IndexName='username-email-index',
-                    FilterExpression='username = :username OR email = :email',
-                    ExpressionAttributeValues={
-                        ':username': username,
-                        ':email': username
-                    },
-                    ProjectionExpression='userId, username, email, passwordHash, salt',
-                    Limit=1
-                )
-                
-                print(f"DEBUG: GSI scan result count: {response['Count']}")
-                
-            except ClientError as e:
-                # Fallback to table scan if GSI scan fails
-                print(f"DEBUG: GSI scan failed, falling back to table scan: {e}")
-                response = table.scan(
-                    FilterExpression='username = :username OR email = :email',
-                    ExpressionAttributeValues={
-                        ':username': username,
-                        ':email': username
-                    },
-                    ProjectionExpression='userId, username, email, passwordHash, salt',
-                    Limit=1
-                )
+            response = find_login_user(table, username)
             
-            print(f"DEBUG: Scan result count: {response['Count']}")
             
             if response['Count'] == 0:
                 return {
@@ -104,10 +103,8 @@ def lambda_handler(event, context):
             
             # Get the first matching user
             user_item = response['Items'][0]
-            print(f"DEBUG: Found user: {user_item.get('userId')}")
             
         except Exception as e:
-            print(f"DEBUG: Exception during user lookup: {str(e)}")
             
             return {
                 'statusCode': 500,
@@ -119,7 +116,7 @@ def lambda_handler(event, context):
                 },
                 'body': json.dumps({
                     'error': 'Database error',
-                    'message': f'Failed to retrieve user information: {str(e)}'
+                    'message': 'Failed to retrieve user information. Please try again.'
                 })
             }
         
@@ -172,7 +169,7 @@ def lambda_handler(event, context):
                 },
                 'body': json.dumps({
                     'error': 'Configuration error',
-                    'message': f'Failed to initialize JWT utilities: {str(e)}'
+                    'message': 'Authentication is temporarily unavailable. Please try again.'
                 })
             }
         
@@ -198,7 +195,7 @@ def lambda_handler(event, context):
                 },
                 'body': json.dumps({
                     'error': 'Token generation failed',
-                    'message': f'Failed to generate authentication tokens: {str(e)}'
+                    'message': 'Authentication is temporarily unavailable. Please try again.'
                 })
             }
         
@@ -266,6 +263,6 @@ def lambda_handler(event, context):
             },
             'body': json.dumps({
                 'error': 'Internal server error',
-                'message': f'An unexpected error occurred: {str(e)}'
+                'message': 'An unexpected error occurred. Please try again.'
             })
         } 

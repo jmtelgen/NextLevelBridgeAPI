@@ -38,22 +38,14 @@ def lambda_handler(event, context):
         import time
         start_time = time.time()
         
-        # Debug the entire event
-        print(f"DEBUG: Full event: {event}")
-        print(f"DEBUG: Event body type: {type(event.get('body'))}")
-        print(f"DEBUG: Event body: {event.get('body')}")
-        
-        print(f"DEBUG: Event processing started at: {start_time}")
         
         # Handle both direct event data and body-wrapped data
         if 'username' in event and 'email' in event and 'password' in event:
             # Direct event data (API Gateway passes JSON directly)
             body = event
-            print("DEBUG: Using direct event data")
         else:
             # Traditional body-wrapped data
             body_raw = event.get('body', '{}')
-            print(f"DEBUG: Using body-wrapped data: {body_raw}")
             
             # Handle different body formats
             if isinstance(body_raw, str):
@@ -80,16 +72,21 @@ def lambda_handler(event, context):
             else:
                 body = {}
         
+        if not isinstance(body, dict):
+            return {'statusCode': 400, 'body': json.dumps({
+                'error': 'Invalid request', 'message': 'Request body must be a JSON object'
+            })}
+
         # Extract and validate parameters
         username = body.get('username')
         email = body.get('email')
         password = body.get('password')
         
-        # Debug logging
-        print(f"DEBUG: Parsed body: {body}")
-        print(f"DEBUG: username = '{username}' (type: {type(username)})")
-        print(f"DEBUG: email = '{email}' (type: {type(email)})")
-        print(f"DEBUG: password = '{password}' (type: {type(password)})")
+        if any(value is not None and not isinstance(value, str)
+               for value in (username, email, password)):
+            return {'statusCode': 400, 'body': json.dumps({
+                'error': 'Invalid request', 'message': 'Username, email and password must be strings'
+            })}
         
         # Check for missing fields (handle empty strings)
         missing_fields = []
@@ -116,6 +113,11 @@ def lambda_handler(event, context):
             }
         
         # Validate password strength
+        if len(username.strip()) < 3 or '@' not in email:
+            return {'statusCode': 400, 'body': json.dumps({
+                'error': 'Invalid account details',
+                'message': 'Use a username of at least 3 characters and a valid email address'
+            })}
         is_valid, error_message = PasswordUtils.validate_password_strength(password)
         if not is_valid:
             return {
@@ -138,11 +140,9 @@ def lambda_handler(event, context):
         table = dynamodb.Table(table_name)
         
         # Check if username or email already exists (optimized)
-        print(f"DEBUG: Checking username '{username}' and email '{email}' in table '{table_name}'")
         
         # Use GSI for efficient username/email lookups
         try:
-            print(f"DEBUG: Attempting GSI scan on username-email-index")
             
             # Try to query the GSI - we'll use scan on the index for now
             # since the exact key schema is unknown
@@ -156,7 +156,6 @@ def lambda_handler(event, context):
                 ProjectionExpression='username, email'
             )
             
-            print(f"DEBUG: GSI scan result count: {gsi_response['Count']}")
             
             if gsi_response['Count'] > 0:
                 for item in gsi_response['Items']:
@@ -189,11 +188,9 @@ def lambda_handler(event, context):
                             })
                         }
             
-            print("DEBUG: Username and email are available")
             
         except ClientError as e:
             # Fallback to scan if GSI scan fails
-            print(f"DEBUG: GSI scan failed, falling back to table scan: {e}")
             try:
                 response = table.scan(
                     FilterExpression='username = :username OR email = :email',
@@ -235,13 +232,11 @@ def lambda_handler(event, context):
                                 })
                             }
                 
-                print("DEBUG: Fallback scan completed - username and email are available")
                 
             except ClientError as fallback_error:
                 # If fallback scan also fails, handle the error
                 error_code = fallback_error.response['Error']['Code']
                 error_message = fallback_error.response['Error']['Message']
-                print(f"DEBUG: Fallback scan also failed - Code: {error_code}, Message: {error_message}")
                 
                 if error_code == 'ResourceNotFoundException':
                     return {
@@ -294,7 +289,6 @@ def lambda_handler(event, context):
         hash_start = time.time()
         hashed_password, salt = PasswordUtils.hash_password(password)
         hash_end = time.time()
-        print(f"DEBUG: Password hashing took: {hash_end - hash_start:.3f} seconds")
         
         # Create user object with UUID as primary key
         user_data = {
@@ -309,8 +303,6 @@ def lambda_handler(event, context):
         # Save user to database using UUID as primary key
         try:
             save_start = time.time()
-            print(f"DEBUG: Saving user to table '{table_name}' with userId: {user_id}")
-            print(f"DEBUG: User data: {user_data}")
             
             # Save with UUID as primary key
             table.put_item(
@@ -318,11 +310,9 @@ def lambda_handler(event, context):
                 ConditionExpression='attribute_not_exists(userId)'  # Ensure UUID is unique
             )
             save_end = time.time()
-            print(f"DEBUG: User saved successfully in: {save_end - save_start:.3f} seconds")
         except ClientError as e:
             error_code = e.response['Error']['Code']
             error_message = e.response['Error']['Message']
-            print(f"DEBUG: DynamoDB PutItem ClientError - Code: {error_code}, Message: {error_message}")
             
             if error_code == 'ResourceNotFoundException':
                 return {
@@ -377,7 +367,6 @@ def lambda_handler(event, context):
         
         end_time = time.time()
         total_time = end_time - start_time
-        print(f"DEBUG: Total function execution time: {total_time:.3f} seconds")
         
         return {
             'statusCode': 201,
@@ -419,6 +408,6 @@ def lambda_handler(event, context):
             },
             'body': json.dumps({
                 'error': 'Internal server error',
-                'message': f'An unexpected error occurred: {str(e)}'
+                'message': 'An unexpected error occurred. Please try again.'
             })
         } 

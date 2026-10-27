@@ -1,7 +1,11 @@
-import random
+import copy
 from lambdas.shared.utils.base_handler import WebSocketBaseHandler
 from lambdas.shared.database.db_utils import db_utils
 from lambdas.shared.utils.websocket_utils import broadcast_to_connection
+from lambdas.core.game.runtime import connection_user, GameRequestError
+from lambdas.core.game.runtime import personalized
+from lambdas.core.rooms.lifecycle import join_room
+from lambdas.core.rooms.responses import deliver_reply, publish_update
 
 SEATS = ['North', 'East', 'South', 'West']
 
@@ -31,6 +35,10 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         error = self.validate_required_fields(data, ['userId', 'roomId'])
         if error:
             return self.error_response(400, error)
+        try:
+            user_id = connection_user(db_utils, event, user_id)
+        except GameRequestError as exc:
+            return self.error_response(exc.status, str(exc))
         
         # Get room table reference once
         room_table = db_utils.get_table('ROOM_TABLE')
@@ -39,85 +47,35 @@ class WebSocketJoinRoomHandler(WebSocketBaseHandler):
         room_item = db_utils.find_room_by_id(room_id, room_table)
         if not room_item:
             return self.error_response(404, 'Room does not exist')
-        
-        # Check if user is already in the room
-        if user_id in room_item['seats'].values():
-            return self.error_response(400, 'User already in room')
-        
-        # Automatically assign an available seat
-        seat_to_assign = self._find_available_seat(room_item)
-        if not seat_to_assign:
-            return self.error_response(400, 'No seats available')
-        
-        # Assign user to seat
-        room_item['seats'][seat_to_assign] = user_id
-        
-        # Update room in database
         try:
-            room_table.put_item(Item=room_item)
+            room_item, seat_to_assign, reconnected = join_room(
+                db_utils, room_table, copy.deepcopy(room_item), user_id,
+                data.get('invitationToken'))
+        except GameRequestError as exc:
+            return self.error_response(exc.status, str(exc))
         except Exception as e:
             return self.error_response(500, f"Unexpected error: {str(e)}")
         
         # Update user's connection record
         db_utils.update_user_room(user_id, room_id)
         
-        # Convert objects to JSON-serializable format
-        room_item_serializable = self._convert_for_json(room_item)
-        # Convert seats from userIds to usernames for privacy
-        room_item_serializable['seats'] = self._convert_seats_to_usernames(room_item['seats'])
-        game_data_serializable = self._convert_for_json(room_item.get('gameData', {}))
-        
-        # Get active connections and broadcast update (excluding the user who joined the room)
-        active_connections = []
-        for _, seat_user_id in room_item['seats'].items():
-            if seat_user_id:  # Only process occupied seats
-                connection = db_utils.get_room_connection(seat_user_id)
-                if connection:
-                    active_connections.append(connection)
-        active_connections = list(set(active_connections))
-        
-        broadcast_message = {
-            'action': 'roomUpdated',
-            'success': True,
-            'room': room_item_serializable,
-            'updateType': 'userJoined',
-            'newUser': user_id,
-            'assignedSeat': seat_to_assign,
-            'gameData': game_data_serializable
-        }
-        
-        for connection in active_connections:
-            broadcast_to_connection(connection, broadcast_message)
-        
-        # Return success response (same as broadcast to avoid duplication)
-        return self.success_response({
-            'action': 'roomUpdated',
-            'success': True,
-            'room': room_item_serializable,
-            'updateType': 'userJoined',
-            'newUser': user_id,
-            'assignedSeat': seat_to_assign,
-            'gameData': game_data_serializable
-        })
+        message = 'Player reconnected' if reconnected else 'Player joined room'
+        publish_update(db_utils, broadcast_to_connection, room_item, message,
+                       updateType='userReconnected' if reconnected else 'userJoined',
+                       newUser=user_id, assignedSeat=seat_to_assign)
+        payload = personalized(room_item, user_id, 'roomUpdated', message)
+        payload.update(success=True, updateType='userReconnected' if reconnected else 'userJoined',
+                       newUser=user_id, assignedSeat=seat_to_assign)
+        return self.success_response(self._convert_for_json(payload))
     
-    def _find_available_seat(self, room_item):
-        """
-        Find an available seat and assign it to the user
-        """
-        available_seats = [seat for seat, occupant in room_item['seats'].items() if not occupant]
-        
-        if not available_seats:
-            return None
-        
-        return random.choice(available_seats)
-
 # Create handler instance
 handler = WebSocketJoinRoomHandler()
 
 # Lambda handler function
 def lambda_handler(event, context):
     try:
-        return handler.handle_websocket_request(event, context)
+        return deliver_reply(event, handler.handle_websocket_request(event, context),
+                             broadcast_to_connection)
     except Exception as e:
         return {
             'statusCode': 500,

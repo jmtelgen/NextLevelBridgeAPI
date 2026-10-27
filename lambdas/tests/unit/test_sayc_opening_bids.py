@@ -82,10 +82,11 @@ class TestSAYCOpeningBids(unittest.TestCase):
     
     def test_2nt_opening_20_hcp(self):
         """Test 2NT opening with 20 HCP balanced hand."""
-        hand = ["AS", "KQ", "J9", "T8", "7", "6", "5", "4", "3", "2", "A", "K", "Q", "J"]
+        hand = ["AS", "KS", "QS", "2S", "AH", "KH", "2H",
+                "KD", "3D", "2D", "JC", "3C", "2C"]
         analysis = self.bidding.hand_evaluator.evaluate_hand(hand)
-        # Force 20 HCP
-        analysis.hcp = 20
+        self.assertEqual(analysis.hcp, 20)
+        self.assertTrue(analysis.balanced)
         self.context.hand_analysis = analysis
         
         bid = self.bidding._make_opening_bid(self.context)
@@ -93,10 +94,11 @@ class TestSAYCOpeningBids(unittest.TestCase):
     
     def test_2nt_opening_21_hcp(self):
         """Test 2NT opening with 21 HCP balanced hand."""
-        hand = ["AS", "KQ", "J9", "T8", "7", "6", "5", "4", "3", "2", "A", "K", "Q", "J"]
+        hand = ["AS", "KS", "QS", "2S", "AH", "KH", "2H",
+                "KD", "3D", "2D", "QC", "3C", "2C"]
         analysis = self.bidding.hand_evaluator.evaluate_hand(hand)
-        # Force 21 HCP
-        analysis.hcp = 21
+        self.assertEqual(analysis.hcp, 21)
+        self.assertTrue(analysis.balanced)
         self.context.hand_analysis = analysis
         
         bid = self.bidding._make_opening_bid(self.context)
@@ -104,10 +106,11 @@ class TestSAYCOpeningBids(unittest.TestCase):
     
     def test_3nt_opening_25_hcp(self):
         """Test 3NT opening with 25 HCP balanced hand."""
-        hand = ["AS", "KQ", "J9", "T8", "7", "6", "5", "4", "3", "2", "A", "K", "Q", "J"]
+        hand = ["AS", "KS", "QS", "JS", "AH", "KH", "QH",
+                "KD", "QD", "2D", "JC", "3C", "2C"]
         analysis = self.bidding.hand_evaluator.evaluate_hand(hand)
-        # Force 25 HCP
-        analysis.hcp = 25
+        self.assertEqual(analysis.hcp, 25)
+        self.assertTrue(analysis.balanced)
         self.context.hand_analysis = analysis
         
         bid = self.bidding._make_opening_bid(self.context)

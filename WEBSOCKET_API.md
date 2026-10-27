@@ -1,5 +1,9 @@
 # WebSocket API Documentation
 
+> Gameplay examples below describe the legacy protocol. The authoritative
+> personalized lifecycle, including `getGameState`/`nextBoard`, is documented in
+> [docs/WEBSOCKET_CONTRACT.md](docs/WEBSOCKET_CONTRACT.md). Do not expose raw game hands.
+
 This document describes the WebSocket API implementation for the Bridge application using AWS API Gateway WebSocket APIs.
 
 ## Overview
