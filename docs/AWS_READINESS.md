@@ -1,6 +1,18 @@
 # AWS readiness and isolated staging plan
 
-## Deployment status: identity verified; infrastructure deployment paused
+## Deployment status: foundation deployed; isolated application deployment in progress
+
+The replacement foundation is now verified `CREATE_COMPLETE` in `us-west-2`.
+It uses `bridge-staging-jwt-v2` and `bridge-staging-game-tick-dlq-v2`; retained
+legacy resources remain untouched. The user authorized continuing isolated
+staging deployment. Follow the
+[application/platform runbook](staging-application-deployment.md) for the next
+operator bootstrap, target-validated artifacts, application preview,
+scheduling and frontend release. This does not authorize public-site changes.
+The local CLI still identifies as account root; no assistant mutations may use it.
+
+The following bootstrap history explains prior decisions, not a current
+instruction to pause source preparation:
 
 The GitHub bootstrap PRs are merged, and the operator completed both dedicated
 OIDC identity checks on `main`:
@@ -17,18 +29,15 @@ the existing identity-check roles remain unchanged. The backend region
 correction is merged and its `us-west-2` identity check succeeded:
 [run](https://github.com/jmtelgen/NextLevelBridgeAPI/actions/runs/40427443686).
 
-The first foundation execution failed on an explicit standard-queue FIFO
-attribute. The source fix omits it. Current recovery preserves the retained
-signing secret through a [secret-only import](staging-secret-import.md), then
-adds the missing resources in a separately reviewed UPDATE. Deletion approval
-was withdrawn. No live import or recovery execution is established by preparing
-these files; the workstation's root identity remains forbidden for mutations.
+The initial FIFO attribute and subsequent secret-import/tag-update failures
+were superseded by the successful [fresh CREATE recovery](staging-foundation-fresh-retry.md).
+The old secret was not rewritten or deleted. The application plan cannot
+modify the foundation or signing secret.
 
-The user approved **isolated staging before any public-site change**, but asked
-to hold deployment until they create a scoped deployment identity. Do not
-create infrastructure, roles, policies, upload artifacts, or deploy while paused.
-Resume only after the user supplies the identity and confirms the staging
-account, region, names, origins, and intended mutations.
+The user approved **isolated staging before any public-site change**. Additional
+platform/runtime/release authority still requires the reviewed non-root
+operator bootstrap. Existing foundation/identity-only roles are not generic
+application deployers and must not be widened as a shortcut.
 
 **Refuse deployment using account-root credentials.** Before any mutation, check
 `aws sts get-caller-identity` using the explicit approved profile and region.
@@ -119,18 +128,17 @@ Do not treat broad `iam:PassRole` as a harmless deployment permission.
 The inventory below predates the full local roadmap and authentication repair.
 Reconcile all current feature contracts, not only the older missing routes:
 
-- Completed-board archives currently use a process-memory repository. Replace
-  it with durable DynamoDB storage and a pagination index before a full AWS
-  release. Completion, scores and archive publication need transactional writes
-  or a durable idempotent outbox; a post-commit in-memory side effect is not
-  reliable across Lambda crashes.
+- Completed-board archives now have a DynamoDB adapter. Room, archive and
+  duplicate result commit atomically, with room/board keys and query pagination.
+  The new platform provisions its table; real AWS concurrency/cold-start
+  acceptance remains required.
 - Duplicate events currently run against local Moto DynamoDB. Provision a real,
   isolated event table and validate its transaction, membership and archive
   embargo paths across concurrent Lambda invocations/cold starts. Never depend
   on a process-local lock for correctness.
-- Create an explicit route manifest for all current auth, presence/invitation,
-  archive/agreement, practice, claims and event actions. The local adapter's
-  Python routing dictionary does not create API Gateway routes.
+- The new route manifest and application renderer include all 6 current HTTP
+  and 30 WS routes. Deploy those integrations/stages and verify actual
+  handshake/cookie behavior; the local adapter itself creates no AWS routes.
 - Include `POST /logout` and correct Set-Cookie propagation. Use the repaired
   signup/login/refresh handlers without credential logging. See
   [authentication.md](authentication.md). Cookie expiry is not token revocation;
@@ -217,10 +225,9 @@ active rooms into staging.
   connection handlers. Never allow wildcard origins or reuse production signing
   material. Verify the API passes Origin/subprotocol headers and returns the
   negotiated `bridge.v1` protocol.
-- The secret helper currently defaults to `us-east-1` when
-  `AWS_DEFAULT_REGION` is absent, ignoring Lambda's `AWS_REGION`. Correct region
-  selection or explicitly configure `AWS_DEFAULT_REGION=us-west-2` before
-  relying on the regional secret.
+- The secret helper now prefers explicit region, then Lambda's `AWS_REGION`,
+  then `AWS_DEFAULT_REGION`. The application does not attempt to override
+  AWS-reserved Lambda region variables.
 - Existing change-seat Lambda has no environment configuration; create-room
   lacks `WEBSOCKET_ENDPOINT`. Set staging table names and management endpoint on
   every handler that needs them. A `wss://` endpoint is converted to `https://`
