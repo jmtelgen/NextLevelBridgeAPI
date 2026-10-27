@@ -28,7 +28,15 @@ def require(condition, message):
         raise ValueError(message)
 
 
+def platform_stack_name(environment):
+    name = environment.get("STAGING_PLATFORM_STACK", "bridge-staging-platform")
+    require(name in {"bridge-staging-platform", "bridge-staging-platfor"},
+            "Unexpected staging platform stack name.")
+    return name
+
+
 def validate_environment(environment):
+    platform_stack_name(environment)
     expected = {
         "AWS_ACCOUNT_ID": ACCOUNT, "AWS_REGION": REGION,
         "AWS_APPLICATION_PLAN_ROLE_ARN": ROLE,
@@ -156,7 +164,7 @@ def plan(environment, directory):
             f"arn:aws:sts::{ACCOUNT}:assumed-role/GitHubBridgeApplicationPlanStaging/{session}",
             "Unexpected AWS session; root and other roles are forbidden.")
     values = parameters_from_platform(
-        stack_outputs("bridge-staging-platform"), stack_outputs("bridge-staging-foundation")
+        stack_outputs(platform_stack_name(environment)), stack_outputs("bridge-staging-foundation")
     )
     require(aws("s3api", "get-bucket-versioning", "--bucket", BUCKET).get("Status") == "Enabled",
             "Artifact bucket must have versioning enabled.")

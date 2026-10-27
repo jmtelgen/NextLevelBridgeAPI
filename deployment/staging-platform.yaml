@@ -466,7 +466,7 @@ Resources:
                 Action: cloudformation:DescribeStacks
                 Resource:
                   - {Fn::Sub: "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/bridge-staging-foundation/*"}
-                  - {Fn::Sub: "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/bridge-staging-platform/*"}
+                  - {Ref: "AWS::StackId"}
                 Condition: {StringEquals: {"aws:RequestedRegion": us-west-2}}
               - Effect: Allow
                 Action: cloudformation:CreateChangeSet

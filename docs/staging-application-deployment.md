@@ -68,6 +68,24 @@ rewritten to `index.html`; API failures never become successful HTML.
 At this phase APIs have no deployed application stages and the web bucket has
 no application entry document. Those endpoints are not ready to play yet.
 
+### Existing shortened stack name
+
+The current operator-created platform stack is **bridge-staging-platfor**
+(missing the final `m`). Keep it; do not delete, recreate or import its retained
+resources. The template now binds planning-role read access to `AWS::StackId`,
+so it authorizes the actual owning stack rather than a hard-coded name.
+
+After its initial `CREATE_COMPLETE`, update that same stack using the latest
+merged platform template. Preserve parameters and tags. Review the change set:
+only `ApplicationPlanRole` should be modified, without replacement, to correct
+its inline `DescribeStacks` resource. Do not execute unexpected resource changes.
+Use approved non-root authority and acknowledge named IAM as before.
+
+Set backend staging variable `STAGING_PLATFORM_STACK=bridge-staging-platfor`.
+The workflow accepts this known existing name or the canonical
+`bridge-staging-platform` default; resource names and public-site exclusions
+remain unchanged.
+
 ## 2. Configure GitHub from verified platform outputs
 
 Keep existing account/region/foundation variables. Add backend staging variable:
@@ -75,6 +93,7 @@ Keep existing account/region/foundation variables. Add backend staging variable:
 | Backend variable | Platform output |
 | --- | --- |
 | `AWS_APPLICATION_PLAN_ROLE_ARN` | `ApplicationPlanRoleArn` |
+| `STAGING_PLATFORM_STACK` | `bridge-staging-platfor` for the current existing stack; otherwise defaults to `bridge-staging-platform` |
 
 Frontend staging variables:
 
