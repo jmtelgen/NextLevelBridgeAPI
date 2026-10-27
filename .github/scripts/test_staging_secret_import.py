@@ -48,9 +48,12 @@ class SecretImportContract(unittest.TestCase):
         self.assertEqual(secret["DeletionPolicy"], "Retain")
         self.assertEqual(secret["UpdateReplacePolicy"], "Retain")
 
-    def test_secret_is_identical_in_both_phases(self):
+    def test_legacy_import_secret_differs_from_fresh_secret_only_by_name(self):
         secret = self.template["Resources"]["JwtSigningSecret"]
-        self.assertEqual(secret, self.foundation["Resources"]["JwtSigningSecret"])
+        self.assertEqual(
+            secret | {"Properties": secret["Properties"] | {"Name": "bridge-staging-jwt-v2"}},
+            self.foundation["Resources"]["JwtSigningSecret"],
+        )
         self.assertEqual(secret["Properties"], {
             "Name": "bridge-staging-jwt",
             "Description": (
@@ -88,11 +91,8 @@ class SecretImportContract(unittest.TestCase):
             "**With existing resources (import resources)**",
             "Application=Bridge", "Environment=staging",
             "IMPORT_COMPLETE", "Do not use CREATE after import",
-            "IMPORT is complete; full-foundation UPDATE is pending",
-            "signing material must remain unchanged",
-            'scope exactly `["Tags"]`',
-            "The default guard still",
-            "Add/Remove/Import actions for the secret remain blocked",
+            "Historical reference only",
+            "staging-foundation-fresh-retry.md",
         ):
             with self.subTest(expected=expected):
                 self.assertIn(expected, self.runbook)

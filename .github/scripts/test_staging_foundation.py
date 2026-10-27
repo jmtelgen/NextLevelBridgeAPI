@@ -72,8 +72,8 @@ class FoundationContract(unittest.TestCase):
             "ConnectionsTable": ("TableName", "bridge-staging-connections"),
             "DuplicateEventsTable": ("TableName", "bridge-staging-duplicate-events"),
             "TickQueue": ("QueueName", "bridge-staging-game-tick"),
-            "TickDeadLetterQueue": ("QueueName", "bridge-staging-game-tick-dlq"),
-            "JwtSigningSecret": ("Name", "bridge-staging-jwt"),
+            "TickDeadLetterQueue": ("QueueName", "bridge-staging-game-tick-dlq-v2"),
+            "JwtSigningSecret": ("Name", "bridge-staging-jwt-v2"),
         }
         for name, (key, value) in expected.items():
             with self.subTest(resource=name):
@@ -164,7 +164,7 @@ class FoundationContract(unittest.TestCase):
             },
         })
         self.assertEqual(self.properties("TickDeadLetterQueue"), {
-            "QueueName": "bridge-staging-game-tick-dlq",
+            "QueueName": "bridge-staging-game-tick-dlq-v2",
             "SqsManagedSseEnabled": True,
             "MessageRetentionPeriod": 1209600,
             "VisibilityTimeout": 360,
@@ -192,7 +192,7 @@ class FoundationContract(unittest.TestCase):
 
     def test_generated_secret_has_no_value_or_identifier_output(self):
         self.assertEqual(self.properties("JwtSigningSecret"), {
-            "Name": "bridge-staging-jwt",
+            "Name": "bridge-staging-jwt-v2",
             "Description": "Independent staging-only HS256 signing material; never output the value.",
             "GenerateSecretString": {
                 "SecretStringTemplate": "{}",

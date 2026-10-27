@@ -18,7 +18,7 @@ CHANGE_ARN = (
     f"arn:aws:cloudformation:{REGION}:{ACCOUNT}:changeSet/{CHANGE_NAME}/*"
 )
 EXECUTION_ROLE = f"arn:aws:iam::{ACCOUNT}:role/BridgeStagingFoundationExecution"
-SECRET = f"arn:aws:secretsmanager:{REGION}:{ACCOUNT}:secret:bridge-staging-jwt-??????"
+SECRET = f"arn:aws:secretsmanager:{REGION}:{ACCOUNT}:secret:bridge-staging-jwt-v2-??????"
 INDEX = (
     f"arn:aws:dynamodb:{REGION}:{ACCOUNT}:table/"
     "bridge-staging-users/index/username-email-index"
@@ -29,7 +29,7 @@ TABLES = {
 }
 QUEUES = {
     f"arn:aws:sqs:{REGION}:{ACCOUNT}:bridge-staging-game-tick{suffix}"
-    for suffix in ("", "-dlq")
+    for suffix in ("", "-dlq-v2")
 }
 TABLE_ACTIONS = {
     "dynamodb:CreateTable",
@@ -276,7 +276,7 @@ class FoundationAuthority(unittest.TestCase):
             conditions = {"StringEquals": {"aws:RequestedRegion": REGION}}
             if "secretsmanager:CreateSecret" in actions:
                 self.assertEqual(actions, ["secretsmanager:CreateSecret"])
-                conditions["StringEquals"]["secretsmanager:Name"] = "bridge-staging-jwt"
+                conditions["StringEquals"]["secretsmanager:Name"] = "bridge-staging-jwt-v2"
             self.assertEqual(statement["Condition"], conditions)
             for resource in as_list(statement["Resource"]):
                 if resource == "*":
@@ -295,6 +295,23 @@ class FoundationAuthority(unittest.TestCase):
                         if name == "plan-policy"
                         else ["secretsmanager:GetRandomPassword"],
                     )
+
+    def test_retained_legacy_secret_and_dlq_are_outside_execution_scope(self):
+        grants = self.grants("execution-policy")
+        legacy_secret = (
+            f"arn:aws:secretsmanager:{REGION}:{ACCOUNT}:"
+            "secret:bridge-staging-jwt-LzSRSY"
+        )
+        for action in (
+            "secretsmanager:CreateSecret", "secretsmanager:DescribeSecret",
+            "secretsmanager:TagResource", "secretsmanager:GetSecretValue",
+        ):
+            self.assertFalse(any(
+                fnmatchcase(legacy_secret, resource) for resource in grants[action]
+            ))
+        legacy_dlq = f"arn:aws:sqs:{REGION}:{ACCOUNT}:bridge-staging-game-tick-dlq"
+        for action in QUEUE_ACTIONS:
+            self.assertNotIn(legacy_dlq, grants[action])
 
     def test_no_execution_deletion_other_data_plane_or_escalation_grants(self):
         forbidden = {
@@ -364,10 +381,10 @@ class FoundationAuthority(unittest.TestCase):
             ),
             "TickQueue": ("AWS::SQS::Queue", "QueueName", "bridge-staging-game-tick"),
             "TickDeadLetterQueue": (
-                "AWS::SQS::Queue", "QueueName", "bridge-staging-game-tick-dlq",
+                "AWS::SQS::Queue", "QueueName", "bridge-staging-game-tick-dlq-v2",
             ),
             "JwtSigningSecret": (
-                "AWS::SecretsManager::Secret", "Name", "bridge-staging-jwt",
+                "AWS::SecretsManager::Secret", "Name", "bridge-staging-jwt-v2",
             ),
         }
         self.assertEqual(set(resources), set(expected))
