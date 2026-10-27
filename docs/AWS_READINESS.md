@@ -1,14 +1,27 @@
 # AWS readiness and isolated staging plan
 
-## Deployment status: foundation deployed; isolated application deployment in progress
+## Deployment status: platform deployed; application import recovery in progress
 
 The replacement foundation is now verified `CREATE_COMPLETE` in `us-west-2`.
 It uses `bridge-staging-jwt-v2` and `bridge-staging-game-tick-dlq-v2`; retained
 legacy resources remain untouched. The user authorized continuing isolated
-staging deployment. Follow the
-[application/platform runbook](staging-application-deployment.md) for the next
-operator bootstrap, target-validated artifacts, application preview,
-scheduling and frontend release. This does not authorize public-site changes.
+staging deployment. The existing platform **bridge-staging-platfor** is now
+`UPDATE_COMPLETE`, including the exact REST stage tagging correction.
+GitHub variables are bound to its isolated outputs. The first application
+CREATE failed and reached `ROLLBACK_COMPLETE`; the application is not playable.
+Read-only metadata inventory confirms **129 existing application resources**.
+The REST stage, WebSocket deployment and WebSocket stage are absent, even
+though the failed REST stage has a `DELETE_SKIPPED` history entry.
+
+The user approved preparing a preservation-based recovery: verify and export
+the exact import files first, then an authorized non-root operator removes only
+the failed application stack record, imports the 129 existing resources, and
+adds the three missing resources in a separate UPDATE. All 132 resources in the
+governing template have `DeletionPolicy: Retain`; a blind CREATE retry would
+collide with the retained objects. Do not delete the platform, foundation or any
+physical application resource. Follow the
+[application/platform runbook](staging-application-deployment.md) before
+scheduling and frontend publication. This does not authorize public-site changes.
 The local CLI still identifies as account root; no assistant mutations may use it.
 
 The following bootstrap history explains prior decisions, not a current

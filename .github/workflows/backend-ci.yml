@@ -45,6 +45,8 @@ jobs:
         run: python -B .github/scripts/test_foundation_plan.py
       - name: Verify isolated platform and application contracts
         run: python -B .github/scripts/test_staging_application.py
+      - name: Verify resource-preserving application import recovery offline
+        run: python -B .github/scripts/test_application_import_recovery.py
       - name: Render application template for schema validation
         run: python -B deployment/application_template.py --artifact-sha256 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --output /tmp/bridge-staging-application.json
       - name: Check planning script syntax
