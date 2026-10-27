@@ -26,6 +26,10 @@ case "${FOUNDATION_CHANGE_SET_TYPE:-}" in
   CREATE|UPDATE) ;;
   *) fail "Select CREATE or UPDATE explicitly." ;;
 esac
+case "${FOUNDATION_ALLOW_SECRET_TAG_UPDATE:-false}" in
+  true|false) ;;
+  *) fail "Secret tag-update opt-in must be true or false." ;;
+esac
 
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$repo_root"
@@ -72,7 +76,7 @@ fi
 preview="$(aws cloudformation describe-change-set \
   --region "$region" --no-cli-pager \
   --stack-name "$stack_name" --change-set-name "$change_set_arn" \
-  --query '{Id:ChangeSetId,Stack:StackId,Status:Status,ExecutionStatus:ExecutionStatus,Changes:Changes[].ResourceChange.{Action:Action,LogicalResourceId:LogicalResourceId,ResourceType:ResourceType,Replacement:Replacement}}' \
+  --query '{Id:ChangeSetId,Stack:StackId,Status:Status,ExecutionStatus:ExecutionStatus,Changes:Changes[].ResourceChange.{Action:Action,LogicalResourceId:LogicalResourceId,ResourceType:ResourceType,Replacement:Replacement,Scope:Scope,Details:Details[].{Evaluation:Evaluation,Target:{Attribute:Target.Attribute,RequiresRecreation:Target.RequiresRecreation}}}}' \
   --output json)"
 printf '%s\n' "$preview"
 printf '%s\n' "$preview" | python3 -c '
@@ -91,11 +95,31 @@ if not isinstance(changes, list) or any(
     for change in changes
 ):
     sys.exit("::error::CloudFormation returned invalid resource-change metadata.")
-if sys.argv[1] == "UPDATE" and any(
-    change["LogicalResourceId"] == "JwtSigningSecret" for change in changes
-):
-    sys.exit("::error::UPDATE must preserve JwtSigningSecret unchanged. Review the import and template before proceeding; nothing was executed.")
-' "$FOUNDATION_CHANGE_SET_TYPE"
+if sys.argv[1] == "UPDATE":
+    for change in changes:
+        if change["LogicalResourceId"] != "JwtSigningSecret":
+            continue
+        details = change.get("Details")
+        tags_only = (
+            change.get("Action") == "Modify"
+            and change.get("ResourceType") == "AWS::SecretsManager::Secret"
+            and change.get("Replacement") == "False"
+            and change.get("Scope") == ["Tags"]
+            and isinstance(details, list)
+            and bool(details)
+            and all(
+                isinstance(detail, dict)
+                and detail.get("Evaluation") == "Static"
+                and isinstance(detail.get("Target"), dict)
+                and detail["Target"].get("Attribute") == "Tags"
+                and detail["Target"].get("RequiresRecreation") == "Never"
+                for detail in details
+            )
+        )
+        if sys.argv[2] != "true" or not tags_only:
+            sys.exit("::error::UPDATE must preserve JwtSigningSecret signing material. Only explicitly opted-in, static, non-replacing tags-only changes are allowed; nothing was executed.")
+        print("Verified opted-in signing-secret change is static tags-only metadata, with no replacement.")
+' "$FOUNDATION_CHANGE_SET_TYPE" "${FOUNDATION_ALLOW_SECRET_TAG_UPDATE:-false}"
 
 digest="$(sha256sum "$template")"
 {
@@ -104,6 +128,7 @@ digest="$(sha256sum "$template")"
   echo "Source commit: $GITHUB_SHA"
   echo "Template SHA-256: ${digest%% *}"
   echo "Change set: $change_set_arn"
+  echo "Secret tags-only metadata opt-in: ${FOUNDATION_ALLOW_SECRET_TAG_UPDATE:-false}"
   echo "No change set was executed. A separately authorized human must review it before any resource provisioning."
   echo "A CREATE plan can leave a REVIEW_IN_PROGRESS stack; failed or timed-out plans require manual inspection."
 } >> "${GITHUB_STEP_SUMMARY:?Missing GitHub step summary path.}"

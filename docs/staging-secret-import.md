@@ -1,6 +1,8 @@
 # Preserve the existing staging signing secret by import
 
-**Review-only recovery preparation. No live import was performed or validated.**
+**IMPORT is complete; full-foundation UPDATE is pending.**
+The operator performed the import; its observed metadata is recorded below.
+Do not repeat phases 0 and 1 for the already imported stack.
 This is not approval to provision, delete, rotate, retrieve, or rewrite a secret.
 The prior cleanup approval was withdrawn. Preserve the existing secret and all
 signing material. Do not use the locally configured root profile for provisioning.
@@ -106,9 +108,9 @@ dynamic secret reference is present.
 The execution policy intentionally lacks `UpdateSecret` and `PutSecretValue`.
 Keep it unchanged. The schema's update-handler permission list is not proof
 that a no-change secret needs an update. If import/read/tag stabilization
-actually demands a missing permission, or any secret update is proposed, **stop**,
-record only sanitized event/error metadata, and obtain a separately reviewed
-resolution. Do not grant permissions, change generation properties, remove
+actually demands a missing permission, or a secret property/value change is
+proposed, **stop**, record only sanitized event/error metadata, and obtain a
+separately reviewed resolution. Do not grant permissions, change generation properties, remove
 retention, or retry using a different identity/mode to bypass a blocker.
 
 ## Phase 0 — fresh read-only operator preflight
@@ -213,19 +215,49 @@ with the standard-queue fix (commit `0f0c15b`, `FifoQueue` omitted on both queue
    | `TickDeadLetterQueue` | `AWS::SQS::Queue` |
    | `TickQueue` | `AWS::SQS::Queue` |
 
-   `JwtSigningSecret` must be **UNCHANGED**, absent from resource-change actions.
-   **No Modify, Replace, Remove/Delete** action is acceptable for the secret;
-   no unexpected action on any resource is acceptable. Stop if the preview
-   proposes a secret action, even a tag-only change or “no interruption.”
-   Do not execute it or expand execution permissions to make it work.
-   The existing planning script also rejects any UPDATE change-list entry for
-   `JwtSigningSecret` (including Add, Modify, Remove, Import or Dynamic).
-   Preserve this guard: do not override/remove it or retry in another mode.
+   Ideally `JwtSigningSecret` is absent from resource-change actions. An import
+   without the two **stack-level** tags can instead produce one tags-only Modify
+   while leaving the secret properties identical. The default guard still
+   rejects this. For this verified case only, start a **new workflow run** on
+   the corrected `main` and explicitly enable **Allow verified tags-only secret
+   metadata changes**. Rerunning the older failed job uses its older source and
+   will not pick up the corrected guard or new input.
+
+   The opt-in permits only `Modify`, resource type `AWS::SecretsManager::Secret`,
+   `Replacement: "False"`, scope exactly `["Tags"]`, and nonempty change details
+   that are all `Static`, target `Tags`, and require recreation `Never`. Missing,
+   mixed, dynamic, property-changing or replacement metadata still fails closed.
+   Add/Remove/Import actions for the secret remain blocked. Review six Adds plus,
+   only when opted in, this one metadata-only Modify. Do not remove the guard or
+   broaden execution permissions; signing material must remain unchanged.
 3. The GitHub planning workflow remains **CREATE/UPDATE only**, preparing
    previews only. It must not gain IMPORT, execute, delete, or secret-read
-   permissions; import authority is separate human authority. No workflow
-   changes, live import, live UPDATE preview, or provisioning were performed by
-   this preparation. Any eventual UPDATE execution requires its own approval.
+   permissions; import authority is separate human authority. Preparing these
+   source changes does not execute the preview or provision resources.
+   Any eventual UPDATE execution requires its own approval.
+
+### Observed post-import tagging difference
+
+The stack reached `IMPORT_COMPLETE`. Its stored secret declaration exactly
+matches the reviewed template, and metadata still reports original
+`AWSCURRENT` version `4f3bd6b7-f22f-7de5-f225-e2c2ef3b8892`. The imported stack's
+tag list was empty, although the physical secret already carried
+`Application=Bridge` and `Environment=staging`. These are different metadata
+layers: adding the workflow's required stack tags proposes a tags-only secret
+Modify even when the physical tags already have those values.
+
+[Run 40433460308](https://github.com/jmtelgen/NextLevelBridgeAPI/actions/runs/40433460308)
+was stopped by the original blanket guard. Its ready preview contained the six
+expected Adds plus a single static, non-replacing tags-only secret Modify.
+No signing value was read or changed by the inspection. The live execution
+role remains CloudFormation-only, permits TagResource, and has no UpdateSecret,
+PutSecretValue, RotateSecret or DeleteSecret grant. The opt-in changes no IAM
+permissions and grants no execution capability.
+
+Do not delete/re-import the secret or regenerate it to fix a stack-tag mismatch.
+After separately approved execution, compare `VersionIdsToStages` with the
+baseline again. `LastChangedDate` alone is not evidence of key rotation:
+importing or tagging can change metadata timestamps without changing a version.
 
 ## Offline validation
 

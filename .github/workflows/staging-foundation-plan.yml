@@ -10,6 +10,11 @@ on:
         options:
           - CREATE
           - UPDATE
+      allow_secret_tag_update:
+        description: Allow verified tags-only secret metadata changes; never signing-value changes
+        required: false
+        type: boolean
+        default: false
 
 permissions: {}
 
@@ -32,6 +37,7 @@ jobs:
       AWS_FOUNDATION_PLAN_ROLE_ARN: ${{ vars.AWS_FOUNDATION_PLAN_ROLE_ARN }}
       AWS_FOUNDATION_EXECUTION_ROLE_ARN: ${{ vars.AWS_FOUNDATION_EXECUTION_ROLE_ARN }}
       FOUNDATION_CHANGE_SET_TYPE: ${{ inputs.change_set_type }}
+      FOUNDATION_ALLOW_SECRET_TAG_UPDATE: ${{ inputs.allow_secret_tag_update }}
       AWS_EC2_METADATA_DISABLED: "true"
       AWS_SHARED_CREDENTIALS_FILE: /dev/null
       AWS_CONFIG_FILE: /dev/null
