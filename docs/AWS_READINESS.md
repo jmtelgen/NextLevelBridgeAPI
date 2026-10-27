@@ -11,6 +11,11 @@ Deleted bootstrap branches' GitHub staging allowances have been removed.
 The next review-only foundation is described in
 [staging-foundation.md](staging-foundation.md); preparing its source does not
 authorize applying a stack or widening IAM permissions.
+The review-only [foundation authority](foundation-authority.md) separates
+planning from execution. Its proposed GitHub role cannot execute change sets;
+the existing identity-check roles remain unchanged. The backend region
+correction is merged and its `us-west-2` identity check succeeded:
+[run](https://github.com/jmtelgen/NextLevelBridgeAPI/actions/runs/40427443686).
 
 The user approved **isolated staging before any public-site change**, but asked
 to hold deployment until they create a scoped deployment identity. Do not

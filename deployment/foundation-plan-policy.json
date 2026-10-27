@@ -1,0 +1,120 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ValidateInlineTemplateInStagingRegion",
+      "Effect": "Allow",
+      "Action": "cloudformation:ValidateTemplate",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2"
+        },
+        "Null": {
+          "cloudformation:TemplateUrl": "true"
+        }
+      }
+    },
+    {
+      "Sid": "CreateNamedFoundationPreviewWithExactExecutionRole",
+      "Effect": "Allow",
+      "Action": "cloudformation:CreateChangeSet",
+      "Resource": "arn:aws:cloudformation:us-west-2:851725597758:stack/bridge-staging-foundation/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2",
+          "cloudformation:RoleArn": "arn:aws:iam::851725597758:role/BridgeStagingFoundationExecution",
+          "aws:RequestTag/Application": "Bridge",
+          "aws:RequestTag/Environment": "staging"
+        },
+        "StringLike": {
+          "cloudformation:ChangeSetName": "bridge-staging-foundation-?*-?*"
+        },
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": [
+            "Application",
+            "Environment"
+          ]
+        },
+        "Null": {
+          "cloudformation:TemplateUrl": "true"
+        }
+      }
+    },
+    {
+      "Sid": "TagOnlyFoundationPreviewDuringCreateChangeSet",
+      "Effect": "Allow",
+      "Action": "cloudformation:TagResource",
+      "Resource": [
+        "arn:aws:cloudformation:us-west-2:851725597758:stack/bridge-staging-foundation/*",
+        "arn:aws:cloudformation:us-west-2:851725597758:changeSet/bridge-staging-foundation-?*-?*/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2",
+          "cloudformation:CreateAction": "CreateChangeSet",
+          "aws:RequestTag/Application": "Bridge",
+          "aws:RequestTag/Environment": "staging"
+        },
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": [
+            "Application",
+            "Environment"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "ReconcileOnlyFoundationPreviewTagKeysDuringCreateChangeSet",
+      "Effect": "Allow",
+      "Action": "cloudformation:UntagResource",
+      "Resource": [
+        "arn:aws:cloudformation:us-west-2:851725597758:stack/bridge-staging-foundation/*",
+        "arn:aws:cloudformation:us-west-2:851725597758:changeSet/bridge-staging-foundation-?*-?*/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2",
+          "cloudformation:CreateAction": "CreateChangeSet"
+        },
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": [
+            "Application",
+            "Environment"
+          ]
+        },
+        "Null": {
+          "aws:TagKeys": "false"
+        }
+      }
+    },
+    {
+      "Sid": "DescribeNamedFoundationPreviewIncludingWaiter",
+      "Effect": "Allow",
+      "Action": "cloudformation:DescribeChangeSet",
+      "Resource": "arn:aws:cloudformation:us-west-2:851725597758:stack/bridge-staging-foundation/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2"
+        },
+        "StringLike": {
+          "cloudformation:ChangeSetName": [
+            "bridge-staging-foundation-?*-?*",
+            "arn:aws:cloudformation:us-west-2:851725597758:changeSet/bridge-staging-foundation-?*-?*/*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "PassOnlyFoundationExecutionRoleToCloudFormation",
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": "arn:aws:iam::851725597758:role/BridgeStagingFoundationExecution",
+      "Condition": {
+        "StringEquals": {
+          "iam:PassedToService": "cloudformation.amazonaws.com"
+        }
+      }
+    }
+  ]
+}

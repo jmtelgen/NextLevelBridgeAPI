@@ -6,10 +6,14 @@ not run the existing deployment scripts or create/change AWS resources.
 
 The bootstrap PR is merged. The operator completed the identity check on
 `main`: [successful run](https://github.com/jmtelgen/NextLevelBridgeAPI/actions/runs/40426083892).
-That run used `us-east-1` for STS. The application and updated access check use
-`us-west-2`; after merging this region correction, change the staging
-`AWS_REGION` variable from `us-east-1` to `us-west-2` and rerun the check.
+That first run used `us-east-1` for STS. The region correction is now merged,
+the staging `AWS_REGION` variable is `us-west-2`, and the operator completed a
+[successful corrected run](https://github.com/jmtelgen/NextLevelBridgeAPI/actions/runs/40427443686).
 The deleted bootstrap branch's staging environment allowance has been removed.
+
+Keep `AWS_STAGING_ROLE_ARN` bound to this identity-only role. The proposed
+[foundation planning authority](foundation-authority.md) uses separate roles
+and variables; it does not broaden this access-check role.
 
 ## What runs
 
