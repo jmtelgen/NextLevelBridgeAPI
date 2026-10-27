@@ -18,7 +18,12 @@ class SecretsManager:
         try:
             self.client = boto3.client(
                 'secretsmanager',
-                region_name=region_name or os.environ.get('AWS_DEFAULT_REGION', 'us-east-1')
+                region_name=(
+                    region_name
+                    or os.environ.get('AWS_REGION')
+                    or os.environ.get('AWS_DEFAULT_REGION')
+                    or 'us-east-1'
+                )
             )
         except NoCredentialsError:
             raise Exception("AWS credentials not found. Please configure your AWS credentials.")

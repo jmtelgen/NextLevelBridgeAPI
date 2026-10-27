@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Operator-reviewed isolated staging stream and queue consumers; apply after the application.
+Parameters:
+  ConsumersEnabled:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: Explicit opt-in only after the verified application artifact is deployed.
+  RoomStreamArn:
+    Type: String
+    AllowedPattern: "^arn:aws:dynamodb:us-west-2:851725597758:table/bridge-staging-rooms/stream/.+$"
+  TickDispatchFunctionArn:
+    Type: String
+    AllowedValues: ["arn:aws:lambda:us-west-2:851725597758:function:bridge-staging-game-tick-dispatcher"]
+  TickWorkerFunctionArn:
+    Type: String
+    AllowedValues: ["arn:aws:lambda:us-west-2:851725597758:function:bridge-staging-game-tick-worker"]
+Conditions:
+  EnableConsumers: {Fn::Equals: [{Ref: ConsumersEnabled}, "true"]}
+Resources:
+  RoomTickDispatcher:
+    Type: AWS::Lambda::EventSourceMapping
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      FunctionName: {Ref: TickDispatchFunctionArn}
+      EventSourceArn: {Ref: RoomStreamArn}
+      StartingPosition: LATEST
+      BatchSize: 10
+      Enabled: {Fn::If: [EnableConsumers, true, false]}
+      FunctionResponseTypes: [ReportBatchItemFailures]
+      BisectBatchOnFunctionError: true
+      MaximumRetryAttempts: 3
+      MaximumRecordAgeInSeconds: 3600
+      FilterCriteria:
+        Filters:
+          - Pattern: '{"eventName":["INSERT","MODIFY"]}'
+      DestinationConfig:
+        OnFailure:
+          Destination: arn:aws:sqs:us-west-2:851725597758:bridge-staging-room-stream-failures
+      Tags:
+        - {Key: Application, Value: Bridge}
+        - {Key: Environment, Value: staging}
+  GameTickWorker:
+    Type: AWS::Lambda::EventSourceMapping
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      FunctionName: {Ref: TickWorkerFunctionArn}
+      EventSourceArn: arn:aws:sqs:us-west-2:851725597758:bridge-staging-game-tick
+      BatchSize: 1
+      MaximumBatchingWindowInSeconds: 0
+      Enabled: {Fn::If: [EnableConsumers, true, false]}
+      FunctionResponseTypes: [ReportBatchItemFailures]
+      ScalingConfig: {MaximumConcurrency: 2}
+      Tags:
+        - {Key: Application, Value: Bridge}
+        - {Key: Environment, Value: staging}
+Outputs:
+  RoomMappingId: {Value: {Ref: RoomTickDispatcher}}
+  TickMappingId: {Value: {Ref: GameTickWorker}}

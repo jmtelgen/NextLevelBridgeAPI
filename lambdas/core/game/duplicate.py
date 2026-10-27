@@ -135,23 +135,34 @@ def record_completion(room):
     if not room.get("eventId") or not archives.eligible(room) or store is None:
         return
     with lock:
-        event = store.get(room["eventId"])
-        if not event or event["status"] not in ("started", "completed"):
-            return
-        game = room["gameData"]
-        board = next((item for item in event["boards"] if item["boardId"] == game["boardId"]), None)
-        if board is None or not any(table["roomId"] == room["roomId"] for table in event["tables"]):
-            raise ValueError("Event completion does not match an assigned board")
-        results = board.setdefault("results", {})
-        score = {"scoreNS": game["result"]["scoreNS"], "scoreEW": game["result"]["scoreEW"]}
-        if room["roomId"] in results:
-            if results[room["roomId"]] != score:
-                raise ValueError("Event result is immutable")
-            return
-        results[room["roomId"]] = score
-        if all(len(item.get("results", {})) == event["tableCount"] for item in event["boards"]):
-            event["status"] = "completed"
-        require_store().commit(event)
+        event = completion_event(room)
+        if event is not None:
+            require_store().commit(event)
+
+
+def completion_event(room, *, required=False):
+    """Prepare an immutable score update; durable callers include it in their CAS."""
+    if required and not isinstance(store, DynamoEventStore):
+        raise RuntimeError("Durable duplicate event storage is required for completion")
+    event = store.get(room["eventId"])
+    if not event or event["status"] not in ("started", "completed"):
+        if required:
+            raise ValueError("Event is not available for completion")
+        return None
+    game = room["gameData"]
+    board = next((item for item in event["boards"] if item["boardId"] == game["boardId"]), None)
+    if board is None or not any(table["roomId"] == room["roomId"] for table in event["tables"]):
+        raise ValueError("Event completion does not match an assigned board")
+    results = board.setdefault("results", {})
+    score = {"scoreNS": game["result"]["scoreNS"], "scoreEW": game["result"]["scoreEW"]}
+    if room["roomId"] in results:
+        if results[room["roomId"]] != score:
+            raise ValueError("Event result is immutable")
+        return None
+    results[room["roomId"]] = score
+    if all(len(item.get("results", {})) == event["tableCount"] for item in event["boards"]):
+        event["status"] = "completed"
+    return event
 
 
 def deal_for_room(room):

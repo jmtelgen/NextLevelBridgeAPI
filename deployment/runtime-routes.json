@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "runtime": "python3.12",
+  "architecture": "x86_64",
+  "functionNamePrefix": "bridge-staging-",
+  "artifact": "bridge-staging-<zip-sha256>.zip",
+  "defaults": {"timeoutSeconds": 29, "memorySizeMB": 1024},
+  "http": {
+    "apiType": "REST",
+    "integration": "AWS_PROXY",
+    "payloadFormatVersion": "1.0",
+    "basePath": "/api",
+    "prefixMapping": "CloudFront preserves /api and /api/*; REST API resources below include /api. CloudFront origin path /staging selects the REST stage.",
+    "cors": {
+      "methods": ["GET", "POST", "OPTIONS"],
+      "headers": ["Content-Type", "Authorization"],
+      "allowCredentials": true,
+      "originEnvironment": "FRONTEND_URL",
+      "preflight": "Gateway OPTIONS mock responses; never require authentication; use exact frontend origin"
+    },
+    "routes": [
+      {"method": "POST", "path": "/api/account", "function": "account_create"},
+      {"method": "POST", "path": "/api/account/login", "function": "account_login"},
+      {"method": "POST", "path": "/api/auth/refresh", "function": "account_refresh_token"},
+      {"method": "POST", "path": "/api/auth/guest", "function": "guest_session"},
+      {"method": "POST", "path": "/api/logout", "function": "account_logout"},
+      {"method": "GET", "path": "/api/connections", "function": "connection_count"}
+    ]
+  },
+  "websocket": {
+    "apiType": "WEBSOCKET",
+    "integration": "AWS_PROXY",
+    "routeSelectionExpression": "$request.body.action",
+    "connectResponseHeaders": ["Sec-WebSocket-Protocol"],
+    "applicationRouteResponseKey": null,
+    "responseNotes": "Existing application handlers explicitly post replies/errors through the management API. Do not enable two-way route responses: that would duplicate replies. Preserve the connect Lambda handshake response headers.",
+    "routes": [
+      {"routeKey": "$connect", "function": "websocket_connect"},
+      {"routeKey": "$disconnect", "function": "websocket_disconnect"},
+      {"routeKey": "createRoom", "function": "websocket_create_room"},
+      {"routeKey": "joinRoom", "function": "websocket_join_room"},
+      {"routeKey": "changeSeat", "function": "websocket_change_seat"},
+      {"routeKey": "startRoom", "function": "websocket_start_room"},
+      {"routeKey": "getGameState", "function": "websocket_start_room"},
+      {"routeKey": "nextBoard", "function": "websocket_start_room"},
+      {"routeKey": "makeBid", "function": "websocket_make_bid"},
+      {"routeKey": "playCard", "function": "websocket_play_card"},
+      {"routeKey": "getBoardArchive", "function": "websocket_board_records"},
+      {"routeKey": "listBoardArchives", "function": "websocket_board_records"},
+      {"routeKey": "getAgreementCard", "function": "websocket_board_records"},
+      {"routeKey": "getMatchScoreboard", "function": "websocket_board_records"},
+      {"routeKey": "setPracticePace", "function": "websocket_board_records"},
+      {"routeKey": "leaveRoom", "function": "websocket_leave_room"},
+      {"routeKey": "replacePlayer", "function": "websocket_replace_player"},
+      {"routeKey": "transferOwnership", "function": "websocket_room_controls"},
+      {"routeKey": "setRoomLock", "function": "websocket_room_controls"},
+      {"routeKey": "createInvitation", "function": "websocket_room_controls"},
+      {"routeKey": "revokeInvitation", "function": "websocket_room_controls"},
+      {"routeKey": "getPracticeHint", "function": "websocket_practice"},
+      {"routeKey": "setComputerLevel", "function": "websocket_practice"},
+      {"routeKey": "proposeClaim", "function": "websocket_claims_duplicate"},
+      {"routeKey": "respondClaim", "function": "websocket_claims_duplicate"},
+      {"routeKey": "cancelClaim", "function": "websocket_claims_duplicate"},
+      {"routeKey": "createDuplicateEvent", "function": "websocket_claims_duplicate"},
+      {"routeKey": "joinDuplicateEvent", "function": "websocket_claims_duplicate"},
+      {"routeKey": "startDuplicateEvent", "function": "websocket_claims_duplicate"},
+      {"routeKey": "getDuplicateEvent", "function": "websocket_claims_duplicate"}
+    ]
+  },
+  "eventSources": [
+    {
+      "name": "room_tick_dispatcher", "function": "game_tick_dispatcher",
+      "source": "dynamodb", "tableEnvironment": "ROOM_TABLE",
+      "streamViewType": "NEW_IMAGE", "startingPosition": "LATEST",
+      "batchSize": 10, "functionResponseTypes": ["ReportBatchItemFailures"],
+      "bisectBatchOnFunctionError": true,
+      "filterCriteria": {"Filters": [{"Pattern": "{\"eventName\":[\"INSERT\",\"MODIFY\"]}"}]}
+    },
+    {
+      "name": "game_tick_worker", "function": "game_tick_worker",
+      "source": "sqs", "queueEnvironment": "GAME_TICK_QUEUE_URL",
+      "queueType": "standard", "visibilityTimeoutSeconds": 360,
+      "batchSize": 1, "functionResponseTypes": ["ReportBatchItemFailures"],
+      "maximumBatchingWindowInSeconds": 0,
+      "requiresDeadLetterQueue": true
+    }
+  ],
+  "environment": {
+    "required": ["USER_TABLE", "ROOM_TABLE", "WEBSOCKET_CONNECTIONS_TABLE", "DUPLICATE_EVENTS_TABLE", "BOARD_ARCHIVES_TABLE", "JWT_SECRET_ID", "FRONTEND_URL", "WS_ALLOWED_ORIGINS", "WEBSOCKET_ENDPOINT", "GAME_TICK_QUEUE_URL"],
+    "fixed": {"ENVIRONMENT": "production", "PYTHONDONTWRITEBYTECODE": "1"},
+    "notes": {
+      "ENVIRONMENT": "Use production even on isolated staging: existing cookie handlers add Secure only for this exact value.",
+      "WEBSOCKET_ENDPOINT": "https://<websocket-api-id>.execute-api.<region>.amazonaws.com/<stage>; management endpoint, not wss",
+      "DUPLICATE_EVENTS_TABLE": "Dedicated table; partition key eventId (S), no sort key.",
+      "BOARD_ARCHIVES_TABLE": "Dedicated table; partition key roomId (S), sort key boardNumber (N).",
+      "AWS_DEFAULT_REGION": "Lambda-provided runtime region must agree with Secrets Manager and tables.",
+      "WS_ALLOWED_ORIGINS": "Comma-separated exact HTTPS frontend origins; no wildcard."
+    }
+  },
+  "functions": {
+    "account_create": {"handler": "lambdas.api.auth.account_create.lambda_handler", "dependencies": ["users", "jwt_secret"]},
+    "account_login": {"handler": "lambdas.api.auth.account_login.lambda_handler", "dependencies": ["users", "jwt_secret"]},
+    "account_refresh_token": {"handler": "lambdas.api.auth.account_refresh_token.lambda_handler", "dependencies": ["users", "jwt_secret"]},
+    "guest_session": {"handler": "lambdas.api.auth.guest_session.lambda_handler", "dependencies": ["jwt_secret"]},
+    "account_logout": {"handler": "lambdas.api.auth.account_logout.lambda_handler", "dependencies": []},
+    "connection_count": {"handler": "lambdas.api.game.connection_count.lambda_handler", "dependencies": ["connections", "jwt_secret"]},
+    "websocket_connect": {"handler": "staging_runtime.websocket_connect", "entrypoint": "lambdas.api.websocket.websocket_connect.lambda_handler", "dependencies": ["game_state", "jwt_secret", "websocket_management"]},
+    "websocket_disconnect": {"handler": "staging_runtime.websocket_disconnect", "entrypoint": "lambdas.api.websocket.websocket_disconnect.lambda_handler", "dependencies": ["game_state", "websocket_management"]},
+    "websocket_create_room": {"handler": "staging_runtime.websocket_create_room", "entrypoint": "lambdas.api.websocket.websocket_create_room.lambda_handler", "dependencies": ["game_state", "websocket_management"]},
+    "websocket_join_room": {"handler": "staging_runtime.websocket_join_room", "entrypoint": "lambdas.api.websocket.websocket_join_room.lambda_handler", "dependencies": ["game_state", "websocket_management"]},
+    "websocket_change_seat": {"handler": "staging_runtime.websocket_change_seat", "entrypoint": "lambdas.api.websocket.websocket_change_seat.lambda_handler", "dependencies": ["game_state", "websocket_management"]},
+    "websocket_start_room": {"handler": "staging_runtime.websocket_start_room", "entrypoint": "lambdas.api.websocket.websocket_start_room.lambda_handler", "dependencies": ["game_state", "websocket_management", "dds"]},
+    "websocket_make_bid": {"handler": "staging_runtime.websocket_make_bid", "entrypoint": "lambdas.api.websocket.websocket_make_bid.lambda_handler", "dependencies": ["game_state", "websocket_management", "dds"]},
+    "websocket_play_card": {"handler": "staging_runtime.websocket_play_card", "entrypoint": "lambdas.api.websocket.websocket_play_card.lambda_handler", "dependencies": ["game_state", "websocket_management", "dds"]},
+    "websocket_board_records": {"handler": "staging_runtime.websocket_board_records", "entrypoint": "lambdas.api.websocket.websocket_board_records.lambda_handler", "dependencies": ["game_state", "websocket_management"]},
+    "websocket_leave_room": {"handler": "staging_runtime.websocket_leave_room", "entrypoint": "lambdas.api.websocket.websocket_leave_room.lambda_handler", "dependencies": ["game_state", "websocket_management"]},
+    "websocket_replace_player": {"handler": "staging_runtime.websocket_replace_player", "entrypoint": "lambdas.api.websocket.websocket_replace_player.lambda_handler", "dependencies": ["game_state", "websocket_management"]},
+    "websocket_room_controls": {"handler": "staging_runtime.websocket_room_controls", "entrypoint": "lambdas.api.websocket.websocket_room_controls.lambda_handler", "dependencies": ["game_state", "websocket_management"]},
+    "websocket_practice": {"handler": "staging_runtime.websocket_practice", "entrypoint": "lambdas.api.websocket.websocket_practice.lambda_handler", "dependencies": ["game_state", "websocket_management", "dds"]},
+    "websocket_claims_duplicate": {"handler": "staging_runtime.websocket_claims_duplicate", "entrypoint": "lambdas.api.websocket.websocket_claims_duplicate.lambda_handler", "dependencies": ["game_state", "websocket_management", "dds"]},
+    "game_tick_dispatcher": {"handler": "staging_runtime.game_tick", "entrypoint": "lambdas.api.game.game_tick.lambda_handler", "timeoutSeconds": 30, "dependencies": ["room_stream", "tick_send"]},
+    "game_tick_worker": {"handler": "staging_runtime.game_tick", "entrypoint": "lambdas.api.game.game_tick.lambda_handler", "timeoutSeconds": 60, "dependencies": ["game_state", "tick_send", "tick_consume", "websocket_management", "dds"]}
+  },
+  "dependencyGroups": {
+    "users": ["DynamoDB users table"],
+    "connections": ["DynamoDB connections table"],
+    "jwt_secret": ["Secrets Manager GetSecretValue on JWT_SECRET_ID", "KMS Decrypt if secret uses a customer-managed key"],
+    "game_state": ["DynamoDB users, rooms, connections, duplicate-events and board-archives tables", "DynamoDB TransactWriteItems on all affected tables", "DynamoDB reads, queries, scans, conditional writes and deletes used by existing handlers"],
+    "websocket_management": ["execute-api ManageConnections on this stage only"],
+    "room_stream": ["Room stream GetRecords, GetShardIterator, DescribeStream, ListStreams for dispatcher mapping"],
+    "tick_send": ["sqs SendMessage on GAME_TICK_QUEUE_URL"],
+    "tick_consume": ["sqs ReceiveMessage, DeleteMessage, GetQueueAttributes on game-tick queue"],
+    "dds": ["libdds.so.2 at ZIP root, compiled and tested on Python 3.12 AL2023 x86_64"]
+  },
+  "roleGroups": {
+    "accounts": {"functions": ["account_create", "account_login", "account_refresh_token"], "dependencies": ["users", "jwt_secret"]},
+    "guest": {"functions": ["guest_session"], "dependencies": ["jwt_secret"]},
+    "logout": {"functions": ["account_logout"], "dependencies": []},
+    "connections": {"functions": ["connection_count"], "dependencies": ["connections", "jwt_secret"]},
+    "gameplay": {"functions": ["websocket_connect", "websocket_disconnect", "websocket_create_room", "websocket_join_room", "websocket_change_seat", "websocket_start_room", "websocket_make_bid", "websocket_play_card", "websocket_board_records", "websocket_leave_room", "websocket_replace_player", "websocket_room_controls", "websocket_practice", "websocket_claims_duplicate"], "dependencies": ["game_state", "jwt_secret", "websocket_management"]},
+    "tickDispatcher": {"functions": ["game_tick_dispatcher"], "dependencies": ["room_stream", "tick_send"]},
+    "tickWorker": {"functions": ["game_tick_worker"], "dependencies": ["game_state", "tick_send", "tick_consume", "websocket_management"]}
+  },
+  "excluded": ["local /health", "local unprefixed HTTP aliases", "legacy crawler/AI/example handlers without a current local route", "invented $default action", "new HTTP event/archive/agreement endpoints: these are existing WebSocket actions"]
+}

@@ -103,15 +103,20 @@ def save_room(table, room):
         condition = "attribute_exists(#room) AND (attribute_not_exists(#revision) OR #revision = :expected)"
     else:
         condition = "attribute_exists(#room) AND #revision = :expected"
+    repository = archives.get_store()
+    condition_args = dict(
+        ConditionExpression=condition, ExpressionAttributeNames=names,
+        ExpressionAttributeValues={":expected": expected})
     try:
-        table.put_item(
-            Item=room, ConditionExpression=condition,
-            ExpressionAttributeNames=names, ExpressionAttributeValues={":expected": expected})
+        if isinstance(repository, archives.DynamoArchiveStore) and archives.eligible(room):
+            repository.commit_completed(table, room, **condition_args)
+            return
+        table.put_item(Item=room, **condition_args)
     except ClientError as exc:
         if exc.response["Error"]["Code"] == "ConditionalCheckFailedException":
             raise RoomConflictError(409, "Room changed; request getGameState before retrying") from exc
         raise
-    archives.store.put_completed(room)
+    repository.put_completed(room)
     duplicate.record_completion(room)
 
 
@@ -282,7 +287,8 @@ def solo_room(room):
 def read_feature(room, user_id, operation, data):
     """Read-only records use the same connection and room membership gate as play."""
     game = room["gameData"]
-    archives.store.put_completed(room)
+    repository = archives.get_store()
+    repository.put_completed(room)
     duplicate.record_completion(room)
     payload = {"roomId": room["roomId"]}
     if operation == "getAgreementCard":
@@ -297,7 +303,7 @@ def read_feature(room, user_id, operation, data):
             raise GameRequestError(400, "boardId is required")
         if board_id == game.get("boardId") and not archives.eligible(room):
             raise GameRequestError(409, "Board is not completed and cleared")
-        board = archives.store.get(room["roomId"], board_id)
+        board = repository.get(room["roomId"], board_id)
         if not board:
             raise GameRequestError(404, "Board archive does not exist")
         if not archives.embargo_allows(room, board, user_id):
@@ -309,7 +315,7 @@ def read_feature(room, user_id, operation, data):
             raise GameRequestError(400, "limit must be an integer from 1 to 100")
         if before is not None and (type(before) is not int or before < 1):
             raise GameRequestError(400, "beforeBoardNumber must be a positive integer")
-        boards = archives.store.list(room["roomId"], limit=limit, before=before)
+        boards = repository.list(room["roomId"], limit=limit, before=before)
         visible = [board for board in boards
                    if archives.embargo_allows(room, board, user_id)]
         summaries = [{key: board[key] for key in (
@@ -400,7 +406,7 @@ def process_game_request(handler, event, context, operation, db, send, hands_fac
                     raise GameRequestError(400, "nextBoard requires revision or completed boardId")
                 if "boardId" in data and data["boardId"] != room["gameData"].get("boardId"):
                     raise GameRequestError(409, "Stale boardId; request getGameState")
-                archives.store.put_completed(room)
+                archives.get_store().put_completed(room)
             for position in rules.SEATS:
                 if not room["seats"].get(position):
                     room["seats"][position] = f"ROBOT_{position}"

@@ -1,0 +1,558 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Isolated Bridge staging edge and release authority; non-root operator bootstrap only.
+Metadata:
+  StagingTarget:
+    AccountId: "851725597758"
+    Region: us-west-2
+    RequiresNamedIAMReview: true
+Parameters:
+  RoomStreamArn:
+    Type: String
+    AllowedPattern: "^arn:aws:dynamodb:us-west-2:851725597758:table/bridge-staging-rooms/stream/.+$"
+    Description: Exact RoomStreamArn output from the successful staging foundation.
+Resources:
+  BoardArchives:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: bridge-staging-board-archives
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - {AttributeName: roomId, AttributeType: S}
+        - {AttributeName: boardNumber, AttributeType: N}
+      KeySchema:
+        - {AttributeName: roomId, KeyType: HASH}
+        - {AttributeName: boardNumber, KeyType: RANGE}
+      SSESpecification: {SSEEnabled: true}
+      PointInTimeRecoverySpecification: {PointInTimeRecoveryEnabled: true}
+      DeletionProtectionEnabled: true
+      Tags:
+        - {Key: Application, Value: Bridge}
+        - {Key: Environment, Value: staging}
+  StreamFailures:
+    Type: AWS::SQS::Queue
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      QueueName: bridge-staging-room-stream-failures
+      SqsManagedSseEnabled: true
+      MessageRetentionPeriod: 1209600
+      Tags:
+        - {Key: Application, Value: Bridge}
+        - {Key: Environment, Value: staging}
+  WebBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: bridge-staging-web-851725597758-us-west-2
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules: [{ObjectOwnership: BucketOwnerEnforced}]
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: {SSEAlgorithm: AES256}
+      VersioningConfiguration: {Status: Enabled}
+      Tags:
+        - {Key: Application, Value: Bridge}
+        - {Key: Environment, Value: staging}
+  ArtifactBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: bridge-staging-artifacts-851725597758-us-west-2
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules: [{ObjectOwnership: BucketOwnerEnforced}]
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: {SSEAlgorithm: AES256}
+      VersioningConfiguration: {Status: Enabled}
+      Tags:
+        - {Key: Application, Value: Bridge}
+        - {Key: Environment, Value: staging}
+  ArtifactBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Bucket: {Ref: ArtifactBucket}
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Deny
+            Principal: "*"
+            Action: "s3:*"
+            Resource:
+              - {Fn::GetAtt: [ArtifactBucket, Arn]}
+              - {Fn::Sub: "${ArtifactBucket.Arn}/*"}
+            Condition: {Bool: {"aws:SecureTransport": "false"}}
+  RestApi:
+    Type: AWS::ApiGateway::RestApi
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: bridge-staging-http
+      EndpointConfiguration: {Types: [REGIONAL]}
+      Tags:
+        - {Key: Application, Value: Bridge}
+        - {Key: Environment, Value: staging}
+  WebSocketApi:
+    Type: AWS::ApiGatewayV2::Api
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: bridge-staging-websocket
+      ProtocolType: WEBSOCKET
+      RouteSelectionExpression: "$request.body.action"
+      Tags: {Application: Bridge, Environment: staging}
+  StaticOriginAccess:
+    Type: AWS::CloudFront::OriginAccessControl
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      OriginAccessControlConfig:
+        Name: bridge-staging-web
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+  StaticCache:
+    Type: AWS::CloudFront::CachePolicy
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      CachePolicyConfig:
+        Name: bridge-staging-static-origin-cache
+        MinTTL: 0
+        DefaultTTL: 0
+        MaxTTL: 31536000
+        ParametersInCacheKeyAndForwardedToOrigin:
+          EnableAcceptEncodingBrotli: true
+          EnableAcceptEncodingGzip: true
+          CookiesConfig: {CookieBehavior: none}
+          HeadersConfig: {HeaderBehavior: none}
+          QueryStringsConfig: {QueryStringBehavior: none}
+  ApiCache:
+    Type: AWS::CloudFront::CachePolicy
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      CachePolicyConfig:
+        Name: bridge-staging-api-never-cache
+        MinTTL: 0
+        DefaultTTL: 0
+        MaxTTL: 0
+        ParametersInCacheKeyAndForwardedToOrigin:
+          EnableAcceptEncodingBrotli: false
+          EnableAcceptEncodingGzip: false
+          CookiesConfig: {CookieBehavior: none}
+          HeadersConfig: {HeaderBehavior: none}
+          QueryStringsConfig: {QueryStringBehavior: none}
+  SpaRouter:
+    Type: AWS::CloudFront::Function
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: bridge-staging-spa-router
+      AutoPublish: true
+      FunctionConfig:
+        Comment: SPA navigation on the static behavior only; never rewrite API errors.
+        Runtime: cloudfront-js-2.0
+      FunctionCode: |
+        function handler(event) {
+          var request = event.request;
+          var last = request.uri.split('/').pop();
+          if ((request.method === 'GET' || request.method === 'HEAD') && last.indexOf('.') === -1) {
+            request.uri = '/index.html';
+          }
+          return request;
+        }
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Tags:
+        - {Key: Application, Value: Bridge}
+        - {Key: Environment, Value: staging}
+      DistributionConfig:
+        Comment: Isolated Bridge staging; no public-site aliases or certificate.
+        Enabled: true
+        HttpVersion: http2and3
+        IPV6Enabled: true
+        PriceClass: PriceClass_100
+        DefaultRootObject: index.html
+        ViewerCertificate: {CloudFrontDefaultCertificate: true}
+        CustomErrorResponses:
+          - {ErrorCode: 400, ErrorCachingMinTTL: 0}
+          - {ErrorCode: 403, ErrorCachingMinTTL: 0}
+          - {ErrorCode: 404, ErrorCachingMinTTL: 0}
+          - {ErrorCode: 405, ErrorCachingMinTTL: 0}
+          - {ErrorCode: 414, ErrorCachingMinTTL: 0}
+          - {ErrorCode: 416, ErrorCachingMinTTL: 0}
+          - {ErrorCode: 500, ErrorCachingMinTTL: 0}
+          - {ErrorCode: 501, ErrorCachingMinTTL: 0}
+          - {ErrorCode: 502, ErrorCachingMinTTL: 0}
+          - {ErrorCode: 503, ErrorCachingMinTTL: 0}
+          - {ErrorCode: 504, ErrorCachingMinTTL: 0}
+        Origins:
+          - Id: static
+            DomainName: {Fn::GetAtt: [WebBucket, RegionalDomainName]}
+            OriginAccessControlId: {Ref: StaticOriginAccess}
+            S3OriginConfig: {OriginAccessIdentity: ""}
+          - Id: api
+            DomainName:
+              Fn::Sub: "${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}"
+            OriginPath: /staging
+            CustomOriginConfig:
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols: [TLSv1.2]
+        DefaultCacheBehavior:
+          TargetOriginId: static
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD]
+          CachedMethods: [GET, HEAD]
+          Compress: true
+          CachePolicyId: {Ref: StaticCache}
+          FunctionAssociations:
+            - EventType: viewer-request
+              FunctionARN: {Fn::GetAtt: [SpaRouter, FunctionMetadata.FunctionARN]}
+        CacheBehaviors:
+          - PathPattern: /api
+            TargetOriginId: api
+            ViewerProtocolPolicy: https-only
+            AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
+            CachedMethods: [GET, HEAD]
+            CachePolicyId: {Ref: ApiCache}
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+          - PathPattern: /api/*
+            TargetOriginId: api
+            ViewerProtocolPolicy: https-only
+            AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
+            CachedMethods: [GET, HEAD]
+            CachePolicyId: {Ref: ApiCache}
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+  WebBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Bucket: {Ref: WebBucket}
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Deny
+            Principal: "*"
+            Action: "s3:*"
+            Resource:
+              - {Fn::GetAtt: [WebBucket, Arn]}
+              - {Fn::Sub: "${WebBucket.Arn}/*"}
+            Condition: {Bool: {"aws:SecureTransport": "false"}}
+          - Effect: Allow
+            Principal: {Service: cloudfront.amazonaws.com}
+            Action: s3:GetObject
+            Resource: {Fn::Sub: "${WebBucket.Arn}/*"}
+            Condition:
+              StringEquals:
+                AWS:SourceArn:
+                  Fn::Sub: "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${Distribution}"
+  RuntimeDataPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      ManagedPolicyName: BridgeStagingRuntimeData
+      Roles: [{Ref: ApplicationRole}, {Ref: TickRole}]
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+              - dynamodb:DeleteItem
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:BatchGetItem
+              - dynamodb:BatchWriteItem
+              - dynamodb:ConditionCheckItem
+            Resource:
+              - {Fn::Sub: "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/bridge-staging-rooms"}
+              - {Fn::Sub: "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/bridge-staging-users"}
+              - {Fn::Sub: "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/bridge-staging-users/index/username-email-index"}
+              - {Fn::Sub: "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/bridge-staging-connections"}
+              - {Fn::Sub: "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/bridge-staging-duplicate-events"}
+          - Effect: Allow
+            Action: [dynamodb:PutItem, dynamodb:Query]
+            Resource: {Fn::GetAtt: [BoardArchives, Arn]}
+          - Effect: Allow
+            Action: secretsmanager:GetSecretValue
+            Resource: {Fn::Sub: "arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:bridge-staging-jwt-v2-??????"}
+          - Effect: Allow
+            Action: execute-api:ManageConnections
+            Resource:
+              - {Fn::Sub: "arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocketApi}/staging/POST/@connections/*"}
+              - {Fn::Sub: "arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocketApi}/staging/DELETE/@connections/*"}
+  ApplicationRole:
+    Type: AWS::IAM::Role
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RoleName: BridgeStagingApplicationRuntime
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - {Effect: Allow, Principal: {Service: lambda.amazonaws.com}, Action: "sts:AssumeRole"}
+      Policies:
+        - PolicyName: FunctionLogs
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: {Fn::Sub: "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/bridge-staging-*:*"}
+  TickRole:
+    Type: AWS::IAM::Role
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RoleName: BridgeStagingTickRuntime
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - {Effect: Allow, Principal: {Service: lambda.amazonaws.com}, Action: "sts:AssumeRole"}
+      Policies:
+        - PolicyName: QueueConsumptionAndLogs
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: [sqs:ReceiveMessage, sqs:DeleteMessage, sqs:GetQueueAttributes, sqs:SendMessage]
+                Resource: {Fn::Sub: "arn:${AWS::Partition}:sqs:${AWS::Region}:${AWS::AccountId}:bridge-staging-game-tick"}
+              - Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: {Fn::Sub: "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/bridge-staging-*:*"}
+  DispatchRole:
+    Type: AWS::IAM::Role
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RoleName: BridgeStagingTickDispatchRuntime
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - {Effect: Allow, Principal: {Service: lambda.amazonaws.com}, Action: "sts:AssumeRole"}
+      Policies:
+        - PolicyName: RoomStreamToTickQueue
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: [dynamodb:DescribeStream, dynamodb:GetRecords, dynamodb:GetShardIterator, dynamodb:ListStreams]
+                Resource: {Ref: RoomStreamArn}
+              - Effect: Allow
+                Action: sqs:SendMessage
+                Resource:
+                  - {Fn::Sub: "arn:${AWS::Partition}:sqs:${AWS::Region}:${AWS::AccountId}:bridge-staging-game-tick"}
+                  - {Fn::GetAtt: [StreamFailures, Arn]}
+              - Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: {Fn::Sub: "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/bridge-staging-*:*"}
+  ApplicationExecutionRole:
+    Type: AWS::IAM::Role
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RoleName: BridgeStagingApplicationExecution
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - {Effect: Allow, Principal: {Service: cloudformation.amazonaws.com}, Action: "sts:AssumeRole"}
+      Policies:
+        - PolicyName: OnlyStagingApplicationResources
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:CreateFunction
+                  - lambda:GetFunction
+                  - lambda:GetFunctionConfiguration
+                  - lambda:GetFunctionCodeSigningConfig
+                  - lambda:GetFunctionRecursionConfig
+                  - lambda:GetRuntimeManagementConfig
+                  - lambda:GetFunctionScalingConfig
+                  - lambda:UpdateFunctionCode
+                  - lambda:UpdateFunctionConfiguration
+                  - lambda:DeleteFunction
+                  - lambda:AddPermission
+                  - lambda:RemovePermission
+                  - lambda:GetPolicy
+                  - lambda:ListTags
+                  - lambda:TagResource
+                  - lambda:UntagResource
+                Resource: {Fn::Sub: "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:bridge-staging-*"}
+              - Effect: Allow
+                Action: [logs:CreateLogGroup, logs:PutRetentionPolicy, logs:DeleteLogGroup, logs:ListTagsForResource, logs:TagResource, logs:UntagResource, logs:GetDataProtectionPolicy, logs:DescribeIndexPolicies]
+                Resource: {Fn::Sub: "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/bridge-staging-*"}
+              - Effect: Allow
+                Action: [logs:DescribeLogGroups, logs:DescribeResourcePolicies]
+                Resource: "*"
+                Condition: {StringEquals: {"aws:RequestedRegion": us-west-2}}
+              - Effect: Allow
+                Action: apigateway:GET
+                Resource:
+                  - {Fn::Sub: "arn:${AWS::Partition}:apigateway:${AWS::Region}::/restapis/${RestApi}"}
+                  - {Fn::Sub: "arn:${AWS::Partition}:apigateway:${AWS::Region}::/apis/${WebSocketApi}"}
+              - Effect: Allow
+                Action: [apigateway:GET, apigateway:POST, apigateway:PUT, apigateway:PATCH, apigateway:DELETE]
+                Resource:
+                  - {Fn::Sub: "arn:${AWS::Partition}:apigateway:${AWS::Region}::/restapis/${RestApi}/*"}
+                  - {Fn::Sub: "arn:${AWS::Partition}:apigateway:${AWS::Region}::/apis/${WebSocketApi}/*"}
+              - Effect: Allow
+                Action: [s3:GetObject, s3:GetObjectVersion]
+                Resource: {Fn::Sub: "${ArtifactBucket.Arn}/releases/*"}
+              - Effect: Allow
+                Action: iam:PassRole
+                Resource:
+                  - {Fn::GetAtt: [ApplicationRole, Arn]}
+                  - {Fn::GetAtt: [TickRole, Arn]}
+                  - {Fn::GetAtt: [DispatchRole, Arn]}
+                Condition: {StringEquals: {"iam:PassedToService": lambda.amazonaws.com}}
+  ApplicationPlanRole:
+    Type: AWS::IAM::Role
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RoleName: GitHubBridgeApplicationPlanStaging
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: {Fn::Sub: "arn:${AWS::Partition}:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com"}
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                token.actions.githubusercontent.com:sub: repo:jmtelgen/NextLevelBridgeAPI:environment:staging
+      Policies:
+        - PolicyName: ArtifactPublicationAndApplicationPreviewOnly
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: [s3:GetBucketVersioning, s3:GetBucketTagging, s3:GetBucketLocation]
+                Resource: {Fn::GetAtt: [ArtifactBucket, Arn]}
+              - Effect: Allow
+                Action: [s3:PutObject, s3:GetObject, s3:GetObjectVersion]
+                Resource: {Fn::Sub: "${ArtifactBucket.Arn}/releases/*"}
+              - Effect: Allow
+                Action: cloudformation:ValidateTemplate
+                Resource: "*"
+                Condition: {StringEquals: {"aws:RequestedRegion": us-west-2}}
+              - Effect: Allow
+                Action: cloudformation:DescribeStacks
+                Resource:
+                  - {Fn::Sub: "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/bridge-staging-foundation/*"}
+                  - {Fn::Sub: "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/bridge-staging-platform/*"}
+                Condition: {StringEquals: {"aws:RequestedRegion": us-west-2}}
+              - Effect: Allow
+                Action: cloudformation:CreateChangeSet
+                Resource: {Fn::Sub: "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/bridge-staging-application/*"}
+                Condition:
+                  StringEquals:
+                    aws:RequestedRegion: us-west-2
+                    cloudformation:RoleArn: {Fn::GetAtt: [ApplicationExecutionRole, Arn]}
+                    aws:RequestTag/Application: Bridge
+                    aws:RequestTag/Environment: staging
+                  StringLike:
+                    cloudformation:ChangeSetName: bridge-staging-application-?*-?*
+                    cloudformation:TemplateUrl: {Fn::Sub: "https://${ArtifactBucket}.s3.${AWS::Region}.amazonaws.com/releases/*"}
+                  ForAllValues:StringEquals:
+                    aws:TagKeys: [Application, Environment]
+              - Effect: Allow
+                Action: cloudformation:DescribeChangeSet
+                Resource: {Fn::Sub: "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/bridge-staging-application/*"}
+                Condition: {StringEquals: {"aws:RequestedRegion": us-west-2}}
+              - Effect: Allow
+                Action: cloudformation:TagResource
+                Resource:
+                  - {Fn::Sub: "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/bridge-staging-application/*"}
+                  - {Fn::Sub: "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:changeSet/bridge-staging-application-?*-?*/*"}
+                Condition:
+                  StringEquals:
+                    aws:RequestedRegion: us-west-2
+                    cloudformation:CreateAction: CreateChangeSet
+                    aws:RequestTag/Application: Bridge
+                    aws:RequestTag/Environment: staging
+                  ForAllValues:StringEquals: {aws:TagKeys: [Application, Environment]}
+              - Effect: Allow
+                Action: cloudformation:UntagResource
+                Resource:
+                  - {Fn::Sub: "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/bridge-staging-application/*"}
+                  - {Fn::Sub: "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:changeSet/bridge-staging-application-?*-?*/*"}
+                Condition:
+                  StringEquals:
+                    aws:RequestedRegion: us-west-2
+                    cloudformation:CreateAction: CreateChangeSet
+                  ForAllValues:StringEquals: {aws:TagKeys: [Application, Environment]}
+                  "Null": {aws:TagKeys: "false"}
+              - Effect: Allow
+                Action: iam:PassRole
+                Resource: {Fn::GetAtt: [ApplicationExecutionRole, Arn]}
+                Condition: {StringEquals: {"iam:PassedToService": cloudformation.amazonaws.com}}
+  FrontendReleasePolicy:
+    Type: AWS::IAM::Policy
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      PolicyName: BridgeStagingFrontendPublication
+      Roles: [GitHubBridgeAppStaging]
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: [s3:GetBucketLocation, s3:GetBucketTagging, s3:GetBucketVersioning, s3:GetBucketPublicAccessBlock]
+            Resource: {Fn::GetAtt: [WebBucket, Arn]}
+          - Effect: Allow
+            Action: s3:PutObject
+            Resource: {Fn::Sub: "${WebBucket.Arn}/*"}
+          - Effect: Allow
+            Action: [cloudfront:GetDistribution, cloudfront:ListTagsForResource, cloudfront:CreateInvalidation, cloudfront:GetInvalidation]
+            Resource: {Fn::Sub: "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${Distribution}"}
+          - Effect: Allow
+            Action: cloudfront:GetCachePolicy
+            Resource: {Fn::Sub: "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:cache-policy/${StaticCache}"}
+          - Effect: Allow
+            Action: cloudformation:DescribeStacks
+            Resource: {Fn::Sub: "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/bridge-staging-application/*"}
+            Condition: {StringEquals: {"aws:RequestedRegion": us-west-2}}
+Outputs:
+  BoardArchivesTableName: {Value: {Ref: BoardArchives}}
+  RoomStreamArn: {Value: {Ref: RoomStreamArn}}
+  StreamFailureQueueArn: {Value: {Fn::GetAtt: [StreamFailures, Arn]}}
+  WebBucketName: {Value: {Ref: WebBucket}}
+  ArtifactBucketName: {Value: {Ref: ArtifactBucket}}
+  DistributionId: {Value: {Ref: Distribution}}
+  StagingOrigin: {Value: {Fn::Sub: "https://${Distribution.DomainName}"}}
+  RestApiId: {Value: {Ref: RestApi}}
+  RestApiRootResourceId: {Value: {Fn::GetAtt: [RestApi, RootResourceId]}}
+  WebSocketApiId: {Value: {Ref: WebSocketApi}}
+  WebSocketEndpoint: {Value: {Fn::Sub: "wss://${WebSocketApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/staging"}}
+  ApplicationRuntimeRoleArn: {Value: {Fn::GetAtt: [ApplicationRole, Arn]}}
+  TickRuntimeRoleArn: {Value: {Fn::GetAtt: [TickRole, Arn]}}
+  DispatchRuntimeRoleArn: {Value: {Fn::GetAtt: [DispatchRole, Arn]}}
+  ApplicationPlanRoleArn: {Value: {Fn::GetAtt: [ApplicationPlanRole, Arn]}}
+  ApplicationExecutionRoleArn: {Value: {Fn::GetAtt: [ApplicationExecutionRole, Arn]}}

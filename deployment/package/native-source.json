@@ -1,0 +1,15 @@
+{
+  "repository": "https://github.com/dds-bridge/dds",
+  "version": "2.9.0",
+  "commit": "8d75755c8df81999557758c9757514edb94017bc",
+  "archive": "https://codeload.github.com/dds-bridge/dds/tar.gz/8d75755c8df81999557758c9757514edb94017bc",
+  "sha256": "5443dd51a539747192344223ee8726b72e272176226a98d57ac9ae98560336d8",
+  "license": "Apache-2.0",
+  "builderImage": "public.ecr.aws/sam/build-python3.12@sha256:515ec163a8d73c04533ac8ee1d04ce67d5d6a4a5a3f870a36205eee18ebae7d0",
+  "runtimeImage": "public.ecr.aws/lambda/python@sha256:c73d459e2dcaefa83c47c095560ad164d732251312b3371c7a49c46f1c4d4ff5",
+  "platform": "linux/amd64",
+  "threading": "DDS_THREADS_STL; SetResources(32, 1) in existing adapter",
+  "linking": "dynamic libstdc++.so.6, libgcc_s.so.1 and glibc from the pinned AL2023 Lambda runtime; no compiler runtime libraries are bundled",
+  "resourcePatch": "build_dds.py replaces only the Linux shell-based free-memory probe with a 256 MiB / one-core bound, independent of host tools and CPU count; existing adapter then applies SetResources(32, 1)",
+  "lifecyclePatch": "build_dds.py replaces Linux constructor/destructor callbacks with a C++ lifecycle guard declared after the runtime singletons in Init.cpp: initialize after singleton construction, clean up before singleton destruction"
+}
