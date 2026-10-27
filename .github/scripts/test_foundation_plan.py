@@ -137,7 +137,6 @@ class FoundationPlan(unittest.TestCase):
             "AWS_FOUNDATION_PLAN_ROLE_ARN": "arn:aws:iam::851725597758:root",
             "AWS_FOUNDATION_EXECUTION_ROLE_ARN": PLAN_ROLE,
             "FOUNDATION_CHANGE_SET_TYPE": "CREATE; echo unsafe",
-            "FOUNDATION_ALLOW_SECRET_TAG_UPDATE": "yes",
         }
         for key, value in invalid.items():
             with self.subTest(key=key):
@@ -254,7 +253,7 @@ class FoundationPlan(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertTrue(self.summary.exists())
 
-    def test_secret_tags_only_metadata_requires_explicit_opt_in(self):
+    def test_secret_tags_only_metadata_is_blocked_even_with_legacy_opt_in(self):
         preview = {
             "Status": "CREATE_COMPLETE",
             "ExecutionStatus": "AVAILABLE",
@@ -267,13 +266,11 @@ class FoundationPlan(unittest.TestCase):
                     "FOUNDATION_ALLOW_SECRET_TAG_UPDATE": opt_in,
                     "MOCK_PREVIEW": json.dumps(preview),
                 })
-                self.assertEqual(result.returncode == 0, opt_in == "true", result.stderr)
-                self.assertEqual(self.summary.exists(), opt_in == "true")
-                if opt_in == "true":
-                    self.assertIn("tags-only metadata", result.stdout)
-                    self.assertIn("metadata opt-in: true", self.summary.read_text())
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("must preserve JwtSigningSecret", result.stderr)
+                self.assertFalse(self.summary.exists())
 
-    def test_opt_in_never_allows_secret_properties_or_ambiguous_changes(self):
+    def test_legacy_opt_in_never_allows_secret_properties_or_ambiguous_changes(self):
         invalid = [
             {"Action": action} for action in ("Add", "Remove", "Import", "Dynamic")
         ] + [
@@ -378,9 +375,9 @@ class FoundationPlan(unittest.TestCase):
             workflow["on"]["workflow_dispatch"]["inputs"]["change_set_type"]["options"],
             ["CREATE", "UPDATE"],
         )
-        tag_opt_in = workflow["on"]["workflow_dispatch"]["inputs"]["allow_secret_tag_update"]
-        self.assertEqual(tag_opt_in["type"], "boolean")
-        self.assertEqual(tag_opt_in["default"], "false")
+        self.assertNotIn(
+            "allow_secret_tag_update", workflow["on"]["workflow_dispatch"]["inputs"]
+        )
         job = workflow["jobs"]["plan"]
         self.assertEqual(
             job["if"],

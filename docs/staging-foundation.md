@@ -47,8 +47,8 @@ remain schemaless; the template must not declare them as key attributes.
 | `ConnectionsTable` | `bridge-staging-connections` | `connectionId` / `currentRoomId` | Includes `not-joined` sentinel records |
 | `DuplicateEventsTable` | `bridge-staging-duplicate-events` | `eventId` / none | Revision-conditional event and room transaction adapter |
 | `TickQueue` | `bridge-staging-game-tick` | Standard SQS | Four-day retention, 360-second visibility, long polling 20 seconds |
-| `TickDeadLetterQueue` | `bridge-staging-game-tick-dlq` | Standard SQS | Fourteen-day retention, 360-second visibility |
-| `JwtSigningSecret` | `bridge-staging-jwt` | Secrets Manager | Generated JSON `jwt_secret`, 64 alphanumeric characters |
+| `TickDeadLetterQueue` | `bridge-staging-game-tick-dlq-v2` | Standard SQS | Fourteen-day retention, 360-second visibility |
+| `JwtSigningSecret` | `bridge-staging-jwt-v2` | Secrets Manager | Newly generated JSON `jwt_secret`, 64 alphanumeric characters |
 
 Contract evidence and deliberate limitations:
 
@@ -147,14 +147,20 @@ a point-in-time inventory: recheck before recovery and obtain explicit approval
 for importing the existing secret or any targeted cleanup. The assistant did
 not delete the stack, tables, queues or secret.
 
-The selected recovery is now [preserve and import the existing secret](staging-secret-import.md).
-The earlier cleanup approval was withdrawn; do not delete, rotate or regenerate
-it. Import only the secret into the new stack, wait for `IMPORT_COMPLETE`, then
-use an UPDATE preview to add the six missing resources. The updated planning
-script rejects signing-secret changes by default. A separate explicit opt-in
-allows only fully verified static, non-replacing tags-only metadata updates;
-secret property/value changes remain blocked. See the import runbook for the
-post-import stack-tag mismatch and precise review conditions.
+The import recovery succeeded, but its later tags-only UPDATE invoked
+`UpdateSecret`, then rollback failed on `UntagResource`. The original signing
+version remained unchanged. A tags-only preview does not avoid the secret
+provider's update handler, so that exception has been removed: every UPDATE
+change involving `JwtSigningSecret` is now blocked.
+
+The user selected a [fresh CREATE recovery](staging-foundation-fresh-retry.md)
+and will delete the failed stack using a non-root session. Stack deletion
+retains resources; it is not permission to delete the old secret or queue.
+The current template uses new names for the secret and DLQ to avoid those
+known retained resources. Tables and the source queue retain their original
+names and must be confirmed absent before CREATE. Update the execution role's
+inline policy to the reviewed new-name scope before retrying. The
+[legacy import runbook](staging-secret-import.md) is historical only.
 
 The 360-second source visibility is a **provisional integration limit**, not a
 measured worker timeout. Before connecting a consumer, test native DDS and
@@ -180,7 +186,7 @@ Design a pending-room reconciliation/recovery procedure first.
 | `USER_TABLE` | `UserTableName` output |
 | `WEBSOCKET_CONNECTIONS_TABLE` | `ConnectionsTableName` output |
 | `GAME_TICK_QUEUE_URL` | `GameTickQueueUrl` output |
-| `JWT_SECRET_ID` | Literal `bridge-staging-jwt`, never the signing value |
+| `JWT_SECRET_ID` | Literal `bridge-staging-jwt-v2`, never the signing value |
 | `AWS_DEFAULT_REGION` | Explicit `us-west-2` until secret-helper region fallback is repaired |
 | `AWS_REGION` | Lambda-provided reserved variable; do not override it |
 | `WEBSOCKET_ENDPOINT` | Future isolated management endpoint; not available yet |

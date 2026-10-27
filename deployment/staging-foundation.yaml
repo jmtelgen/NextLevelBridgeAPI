@@ -115,7 +115,7 @@ Resources:
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
     Properties:
-      QueueName: bridge-staging-game-tick-dlq
+      QueueName: bridge-staging-game-tick-dlq-v2
       SqsManagedSseEnabled: true
       MessageRetentionPeriod: 1209600
       VisibilityTimeout: 360
@@ -145,7 +145,7 @@ Resources:
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
     Properties:
-      Name: bridge-staging-jwt
+      Name: bridge-staging-jwt-v2
       Description: Independent staging-only HS256 signing material; never output the value.
       GenerateSecretString:
         SecretStringTemplate: "{}"

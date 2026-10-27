@@ -116,14 +116,14 @@ Merging a source fix does not update an already attached IAM policy.
 
 For that original preview failure, rerunning `CREATE` was appropriate while
 the stack was only a review placeholder. That retry subsequently succeeded.
-It is not the current recovery for the later SQS execution failure: the failed
-stack was deleted and its signing secret remains. Follow the
-[secret-preserving import runbook](staging-secret-import.md) instead. After
-`IMPORT_COMPLETE`, use `UPDATE`, expecting six additions. A stack-tag mismatch
-may also propose a static, non-replacing tags-only secret Modify. The planning
-script rejects it by default and offers a separate explicit opt-in only after
-verifying the full tags-only metadata contract. Secret properties and signing
-material must remain unchanged; do not broaden IAM or remove the guard.
+It is not the current recovery. The later import succeeded, but a tags-only
+UPDATE still invoked the secret provider's UpdateSecret handler, and rollback
+failed on UntagResource. The original signing version was preserved. The
+tags-only exception is now removed; all secret changes during UPDATE are
+blocked. Follow the [fresh CREATE runbook](staging-foundation-fresh-retry.md):
+the operator deletes the failed stack, preserves retained resources, and
+replaces this execution role's inline policy with the new-name-scoped source.
+No new actions, secret-update permissions or deletion grants are added.
 
 The workflow must construct the exact name
 `bridge-staging-foundation-<GitHub run ID>-<attempt>` using numeric GitHub
@@ -171,15 +171,15 @@ arbitrary `bridge-staging-*` namespace:
 | --- | --- |
 | `bridge-staging-rooms`, `bridge-staging-users`, `bridge-staging-connections`, `bridge-staging-duplicate-events` table ARNs | CreateTable, UpdateTable, UpdateContinuousBackups; DescribeTable, DescribeContinuousBackups, DescribeContributorInsights, DescribeKinesisStreamingDestination, DescribeTimeToLive, GetResourcePolicy, ListTagsOfResource, TagResource |
 | Only the users table's `username-email-index` ARN | DescribeContributorInsights metadata only; not Query/Scan or index writes |
-| `bridge-staging-game-tick` and `bridge-staging-game-tick-dlq` queue ARNs | CreateQueue, GetQueueUrl, GetQueueAttributes, SetQueueAttributes, ListQueueTags, TagQueue |
-| `bridge-staging-jwt-??????` secret ARN | CreateSecret in a separate statement requiring `secretsmanager:Name` exactly `bridge-staging-jwt`; DescribeSecret and TagResource without that create-only condition |
-| Same exact `bridge-staging-jwt-??????` secret ARN, execution role only | GetSecretValue in a separate statement, required by the registered CloudFormation provider's read handler; never granted to the GitHub planner or a human |
+| `bridge-staging-game-tick` and `bridge-staging-game-tick-dlq-v2` queue ARNs | CreateQueue, GetQueueUrl, GetQueueAttributes, SetQueueAttributes, ListQueueTags, TagQueue |
+| `bridge-staging-jwt-v2-??????` secret ARN | CreateSecret in a separate statement requiring `secretsmanager:Name` exactly `bridge-staging-jwt-v2`; DescribeSecret and TagResource without that create-only condition |
+| Same exact `bridge-staging-jwt-v2-??????` secret ARN, execution role only | GetSecretValue in a separate statement, required by the registered CloudFormation provider's read handler; never granted to the GitHub planner or a human |
 | `Resource: "*"` in `us-west-2` only | GetRandomPassword, which has no resource-level authorization; generates new random material, never reads a stored secret |
 
 Every execution statement requires `aws:RequestedRegion = us-west-2`; every
 resource ARN fixes the account and region. Secrets Manager appends six random
 characters to the secret ARN; six `?` match exactly that suffix, unlike a broad
-`bridge-staging-jwt-*` prefix. CreateSecret necessarily writes the **new generated**
+`bridge-staging-jwt-v2-*` prefix. CreateSecret necessarily writes the **new generated**
 secret as part of provisioning; this is not runtime data access. There is no
 PutSecretValue, UpdateSecret, rotation, replication, resource policy write, or
 access to existing application signing material. The **only stored-value read

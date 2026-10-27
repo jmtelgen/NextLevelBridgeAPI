@@ -1,6 +1,15 @@
 # Preserve the existing staging signing secret by import
 
-**IMPORT is complete; full-foundation UPDATE is pending.**
+**Historical reference only. Superseded by the
+[fresh CREATE recovery](staging-foundation-fresh-retry.md).**
+Do not execute the phases below against the current foundation template.
+The legacy import template intentionally retains the old secret name; the
+current foundation template creates a different secret. The subsequent
+tags-only UPDATE failed on UpdateSecret, and rollback failed on UntagResource.
+The tags-only opt-in described below has been removed.
+
+At the time of the original import record, IMPORT was complete and the
+full-foundation UPDATE was pending.
 The operator performed the import; its observed metadata is recorded below.
 Do not repeat phases 0 and 1 for the already imported stack.
 This is not approval to provision, delete, rotate, retrieve, or rewrite a secret.
