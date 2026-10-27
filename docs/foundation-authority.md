@@ -69,10 +69,12 @@ The permissions allow only:
    both exact request tags `Application=Bridge`, `Environment=staging` and
    prohibits additional tag keys.
 3. `cloudformation:DescribeChangeSet` on the **same stack ARN**, including AWS CLI
-   `change-set-create-complete` waiter calls. This action supports the
-   `cloudformation:ChangeSetName` condition but **not** `cloudformation:RoleArn`.
-   The condition accepts the prefixed name or its full change-set ARN:
-   `arn:aws:cloudformation:us-west-2:851725597758:changeSet/bridge-staging-foundation-?*-?*/*`.
+   `change-set-create-complete` waiter calls, restricted by requested region
+   only. Do not copy the creation-only role/tag requirements or the name
+   condition into this read statement. AWS's reference lists ChangeSetName
+   support, but the live ARN-based waiter failed authorization with both the
+   name and ARN patterns configured. Stack and region scope is the supported
+   recovery here; this does not grant reads of other stacks or execution rights.
    Specify the stack name explicitly for describe/wait calls.
 4. Dependent `cloudformation:TagResource` and `cloudformation:UntagResource`
    authorizations on only the fixed stack and prefixed change-set ARNs. Both
@@ -92,9 +94,30 @@ The permissions allow only:
 
 AWS's action-specific authorization reference lists **stack**, not **changeset**,
 as the resource type for both CreateChangeSet and DescribeChangeSet. Putting only
-a change-set ARN in `Resource` would not authorize those calls. The change-set ARN
-above is a condition value, not an additional resource grant.
+a change-set ARN in `Resource` would not authorize those calls. Change-set ARN
+patterns are retained only for the tagging dependency, not describe access.
 `ValidateTemplate` does not accept a role parameter, so it has no RoleArn condition.
+
+### Recovering the first preview's describe denial
+
+[Run 40429724861](https://github.com/jmtelgen/NextLevelBridgeAPI/actions/runs/40429724861)
+created `bridge-staging-foundation-40429724861-1`, but its waiter and preview
+were denied by the earlier name-conditioned read statement. A metadata-only
+inspection confirmed the change set is `CREATE_COMPLETE` and `AVAILABLE`, with
+exactly the seven expected additions; it has not been executed.
+
+Using an authorized non-root administrator, open IAM role
+`GitHubBridgeFoundationPlanStaging`, edit inline policy
+`GitHubBridgeFoundationPlanStagingPolicy`, and replace its DescribeChangeSet
+statement with the corrected statement in `deployment/foundation-plan-policy.json`.
+Keep the exact stack resource and `us-west-2` restriction. Do not attach a
+managed administrator policy, add ExecuteChangeSet, or alter either role's trust.
+Merging a source fix does not update an already attached IAM policy.
+
+After saving the policy, rerun the failed GitHub job with `CREATE`: this stack is
+still a review-only placeholder, not a deployed stack. The rerun uses its new
+attempt number for the change-set name. Leave both change sets unexecuted for
+review; do not delete the stack or grant deletion permissions as a workaround.
 
 The workflow must construct the exact name
 `bridge-staging-foundation-<GitHub run ID>-<attempt>` using numeric GitHub

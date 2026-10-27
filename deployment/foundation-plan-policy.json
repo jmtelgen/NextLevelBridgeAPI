@@ -89,19 +89,13 @@
       }
     },
     {
-      "Sid": "DescribeNamedFoundationPreviewIncludingWaiter",
+      "Sid": "DescribeFoundationPreviewsIncludingWaiter",
       "Effect": "Allow",
       "Action": "cloudformation:DescribeChangeSet",
       "Resource": "arn:aws:cloudformation:us-west-2:851725597758:stack/bridge-staging-foundation/*",
       "Condition": {
         "StringEquals": {
           "aws:RequestedRegion": "us-west-2"
-        },
-        "StringLike": {
-          "cloudformation:ChangeSetName": [
-            "bridge-staging-foundation-?*-?*",
-            "arn:aws:cloudformation:us-west-2:851725597758:changeSet/bridge-staging-foundation-?*-?*/*"
-          ]
         }
       }
     },
