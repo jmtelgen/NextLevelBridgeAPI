@@ -31,6 +31,44 @@ def patch_linux_resources(source):
     return source.replace(original, replacement)
 
 
+def patch_linux_lifecycle(dds_source, init_source):
+    original = '''static void __attribute__ ((constructor)) libInit(void)
+{
+  SetMaxThreads(0);
+}
+
+
+static void __attribute__ ((destructor)) libEnd(void)
+{
+  CloseDebugFiles();
+  FreeMemory();
+}'''
+    globals_block = '''System sysdep;
+Memory memory;
+Scheduler scheduler;
+ThreadMgr threadMgr;'''
+    lifecycle = '''
+
+#if defined(USES_CONSTRUCTOR)
+namespace {
+struct DDSLibraryLifecycle {
+  DDSLibraryLifecycle() { SetMaxThreads(0); }
+  ~DDSLibraryLifecycle() {
+    CloseDebugFiles();
+    FreeMemory();
+  }
+};
+DDSLibraryLifecycle ddsLibraryLifecycle;
+}
+#endif'''
+    if dds_source.count(original) != 1 or init_source.count(globals_block) != 1:
+        raise ValueError("Pinned DDS lifecycle changed; review the patch")
+    return (
+        dds_source.replace(original, "// Lifecycle is ordered with the globals in Init.cpp."),
+        init_source.replace(globals_block, globals_block + lifecycle),
+    )
+
+
 def main():
     if sys.version_info[:2] != (3, 12) or platform.machine() != "x86_64":
         raise SystemExit("DDS staging build requires CPython 3.12 x86_64")
@@ -51,6 +89,13 @@ def main():
     root = work / ("dds-" + pins["commit"])
     system_source = root / "src" / "System.cpp"
     system_source.write_text(patch_linux_resources(system_source.read_text()))
+    dds_source = root / "src" / "dds.cpp"
+    init_source = root / "src" / "Init.cpp"
+    patched_dds, patched_init = patch_linux_lifecycle(
+        dds_source.read_text(), init_source.read_text()
+    )
+    dds_source.write_text(patched_dds)
+    init_source.write_text(patched_init)
     env = dict(os.environ, SOURCE_DATE_EPOCH="1704067200", LC_ALL="C", TZ="UTC")
     subprocess.run([
         "make", "-C", str(root / "src"), "-f", "Makefiles/Makefile_linux_shared",
@@ -69,8 +114,10 @@ def main():
         "Copyright (C) 2006-2014 Bo Haglund; 2014-2018 Bo Haglund & Soren Hein.\n"
         f"Source: {pins['repository']} at {pins['commit']}\n"
         "Distributed under Apache-2.0; see DDS-LICENSE.\n"
-        "Staging modification: replaced only the Linux resource probe with a "
-        "one-core / 256 MiB cap; see deployment/package/build_dds.py.\n"
+        "Staging modifications: bounded Linux resource probe to one core / "
+        "256 MiB; ordered native initialization/cleanup with the C++ runtime "
+        "singletons to avoid shutdown use-after-free. "
+        "See deployment/package/build_dds.py.\n"
     )
     print(hashlib.sha256((output / "libdds.so.2").read_bytes()).hexdigest())
 

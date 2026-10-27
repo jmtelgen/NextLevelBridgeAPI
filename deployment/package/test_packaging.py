@@ -31,6 +31,7 @@ def load(name, path):
 
 builder = load("staging_zip_builder", Path(__file__).parent / "build_zip.py")
 native_builder = load("staging_native_builder", Path(__file__).parent / "build_dds.py")
+verifier = load("staging_package_verifier", Path(__file__).parent / "verify_package.py")
 runtime = load("staging_runtime_test", ROOT / "staging_runtime.py")
 
 
@@ -149,6 +150,93 @@ after'''
         self.assertFalse(any(flag.startswith("-static") for flag in flags))
         pins = json.loads((ROOT / "deployment/package/native-source.json").read_text())
         self.assertIn("dynamic libstdc++.so.6, libgcc_s.so.1", pins["linking"])
+
+    def test_native_lifecycle_orders_cleanup_before_singleton_destruction(self):
+        dds = '''static void __attribute__ ((constructor)) libInit(void)
+{
+  SetMaxThreads(0);
+}
+
+
+static void __attribute__ ((destructor)) libEnd(void)
+{
+  CloseDebugFiles();
+  FreeMemory();
+}'''
+        init = '''System sysdep;
+Memory memory;
+Scheduler scheduler;
+ThreadMgr threadMgr;'''
+        patched_dds, patched_init = native_builder.patch_linux_lifecycle(dds, init)
+        self.assertNotIn("__attribute__", patched_dds)
+        self.assertGreater(
+            patched_init.index("DDSLibraryLifecycle ddsLibraryLifecycle;"),
+            patched_init.index("ThreadMgr threadMgr;"),
+        )
+        self.assertIn("DDSLibraryLifecycle() { SetMaxThreads(0); }", patched_init)
+        self.assertIn("~DDSLibraryLifecycle()", patched_init)
+        self.assertIn("CloseDebugFiles();\n    FreeMemory();", patched_init)
+        with self.assertRaisesRegex(ValueError, "lifecycle changed"):
+            native_builder.patch_linux_lifecycle("unexpected source", init)
+
+
+class NamespaceTests(unittest.TestCase):
+    def setUp(self):
+        self.modules = {}
+        self.game = types.ModuleType("lambdas.core.game.runtime")
+        for name in ("duplicate", "archives"):
+            module = types.ModuleType("lambdas.core.game." + name)
+            self.modules[module.__name__] = module
+            setattr(self.game, name, module)
+        for name in ("process_game_request", "connection_user", "GameRequestError"):
+            setattr(self.game, name, object())
+        self.modules[self.game.__name__] = self.game
+        self.add("lambdas.core.rooms.lifecycle", runtime=self.game, sync_user_presence=object())
+        self.add("lambdas.api.game.game_tick", runtime=self.game)
+        socket = "lambdas.api.websocket."
+        for name in ("websocket_start_room", "websocket_make_bid", "websocket_play_card",
+                     "websocket_board_records", "websocket_claims_duplicate"):
+            self.add(socket + name, process_game_request=self.game.process_game_request)
+        self.modules[socket + "websocket_claims_duplicate"].duplicate = self.game.duplicate
+        self.add(socket + "websocket_room_controls", runtime=self.game, lambda_handler=object())
+        self.add(socket + "websocket_practice", runtime=self.game)
+        for name in ("websocket_leave_room", "websocket_replace_player"):
+            self.add(socket + name, lambda_handler=self.modules[socket + "websocket_room_controls"].lambda_handler)
+        for name in ("websocket_create_room", "websocket_join_room", "websocket_change_seat"):
+            self.add(socket + name, connection_user=self.game.connection_user)
+        self.add(socket + "websocket_connect", GameRequestError=self.game.GameRequestError)
+        self.add(socket + "websocket_disconnect", sync_user_presence=self.modules["lambdas.core.rooms.lifecycle"].sync_user_presence)
+        self.importer = patch.object(verifier.importlib, "import_module", side_effect=self.modules.__getitem__)
+        self.importer.start()
+
+    def tearDown(self):
+        self.importer.stop()
+
+    def add(self, name, **attributes):
+        module = types.ModuleType(name)
+        module.__dict__.update(attributes)
+        self.modules[name] = module
+
+    def test_actual_delegated_namespaces_reference_configured_singletons(self):
+        result = verifier.verify_store_namespaces()
+        self.assertEqual("lambdas.core.game.duplicate", result["duplicate"])
+        self.assertEqual("lambdas.core.game.archives", result["archives"])
+        self.assertEqual(16, len(result["handlers"]))
+
+    def test_rejects_handler_using_unrelated_runtime_copy(self):
+        self.modules["lambdas.api.game.game_tick"].runtime = object()
+        with self.assertRaisesRegex(RuntimeError, "namespace mismatch"):
+            verifier.verify_store_namespaces()
+
+    def test_rejects_duplicate_core_game_module_copy(self):
+        with patch.dict(sys.modules, {"core.game.duplicate": types.ModuleType("core.game.duplicate")}):
+            with self.assertRaisesRegex(RuntimeError, "Alternate core.game.duplicate"):
+                verifier.verify_store_namespaces()
+
+    def test_rejects_runtime_using_an_unconfigured_store_module(self):
+        self.game.archives = object()
+        with self.assertRaisesRegex(RuntimeError, "different archives"):
+            verifier.verify_store_namespaces()
 
 
 class PackageTests(unittest.TestCase):

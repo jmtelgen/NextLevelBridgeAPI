@@ -146,6 +146,13 @@ solve gate verifies actual load and symbol compatibility before export.
 No compiler runtime libraries are redistributed in the ZIP. The solver
 algorithm and application wrapper are unchanged.
 
+DDS 2.9.0's Linux constructor/destructor callbacks are also replaced with a C++
+lifecycle guard in `Init.cpp`, declared after its runtime singletons. This
+guarantees initialization after construction and cleanup before destruction of
+their containers. The upstream destructor otherwise accesses destroyed state:
+the native solve succeeds but the Python process segfaults at shutdown. The
+build never bypasses shutdown or ignores the child exit status.
+
 ## Package layout and immutable outputs
 
 ```text
@@ -184,6 +191,10 @@ manifest Handler and delegated entrypoint, per-file receipt verification,
 durable-store initialization in Lambda mode, bcrypt hashing, a Pydantic model,
 a Secure logout cookie, and an actual DDS solve (`SA` wins a one-trick deal).
 AWS SDK and socket network transport are blocked during validation.
+`durableNamespace` additionally records object-identity checks proving every
+delegated WebSocket/tick namespace reaches the configured
+`lambdas.core.game.runtime`, `lambdas.core.game.duplicate`, and
+`lambdas.core.game.archives` singletons, rejecting alternate `core.game` copies.
 
 ## Remaining release gates
 
@@ -193,9 +204,11 @@ metadata, content receipts, native ELF architecture rejection, and absence of
 developer artifacts. Hash-locked wheels and actual handler imports/bootstrap
 were also checked on the host's Python 3.12 with network denied.
 
-**Docker was unavailable in the preparation environment. No AL2023 DDS build,
-target-runtime solve, deployable ZIP digest, or `.validation.json` has yet been
-produced.** Run the hosted container build before uploading or deploying.
+**Docker is unavailable in the local preparation environment. A hosted build
+must complete successfully before any artifact/report is accepted.** A correct
+DDS solve alone is insufficient: native teardown must also exit cleanly, and the
+Docker export stage depends on that exit status. Run the hosted container build
+before uploading or deploying.
 For a clean reproducibility check, repeat the Docker build with `--no-cache`
 into a separate empty output directory and compare ZIP hashes.
 

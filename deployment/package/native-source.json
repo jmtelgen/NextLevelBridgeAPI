@@ -10,5 +10,6 @@
   "platform": "linux/amd64",
   "threading": "DDS_THREADS_STL; SetResources(32, 1) in existing adapter",
   "linking": "dynamic libstdc++.so.6, libgcc_s.so.1 and glibc from the pinned AL2023 Lambda runtime; no compiler runtime libraries are bundled",
-  "resourcePatch": "build_dds.py replaces only the Linux shell-based free-memory probe with a 256 MiB / one-core bound, independent of host tools and CPU count; existing adapter then applies SetResources(32, 1)"
+  "resourcePatch": "build_dds.py replaces only the Linux shell-based free-memory probe with a 256 MiB / one-core bound, independent of host tools and CPU count; existing adapter then applies SetResources(32, 1)",
+  "lifecyclePatch": "build_dds.py replaces Linux constructor/destructor callbacks with a C++ lifecycle guard declared after the runtime singletons in Init.cpp: initialize after singleton construction, clean up before singleton destruction"
 }
