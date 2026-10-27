@@ -182,11 +182,14 @@ class ApplicationContract(unittest.TestCase):
                 "duplicate": "lambdas.core.game.duplicate",
                 "archives": "lambdas.core.game.archives",
                 "handlers": sorted({
-                    entrypoint.rsplit(".", 1)[0] for entrypoint in report["entrypoints"]
-                    if entrypoint.startswith(("lambdas.api.websocket.", "lambdas.api.game."))
+                    function["entrypoint"].rsplit(".", 1)[0] for function in manifest["functions"].values()
+                    if "entrypoint" in function
                 } | {"lambdas.core.rooms.lifecycle"}),
                 "alternateModuleCopies": False,
             }
+            self.assertEqual(len(report["durableNamespace"]["handlers"]), 16)
+            self.assertNotIn("lambdas.api.websocket.websocket_connection_count",
+                             report["durableNamespace"]["handlers"])
             package.with_suffix(".json").write_text(json.dumps(metadata))
             receipt = package.with_suffix(".validation.json")
             receipt.write_text(json.dumps(report))

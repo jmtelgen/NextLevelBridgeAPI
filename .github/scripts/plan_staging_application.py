@@ -77,8 +77,8 @@ def verified_artifact(directory):
         "duplicate": "lambdas.core.game.duplicate",
         "archives": "lambdas.core.game.archives",
         "handlers": sorted({
-            entrypoint.rsplit(".", 1)[0] for entrypoint in entrypoints
-            if entrypoint.startswith(("lambdas.api.websocket.", "lambdas.api.game."))
+            function["entrypoint"].rsplit(".", 1)[0] for function in manifest["functions"].values()
+            if "entrypoint" in function
         } | {"lambdas.core.rooms.lifecycle"}),
         "alternateModuleCopies": False,
     } and namespace.get("alternateModuleCopies") is False,
