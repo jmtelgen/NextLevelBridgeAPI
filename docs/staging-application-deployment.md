@@ -162,15 +162,35 @@ tagging uses the existing API-specific management authorization.
 See the [REST tagging API](https://docs.aws.amazon.com/apigateway/latest/api/API_TagResource.html)
 and [IAM Tags resource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_apigateway.html#list_apigateway-resource-Tags).
 
-Update the existing **bridge-staging-platfor** stack from the latest merged
-template using authorized non-root authority. Expect only
-`ApplicationExecutionRole` to change, without replacement. This does not
-change IAM permissions on public APIs, foundation resources or signing values.
+That correction is now applied to **bridge-staging-platfor**, verified
+`UPDATE_COMPLETE`. It changed only `ApplicationExecutionRole`, without
+replacement, and did not grant access to public APIs, foundation resources or
+signing values.
 
 The application stack is now `ROLLBACK_COMPLETE` with 130 resource entries
-marked `DELETE_SKIPPED`. Do not delete the stack, rerun CREATE, or assume the
-permission fix alone recovers it. Retained physical resources must be
-inventoried and an explicit recovery plan reviewed before another release.
+marked `DELETE_SKIPPED`, but read-only API inventory confirms only **129**
+physical resources: the failed REST stage is absent. The WebSocket deployment
+and stage were never created either. All eight types of existing resources
+support import; the exact composite identifiers come from `GetTemplateSummary`.
+
+The user approved preservation-based recovery, not physical-resource cleanup.
+Prepare and verify the import files **before** removing the failed application
+stack record. Use an **import-only** template for the 129 existing resources;
+manual IMPORT cannot also create the three missing resources. After
+`IMPORT_COMPLETE`, a separate UPDATE using the original full template adds
+only those three resources. Do not rerun the ordinary CREATE workflow or delete
+the platform/foundation. Non-root operator authority is required for every AWS
+mutation; the workstation's root identity may export metadata only.
+
+`GetTemplateSummary` returns comma-grouped composite property sets, such as
+`"ApiId,RouteId"`. The import map must expand these into separate keys:
+`{"ApiId":"m58xz54ub0","RouteId":"<verified route ID>"}`, not one comma-containing
+dictionary key. This matches the
+[official AWS CDK importer](https://github.com/aws/aws-cdk-cli/blob/5fa3b0fe61fc6b0ace61cceddf3949a4699e581e/packages/%40aws-cdk/toolkit-lib/lib/api/resource-import/importer.ts#L332-L453).
+Lambda permission IDs must be checked against the actual policy statement SIDs,
+not inferred from resource counts or a generic physical-ID format.
+Follow the [operator recovery instructions](staging-application-recovery.md)
+before deleting the failed stack record or preparing an import.
 
 ## 4. Enable scheduling through the operator stack
 
