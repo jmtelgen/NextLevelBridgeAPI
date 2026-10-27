@@ -164,6 +164,8 @@ class ApplicationContract(unittest.TestCase):
                 "codeSha256": base64.b64encode(bytes.fromhex(digest)).decode(),
                 "uncompressedBytes": 1, "memberCount": 1,
                 "routeManifestSha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
+                "dependencyLockSha256": hashlib.sha256((ROOT / "deployment/package/requirements.lock").read_bytes()).hexdigest(),
+                "nativeSourceSha256": hashlib.sha256((ROOT / "deployment/package/native-source.json").read_bytes()).hexdigest(),
             }
             report = {
                 "artifactSha256": digest, "runtime": "python3.12", "architecture": "x86_64",

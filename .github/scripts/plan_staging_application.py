@@ -71,8 +71,13 @@ def verified_artifact(directory):
         for key in ("handler", "entrypoint") if key in function
     }
     require(set(report.get("entrypoints", [])) == entrypoints, "Incomplete handler validation.")
-    require(metadata.get("routeManifestSha256") == hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
-            "Artifact does not match the reviewed route manifest.")
+    for field, path in {
+        "routeManifestSha256": manifest_path,
+        "dependencyLockSha256": ROOT / "deployment/package/requirements.lock",
+        "nativeSourceSha256": ROOT / "deployment/package/native-source.json",
+    }.items():
+        require(metadata.get(field) == hashlib.sha256(path.read_bytes()).hexdigest(),
+                f"Artifact does not match reviewed {field}.")
     with zipfile.ZipFile(package) as archive:
         members = archive.infolist()
         size = sum(member.file_size for member in members)
