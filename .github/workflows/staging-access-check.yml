@@ -1,0 +1,60 @@
+name: Staging AWS access check (NO deployment)
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  identity:
+    name: Verify staging OIDC identity only
+    if: github.repository == 'jmtelgen/NextLevelBridgeAPI' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/deployment/github-staging-bootstrap')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment: staging
+    permissions:
+      id-token: write
+    env:
+      AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      AWS_STAGING_ROLE_ARN: ${{ vars.AWS_STAGING_ROLE_ARN }}
+      AWS_EC2_METADATA_DISABLED: "true"
+      AWS_PAGER: ""
+    steps:
+      - name: Require exact account, role, and configured region
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$AWS_ACCOUNT_ID" != "851725597758" ]]; then
+            echo "::error::Set staging AWS_ACCOUNT_ID to the reviewed account 851725597758."
+            exit 1
+          fi
+          if [[ "$AWS_STAGING_ROLE_ARN" != "arn:aws:iam::851725597758:role/GitHubNextLevelBridgeAPIStaging" ]]; then
+            echo "::error::Create the dedicated staging role manually, then set staging AWS_STAGING_ROLE_ARN."
+            exit 1
+          fi
+          if [[ "$AWS_REGION" != "us-east-1" ]]; then
+            echo "::error::Set staging AWS_REGION to the reviewed region us-east-1."
+            exit 1
+          fi
+      - name: Exchange GitHub OIDC token for short-lived credentials
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.AWS_STAGING_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          allowed-account-ids: ${{ vars.AWS_ACCOUNT_ID }}
+          role-session-name: GitHubBridgeStaging-${{ github.run_id }}
+          role-duration-seconds: 900
+          retry-max-attempts: 2
+          unset-current-credentials: true
+          output-credentials: false
+      - name: GetCallerIdentity only; verify the assumed role
+        shell: bash
+        run: |
+          set -euo pipefail
+          identity="$(aws sts get-caller-identity --output json)"
+          jq -e --arg account "$AWS_ACCOUNT_ID" \
+            '.Account == $account and (.Arn | startswith("arn:aws:sts::" + $account + ":assumed-role/GitHubNextLevelBridgeAPIStaging/"))' \
+            <<< "$identity" > /dev/null
+          jq '{Account, Arn}' <<< "$identity"
+          echo 'Verified OIDC staging identity only. No application or cloud resources were changed.' >> "$GITHUB_STEP_SUMMARY"
