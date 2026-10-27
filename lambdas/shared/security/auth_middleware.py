@@ -21,7 +21,8 @@ def log_auth_event(event_type: str, details: Dict[str, Any]):
     log_data = {
         'event_type': event_type,
         'timestamp': '2024-01-01T00:00:00Z',  # You can use datetime.now().isoformat() for real timestamp
-        'details': details
+        'details': {key: value for key, value in details.items()
+                    if key in {'request_id', 'http_method', 'error_type', 'user_id'}}
     }
     
     if event_type in ['success', 'info']:
@@ -173,7 +174,7 @@ def get_user_from_event(event: Dict[str, Any], secret_id: str = None,
     
     # Extract token from "Bearer <token>" format
     if not auth_header.startswith('Bearer '):
-        logger.warning(f"Invalid Authorization header format: {auth_header[:50]}...")
+        logger.warning("Invalid Authorization header format")
         raise Exception("Invalid Authorization header format. Must start with 'Bearer ' followed by your JWT token.")
     
     token = auth_header[7:]  # Remove "Bearer " prefix
@@ -182,7 +183,7 @@ def get_user_from_event(event: Dict[str, Any], secret_id: str = None,
         logger.warning("Authorization header exists but contains no token")
         raise Exception("JWT token is missing. Please provide a valid JWT token after 'Bearer '.")
     
-    logger.info(f"Token extracted successfully, length: {len(token)} characters")
+    logger.info("Authentication credential extracted")
     
     # Validate the token
     return validate_token(token, secret_id, region_name)

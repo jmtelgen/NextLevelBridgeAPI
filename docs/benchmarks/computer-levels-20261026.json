@@ -1,0 +1,857 @@
+{
+  "benchmarkVersion": 1,
+  "biddingStrengthChanged": false,
+  "comparisons": [
+    {
+      "bootstrap_95_percentile_mean_imp_interval": [
+        1.1818181818181819,
+        5.909090909090909
+      ],
+      "bootstrap_resamples": 2000,
+      "caution": "Exploratory paired-board bootstrap; a tiny fixed-contract corpus is not strength proof.",
+      "first": "standard",
+      "meanImpsPerPair": 3.5454545454545454,
+      "paired_boards": 11,
+      "positiveFavors": "standard",
+      "sample_stddev_imps": 4.25120303828543,
+      "second": "heuristic",
+      "totalImps": 39
+    },
+    {
+      "bootstrap_95_percentile_mean_imp_interval": [
+        4.7272727272727275,
+        10.090909090909092
+      ],
+      "bootstrap_resamples": 2000,
+      "caution": "Exploratory paired-board bootstrap; a tiny fixed-contract corpus is not strength proof.",
+      "first": "thoughtful",
+      "meanImpsPerPair": 7.363636363636363,
+      "paired_boards": 11,
+      "positiveFavors": "thoughtful",
+      "sample_stddev_imps": 4.842989309769892,
+      "second": "heuristic",
+      "totalImps": 81
+    },
+    {
+      "bootstrap_95_percentile_mean_imp_interval": [
+        -0.4,
+        1.9
+      ],
+      "bootstrap_resamples": 2000,
+      "caution": "Exploratory paired-board bootstrap; a tiny fixed-contract corpus is not strength proof.",
+      "first": "thoughtful",
+      "meanImpsPerPair": 0.7,
+      "paired_boards": 10,
+      "positiveFavors": "thoughtful",
+      "sample_stddev_imps": 2.0027758514399734,
+      "second": "standard",
+      "totalImps": 7
+    }
+  ],
+  "expertStrengthProven": false,
+  "information": "Every policy receives only fair_play.Observation, never actual hidden hands.",
+  "latencyScope": "Projection plus policy; initialization, networking and persistence excluded.",
+  "levels": [
+    {
+      "budgetMs": 0,
+      "name": "heuristic",
+      "samples": 0,
+      "scope": "card-play only; bidding is unchanged"
+    },
+    {
+      "budgetMs": 50,
+      "name": "standard",
+      "samples": 4,
+      "scope": "card-play only; bidding is unchanged"
+    },
+    {
+      "budgetMs": 100,
+      "name": "thoughtful",
+      "samples": 8,
+      "scope": "card-play only; bidding is unchanged"
+    }
+  ],
+  "method": "Same seeded deal/contract twice with tiers swapped NS/EW; no bidding or par.",
+  "pairedBoards": 32,
+  "pairs": [
+    {
+      "board": 1,
+      "contract": "3NT",
+      "dealSeed": 20261026,
+      "declarer": "North",
+      "first": "standard",
+      "impDelta": 12,
+      "legs": [
+        {
+          "actionDigest": "48a573860c0f3c3920b8185ed267a09ef8305d15e7ffa710972f088b01a017a9",
+          "actions": 52,
+          "scoreNS": 430
+        },
+        {
+          "actionDigest": "a59231cd1da903da40281464f6a1aa935ee2ec95a5087edf17a3eef6a14f5bd9",
+          "actions": 52,
+          "scoreNS": -200
+        }
+      ],
+      "scoreDelta": 630,
+      "second": "heuristic"
+    },
+    {
+      "board": 2,
+      "contract": "4S",
+      "dealSeed": 20261027,
+      "declarer": "East",
+      "first": "thoughtful",
+      "impDelta": 11,
+      "legs": [
+        {
+          "actionDigest": "d8a6232c2fe8e1965969cc06bf8994d70cae93b295f217b79414caf2e26cda53",
+          "actions": 52,
+          "scoreNS": 50
+        },
+        {
+          "actionDigest": "4f865ac04cc282e0277a46fbdea8105a3ff68169dc023952a72b54fb727139da",
+          "actions": 52,
+          "scoreNS": -480
+        }
+      ],
+      "scoreDelta": 530,
+      "second": "heuristic"
+    },
+    {
+      "board": 3,
+      "contract": "4H",
+      "dealSeed": 20261028,
+      "declarer": "South",
+      "first": "thoughtful",
+      "impDelta": 3,
+      "legs": [
+        {
+          "actionDigest": "4b4957cb3f9114162157ea3820b87716843f69c8959a55b5791050fb686553b7",
+          "actions": 52,
+          "scoreNS": -100
+        },
+        {
+          "actionDigest": "ba89688849431bddcc98737d8e3866ebcf5cb7d9b421465675939a8ffa2724c6",
+          "actions": 52,
+          "scoreNS": -200
+        }
+      ],
+      "scoreDelta": 100,
+      "second": "standard"
+    },
+    {
+      "board": 4,
+      "contract": "5D",
+      "dealSeed": 20261029,
+      "declarer": "West",
+      "first": "standard",
+      "impDelta": 3,
+      "legs": [
+        {
+          "actionDigest": "00df4306396cbaee8255ca031e49726857ecc8ee479ca9f842b646e271dc0fed",
+          "actions": 52,
+          "scoreNS": 700
+        },
+        {
+          "actionDigest": "94233419f80fb6ebc716cc6076bc13e3607acb8b227be38b95ab00364d3a192e",
+          "actions": 52,
+          "scoreNS": 600
+        }
+      ],
+      "scoreDelta": 100,
+      "second": "heuristic"
+    },
+    {
+      "board": 5,
+      "contract": "3NT",
+      "dealSeed": 20261030,
+      "declarer": "East",
+      "first": "thoughtful",
+      "impDelta": 5,
+      "legs": [
+        {
+          "actionDigest": "b59c7bfc145a3deae002836ccaed96b07c62fc6ad4863d8188f6b7b2db686868",
+          "actions": 52,
+          "scoreNS": 350
+        },
+        {
+          "actionDigest": "adb4f1a7913ad3cae055513da17e61ac701642cd29b3ff6197ea7f3011fbaeb3",
+          "actions": 52,
+          "scoreNS": 150
+        }
+      ],
+      "scoreDelta": 200,
+      "second": "heuristic"
+    },
+    {
+      "board": 6,
+      "contract": "4S",
+      "dealSeed": 20261031,
+      "declarer": "South",
+      "first": "thoughtful",
+      "impDelta": 0,
+      "legs": [
+        {
+          "actionDigest": "36d8f6e81ad33361f201c2191baef344b69d0176925ce008798c13789ea0c123",
+          "actions": 52,
+          "scoreNS": -200
+        },
+        {
+          "actionDigest": "9a4966ddf09c09a129a43bddd2feeac9c5e82fd1071b24bb936a5790c04d4fcc",
+          "actions": 52,
+          "scoreNS": -200
+        }
+      ],
+      "scoreDelta": 0,
+      "second": "standard"
+    },
+    {
+      "board": 7,
+      "contract": "4H",
+      "dealSeed": 20261032,
+      "declarer": "West",
+      "first": "standard",
+      "impDelta": -3,
+      "legs": [
+        {
+          "actionDigest": "138bbf652e7bfe7cdb121330bd1d7302422730bce4b802376d100b70178c4163",
+          "actions": 52,
+          "scoreNS": 500
+        },
+        {
+          "actionDigest": "74354cfd476042f6a0fe0056ecf9b77006bbef59e52d1bfc984be5c6b9e67c8f",
+          "actions": 52,
+          "scoreNS": 600
+        }
+      ],
+      "scoreDelta": -100,
+      "second": "heuristic"
+    },
+    {
+      "board": 8,
+      "contract": "5D",
+      "dealSeed": 20261033,
+      "declarer": "North",
+      "first": "thoughtful",
+      "impDelta": 4,
+      "legs": [
+        {
+          "actionDigest": "cb2fcf5d7a08bdf2336840d6f856cf69c4c45199880c8c30373c1d2e6a8f3791",
+          "actions": 52,
+          "scoreNS": -250
+        },
+        {
+          "actionDigest": "14e46899e396a30287cba02f99d50acf15a9d4263c337fa7cedbae7643af56c3",
+          "actions": 52,
+          "scoreNS": -400
+        }
+      ],
+      "scoreDelta": 150,
+      "second": "heuristic"
+    },
+    {
+      "board": 9,
+      "contract": "3NT",
+      "dealSeed": 20261034,
+      "declarer": "South",
+      "first": "thoughtful",
+      "impDelta": 4,
+      "legs": [
+        {
+          "actionDigest": "831ddf05bd977eaf453b9a8f7b2b81d1a66ae01d774d892bfc573d61e840d420",
+          "actions": 52,
+          "scoreNS": -50
+        },
+        {
+          "actionDigest": "e74980978ecc46e7f38d4a83b5abc11f089745e1419742613cc8099a03204a22",
+          "actions": 52,
+          "scoreNS": -200
+        }
+      ],
+      "scoreDelta": 150,
+      "second": "standard"
+    },
+    {
+      "board": 10,
+      "contract": "4S",
+      "dealSeed": 20261035,
+      "declarer": "West",
+      "first": "standard",
+      "impDelta": 7,
+      "legs": [
+        {
+          "actionDigest": "f4733d043409e234df9e249a686c908fa58f587fa03986a8c8d99e075056ec9e",
+          "actions": 52,
+          "scoreNS": 400
+        },
+        {
+          "actionDigest": "0f7169a987e2d29e195dd5ac704bb9641e062b5be63534b9696ba5feb822b60e",
+          "actions": 52,
+          "scoreNS": 100
+        }
+      ],
+      "scoreDelta": 300,
+      "second": "heuristic"
+    },
+    {
+      "board": 11,
+      "contract": "4H",
+      "dealSeed": 20261036,
+      "declarer": "North",
+      "first": "thoughtful",
+      "impDelta": 3,
+      "legs": [
+        {
+          "actionDigest": "46728bd2eff738a28bfaafd742f68187aa60f549557e397ad06e51d74c72a081",
+          "actions": 52,
+          "scoreNS": -50
+        },
+        {
+          "actionDigest": "286bc95b69f6525bada2976c08345f6658888495633d98fb880e18cca44809e9",
+          "actions": 52,
+          "scoreNS": -150
+        }
+      ],
+      "scoreDelta": 100,
+      "second": "heuristic"
+    },
+    {
+      "board": 12,
+      "contract": "5D",
+      "dealSeed": 20261037,
+      "declarer": "East",
+      "first": "thoughtful",
+      "impDelta": 0,
+      "legs": [
+        {
+          "actionDigest": "1d05df8938c28544178739ed42f6af1bdc762a661724142b84225db6f968341e",
+          "actions": 52,
+          "scoreNS": 350
+        },
+        {
+          "actionDigest": "22d0014380709c69b307399cdf9696313717986d30c3a1ca80a89c7357509b24",
+          "actions": 52,
+          "scoreNS": 350
+        }
+      ],
+      "scoreDelta": 0,
+      "second": "standard"
+    },
+    {
+      "board": 13,
+      "contract": "3NT",
+      "dealSeed": 20261038,
+      "declarer": "West",
+      "first": "standard",
+      "impDelta": -3,
+      "legs": [
+        {
+          "actionDigest": "57512c4858937bf6e863bb010133100c8dfe31d9a2a321ac7c819d21803b9ce2",
+          "actions": 52,
+          "scoreNS": 600
+        },
+        {
+          "actionDigest": "438e02ff87e2d7e667f17de207a20af2346e7277465dd4c364113f579e5fda28",
+          "actions": 52,
+          "scoreNS": 700
+        }
+      ],
+      "scoreDelta": -100,
+      "second": "heuristic"
+    },
+    {
+      "board": 14,
+      "contract": "4S",
+      "dealSeed": 20261039,
+      "declarer": "North",
+      "first": "thoughtful",
+      "impDelta": 3,
+      "legs": [
+        {
+          "actionDigest": "46f4609fd3126cc407160fd39737ae6ee5c6867abba7204df68f6bea677038e4",
+          "actions": 52,
+          "scoreNS": -100
+        },
+        {
+          "actionDigest": "33068505e9bf01989d5d41b785cb95840b469f7c0d0a0622a39b50d0e3733346",
+          "actions": 52,
+          "scoreNS": -200
+        }
+      ],
+      "scoreDelta": 100,
+      "second": "heuristic"
+    },
+    {
+      "board": 15,
+      "contract": "4H",
+      "dealSeed": 20261040,
+      "declarer": "East",
+      "first": "thoughtful",
+      "impDelta": -2,
+      "legs": [
+        {
+          "actionDigest": "b5ee99bb7a01984970305b32f3bd53ccadd6a6fae619275a13191a4572d809bc",
+          "actions": 52,
+          "scoreNS": 250
+        },
+        {
+          "actionDigest": "392f13302935972bae66acf2ecaba7fee69c6d567a1b8241637af1d08a8cc144",
+          "actions": 52,
+          "scoreNS": 300
+        }
+      ],
+      "scoreDelta": -50,
+      "second": "standard"
+    },
+    {
+      "board": 16,
+      "contract": "5D",
+      "dealSeed": 20261041,
+      "declarer": "South",
+      "first": "standard",
+      "impDelta": 2,
+      "legs": [
+        {
+          "actionDigest": "4834dc7ce46b28794daeff9a16109d7e358d80e21d32b271a6d2dfb8f0da927b",
+          "actions": 52,
+          "scoreNS": -250
+        },
+        {
+          "actionDigest": "dcc1170b6c43e990f36de1b988c880f66ad008c5a0a4bd40f9945757f2fd45e1",
+          "actions": 52,
+          "scoreNS": -300
+        }
+      ],
+      "scoreDelta": 50,
+      "second": "heuristic"
+    },
+    {
+      "board": 17,
+      "contract": "3NT",
+      "dealSeed": 20261042,
+      "declarer": "North",
+      "first": "thoughtful",
+      "impDelta": 12,
+      "legs": [
+        {
+          "actionDigest": "bafde45baeaf8570e4f85a968d20b84223ed9b8423a6bd1bf7496ee19b839b8d",
+          "actions": 52,
+          "scoreNS": 430
+        },
+        {
+          "actionDigest": "067a9ad701dd7658a524e18a372fc3d01b2f8a013ace3609f4010cfbc78d8833",
+          "actions": 52,
+          "scoreNS": -250
+        }
+      ],
+      "scoreDelta": 680,
+      "second": "heuristic"
+    },
+    {
+      "board": 18,
+      "contract": "4S",
+      "dealSeed": 20261043,
+      "declarer": "East",
+      "first": "thoughtful",
+      "impDelta": 0,
+      "legs": [
+        {
+          "actionDigest": "9327d68dc43c256050e345a705ff00e9bd26ea57e4d2f706916133c4a462be96",
+          "actions": 52,
+          "scoreNS": 350
+        },
+        {
+          "actionDigest": "fa185146124416278e7b6818b30108c6b409e640b2b3cd6762b3b3c9527ad1d9",
+          "actions": 52,
+          "scoreNS": 350
+        }
+      ],
+      "scoreDelta": 0,
+      "second": "standard"
+    },
+    {
+      "board": 19,
+      "contract": "4H",
+      "dealSeed": 20261044,
+      "declarer": "South",
+      "first": "standard",
+      "impDelta": 6,
+      "legs": [
+        {
+          "actionDigest": "dd04ff7ac456051fb7ecde290c30964b1610de4ddfc6dcf54e28ceb1d612bdc4",
+          "actions": 52,
+          "scoreNS": -100
+        },
+        {
+          "actionDigest": "f472e1040c5f6d78d61c92b28260da46b53af4a19497cd199ce61726153ddd44",
+          "actions": 52,
+          "scoreNS": -350
+        }
+      ],
+      "scoreDelta": 250,
+      "second": "heuristic"
+    },
+    {
+      "board": 20,
+      "contract": "5D",
+      "dealSeed": 20261045,
+      "declarer": "West",
+      "first": "thoughtful",
+      "impDelta": 0,
+      "legs": [
+        {
+          "actionDigest": "89d0b324916a245342f329e9c80a25b7f20f1fe21a64438794869abfa1f27c78",
+          "actions": 52,
+          "scoreNS": 600
+        },
+        {
+          "actionDigest": "c6bf1a8b0a114f8847daa98abc0b2396ab7d5a9e93cae24914a13235a6ac96df",
+          "actions": 52,
+          "scoreNS": 600
+        }
+      ],
+      "scoreDelta": 0,
+      "second": "heuristic"
+    },
+    {
+      "board": 21,
+      "contract": "3NT",
+      "dealSeed": 20261046,
+      "declarer": "East",
+      "first": "thoughtful",
+      "impDelta": -2,
+      "legs": [
+        {
+          "actionDigest": "2f26fdf94bd8934010f7a93d4bba55a41b98f1580f7359f3de107d22f8024173",
+          "actions": 52,
+          "scoreNS": 100
+        },
+        {
+          "actionDigest": "204236dc1c9f08a16082fab9060ce80f2374e6462856c09c707cb55bf1ef2986",
+          "actions": 52,
+          "scoreNS": 150
+        }
+      ],
+      "scoreDelta": -50,
+      "second": "standard"
+    },
+    {
+      "board": 22,
+      "contract": "4S",
+      "dealSeed": 20261047,
+      "declarer": "South",
+      "first": "standard",
+      "impDelta": 3,
+      "legs": [
+        {
+          "actionDigest": "8af5ec5d980f6d95bd3f495089f91b74de7f2bd1845054ec719849cc38d07a6b",
+          "actions": 52,
+          "scoreNS": -100
+        },
+        {
+          "actionDigest": "3d7727a830834fc6721d41622e7fda433bd225429b84a37d4043ad4029ee6f20",
+          "actions": 52,
+          "scoreNS": -200
+        }
+      ],
+      "scoreDelta": 100,
+      "second": "heuristic"
+    },
+    {
+      "board": 23,
+      "contract": "4H",
+      "dealSeed": 20261048,
+      "declarer": "West",
+      "first": "thoughtful",
+      "impDelta": 9,
+      "legs": [
+        {
+          "actionDigest": "c58d86dadee156da1c92e6de81a63f1835d9b17748f821498518c297d23e7e83",
+          "actions": 52,
+          "scoreNS": 700
+        },
+        {
+          "actionDigest": "33520c607d72fafbcc5d4f32feac753492cd442aeb0e62fd8157a6e8e31898f5",
+          "actions": 52,
+          "scoreNS": 300
+        }
+      ],
+      "scoreDelta": 400,
+      "second": "heuristic"
+    },
+    {
+      "board": 24,
+      "contract": "5D",
+      "dealSeed": 20261049,
+      "declarer": "North",
+      "first": "thoughtful",
+      "impDelta": 0,
+      "legs": [
+        {
+          "actionDigest": "0ad090150861ba3823724dee23c01550e05edde813fc38bae8683cec11037d97",
+          "actions": 52,
+          "scoreNS": -100
+        },
+        {
+          "actionDigest": "5f937a5c935ed32b5b279ed0ebb2085a09f224c3a35a6f4af2af4f189ff669ae",
+          "actions": 52,
+          "scoreNS": -100
+        }
+      ],
+      "scoreDelta": 0,
+      "second": "standard"
+    },
+    {
+      "board": 25,
+      "contract": "3NT",
+      "dealSeed": 20261050,
+      "declarer": "South",
+      "first": "standard",
+      "impDelta": 4,
+      "legs": [
+        {
+          "actionDigest": "bb91c5810d2a4cb1f185168cd0e53357c7045171c9177ee5ec51addb3503343f",
+          "actions": 52,
+          "scoreNS": -50
+        },
+        {
+          "actionDigest": "9987c495309b3cfcb3cb2ab0994c296c5b4676408e387b95ae549ca988f92818",
+          "actions": 52,
+          "scoreNS": -200
+        }
+      ],
+      "scoreDelta": 150,
+      "second": "heuristic"
+    },
+    {
+      "board": 26,
+      "contract": "4S",
+      "dealSeed": 20261051,
+      "declarer": "West",
+      "first": "thoughtful",
+      "impDelta": 7,
+      "legs": [
+        {
+          "actionDigest": "715de59bf852eaf6c868b6e25ce417a51a706ffa2e5ed6edd24e1d2deb0749af",
+          "actions": 52,
+          "scoreNS": 400
+        },
+        {
+          "actionDigest": "449fb78f0506142cfc072ad59dfc6d9bc2d3ecbec34e98a7d6377eb0648e4dc8",
+          "actions": 52,
+          "scoreNS": 100
+        }
+      ],
+      "scoreDelta": 300,
+      "second": "heuristic"
+    },
+    {
+      "board": 27,
+      "contract": "4H",
+      "dealSeed": 20261052,
+      "declarer": "North",
+      "first": "thoughtful",
+      "impDelta": 2,
+      "legs": [
+        {
+          "actionDigest": "a45cf9a27d4807d6087d1454d3c5cd594affe65f54b50d01ab321d23381f3596",
+          "actions": 52,
+          "scoreNS": -50
+        },
+        {
+          "actionDigest": "825a2743a880806330c540fdd29da808aa1c138cf1478f236113c5e9b5dfa0af",
+          "actions": 52,
+          "scoreNS": -100
+        }
+      ],
+      "scoreDelta": 50,
+      "second": "standard"
+    },
+    {
+      "board": 28,
+      "contract": "5D",
+      "dealSeed": 20261053,
+      "declarer": "East",
+      "first": "standard",
+      "impDelta": 5,
+      "legs": [
+        {
+          "actionDigest": "b55dd3190988d6550d4da2c65bb0eedb500817b58aa619d3802a01684ecd598c",
+          "actions": 52,
+          "scoreNS": 250
+        },
+        {
+          "actionDigest": "713d9d8d1c7bfe8ec83cf2c4b08a40ff1645e7e6231d01ac8868e2de5861b7f4",
+          "actions": 52,
+          "scoreNS": 50
+        }
+      ],
+      "scoreDelta": 200,
+      "second": "heuristic"
+    },
+    {
+      "board": 29,
+      "contract": "3NT",
+      "dealSeed": 20261054,
+      "declarer": "West",
+      "first": "thoughtful",
+      "impDelta": 16,
+      "legs": [
+        {
+          "actionDigest": "47ce5c3c3188ae43dfc3cf208576451427978fdb24e2c4f5a01d3592ec5317c1",
+          "actions": 52,
+          "scoreNS": 700
+        },
+        {
+          "actionDigest": "9c5d9d0b342dfa0d78f3834da5021dc23327297fcf7b2f2987b992f86ba380cd",
+          "actions": 52,
+          "scoreNS": -660
+        }
+      ],
+      "scoreDelta": 1360,
+      "second": "heuristic"
+    },
+    {
+      "board": 30,
+      "contract": "4S",
+      "dealSeed": 20261055,
+      "declarer": "North",
+      "first": "thoughtful",
+      "impDelta": 2,
+      "legs": [
+        {
+          "actionDigest": "ceee4808e0230feef0f53580900af94ce2e335f127330510bc1591369a641114",
+          "actions": 52,
+          "scoreNS": -50
+        },
+        {
+          "actionDigest": "dc261a2193d1a421e14a73342c0359e83890a6e420c14d21ac394eebe88beae3",
+          "actions": 52,
+          "scoreNS": -100
+        }
+      ],
+      "scoreDelta": 50,
+      "second": "standard"
+    },
+    {
+      "board": 31,
+      "contract": "4H",
+      "dealSeed": 20261056,
+      "declarer": "East",
+      "first": "standard",
+      "impDelta": 3,
+      "legs": [
+        {
+          "actionDigest": "638ea0d35058888fc653af1c5d815fda030245e28f8547b801ce81be09c0245b",
+          "actions": 52,
+          "scoreNS": 350
+        },
+        {
+          "actionDigest": "cdc18960aec5a8e0ba31e661370f538d0407a26cee15cf58f340a827911dad45",
+          "actions": 52,
+          "scoreNS": 250
+        }
+      ],
+      "scoreDelta": 100,
+      "second": "heuristic"
+    },
+    {
+      "board": 32,
+      "contract": "5D",
+      "dealSeed": 20261057,
+      "declarer": "South",
+      "first": "thoughtful",
+      "impDelta": 11,
+      "legs": [
+        {
+          "actionDigest": "ff040353a2230d3248d58edbe9ade3d6a29aacabb427ef0474b916b01b26c92c",
+          "actions": 52,
+          "scoreNS": 400
+        },
+        {
+          "actionDigest": "a4566cdbac7205871555b4f3540e0f62d9f9555aeeb743b4ccb9424f462dd484",
+          "actions": 52,
+          "scoreNS": -150
+        }
+      ],
+      "scoreDelta": 550,
+      "second": "heuristic"
+    }
+  ],
+  "policies": {
+    "heuristic": {
+      "actions": 1144,
+      "complete_sample_batches": 0,
+      "degraded_actions": 0,
+      "degraded_solver_rate": 0.0,
+      "fallback_reasons": {},
+      "illegal_actions": 0,
+      "latency_ms": {
+        "max": 0.3951879998567165,
+        "mean": 0.06452398600333152,
+        "p50": 0.06135399962658994,
+        "p95": 0.0945370002227719
+      },
+      "legal_action_rate": 1.0,
+      "legal_actions": 1144,
+      "modes": {
+        "heuristic": 1144
+      },
+      "solver_error_actions": 0,
+      "solver_error_rate": 0.0
+    },
+    "standard": {
+      "actions": 1092,
+      "complete_sample_batches": 3308,
+      "degraded_actions": 13,
+      "degraded_solver_rate": 0.011904761904761904,
+      "fallback_reasons": {
+        "budget_exhausted": 13
+      },
+      "illegal_actions": 0,
+      "latency_ms": {
+        "max": 200.0482949997604,
+        "mean": 9.381361575078166,
+        "p50": 3.323140000247804,
+        "p95": 51.20583200005058
+      },
+      "legal_action_rate": 1.0,
+      "legal_actions": 1092,
+      "modes": {
+        "forced": 224,
+        "heuristic": 13,
+        "sampled_dds": 855
+      },
+      "solver_error_actions": 0,
+      "solver_error_rate": 0.0
+    },
+    "thoughtful": {
+      "actions": 1092,
+      "complete_sample_batches": 6759,
+      "degraded_actions": 3,
+      "degraded_solver_rate": 0.0027472527472527475,
+      "fallback_reasons": {
+        "budget_exhausted": 3
+      },
+      "illegal_actions": 0,
+      "latency_ms": {
+        "max": 134.7210059993813,
+        "mean": 16.922915660278615,
+        "p50": 7.122660000277392,
+        "p95": 100.10922799938271
+      },
+      "legal_action_rate": 1.0,
+      "legal_actions": 1092,
+      "modes": {
+        "forced": 216,
+        "heuristic": 3,
+        "sampled_dds": 873
+      },
+      "solver_error_actions": 0,
+      "solver_error_rate": 0.0
+    }
+  },
+  "reproducibility": "Deal seeds reproducible; soft wall-clock deadlines make action traces machine/load dependent.",
+  "seed": 20261026
+}

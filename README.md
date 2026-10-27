@@ -2,6 +2,13 @@
 
 A serverless backend for an online Bridge platform built with AWS Lambda, API Gateway, and DynamoDB. This repository contains the backend services for the [BridgeApp](https://github.com/jmtelgen/BridgeApp) frontend application.
 
+For the current server-authoritative playable bridge lifecycle, personalized
+socket payloads, local verification, deployment route additions and remaining
+release blockers, see [docs/WEBSOCKET_CONTRACT.md](docs/WEBSOCKET_CONTRACT.md).
+
+For signup policy, cookie-based login/refresh/logout, deployment wiring and
+credential-safe logging, see [docs/authentication.md](docs/authentication.md).
+
 ## 🏗️ Architecture
 
 This backend is built using a serverless architecture with the following AWS services:

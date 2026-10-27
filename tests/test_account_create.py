@@ -4,11 +4,13 @@ import os
 from unittest.mock import patch, MagicMock
 from botocore.exceptions import ClientError
 import sys
+import tests as project_tests
 
-# Add the lambdas directory to the path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'lambdas'))
-
-from lambdas.account_create import lambda_handler
+# The legacy handler appends lambdas/ to sys.path, exposing its own tests
+# package. Keep that import side effect local to avoid shadowing this suite.
+# Resolve the project tests namespace first, before other legacy imports.
+with patch.object(sys, 'path', sys.path.copy()):
+    from lambdas.api.auth.account_create import lambda_handler
 
 
 class TestAccountCreate:
@@ -52,7 +54,7 @@ class TestAccountCreate:
     def test_lambda_handler_success_direct_data(self, sample_account_data, mock_environment):
         """Test successful account creation with direct event data."""
         with patch('boto3.resource') as mock_resource, \
-             patch('lambdas.account_create.PasswordUtils') as mock_password_utils:
+             patch('lambdas.api.auth.account_create.PasswordUtils') as mock_password_utils:
             
             mock_table = MagicMock()
             mock_resource.return_value.Table.return_value = mock_table
@@ -92,7 +94,7 @@ class TestAccountCreate:
         event = {'body': json.dumps(sample_account_data)}
         
         with patch('boto3.resource') as mock_resource, \
-             patch('lambdas.account_create.PasswordUtils') as mock_password_utils:
+             patch('lambdas.api.auth.account_create.PasswordUtils') as mock_password_utils:
             
             mock_table = MagicMock()
             mock_resource.return_value.Table.return_value = mock_table
@@ -168,7 +170,7 @@ class TestAccountCreate:
         weak_password_data = sample_account_data.copy()
         weak_password_data['password'] = 'weak'
         
-        with patch('lambdas.account_create.PasswordUtils') as mock_password_utils:
+        with patch('lambdas.api.auth.account_create.PasswordUtils') as mock_password_utils:
             # Mock password validation failure
             mock_password_utils.validate_password_strength.return_value = (False, 'Password too weak')
             
@@ -183,7 +185,7 @@ class TestAccountCreate:
     def test_lambda_handler_username_already_exists(self, sample_account_data, mock_environment):
         """Test account creation when username already exists."""
         with patch('boto3.resource') as mock_resource, \
-             patch('lambdas.account_create.PasswordUtils') as mock_password_utils:
+             patch('lambdas.api.auth.account_create.PasswordUtils') as mock_password_utils:
             
             mock_table = MagicMock()
             mock_resource.return_value.Table.return_value = mock_table
@@ -207,7 +209,7 @@ class TestAccountCreate:
     def test_lambda_handler_email_already_exists(self, sample_account_data, mock_environment):
         """Test account creation when email already exists."""
         with patch('boto3.resource') as mock_resource, \
-             patch('lambdas.account_create.PasswordUtils') as mock_password_utils:
+             patch('lambdas.api.auth.account_create.PasswordUtils') as mock_password_utils:
             
             mock_table = MagicMock()
             mock_resource.return_value.Table.return_value = mock_table
@@ -231,7 +233,7 @@ class TestAccountCreate:
     def test_lambda_handler_gsi_scan_failure_fallback(self, sample_account_data, mock_environment):
         """Test account creation when GSI scan fails and falls back to table scan."""
         with patch('boto3.resource') as mock_resource, \
-             patch('lambdas.account_create.PasswordUtils') as mock_password_utils:
+             patch('lambdas.api.auth.account_create.PasswordUtils') as mock_password_utils:
             
             mock_table = MagicMock()
             mock_resource.return_value.Table.return_value = mock_table
@@ -262,7 +264,7 @@ class TestAccountCreate:
     def test_lambda_handler_dynamodb_put_error(self, sample_account_data, mock_environment):
         """Test account creation when DynamoDB put operation fails."""
         with patch('boto3.resource') as mock_resource, \
-             patch('lambdas.account_create.PasswordUtils') as mock_password_utils:
+             patch('lambdas.api.auth.account_create.PasswordUtils') as mock_password_utils:
             
             mock_table = MagicMock()
             mock_resource.return_value.Table.return_value = mock_table
@@ -300,7 +302,7 @@ class TestAccountCreate:
     def test_lambda_handler_cors_headers(self, sample_account_data, mock_environment):
         """Test that CORS headers are properly set."""
         with patch('boto3.resource') as mock_resource, \
-             patch('lambdas.account_create.PasswordUtils') as mock_password_utils:
+             patch('lambdas.api.auth.account_create.PasswordUtils') as mock_password_utils:
             
             mock_table = MagicMock()
             mock_resource.return_value.Table.return_value = mock_table
@@ -324,10 +326,10 @@ class TestAccountCreate:
             assert 'Content-Type' in headers
             assert 'Access-Control-Allow-Methods' in headers
     
-    def test_lambda_handler_debug_logging(self, sample_account_data, mock_environment, capsys):
-        """Test that debug logging is working."""
+    def test_lambda_handler_credential_safe_logging(self, sample_account_data, mock_environment, capsys):
+        """Request fields and stored password material must never reach stdout."""
         with patch('boto3.resource') as mock_resource, \
-             patch('lambdas.account_create.PasswordUtils') as mock_password_utils:
+             patch('lambdas.api.auth.account_create.PasswordUtils') as mock_password_utils:
             
             mock_table = MagicMock()
             mock_resource.return_value.Table.return_value = mock_table
@@ -346,6 +348,5 @@ class TestAccountCreate:
             lambda_handler(sample_account_data, {})
             
             captured = capsys.readouterr()
-            assert 'DEBUG: Full event:' in captured.out
-            assert 'DEBUG: Event body type:' in captured.out
-            assert 'DEBUG: Parsed body:' in captured.out
+            for secret in [*sample_account_data.values(), 'hashed_password_123', 'salt_123']:
+                assert secret not in captured.out

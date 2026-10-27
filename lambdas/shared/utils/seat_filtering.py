@@ -5,18 +5,19 @@ from typing import Dict, List, Optional, Any
 from lambdas.models.game_state import PublicGameState, PrivateGameState, SeatBasedGameResponse, GameState
 from lambdas.shared.database.db_utils import db_utils
 from lambdas.core.robot.robot_utils import is_robot_seat
+from lambdas.core.game.rules import legal_calls, legal_cards, controller
 
 
 def get_user_seat(room_seats: Dict[str, str], user_id: str) -> Optional[str]:
     """
-    Get the seat (N, E, S, W) for a given user ID.
+    Get the seat (North, East, South, West) for a given user ID.
     
     Args:
         room_seats: Dictionary mapping seats to user IDs
         user_id: The user ID to find
         
     Returns:
-        The seat (N, E, S, W) or None if user not found
+        The seat (North, East, South, West) or None if user not found
     """
     for seat, occupant in room_seats.items():
         if occupant == user_id:
@@ -61,9 +62,11 @@ def create_public_game_state(game_data: Dict[str, Any], room_seats: Dict[str, st
     Returns:
         PublicGameState with only public information
     """
+    dummy_revealed = bool(game_data.get('dummy') and
+                          (game_data.get('currentTrick') or game_data.get('tricks')))
     return PublicGameState(
         currentPhase=game_data.get('currentPhase', 'waiting'),
-        turn=game_data.get('turn', ''),
+        turn=game_data.get('turn'),
         dealer=game_data.get('dealer', 'North'),
         vulnerability=game_data.get('vulnerability', 'None'),
         bids=game_data.get('bids', []),
@@ -74,9 +77,28 @@ def create_public_game_state(game_data: Dict[str, Any], room_seats: Dict[str, st
         currentTrick=game_data.get('currentTrick'),
         trickWinner=game_data.get('trickWinner'),
         dummy=game_data.get('dummy'),
-        dummyHand=game_data.get('dummyHand'),
+        dummyHand=(game_data.get('hands', {}).get(game_data.get('dummy'), [])
+                   if dummy_revealed else None),
         previousTrick=game_data.get('previousTrick'),
-        gameResult=game_data.get('gameResult')
+        gameResult=game_data.get('gameResult'),
+        boardNumber=game_data.get('boardNumber', 0),
+        boardId=game_data.get('boardId'),
+        agreements=game_data.get('agreements'),
+        scoreboard=game_data.get('scoreboard'),
+        practiceMode=game_data.get('practiceMode', False),
+        revision=game_data.get('revision', 0),
+        contractMultiplier=game_data.get('contractMultiplier', 1),
+        dummyRevealed=dummy_revealed,
+        handCounts={seat: len(cards) for seat, cards in game_data.get('hands', {}).items()},
+        result=game_data.get('result'),
+        scores=game_data.get('scores', {"NS": 0, "EW": 0}),
+        robotPending=game_data.get('robotPending', False),
+        completedTrick=game_data.get('completedTrick'),
+        pendingAction=game_data.get('pendingAction'),
+        pacing=game_data.get('pacing'),
+        claim=game_data.get('claim'),
+        claimSettlement=game_data.get('claimSettlement'),
+        eventId=game_data.get('eventId'),
     )
 
 
@@ -93,7 +115,7 @@ def create_private_game_state(
         game_data: Raw game data from database
         room_seats: Dictionary mapping seats to user IDs
         user_id: The user ID for this private state
-        seat: The seat (N, E, S, W) for this user
+        seat: The seat (North, East, South, West) for this user
         
     Returns:
         PrivateGameState with only this user's private information
@@ -102,7 +124,8 @@ def create_private_game_state(
     user_hand = hands.get(seat, [])
     
     # Calculate if it's this user's turn
-    is_my_turn = game_data.get('turn') == seat  # turn now stores position (N/S/E/W), not userId
+    is_my_turn = (game_data.get('currentPhase') in ('bidding', 'playing')
+                  and controller(game_data) == seat)
     
     # Determine if user is declarer or dummy
     declarer_seat = game_data.get('declarer')
@@ -130,7 +153,9 @@ def create_private_game_state(
         isMyTurn=is_my_turn,
         isDeclarer=is_declarer,
         isDummy=is_dummy,
-        partnerSeat=partner_seat
+        partnerSeat=partner_seat,
+        legalCards=legal_cards(game_data) if is_my_turn else [],
+        playSeat=game_data.get('turn') if is_my_turn and game_data.get('currentPhase') == 'playing' else None,
     )
 
 
@@ -144,15 +169,7 @@ def calculate_valid_bids(game_data: Dict[str, Any]) -> List[str]:
     Returns:
         List of valid bid strings
     """
-    # Basic bid options - in a full implementation, this would be more sophisticated
-    basic_bids = ['pass', '1C', '1D', '1H', '1S', '1NT', '2C', '2D', '2H', '2S', '2NT', 
-                  '3C', '3D', '3H', '3S', '3NT', '4C', '4D', '4H', '4S', '4NT',
-                  '5C', '5D', '5H', '5S', '5NT', '6C', '6D', '6H', '6S', '6NT',
-                  '7C', '7D', '7H', '7S', '7NT']
-    
-    # For now, return all basic bids
-    # TODO: Implement proper bid validation based on current bidding state
-    return basic_bids
+    return legal_calls(game_data)
 
 
 def create_seat_based_response(
@@ -212,7 +229,6 @@ def broadcast_game_update(
         exclude_user_id: Optional user ID to exclude from broadcast
         broadcast_function: Function to call for each player's personalized message
     """
-    print(f"Broadcasting game update for seats {room_seats}")
     if not broadcast_function:
         return
     
@@ -220,11 +236,9 @@ def broadcast_game_update(
     # This would typically come from a database or connection manager
     # For now, we'll assume we have access to all users in the room
     for _, user_id in room_seats.items():
-        print(f"Broadcasting to user {user_id}")
         
         # Skip robots - they don't have WebSocket connections
-        if is_robot_seat(user_id):
-            print(f"Skipping robot {user_id}")
+        if not user_id or is_robot_seat(user_id):
             continue
             
         # Skip if this is the excluded user (original caller)
@@ -233,7 +247,6 @@ def broadcast_game_update(
             
         # Create personalized response for this player
         try:
-            print(f"Creating personalized response for user {user_id}")
             personalized_response = create_seat_based_response(
                 game_data, room_seats, user_id, action, message
             )

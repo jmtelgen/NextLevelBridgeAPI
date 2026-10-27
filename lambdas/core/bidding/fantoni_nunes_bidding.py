@@ -13,7 +13,7 @@ from lambdas.core.hand_evaluation.hand_evaluator import HandEvaluator, HandAnaly
 @dataclass
 class Bid:
     """Represents a single bid in the auction."""
-    seat: str  # N, E, S, W
+    seat: str  # North, East, South, West
     bid: str   # 1C, 1D, 1H, 1S, 1NT, 2C, etc.
     position: int  # 1st, 2nd, 3rd, 4th seat relative to dealer
     timestamp: int = 0

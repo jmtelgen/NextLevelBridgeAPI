@@ -1,8 +1,10 @@
 import os
+import time
 import boto3
 from botocore.exceptions import ClientError
 from typing import Dict, Any, List, Optional, Set
 from datetime import datetime
+from decimal import Decimal
 
 class DatabaseUtils:
     """
@@ -98,22 +100,8 @@ class DatabaseUtils:
             The first available connection ID, or None if no connections found
         """
         try:
-            connections_table = self.websocket_connections_table
-            
-            if user_id:
-                response = connections_table.scan(
-                    FilterExpression='#status = :status AND #userId = :userId',
-                    ExpressionAttributeNames={'#status': 'status', '#userId': 'userId'},
-                    ExpressionAttributeValues={':status': 'connected', ':userId': user_id}
-                )
-                
-                # Return the first available connection
-                items = response.get('Items', [])
-                if items:
-                    print(f"Found {len(items)} connections for user {user_id}")
-                    return items[0]['connectionId']
-            
-            return None
+            connections = self.get_user_connections(user_id) if user_id else []
+            return connections[0] if connections else None
             
         except Exception as e:
             print(f"Error getting room connection for user {user_id}: {str(e)}")
@@ -247,19 +235,103 @@ class DatabaseUtils:
             if room_table is None:
                 room_table = self.get_table('ROOM_TABLE')
             
-            response = room_table.scan(
-                FilterExpression='roomId = :roomId',
-                ExpressionAttributeValues={':roomId': room_id}
-            )
-            
-            if response['Count'] == 0:
-                return None
-            
-            return response['Items'][0]
+            params = {
+                'FilterExpression': 'roomId = :roomId',
+                'ExpressionAttributeValues': {':roomId': room_id},
+                'ConsistentRead': True,
+            }
+            while True:
+                response = room_table.scan(**params)
+                if response.get('Items'):
+                    return response['Items'][0]
+                if not response.get('LastEvaluatedKey'):
+                    return None
+                params['ExclusiveStartKey'] = response['LastEvaluatedKey']
             
         except Exception as e:
             print(f"Error finding room by ID: {str(e)}")
             return None
+
+    def get_user_connections(self, user_id: str) -> List[str]:
+        """Return all active sessions, including additional tabs and reconnects."""
+        return sorted({item['connectionId'] for item in self.get_user_connection_records(user_id)
+                       if item['authExpiresAt'] > time.time()})
+
+    def get_user_connection_records(self, user_id: str) -> List[Dict[str, Any]]:
+        """Read signed sessions consistently, including expired records for grace accounting."""
+        params = {
+            'FilterExpression': ('#user = :user AND #status = :connected '
+                                 'AND (#authType = :access OR #authType = :guest)'),
+            'ExpressionAttributeNames': {
+                '#user': 'userId', '#status': 'status',
+                '#authType': 'authType'},
+            'ExpressionAttributeValues': {
+                ':user': user_id, ':connected': 'connected',
+                ':access': 'access', ':guest': 'guest'},
+            'ConsistentRead': True,
+        }
+        records = []
+        while True:
+            response = self.websocket_connections_table.scan(**params)
+            records.extend(item for item in response.get('Items', [])
+                           if item.get('userId') == user_id and item.get('connectionId')
+                           and item.get('status') == 'connected'
+                           and item.get('authType') in ('access', 'guest')
+                           and isinstance(item.get('authExpiresAt'), (int, float, Decimal))
+                           and not isinstance(item['authExpiresAt'], bool))
+            if not response.get('LastEvaluatedKey'):
+                return records
+            params['ExclusiveStartKey'] = response['LastEvaluatedKey']
+
+    def get_rooms_for_user(self, user_id, room_table=None):
+        """Room membership is authoritative; a connection's currentRoomId is only a hint."""
+        table = room_table if room_table is not None else self.get_table('ROOM_TABLE')
+        params = {'ConsistentRead': True}
+        rooms = []
+        while True:
+            response = table.scan(**params)
+            rooms.extend(room for room in response.get('Items', [])
+                         if user_id in room.get('seats', {}).values())
+            if not response.get('LastEvaluatedKey'):
+                return rooms
+            params['ExclusiveStartKey'] = response['LastEvaluatedKey']
+
+    def transfer_room_ownership(self, table, room, new_owner):
+        """Atomically move the composite room key, never leave two live owners."""
+        import copy
+        from lambdas.core.game.runtime import RoomConflictError
+
+        previous_owner = room['ownerId']
+        if previous_owner == new_owner:
+            return room
+        expected = int(room.get('revision', 0))
+        updated = copy.deepcopy(room)
+        updated['ownerId'] = new_owner
+        updated['revision'] = expected + 1
+        updated.setdefault('gameData', {})['revision'] = expected + 1
+        revision_condition = ('(attribute_not_exists(#revision) OR #revision = :expected)'
+                              if expected == 0 else '#revision = :expected')
+        try:
+            # The resource client serializes native Python values for transactions.
+            table.meta.client.transact_write_items(TransactItems=[
+                {'Delete': {
+                    'TableName': table.name,
+                    'Key': {'roomId': room['roomId'], 'ownerId': previous_owner},
+                    'ConditionExpression': 'attribute_exists(#room) AND ' + revision_condition,
+                    'ExpressionAttributeNames': {'#room': 'roomId', '#revision': 'revision'},
+                    'ExpressionAttributeValues': {':expected': expected},
+                }},
+                {'Put': {
+                    'TableName': table.name, 'Item': updated,
+                    'ConditionExpression': 'attribute_not_exists(#room)',
+                    'ExpressionAttributeNames': {'#room': 'roomId'},
+                }},
+            ])
+        except ClientError as exc:
+            if exc.response['Error']['Code'] == 'TransactionCanceledException':
+                raise RoomConflictError(409, 'Room changed; request a snapshot before retrying') from exc
+            raise
+        return updated
     
     def find_user_by_id(self, user_id: str, user_table=None) -> Optional[Dict[str, Any]]:
         """
@@ -284,7 +356,9 @@ class DatabaseUtils:
             return None
     
     def create_connection_record(self, connection_id: str, user_id: str, user_name: str, 
-                               request_time: Optional[int] = None) -> bool:
+                               request_time: Optional[int] = None,
+                               auth_expires_at: Optional[int] = None,
+                               auth_type: Optional[str] = None) -> bool:
         """
         Create a new connection record in the connections table
         """
@@ -304,7 +378,9 @@ class DatabaseUtils:
                 'status': 'connected',
                 'lastActivity': request_time,
                 'userId': user_id,
-                'userName': user_name
+                'userName': user_name,
+                'authExpiresAt': auth_expires_at,
+                'authType': auth_type,
             }
             
             print(f"Connection record to create: {connection_record}")

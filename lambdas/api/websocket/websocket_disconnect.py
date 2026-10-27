@@ -3,6 +3,9 @@ import os
 import boto3
 from botocore.exceptions import ClientError
 from datetime import datetime
+from lambdas.shared.database.db_utils import db_utils
+from lambdas.core.rooms.lifecycle import sync_user_presence
+from lambdas.shared.utils.websocket_utils import broadcast_to_connection
 
 def lambda_handler(event, context):
     """
@@ -41,16 +44,25 @@ def lambda_handler(event, context):
         
         # First, find all connection records for this connection ID
         # Since currentRoomId is the sort key, we need to find all items with this connectionId
-        response = connections_table.query(
-            KeyConditionExpression='connectionId = :connectionId',
-            ExpressionAttributeValues={
-                ':connectionId': connection_id
-            }
-        )
+        query = {
+            'KeyConditionExpression': 'connectionId = :connectionId',
+            'ExpressionAttributeValues': {':connectionId': connection_id},
+            'ConsistentRead': True,
+        }
+        items = []
+        while True:
+            response = connections_table.query(**query)
+            items.extend(response.get('Items', []))
+            if not response.get('LastEvaluatedKey'):
+                break
+            query['ExclusiveStartKey'] = response['LastEvaluatedKey']
         
         deleted_count = 0
-        for item in response.get('Items', []):
+        users = set()
+        for item in items:
             current_room_id = item.get('currentRoomId', 'not-joined')
+            if item.get('userId'):
+                users.add(item['userId'])
             
             try:
                 # Delete each connection record with its specific sort key
@@ -71,6 +83,8 @@ def lambda_handler(event, context):
                     print(f"Error deleting connection record {connection_id} with room {current_room_id}: {e.response['Error']['Message']}")
         
         print(f"Connection {connection_id} cleanup completed. Deleted {deleted_count} records.")
+        for user in users:
+            sync_user_presence(db_utils, user, broadcast_to_connection)
         
         # For $disconnect, we don't need to return a response to the client
         # The connection is already closed by API Gateway

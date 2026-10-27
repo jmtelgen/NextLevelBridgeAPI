@@ -16,6 +16,8 @@ if [ -z "$FUNCTION_NAME" ]; then
     echo "  account-create"
     echo "  account-login"
     echo "  account-refresh-token"
+    echo "  account-logout"
+    echo "  guest-session"
     echo ""
     echo "Game functions:"
     echo "  connection-count"
@@ -50,7 +52,7 @@ mkdir -p $BUILD_DIR
 cp -r lambdas $BUILD_DIR/
 
 # Special handling for WebSocket functions that need the DDS library
-if [[ $FUNCTION_NAME == websocket-make-bid ]] || [[ $FUNCTION_NAME == websocket-play-card ]]; then
+if [[ $FUNCTION_NAME == websocket-make-bid ]] || [[ $FUNCTION_NAME == websocket-play-card ]] || [[ $FUNCTION_NAME == websocket-start-room ]]; then
     echo "WebSocket function with DDS requirements detected - ensuring DDS library is included..."
     # Make sure the DDS library files are executable in source
     chmod +x lambdas/dds/libdds.so.2.9.0
@@ -90,6 +92,8 @@ elif [[ $FUNCTION_NAME == ai-double-dummy ]]; then
     cp lambdas/api/ai/ai_double_dummy.py $BUILD_DIR/lambda_function.py
 elif [[ $FUNCTION_NAME == account-* ]]; then
     cp lambdas/api/auth/${FUNCTION_NAME//-/_}.py $BUILD_DIR/lambda_function.py
+elif [[ $FUNCTION_NAME == guest-session ]]; then
+    cp lambdas/api/auth/guest_session.py $BUILD_DIR/lambda_function.py
 elif [[ $FUNCTION_NAME == websocket-* ]]; then
     cp lambdas/api/websocket/${FUNCTION_NAME//-/_}.py $BUILD_DIR/lambda_function.py
 elif [[ $FUNCTION_NAME == connection-count ]]; then
@@ -168,6 +172,10 @@ echo "2. Set handler to: lambda_function.lambda_handler"
 echo "3. Set environment variables:"
 echo "   - USER_TABLE (for account functions)"
 echo "   - ROOM_TABLE (for room functions)"
+echo "   - WEBSOCKET_CONNECTIONS_TABLE and WEBSOCKET_ENDPOINT (for WebSocket game/lobby functions)"
+echo "   - startRoom, getGameState, nextBoard routes all target the websocket-start-room function"
+echo "   - JWT_SECRET_ID and WS_ALLOWED_ORIGINS (for websocket-connect and guest-session)"
+echo "   - POST/OPTIONS /auth/guest target guest-session"
 echo "   - BUCKET_NAME, TABLE_NAME, QUEUE_URL, TARGET_DOMAIN, MAX_DEPTH (for WebCrawler function)"
 echo ""
 echo "Or use AWS CLI:"

@@ -1,0 +1,4 @@
+# Isolated development transport and in-process AWS emulation; never deployed.
+-r requirements.txt
+aiohttp>=3.12.14,<4
+moto[dynamodb,secretsmanager]>=5.1.10,<6

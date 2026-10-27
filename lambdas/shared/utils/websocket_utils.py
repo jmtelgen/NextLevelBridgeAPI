@@ -46,7 +46,7 @@ def send_websocket_message(connection_id: str, message: Dict[str, Any]) -> bool:
             Data=json.dumps(message)
         )
         
-        print(f"Message sent to connection {connection_id}: {message}")
+        print(f"Message sent to connection {connection_id}")
         return True
         
     except ClientError as e:
@@ -58,7 +58,6 @@ def send_websocket_message(connection_id: str, message: Dict[str, Any]) -> bool:
     except Exception as e:
         print(f"Unexpected error sending message: {str(e)}")
         print(f"Connection ID: {connection_id}")
-        print(f"Message: {message}")
         print(f"Endpoint URL: {endpoint_url}")
         return False
 

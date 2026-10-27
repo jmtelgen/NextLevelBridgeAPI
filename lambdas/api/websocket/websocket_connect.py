@@ -1,65 +1,59 @@
+"""Authenticate the WebSocket upgrade; never trust a caller-selected identity."""
+import jwt
+
 from lambdas.shared.utils.base_handler import WebSocketBaseHandler
 from lambdas.shared.database.db_utils import db_utils
+from lambdas.shared.security.socket_auth import (
+    require_origin, socket_identity, SessionConfigurationError,
+)
+from lambdas.core.rooms.lifecycle import sync_user_presence
+from lambdas.shared.utils.websocket_utils import broadcast_to_connection
+from lambdas.core.game.runtime import GameRequestError
+
 
 class WebSocketConnectHandler(WebSocketBaseHandler):
-    """
-    WebSocket $connect handler
-    Stores connection information in DynamoDB table
-    """
-    
     def process_websocket_request(self, event, context):
-        """
-        Process WebSocket connect request
-        """
-        print(f"Processing WebSocket connect request: {event}")
-        
-        # Extract connection information
-        connection_id = self.get_connection_id(event)
-        request_time = event.get('requestContext', {}).get('requestTimeEpoch')
-        user_info = self.get_user_info_from_query(event)
-        
-        print(f"Connection ID: {connection_id}")
-        print(f"Request time: {request_time}")
-        print(f"User info: {user_info}")
-        
-        if not connection_id:
-            return self.error_response(400, 'Missing connection ID')
-        
-        # Create connection record using database utilities
-        success = db_utils.create_connection_record(
-            connection_id=connection_id,
-            user_id=user_info.get('userId'),
-            user_name=user_info.get('userName'),
-            request_time=request_time
-        )
-        
-        print(f"Connection record creation success: {success}")
-        
-        if not success:
-            return self.error_response(500, 'Failed to create connection record')
-        
-        # For $connect, we don't need to return a response to the client
-        # The connection is established automatically by API Gateway
-        return {'statusCode': 200}
+        try:
+            self.validate_route_key(event, "$connect")
+            connection_id = self.get_connection_id(event)
+            if not connection_id:
+                return self.error_response(400, "Missing connection ID")
+            require_origin(event)
+            identity, uses_protocol = socket_identity(event)
+            success = db_utils.create_connection_record(
+                connection_id=connection_id,
+                user_id=identity["userId"],
+                user_name=identity["username"],
+                request_time=event.get("requestContext", {}).get("requestTimeEpoch"),
+                auth_expires_at=int(identity["exp"]),
+                auth_type=identity["type"],
+            )
+            if not success:
+                return self.error_response(503, "Unable to establish session")
+            try:
+                sync_user_presence(db_utils, identity["userId"], broadcast_to_connection)
+            except GameRequestError as exc:
+                db_utils.delete_connection_record(connection_id)
+                return self.error_response(exc.status, str(exc))
+            except Exception:
+                db_utils.delete_connection_record(connection_id)
+                return self.error_response(503, "Unable to synchronize room presence")
+            response = {"statusCode": 200}
+            if uses_protocol:
+                response["headers"] = {"Sec-WebSocket-Protocol": "bridge.v1"}
+            return response
+        except SessionConfigurationError:
+            return self.error_response(503, "Session authentication is not configured")
+        except PermissionError as exc:
+            return self.error_response(403, str(exc))
+        except jwt.InvalidTokenError:
+            return self.error_response(401, "A valid unexpired signed session is required")
+        except ValueError as exc:
+            return self.error_response(400, str(exc))
 
-# Create handler instance
+
 handler = WebSocketConnectHandler()
 
-# Lambda handler function
+
 def lambda_handler(event, context):
-    print(f"LAMBDA HANDLER CALLED with event: {event}")
-    print(f"Event type: {type(event)}")
-    print(f"Event keys: {list(event.keys()) if isinstance(event, dict) else 'Not a dict'}")
-    
-    try:
-        result = handler.handle_websocket_request(event, context)
-        print(f"Handler result: {result}")
-        return result
-    except Exception as e:
-        print(f"Exception in lambda_handler: {str(e)}")
-        import traceback
-        print(f"Traceback: {traceback.format_exc()}")
-        return {
-            'statusCode': 500,
-            'body': f'Internal server error: {str(e)}'
-        } 
+    return handler.handle_websocket_request(event, context)
