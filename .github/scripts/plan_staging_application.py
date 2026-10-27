@@ -71,6 +71,18 @@ def verified_artifact(directory):
         for key in ("handler", "entrypoint") if key in function
     }
     require(set(report.get("entrypoints", [])) == entrypoints, "Incomplete handler validation.")
+    namespace = report.get("durableNamespace")
+    require(isinstance(namespace, dict) and namespace == {
+        "runtime": "lambdas.core.game.runtime",
+        "duplicate": "lambdas.core.game.duplicate",
+        "archives": "lambdas.core.game.archives",
+        "handlers": sorted({
+            entrypoint.rsplit(".", 1)[0] for entrypoint in entrypoints
+            if entrypoint.startswith(("lambdas.api.websocket.", "lambdas.api.game."))
+        } | {"lambdas.core.rooms.lifecycle"}),
+        "alternateModuleCopies": False,
+    } and namespace.get("alternateModuleCopies") is False,
+        "Missing target validation: durable handler namespace.")
     for field, path in {
         "routeManifestSha256": manifest_path,
         "dependencyLockSha256": ROOT / "deployment/package/requirements.lock",

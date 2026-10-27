@@ -177,12 +177,26 @@ class ApplicationContract(unittest.TestCase):
                     for key in ("handler", "entrypoint") if key in function
                 }),
             }
+            report["durableNamespace"] = {
+                "runtime": "lambdas.core.game.runtime",
+                "duplicate": "lambdas.core.game.duplicate",
+                "archives": "lambdas.core.game.archives",
+                "handlers": sorted({
+                    entrypoint.rsplit(".", 1)[0] for entrypoint in report["entrypoints"]
+                    if entrypoint.startswith(("lambdas.api.websocket.", "lambdas.api.game."))
+                } | {"lambdas.core.rooms.lifecycle"}),
+                "alternateModuleCopies": False,
+            }
             package.with_suffix(".json").write_text(json.dumps(metadata))
             receipt = package.with_suffix(".validation.json")
             receipt.write_text(json.dumps(report))
             self.assertEqual(planner.verified_artifact(path), (package, digest))
             for overrides in ({"receiptVerified": False}, {"receiptVerified": 1}, {"entrypoints": []},
-                              {"artifactSha256": "b" * 64}, {"os": "Ubuntu"}):
+                              {"artifactSha256": "b" * 64}, {"os": "Ubuntu"},
+                              {"durableNamespace": None},
+                              {"durableNamespace": report["durableNamespace"] | {"handlers": []}},
+                              {"durableNamespace": report["durableNamespace"] | {"alternateModuleCopies": True}},
+                              {"durableNamespace": report["durableNamespace"] | {"alternateModuleCopies": 0}}):
                 receipt.write_text(json.dumps(report | overrides))
                 with self.assertRaises(ValueError):
                     planner.verified_artifact(path)
