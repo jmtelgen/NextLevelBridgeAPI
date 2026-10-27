@@ -141,6 +141,15 @@ after'''
         with self.assertRaisesRegex(ValueError, "changed"):
             native_builder.patch_linux_resources("unexpected source")
 
+    def test_native_links_shared_target_runtime_without_static_archives(self):
+        flags = native_builder.LINK_FLAGS.split()
+        self.assertIn("-shared", flags)
+        self.assertIn("-Wl,-soname,libdds.so.2", flags)
+        self.assertIn("-pthread", flags)
+        self.assertFalse(any(flag.startswith("-static") for flag in flags))
+        pins = json.loads((ROOT / "deployment/package/native-source.json").read_text())
+        self.assertIn("dynamic libstdc++.so.6, libgcc_s.so.1", pins["linking"])
+
 
 class PackageTests(unittest.TestCase):
     def setUp(self):

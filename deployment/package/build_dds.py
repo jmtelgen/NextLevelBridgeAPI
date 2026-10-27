@@ -10,6 +10,8 @@ import sys
 import tarfile
 import urllib.request
 
+LINK_FLAGS = "-shared -Wl,--build-id=none -Wl,-soname,libdds.so.2 -pthread"
+
 
 def patch_linux_resources(source):
     original = '''  FILE * fifo = popen(
@@ -56,8 +58,7 @@ def main():
         "THREAD_LINK=-pthread",
         "COMPILE_FLAGS=-fPIC -O3 -std=c++11 -DDDS_THREADS_STL -pthread "
         f"-ffile-prefix-map={work}=. -fdebug-prefix-map={work}=.",
-        "LINK_FLAGS=-shared -Wl,--build-id=none -Wl,-soname,libdds.so.2 "
-        "-static-libstdc++ -static-libgcc -pthread",
+        "LINK_FLAGS=" + LINK_FLAGS,
     ], check=True, env=env)
     output = Path.cwd() / "native"
     output.mkdir(exist_ok=True)

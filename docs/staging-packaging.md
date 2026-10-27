@@ -137,8 +137,13 @@ DDS 2.9.0 source is fixed to commit
 The build replaces only its Linux shell-based `free` probe with a conservative
 256 MiB/one-core resource bound, since the minimal Lambda image need not have
 procps utilities and host core/memory counts are inappropriate. The adapter then
-applies `SetResources(32, 1)`. It compiles with STL threading and static
-libstdc++/libgcc; glibc is the AL2023 runtime's dynamic dependency. The solver
+applies `SetResources(32, 1)`. It compiles with STL threading and dynamically
+links libstdc++, libgcc and glibc from the pinned AL2023 Lambda runtime.
+The pinned SAM image does not include static libstdc++ archives; requesting
+`-static-libstdc++` fails at link time. The exact pinned Lambda runtime contains
+`/usr/lib64/libstdc++.so.6` and `/usr/lib64/libgcc_s.so.1`; its required native
+solve gate verifies actual load and symbol compatibility before export.
+No compiler runtime libraries are redistributed in the ZIP. The solver
 algorithm and application wrapper are unchanged.
 
 ## Package layout and immutable outputs
