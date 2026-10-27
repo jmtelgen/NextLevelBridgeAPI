@@ -37,6 +37,8 @@ jobs:
         run: python -m pip check
       - name: Verify staging resource and access-check contracts
         run: python -B .github/scripts/test_staging_foundation.py
+      - name: Verify secret-only import and unchanged signing declaration
+        run: python -B .github/scripts/test_staging_secret_import.py
       - name: Verify foundation IAM contracts without AWS access
         run: python -B .github/scripts/test_foundation_authority.py
       - name: Exercise plan workflow with a mocked AWS CLI
@@ -44,7 +46,7 @@ jobs:
       - name: Check planning script syntax
         run: bash -n .github/scripts/plan_staging_foundation.sh
       - name: Lint CloudFormation without AWS access
-        run: cfn-lint --region us-west-2 --template deployment/staging-foundation.yaml
+        run: cfn-lint --region us-west-2 --template deployment/staging-foundation.yaml deployment/staging-secret-import.yaml
   backend:
     name: Selected backend (${{ matrix.suite }})
     runs-on: ubuntu-24.04

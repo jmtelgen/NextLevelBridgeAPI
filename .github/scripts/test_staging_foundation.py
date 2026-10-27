@@ -153,7 +153,6 @@ class FoundationContract(unittest.TestCase):
     def test_standard_encrypted_queue_and_restricted_dlq(self):
         self.assertEqual(self.properties("TickQueue"), {
             "QueueName": "bridge-staging-game-tick",
-            "FifoQueue": False,
             "SqsManagedSseEnabled": True,
             "DelaySeconds": 0,
             "ReceiveMessageWaitTimeSeconds": 20,
@@ -166,7 +165,6 @@ class FoundationContract(unittest.TestCase):
         })
         self.assertEqual(self.properties("TickDeadLetterQueue"), {
             "QueueName": "bridge-staging-game-tick-dlq",
-            "FifoQueue": False,
             "SqsManagedSseEnabled": True,
             "MessageRetentionPeriod": 1209600,
             "VisibilityTimeout": 360,
@@ -178,6 +176,19 @@ class FoundationContract(unittest.TestCase):
                 }],
             },
         })
+
+    def test_standard_queues_omit_fifo_only_attributes(self):
+        fifo_only = {
+            "FifoQueue",
+            "ContentBasedDeduplication",
+            "DeduplicationScope",
+            "FifoThroughputLimit",
+        }
+        for name in ("TickQueue", "TickDeadLetterQueue"):
+            with self.subTest(queue=name):
+                props = self.properties(name)
+                self.assertFalse(fifo_only & props.keys())
+                self.assertFalse(props["QueueName"].endswith(".fifo"))
 
     def test_generated_secret_has_no_value_or_identifier_output(self):
         self.assertEqual(self.properties("JwtSigningSecret"), {

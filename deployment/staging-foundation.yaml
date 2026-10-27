@@ -116,7 +116,6 @@ Resources:
     UpdateReplacePolicy: Retain
     Properties:
       QueueName: bridge-staging-game-tick-dlq
-      FifoQueue: false
       SqsManagedSseEnabled: true
       MessageRetentionPeriod: 1209600
       VisibilityTimeout: 360
@@ -131,7 +130,6 @@ Resources:
     UpdateReplacePolicy: Retain
     Properties:
       QueueName: bridge-staging-game-tick
-      FifoQueue: false
       SqsManagedSseEnabled: true
       DelaySeconds: 0
       ReceiveMessageWaitTimeSeconds: 20

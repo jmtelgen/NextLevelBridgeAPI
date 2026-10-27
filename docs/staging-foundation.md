@@ -109,6 +109,50 @@ window in the DLQ. For a standard queue the original enqueue timestamp
 continues to govern expiry after redrive; time spent in the source reduces the
 remaining DLQ lifetime.
 
+Both standard queues deliberately omit `FifoQueue` and all other FIFO-only
+properties. The first execution failed on `TickDeadLetterQueue` with
+`Unknown Attribute FifoQueue` when the template explicitly sent `false`.
+[AWS documents omission as the standard-queue default](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sqs-queue.html).
+Do not set it to `true`: the worker needs standard-queue per-message delays.
+Schema validation alone did not catch this live provider/API failure.
+
+### Recovering the first execution failure
+
+The initial execution entered rollback after the SQS failure. Because every
+resource is retained, cancelled creations can leave real named resources
+outside the final stack's management. `DELETE_SKIPPED` is not proof of deletion,
+and a missing physical ID in stack events is not proof that creation never
+reached the service.
+
+Wait for rollback to reach a terminal state, then inventory metadata for all
+four fixed table names, both fixed queue names and `bridge-staging-jwt`; never
+read signing material or application items. Do not rerun `CREATE` against a
+`ROLLBACK_COMPLETE` stack or assume a fresh stack can recreate retained names.
+Do not regenerate the secret, remove deletion protection, broaden the execution
+role, or delete resources to make the retry pass.
+
+Recovery requires a separately approved choice: preserve/import retained
+resources with an appropriate import-only template and reviewed identifiers,
+or explicitly approve targeted cleanup of the newly created staging resources.
+Resource import and creation of missing resources are separate operations;
+the existing plan workflow accepts only CREATE/UPDATE and must not be used as
+an import or cleanup workaround. No recovery mutation is authorized by this
+source fix. Leave the existing public resources untouched.
+
+The subsequent metadata inventory found the original stack `DELETE_COMPLETE`,
+all four table names and both queue names absent, and `bridge-staging-jwt`
+still present without scheduled deletion. No value was read. A fresh CREATE
+with all seven names would therefore collide with that secret. This is only
+a point-in-time inventory: recheck before recovery and obtain explicit approval
+for importing the existing secret or any targeted cleanup. The assistant did
+not delete the stack, tables, queues or secret.
+
+The selected recovery is now [preserve and import the existing secret](staging-secret-import.md).
+The earlier cleanup approval was withdrawn; do not delete, rotate or regenerate
+it. Import only the secret into the new stack, wait for `IMPORT_COMPLETE`, then
+use an UPDATE preview to add the six missing resources. The updated planning
+script rejects any UPDATE change involving `JwtSigningSecret`.
+
 The 360-second source visibility is a **provisional integration limit**, not a
 measured worker timeout. Before connecting a consumer, test native DDS and
 select a worker timeout **at most 60 seconds with a zero batch window**, so

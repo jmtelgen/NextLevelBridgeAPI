@@ -69,11 +69,33 @@ if ! aws cloudformation wait change-set-create-complete \
   fail "Change-set preparation failed (including a possible no-change update); inspect its status. Nothing was executed."
 fi
 
-aws cloudformation describe-change-set \
+preview="$(aws cloudformation describe-change-set \
   --region "$region" --no-cli-pager \
   --stack-name "$stack_name" --change-set-name "$change_set_arn" \
   --query '{Id:ChangeSetId,Stack:StackId,Status:Status,ExecutionStatus:ExecutionStatus,Changes:Changes[].ResourceChange.{Action:Action,LogicalResourceId:LogicalResourceId,ResourceType:ResourceType,Replacement:Replacement}}' \
-  --output json
+  --output json)"
+printf '%s\n' "$preview"
+printf '%s\n' "$preview" | python3 -c '
+import json
+import sys
+
+try:
+    preview = json.load(sys.stdin)
+except json.JSONDecodeError:
+    sys.exit("::error::CloudFormation returned an invalid preview.")
+if not isinstance(preview, dict) or preview.get("Status") != "CREATE_COMPLETE" or preview.get("ExecutionStatus") != "AVAILABLE":
+    sys.exit("::error::The change set is not available for review.")
+changes = preview.get("Changes")
+if not isinstance(changes, list) or any(
+    not isinstance(change, dict) or not isinstance(change.get("LogicalResourceId"), str)
+    for change in changes
+):
+    sys.exit("::error::CloudFormation returned invalid resource-change metadata.")
+if sys.argv[1] == "UPDATE" and any(
+    change["LogicalResourceId"] == "JwtSigningSecret" for change in changes
+):
+    sys.exit("::error::UPDATE must preserve JwtSigningSecret unchanged. Review the import and template before proceeding; nothing was executed.")
+' "$FOUNDATION_CHANGE_SET_TYPE"
 
 digest="$(sha256sum "$template")"
 {

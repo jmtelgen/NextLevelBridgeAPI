@@ -51,7 +51,9 @@ elif action == ["cloudformation", "wait"]:
 elif action == ["cloudformation", "describe-change-set"]:
     if fail_at == "describe":
         sys.exit("Mock describe denied")
-    print(json.dumps({"Status": "CREATE_COMPLETE", "ExecutionStatus": "AVAILABLE"}))
+    print(os.environ.get("MOCK_PREVIEW", json.dumps({
+        "Status": "CREATE_COMPLETE", "ExecutionStatus": "AVAILABLE", "Changes": []
+    })))
 else:
     sys.exit("Forbidden AWS action")
 """
@@ -199,6 +201,59 @@ class FoundationPlan(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         create = self.calls()[2]
         self.assertEqual(create[create.index("--change-set-type") + 1], "UPDATE")
+
+    def test_update_rejects_changes_to_the_preserved_secret(self):
+        for action in ("Add", "Modify", "Remove", "Import", "Dynamic"):
+            with self.subTest(action=action):
+                preview = {
+                    "Status": "CREATE_COMPLETE",
+                    "ExecutionStatus": "AVAILABLE",
+                    "Changes": [{
+                        "LogicalResourceId": "JwtSigningSecret",
+                        "ResourceType": "AWS::SecretsManager::Secret",
+                        "Action": action,
+                    }],
+                }
+                result = self.run_script(updates={
+                    "FOUNDATION_CHANGE_SET_TYPE": "UPDATE",
+                    "MOCK_PREVIEW": json.dumps(preview),
+                })
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("must preserve JwtSigningSecret", result.stderr)
+                self.assertFalse(self.summary.exists())
+                self.assertEqual(len(self.calls()), 5)
+
+    def test_update_accepts_missing_resource_additions(self):
+        preview = {
+            "Status": "CREATE_COMPLETE",
+            "ExecutionStatus": "AVAILABLE",
+            "Changes": [
+                {"LogicalResourceId": name, "Action": "Add"}
+                for name in (
+                    "RoomsTable", "UsersTable", "ConnectionsTable",
+                    "DuplicateEventsTable", "TickQueue", "TickDeadLetterQueue",
+                )
+            ],
+        }
+        result = self.run_script(updates={
+            "FOUNDATION_CHANGE_SET_TYPE": "UPDATE",
+            "MOCK_PREVIEW": json.dumps(preview),
+        })
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(self.summary.exists())
+
+    def test_invalid_or_unavailable_previews_are_not_successful(self):
+        for preview in (
+            "not JSON", "null", "{}",
+            '{"Status":"FAILED","ExecutionStatus":"UNAVAILABLE","Changes":[]}',
+            '{"Status":"CREATE_COMPLETE","ExecutionStatus":"AVAILABLE","Changes":null}',
+            '{"Status":"CREATE_COMPLETE","ExecutionStatus":"AVAILABLE","Changes":[{}]}',
+        ):
+            with self.subTest(preview=preview):
+                result = self.run_script(updates={"MOCK_PREVIEW": preview})
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("::error::", result.stderr)
+                self.assertFalse(self.summary.exists())
 
     def test_unexpected_identity_stops_before_cloudformation(self):
         for identity in (
