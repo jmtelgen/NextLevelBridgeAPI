@@ -8,7 +8,7 @@ permissions: {}
 jobs:
   identity:
     name: Verify staging OIDC identity only
-    if: github.repository == 'jmtelgen/NextLevelBridgeAPI' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/deployment/github-staging-bootstrap')
+    if: github.repository == 'jmtelgen/NextLevelBridgeAPI' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     environment: staging
@@ -33,8 +33,8 @@ jobs:
             echo "::error::Create the dedicated staging role manually, then set staging AWS_STAGING_ROLE_ARN."
             exit 1
           fi
-          if [[ "$AWS_REGION" != "us-east-1" ]]; then
-            echo "::error::Set staging AWS_REGION to the reviewed region us-east-1."
+          if [[ "$AWS_REGION" != "us-west-2" ]]; then
+            echo "::error::Set staging AWS_REGION to the reviewed region us-west-2."
             exit 1
           fi
       - name: Exchange GitHub OIDC token for short-lived credentials

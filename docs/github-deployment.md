@@ -4,6 +4,13 @@ This is **not application deployment**. It adds selected offline backend tests
 and a manually dispatched, environment-protected OIDC identity check. It does
 not run the existing deployment scripts or create/change AWS resources.
 
+The bootstrap PR is merged. The operator completed the identity check on
+`main`: [successful run](https://github.com/jmtelgen/NextLevelBridgeAPI/actions/runs/40426083892).
+That run used `us-east-1` for STS. The application and updated access check use
+`us-west-2`; after merging this region correction, change the staging
+`AWS_REGION` variable from `us-east-1` to `us-west-2` and rerun the check.
+The deleted bootstrap branch's staging environment allowance has been removed.
+
 ## What runs
 
 `.github/workflows/backend-ci.yml` runs on pushes, pull requests, and manual
@@ -87,7 +94,7 @@ Read-only GitHub inspection confirmed:
 - OIDC subject settings: `use_default: true`,
   `use_immutable_subject: false`,
   `sub_claim_prefix: repo:jmtelgen/NextLevelBridgeAPI`.
-- AWS account: `851725597758`; selected region: `us-east-1`.
+- AWS account: `851725597758`; application/access-check region: `us-west-2`.
 - Existing provider:
   `arn:aws:iam::851725597758:oidc-provider/token.actions.githubusercontent.com`.
 - Proposed dedicated role:
@@ -130,16 +137,17 @@ reviewed account. This bootstrap makes no AWS changes automatically.
    no identity-based allow policy; a successful identity check does not imply
    permission to deploy anything.
 4. In GitHub Settings → Environments → **staging**, restrict deployment branches
-   to `main` and the setup branch `deployment/github-staging-bootstrap`.
+   to `main` only.
    Require a reviewer and prevent self-review if available for this account.
    Review protection settings before permitting any AWS role assumption.
-   Remove the setup branch from the allowlist after bootstrap merges.
+   Keep both environment rules and workflow conditions restricted to `main`.
+   Deleting a branch does not remove its environment allowance automatically.
 5. Set these **environment variables** (not long-lived credential secrets):
 
    | Variable | Value |
    | --- | --- |
    | `AWS_ACCOUNT_ID` | `851725597758` |
-   | `AWS_REGION` | `us-east-1` |
+   | `AWS_REGION` | `us-west-2` |
    | `AWS_STAGING_ROLE_ARN` | `arn:aws:iam::851725597758:role/GitHubNextLevelBridgeAPIStaging` |
 
    Account and region can be configured first; **leave the ARN unset until the
@@ -147,7 +155,7 @@ reviewed account. This bootstrap makes no AWS changes automatically.
    credentials or raw OIDC tokens to GitHub variables/secrets, files or logs.
 6. Once the workflow is on the default branch, use Actions →
    **Staging AWS access check (NO deployment)** → **Run workflow**, selecting
-   `main` (or the explicitly allowed setup branch while bootstrapping).
+   `main`.
    GitHub only offers `workflow_dispatch` workflows after they exist on the
    default branch. Approve the environment deployment if prompted.
 7. Verify the run shows the expected account and assumed-role ARN. Preserve
