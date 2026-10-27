@@ -147,6 +147,12 @@ a point-in-time inventory: recheck before recovery and obtain explicit approval
 for importing the existing secret or any targeted cleanup. The assistant did
 not delete the stack, tables, queues or secret.
 
+The selected recovery is now [preserve and import the existing secret](staging-secret-import.md).
+The earlier cleanup approval was withdrawn; do not delete, rotate or regenerate
+it. Import only the secret into the new stack, wait for `IMPORT_COMPLETE`, then
+use an UPDATE preview to add the six missing resources. The updated planning
+script rejects any UPDATE change involving `JwtSigningSecret`.
+
 The 360-second source visibility is a **provisional integration limit**, not a
 measured worker timeout. Before connecting a consumer, test native DDS and
 select a worker timeout **at most 60 seconds with a zero batch window**, so

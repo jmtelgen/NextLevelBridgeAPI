@@ -114,10 +114,14 @@ Keep the exact stack resource and `us-west-2` restriction. Do not attach a
 managed administrator policy, add ExecuteChangeSet, or alter either role's trust.
 Merging a source fix does not update an already attached IAM policy.
 
-After saving the policy, rerun the failed GitHub job with `CREATE`: this stack is
-still a review-only placeholder, not a deployed stack. The rerun uses its new
-attempt number for the change-set name. Leave both change sets unexecuted for
-review; do not delete the stack or grant deletion permissions as a workaround.
+For that original preview failure, rerunning `CREATE` was appropriate while
+the stack was only a review placeholder. That retry subsequently succeeded.
+It is not the current recovery for the later SQS execution failure: the failed
+stack was deleted and its signing secret remains. Follow the
+[secret-preserving import runbook](staging-secret-import.md) instead. After
+`IMPORT_COMPLETE`, use `UPDATE`, expecting six additions and no secret changes.
+The planning script rejects any UPDATE change to `JwtSigningSecret`; do not
+remove that guard or broaden secret permissions to force an update through.
 
 The workflow must construct the exact name
 `bridge-staging-foundation-<GitHub run ID>-<attempt>` using numeric GitHub

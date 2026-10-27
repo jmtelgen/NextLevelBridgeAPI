@@ -17,6 +17,13 @@ the existing identity-check roles remain unchanged. The backend region
 correction is merged and its `us-west-2` identity check succeeded:
 [run](https://github.com/jmtelgen/NextLevelBridgeAPI/actions/runs/40427443686).
 
+The first foundation execution failed on an explicit standard-queue FIFO
+attribute. The source fix omits it. Current recovery preserves the retained
+signing secret through a [secret-only import](staging-secret-import.md), then
+adds the missing resources in a separately reviewed UPDATE. Deletion approval
+was withdrawn. No live import or recovery execution is established by preparing
+these files; the workstation's root identity remains forbidden for mutations.
+
 The user approved **isolated staging before any public-site change**, but asked
 to hold deployment until they create a scoped deployment identity. Do not
 create infrastructure, roles, policies, upload artifacts, or deploy while paused.
