@@ -119,6 +119,23 @@ class ApplicationContract(unittest.TestCase):
             self.assertEqual({action for action in actions if action.startswith("iam:")}, {"iam:PassRole"})
             self.assertFalse(any("EventSourceMapping" in action for action in actions))
 
+    def test_platform_read_authority_is_bound_to_its_own_stack(self):
+        statements = self.platform["Resources"]["ApplicationPlanRole"]["Properties"]["Policies"][0]["PolicyDocument"]["Statement"]
+        describe = [statement for statement in statements if statement["Action"] == "cloudformation:DescribeStacks"]
+        self.assertEqual(len(describe), 1)
+        self.assertEqual(describe[0]["Resource"], [
+            {"Fn::Sub": "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/bridge-staging-foundation/*"},
+            {"Ref": "AWS::StackId"},
+        ])
+
+    def test_platform_stack_selection_preserves_the_existing_shortened_name(self):
+        self.assertEqual(planner.platform_stack_name({}), "bridge-staging-platform")
+        for name in ("bridge-staging-platform", "bridge-staging-platfor"):
+            self.assertEqual(planner.platform_stack_name({"STAGING_PLATFORM_STACK": name}), name)
+        for name in ("", "bridge-staging-foundation", "production", "bridge-staging-platform-other"):
+            with self.assertRaises(ValueError):
+                planner.platform_stack_name({"STAGING_PLATFORM_STACK": name})
+
     def test_create_preview_is_complete_and_correctly_typed(self):
         changes = [
             {"LogicalResourceId": name, "ResourceType": resource["Type"], "Action": "Add"}
