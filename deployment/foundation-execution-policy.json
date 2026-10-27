@@ -1,0 +1,113 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ManageOnlyFourFoundationTables",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:CreateTable",
+        "dynamodb:UpdateTable",
+        "dynamodb:UpdateContinuousBackups",
+        "dynamodb:DescribeTable",
+        "dynamodb:DescribeContinuousBackups",
+        "dynamodb:DescribeContributorInsights",
+        "dynamodb:DescribeKinesisStreamingDestination",
+        "dynamodb:DescribeTimeToLive",
+        "dynamodb:GetResourcePolicy",
+        "dynamodb:ListTagsOfResource",
+        "dynamodb:TagResource"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:us-west-2:851725597758:table/bridge-staging-rooms",
+        "arn:aws:dynamodb:us-west-2:851725597758:table/bridge-staging-users",
+        "arn:aws:dynamodb:us-west-2:851725597758:table/bridge-staging-connections",
+        "arn:aws:dynamodb:us-west-2:851725597758:table/bridge-staging-duplicate-events"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2"
+        }
+      }
+    },
+    {
+      "Sid": "ReadOnlyCurrentIndexContributorInsightsMetadata",
+      "Effect": "Allow",
+      "Action": "dynamodb:DescribeContributorInsights",
+      "Resource": "arn:aws:dynamodb:us-west-2:851725597758:table/bridge-staging-users/index/username-email-index",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2"
+        }
+      }
+    },
+    {
+      "Sid": "ManageOnlyFoundationTickQueues",
+      "Effect": "Allow",
+      "Action": [
+        "sqs:CreateQueue",
+        "sqs:GetQueueUrl",
+        "sqs:GetQueueAttributes",
+        "sqs:SetQueueAttributes",
+        "sqs:ListQueueTags",
+        "sqs:TagQueue"
+      ],
+      "Resource": [
+        "arn:aws:sqs:us-west-2:851725597758:bridge-staging-game-tick",
+        "arn:aws:sqs:us-west-2:851725597758:bridge-staging-game-tick-dlq"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2"
+        }
+      }
+    },
+    {
+      "Sid": "CreateOnlyFoundationSigningSecret",
+      "Effect": "Allow",
+      "Action": "secretsmanager:CreateSecret",
+      "Resource": "arn:aws:secretsmanager:us-west-2:851725597758:secret:bridge-staging-jwt-??????",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2",
+          "secretsmanager:Name": "bridge-staging-jwt"
+        }
+      }
+    },
+    {
+      "Sid": "ReadAndTagOnlyFoundationSecretMetadata",
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:TagResource"
+      ],
+      "Resource": "arn:aws:secretsmanager:us-west-2:851725597758:secret:bridge-staging-jwt-??????",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2"
+        }
+      }
+    },
+    {
+      "Sid": "AllowCloudFormationProviderReadOfOnlyFoundationSecret",
+      "Effect": "Allow",
+      "Action": "secretsmanager:GetSecretValue",
+      "Resource": "arn:aws:secretsmanager:us-west-2:851725597758:secret:bridge-staging-jwt-??????",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2"
+        }
+      }
+    },
+    {
+      "Sid": "GenerateSigningMaterialWithoutReadingStoredSecrets",
+      "Effect": "Allow",
+      "Action": "secretsmanager:GetRandomPassword",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2"
+        }
+      }
+    }
+  ]
+}

@@ -20,11 +20,17 @@ records intent only. Explicit IAM scope
 must prevent creation in other accounts/regions. Never reuse existing public
 resources or copy public-site data/signing material.
 
-The backend access-check guard now expects `us-west-2`. Its GitHub staging
-`AWS_REGION` variable remains `us-east-1` until the reviewed PR merges; the parent
-coordinates that post-merge variable change. The offline regression test checks
-the tracked guard, not GitHub's live variable. Do not change the template to match
-the old variable, or treat a pre-change guard failure as a reason to bypass it.
+The foundation PR is merged, and the backend staging `AWS_REGION` variable is
+now `us-west-2`. The operator reran the access check successfully:
+[verified run](https://github.com/jmtelgen/NextLevelBridgeAPI/actions/runs/40427443686).
+The offline regression test checks the tracked guard, not GitHub's live variable.
+This proves identity in the corrected region, not resource permissions.
+
+The separate [foundation authority](foundation-authority.md) contracts and
+main-only planning workflow prepare a change set for human review. They do not
+execute it, provision this foundation, or change either identity-check role.
+Running that workflow requires separately reviewed roles, configuration and
+approval; creating a change set is itself a cloud metadata mutation.
 
 See [AWS_READINESS.md](AWS_READINESS.md) for the deployment pause, role boundaries
 and full release prerequisites. This file does not supersede that approval gate.

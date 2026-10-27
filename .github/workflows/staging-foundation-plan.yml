@@ -1,0 +1,58 @@
+name: Plan staging foundation (NO execution)
+
+on:
+  workflow_dispatch:
+    inputs:
+      change_set_type:
+        description: CREATE for the first stack; UPDATE for an existing stack
+        required: true
+        type: choice
+        options:
+          - CREATE
+          - UPDATE
+
+permissions: {}
+
+concurrency:
+  group: staging-foundation-plan
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    if: github.repository == 'jmtelgen/NextLevelBridgeAPI' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment: staging
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      AWS_FOUNDATION_PLAN_ROLE_ARN: ${{ vars.AWS_FOUNDATION_PLAN_ROLE_ARN }}
+      AWS_FOUNDATION_EXECUTION_ROLE_ARN: ${{ vars.AWS_FOUNDATION_EXECUTION_ROLE_ARN }}
+      FOUNDATION_CHANGE_SET_TYPE: ${{ inputs.change_set_type }}
+      AWS_EC2_METADATA_DISABLED: "true"
+      AWS_SHARED_CREDENTIALS_FILE: /dev/null
+      AWS_CONFIG_FILE: /dev/null
+      AWS_PAGER: ""
+    steps:
+      - name: Check out reviewed main source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Validate target and roles before requesting credentials
+        run: bash .github/scripts/plan_staging_foundation.sh validate
+      - name: Assume the separate plan-only role
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.AWS_FOUNDATION_PLAN_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          allowed-account-ids: ${{ vars.AWS_ACCOUNT_ID }}
+          role-session-name: BridgeFoundationPlan-${{ github.run_id }}-${{ github.run_attempt }}
+          role-duration-seconds: 900
+          retry-max-attempts: 2
+          unset-current-credentials: true
+          output-credentials: false
+      - name: Create a change set for human review; never execute it
+        run: bash .github/scripts/plan_staging_foundation.sh plan
