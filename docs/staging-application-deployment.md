@@ -135,6 +135,11 @@ part of this application stack. HTTP uses Lambda proxy v1 to preserve cookies.
 WebSocket application responses remain one-way because handlers explicitly
 deliver replies through the management API.
 
+For a future initial CREATE, choose **Preserve successfully provisioned
+resources** (disable rollback) when executing. If creation fails, preserve that
+managed `CREATE_FAILED` state for diagnosis/retry rather than rolling back into
+orphaned retained resources. Do not retry until the cause is corrected.
+
 All runtime tables, exact origin, management endpoint and queue are configured.
 Staging uses `ENVIRONMENT=production` solely for the existing Secure-cookie
 contract; it still has independent staging data and signing material.
@@ -146,6 +151,26 @@ During later releases only retained historical API deployment snapshots may
 leave stack management. Other removals and replacements require separate
 review and are rejected by the plan workflow. This staging pipeline does not
 establish atomic multi-function promotion or production schema migrations.
+
+### Failed first application CREATE: REST stage tagging
+
+The first application execution failed because API Gateway authorizes REST
+stage tagging through `/tags/<URL-encoded-resource-ARN>`, not through the
+existing `/restapis/<id>/*` statement. The corrected platform template grants
+only GET/PUT/DELETE on that exact REST API's `staging` tag endpoint. WebSocket
+tagging uses the existing API-specific management authorization.
+See the [REST tagging API](https://docs.aws.amazon.com/apigateway/latest/api/API_TagResource.html)
+and [IAM Tags resource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_apigateway.html#list_apigateway-resource-Tags).
+
+Update the existing **bridge-staging-platfor** stack from the latest merged
+template using authorized non-root authority. Expect only
+`ApplicationExecutionRole` to change, without replacement. This does not
+change IAM permissions on public APIs, foundation resources or signing values.
+
+The application stack is now `ROLLBACK_COMPLETE` with 130 resource entries
+marked `DELETE_SKIPPED`. Do not delete the stack, rerun CREATE, or assume the
+permission fix alone recovers it. Retained physical resources must be
+inventoried and an explicit recovery plan reviewed before another release.
 
 ## 4. Enable scheduling through the operator stack
 

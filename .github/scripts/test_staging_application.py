@@ -9,6 +9,7 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 import tempfile
+import urllib.parse
 import zipfile
 
 import yaml
@@ -127,6 +128,20 @@ class ApplicationContract(unittest.TestCase):
             {"Fn::Sub": "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/bridge-staging-foundation/*"},
             {"Ref": "AWS::StackId"},
         ])
+
+    def test_rest_stage_tagging_uses_exact_encoded_resource_not_a_wildcard(self):
+        statements = self.platform["Resources"]["ApplicationExecutionRole"]["Properties"]["Policies"][0]["PolicyDocument"]["Statement"]
+        tagging = [statement for statement in statements if "/tags/" in json.dumps(statement.get("Resource"))]
+        self.assertEqual(len(tagging), 1)
+        self.assertEqual(tagging[0]["Action"], ["apigateway:GET", "apigateway:PUT", "apigateway:DELETE"])
+        resource = tagging[0]["Resource"]["Fn::Sub"]
+        for key, value in {"AWS::Partition": "aws", "AWS::Region": "us-west-2", "RestApi": "pukawa2m43"}.items():
+            resource = resource.replace("${" + key + "}", value)
+        prefix = "arn:aws:apigateway:us-west-2::/tags/"
+        self.assertTrue(resource.startswith(prefix))
+        self.assertEqual(resource[len(prefix):], urllib.parse.quote(
+            "arn:aws:apigateway:us-west-2::/restapis/pukawa2m43/stages/staging", safe=""))
+        self.assertNotIn("*", resource)
 
     def test_platform_stack_selection_preserves_the_existing_shortened_name(self):
         self.assertEqual(planner.platform_stack_name({}), "bridge-staging-platform")

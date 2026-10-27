@@ -421,6 +421,10 @@ Resources:
                   - {Fn::Sub: "arn:${AWS::Partition}:apigateway:${AWS::Region}::/restapis/${RestApi}/*"}
                   - {Fn::Sub: "arn:${AWS::Partition}:apigateway:${AWS::Region}::/apis/${WebSocketApi}/*"}
               - Effect: Allow
+                Action: [apigateway:GET, apigateway:PUT, apigateway:DELETE]
+                Resource:
+                  Fn::Sub: "arn:${AWS::Partition}:apigateway:${AWS::Region}::/tags/arn%3A${AWS::Partition}%3Aapigateway%3A${AWS::Region}%3A%3A%2Frestapis%2F${RestApi}%2Fstages%2Fstaging"
+              - Effect: Allow
                 Action: [s3:GetObject, s3:GetObjectVersion]
                 Resource: {Fn::Sub: "${ArtifactBucket.Arn}/releases/*"}
               - Effect: Allow
