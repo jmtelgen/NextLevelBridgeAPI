@@ -9,6 +9,36 @@ permissions:
   contents: read
 
 jobs:
+  foundation:
+    name: Staging foundation (offline only)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      AWS_EC2_METADATA_DISABLED: "true"
+      AWS_SHARED_CREDENTIALS_FILE: /dev/null
+      AWS_CONFIG_FILE: /dev/null
+      AWS_DEFAULT_REGION: us-west-2
+      AWS_REGION: us-west-2
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-infrastructure.txt
+      - name: Install infrastructure validation dependencies
+        run: python -m pip install --requirement requirements-infrastructure.txt
+      - name: Check dependency consistency
+        run: python -m pip check
+      - name: Verify staging resource and access-check contracts
+        run: python -B .github/scripts/test_staging_foundation.py
+      - name: Lint CloudFormation without AWS access
+        run: cfn-lint --region us-west-2 --template deployment/staging-foundation.yaml
   backend:
     name: Selected backend (${{ matrix.suite }})
     runs-on: ubuntu-24.04

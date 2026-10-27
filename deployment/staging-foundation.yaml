@@ -1,0 +1,182 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  REVIEW ONLY - isolated bridge-staging storage and robot tick queues.
+  Not an application deployment. Intended account 851725597758, region us-west-2.
+Metadata:
+  StagingTarget:
+    AccountId: "851725597758"
+    Region: us-west-2
+    ReviewOnly: true
+
+Resources:
+  RoomsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: bridge-staging-rooms
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: roomId
+          AttributeType: S
+        - AttributeName: ownerId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: roomId
+          KeyType: HASH
+        - AttributeName: ownerId
+          KeyType: RANGE
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
+      SSESpecification:
+        SSEEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      DeletionProtectionEnabled: true
+
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: bridge-staging-users
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: username
+          AttributeType: S
+        - AttributeName: email
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: username
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: username-email-index
+          KeySchema:
+            - AttributeName: username
+              KeyType: HASH
+            - AttributeName: email
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      SSESpecification:
+        SSEEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      DeletionProtectionEnabled: true
+
+  ConnectionsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: bridge-staging-connections
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: connectionId
+          AttributeType: S
+        - AttributeName: currentRoomId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: connectionId
+          KeyType: HASH
+        - AttributeName: currentRoomId
+          KeyType: RANGE
+      SSESpecification:
+        SSEEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      DeletionProtectionEnabled: true
+
+  DuplicateEventsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: bridge-staging-duplicate-events
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: eventId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: eventId
+          KeyType: HASH
+      SSESpecification:
+        SSEEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      DeletionProtectionEnabled: true
+
+  TickDeadLetterQueue:
+    Type: AWS::SQS::Queue
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      QueueName: bridge-staging-game-tick-dlq
+      FifoQueue: false
+      SqsManagedSseEnabled: true
+      MessageRetentionPeriod: 1209600
+      VisibilityTimeout: 360
+      RedriveAllowPolicy:
+        redrivePermission: byQueue
+        sourceQueueArns:
+          - Fn::Sub: arn:${AWS::Partition}:sqs:${AWS::Region}:${AWS::AccountId}:bridge-staging-game-tick
+
+  TickQueue:
+    Type: AWS::SQS::Queue
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      QueueName: bridge-staging-game-tick
+      FifoQueue: false
+      SqsManagedSseEnabled: true
+      DelaySeconds: 0
+      ReceiveMessageWaitTimeSeconds: 20
+      MessageRetentionPeriod: 345600
+      VisibilityTimeout: 360
+      RedrivePolicy:
+        deadLetterTargetArn:
+          Fn::GetAtt: [TickDeadLetterQueue, Arn]
+        maxReceiveCount: 5
+
+  JwtSigningSecret:
+    Type: AWS::SecretsManager::Secret
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: bridge-staging-jwt
+      Description: Independent staging-only HS256 signing material; never output the value.
+      GenerateSecretString:
+        SecretStringTemplate: "{}"
+        GenerateStringKey: jwt_secret
+        PasswordLength: 64
+        ExcludePunctuation: true
+
+Outputs:
+  RoomTableName:
+    Value:
+      Ref: RoomsTable
+  RoomStreamArn:
+    Value:
+      Fn::GetAtt: [RoomsTable, StreamArn]
+  UserTableName:
+    Value:
+      Ref: UsersTable
+  ConnectionsTableName:
+    Value:
+      Ref: ConnectionsTable
+  DuplicateEventsTableName:
+    Value:
+      Ref: DuplicateEventsTable
+  GameTickQueueUrl:
+    Value:
+      Ref: TickQueue
+  GameTickQueueArn:
+    Value:
+      Fn::GetAtt: [TickQueue, Arn]
+  GameTickDeadLetterQueueUrl:
+    Value:
+      Ref: TickDeadLetterQueue

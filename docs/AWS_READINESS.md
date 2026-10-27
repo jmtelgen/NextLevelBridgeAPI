@@ -1,6 +1,16 @@
 # AWS readiness and isolated staging plan
 
-## Deployment status: paused
+## Deployment status: identity verified; infrastructure deployment paused
+
+The GitHub bootstrap PRs are merged, and the operator completed both dedicated
+OIDC identity checks on `main`:
+[frontend](https://github.com/jmtelgen/BridgeApp/actions/runs/40425971190),
+[backend](https://github.com/jmtelgen/NextLevelBridgeAPI/actions/runs/40426083892).
+The roles prove identity only, not application-deployment authority.
+Deleted bootstrap branches' GitHub staging allowances have been removed.
+The next review-only foundation is described in
+[staging-foundation.md](staging-foundation.md); preparing its source does not
+authorize applying a stack or widening IAM permissions.
 
 The user approved **isolated staging before any public-site change**, but asked
 to hold deployment until they create a scoped deployment identity. Do not
@@ -61,7 +71,9 @@ If a traditional IAM user is preferred, the proposed user is `bridge-operator`:
    and remove root credentials from the workstation's deployment profiles.
    Keep root for account recovery/bootstrap, protected with MFA, not deployments.
 
-No user, role or policy described here has been created.
+The two identity-only GitHub roles were created by the operator during bootstrap.
+Human operator access and the deployment/runtime roles described here have not
+been established by that identity check.
 
 ### GitHub Actions and role boundaries
 
