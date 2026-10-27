@@ -151,7 +151,10 @@ The selected recovery is now [preserve and import the existing secret](staging-s
 The earlier cleanup approval was withdrawn; do not delete, rotate or regenerate
 it. Import only the secret into the new stack, wait for `IMPORT_COMPLETE`, then
 use an UPDATE preview to add the six missing resources. The updated planning
-script rejects any UPDATE change involving `JwtSigningSecret`.
+script rejects signing-secret changes by default. A separate explicit opt-in
+allows only fully verified static, non-replacing tags-only metadata updates;
+secret property/value changes remain blocked. See the import runbook for the
+post-import stack-tag mismatch and precise review conditions.
 
 The 360-second source visibility is a **provisional integration limit**, not a
 measured worker timeout. Before connecting a consumer, test native DDS and

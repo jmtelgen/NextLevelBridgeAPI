@@ -22,6 +22,17 @@ CHANGE_SET_ARN = (
     "arn:aws:cloudformation:us-west-2:851725597758:"
     "changeSet/bridge-staging-foundation-12345-1/example-id"
 )
+TAG_ONLY_CHANGE = {
+    "LogicalResourceId": "JwtSigningSecret",
+    "ResourceType": "AWS::SecretsManager::Secret",
+    "Action": "Modify",
+    "Replacement": "False",
+    "Scope": ["Tags"],
+    "Details": [{
+        "Evaluation": "Static",
+        "Target": {"Attribute": "Tags", "RequiresRecreation": "Never"},
+    }],
+}
 MOCK_AWS = """#!/usr/bin/env python3
 import json
 import os
@@ -126,6 +137,7 @@ class FoundationPlan(unittest.TestCase):
             "AWS_FOUNDATION_PLAN_ROLE_ARN": "arn:aws:iam::851725597758:root",
             "AWS_FOUNDATION_EXECUTION_ROLE_ARN": PLAN_ROLE,
             "FOUNDATION_CHANGE_SET_TYPE": "CREATE; echo unsafe",
+            "FOUNDATION_ALLOW_SECRET_TAG_UPDATE": "yes",
         }
         for key, value in invalid.items():
             with self.subTest(key=key):
@@ -242,6 +254,68 @@ class FoundationPlan(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertTrue(self.summary.exists())
 
+    def test_secret_tags_only_metadata_requires_explicit_opt_in(self):
+        preview = {
+            "Status": "CREATE_COMPLETE",
+            "ExecutionStatus": "AVAILABLE",
+            "Changes": [TAG_ONLY_CHANGE],
+        }
+        for opt_in in ("false", "", "true"):
+            with self.subTest(opt_in=opt_in):
+                result = self.run_script(updates={
+                    "FOUNDATION_CHANGE_SET_TYPE": "UPDATE",
+                    "FOUNDATION_ALLOW_SECRET_TAG_UPDATE": opt_in,
+                    "MOCK_PREVIEW": json.dumps(preview),
+                })
+                self.assertEqual(result.returncode == 0, opt_in == "true", result.stderr)
+                self.assertEqual(self.summary.exists(), opt_in == "true")
+                if opt_in == "true":
+                    self.assertIn("tags-only metadata", result.stdout)
+                    self.assertIn("metadata opt-in: true", self.summary.read_text())
+
+    def test_opt_in_never_allows_secret_properties_or_ambiguous_changes(self):
+        invalid = [
+            {"Action": action} for action in ("Add", "Remove", "Import", "Dynamic")
+        ] + [
+            {"Replacement": value} for value in ("True", "Conditional", None, False)
+        ] + [
+            {"Scope": scope} for scope in (
+                [], ["Properties"], ["Tags", "Properties"], ["Tags", "Tags"], None,
+            )
+        ] + [
+            {"Details": details} for details in (
+                None, [], {}, "Tags", [None], [{}],
+                [{"Evaluation": "Dynamic", "Target": {"Attribute": "Tags", "RequiresRecreation": "Never"}}],
+                [{"Target": {"Attribute": "Tags", "RequiresRecreation": "Never"}}],
+                [{"Evaluation": "Static", "Target": None}],
+                [{"Evaluation": "Static", "Target": {"Attribute": "Tags"}}],
+                [{"Evaluation": "Static", "Target": {"RequiresRecreation": "Never"}}],
+                [{"Evaluation": "Static", "Target": {"Attribute": "Properties", "RequiresRecreation": "Never"}}],
+                [{"Evaluation": "Static", "Target": {"Attribute": "Tags", "RequiresRecreation": "Conditionally"}}],
+                TAG_ONLY_CHANGE["Details"] + [{"Evaluation": "Dynamic"}],
+            )
+        ] + [{"ResourceType": "AWS::SSM::Parameter"}]
+        invalid_changes = [TAG_ONLY_CHANGE | changes for changes in invalid]
+        for key in ("Action", "ResourceType", "Replacement", "Scope", "Details"):
+            invalid_changes.append({
+                name: value for name, value in TAG_ONLY_CHANGE.items() if name != key
+            })
+        for change in invalid_changes:
+            with self.subTest(change=change):
+                preview = {
+                    "Status": "CREATE_COMPLETE",
+                    "ExecutionStatus": "AVAILABLE",
+                    "Changes": [change],
+                }
+                result = self.run_script(updates={
+                    "FOUNDATION_CHANGE_SET_TYPE": "UPDATE",
+                    "FOUNDATION_ALLOW_SECRET_TAG_UPDATE": "true",
+                    "MOCK_PREVIEW": json.dumps(preview),
+                })
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("must preserve JwtSigningSecret", result.stderr)
+                self.assertFalse(self.summary.exists())
+
     def test_invalid_or_unavailable_previews_are_not_successful(self):
         for preview in (
             "not JSON", "null", "{}",
@@ -304,6 +378,9 @@ class FoundationPlan(unittest.TestCase):
             workflow["on"]["workflow_dispatch"]["inputs"]["change_set_type"]["options"],
             ["CREATE", "UPDATE"],
         )
+        tag_opt_in = workflow["on"]["workflow_dispatch"]["inputs"]["allow_secret_tag_update"]
+        self.assertEqual(tag_opt_in["type"], "boolean")
+        self.assertEqual(tag_opt_in["default"], "false")
         job = workflow["jobs"]["plan"]
         self.assertEqual(
             job["if"],

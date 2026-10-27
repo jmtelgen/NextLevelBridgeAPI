@@ -88,8 +88,11 @@ class SecretImportContract(unittest.TestCase):
             "**With existing resources (import resources)**",
             "Application=Bridge", "Environment=staging",
             "IMPORT_COMPLETE", "Do not use CREATE after import",
-            "No live import was performed or validated",
-            "No Modify, Replace, Remove/Delete",
+            "IMPORT is complete; full-foundation UPDATE is pending",
+            "signing material must remain unchanged",
+            'scope exactly `["Tags"]`',
+            "The default guard still",
+            "Add/Remove/Import actions for the secret remain blocked",
         ):
             with self.subTest(expected=expected):
                 self.assertIn(expected, self.runbook)

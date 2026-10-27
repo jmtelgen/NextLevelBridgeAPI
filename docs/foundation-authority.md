@@ -119,9 +119,11 @@ the stack was only a review placeholder. That retry subsequently succeeded.
 It is not the current recovery for the later SQS execution failure: the failed
 stack was deleted and its signing secret remains. Follow the
 [secret-preserving import runbook](staging-secret-import.md) instead. After
-`IMPORT_COMPLETE`, use `UPDATE`, expecting six additions and no secret changes.
-The planning script rejects any UPDATE change to `JwtSigningSecret`; do not
-remove that guard or broaden secret permissions to force an update through.
+`IMPORT_COMPLETE`, use `UPDATE`, expecting six additions. A stack-tag mismatch
+may also propose a static, non-replacing tags-only secret Modify. The planning
+script rejects it by default and offers a separate explicit opt-in only after
+verifying the full tags-only metadata contract. Secret properties and signing
+material must remain unchanged; do not broaden IAM or remove the guard.
 
 The workflow must construct the exact name
 `bridge-staging-foundation-<GitHub run ID>-<attempt>` using numeric GitHub
