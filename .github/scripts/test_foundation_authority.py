@@ -201,9 +201,6 @@ class FoundationAuthority(unittest.TestCase):
             },
             "cloudformation:DescribeChangeSet": {
                 "StringEquals": {"aws:RequestedRegion": REGION},
-                "StringLike": {
-                    "cloudformation:ChangeSetName": [CHANGE_NAME, CHANGE_ARN],
-                },
             },
             "iam:PassRole": {
                 "StringEquals": {"iam:PassedToService": "cloudformation.amazonaws.com"},
@@ -213,6 +210,21 @@ class FoundationAuthority(unittest.TestCase):
             for action in as_list(statement["Action"]):
                 with self.subTest(action=action):
                     self.assertEqual(statement["Condition"], expected[action])
+
+    def test_waiter_describe_requires_only_stack_and_region_context(self):
+        statements = [
+            statement for statement in self.statements("plan-policy")
+            if "cloudformation:DescribeChangeSet" in as_list(statement["Action"])
+        ]
+        self.assertEqual(len(statements), 1)
+        statement = statements[0]
+        self.assertEqual(statement["Resource"], STACK)
+        self.assertEqual(
+            statement["Condition"],
+            {"StringEquals": {"aws:RequestedRegion": REGION}},
+        )
+        self.assertNotIn("ChangeSetName", json.dumps(statement))
+        self.assertNotIn("RoleArn", json.dumps(statement))
 
     def test_execution_has_only_management_metadata_and_scoped_provider_read(self):
         expected = {action: TABLES.copy() for action in TABLE_ACTIONS}
